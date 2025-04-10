@@ -5,7 +5,7 @@ import 'aos/dist/aos.css';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
-import BookingModals from '../../customers/common/bookingModals';
+// import BookingModals from '../../customers/common/bookingModals';
 
 const BookingDetails = () => {
   const routes = all_routes;
@@ -114,7 +114,8 @@ const BookingDetails = () => {
                             </div>
                             <div>
                               <Link
-                                to={routes.customerChat}
+                                // to={routes.customerChat}
+                                to="#"
                                 className="btn btn-sm btn-dark d-flex align-items-center"
                               >
                                 {" "}
@@ -307,7 +308,7 @@ const BookingDetails = () => {
         </div>
       </div>
       {/* /Page Wrapper */}
-<BookingModals/>
+{/* <BookingModals/> */}
     </>
   );
 };

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+export const SET_CITY = 'SET_CITY';
 export const header_data = () => ({ type: 'HEADER_DATA' });
 export const set_header_data = (payload: any) => ({
   type: 'HEADER_DATA',
@@ -368,4 +369,11 @@ export const setOffer= (payload: any) => ({
 export const categories = (payload: any) => ({
   type: 'CATEGORIES',
   payload
+});
+
+// for city modal 
+// Add this to your existing actions file
+export const setCity = (payload: string) => ({
+  type: SET_CITY,
+  payload,
 });

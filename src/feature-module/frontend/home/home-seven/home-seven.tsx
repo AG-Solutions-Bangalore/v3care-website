@@ -15,11 +15,13 @@ const HomeSeven = () => {
   const routes = all_routes;
 
   AOS.init();
+ 
   useEffect(() => {
     AOS.init({
       duration: 1000,
     });
   }, []);
+ 
   const handleScroll = () => {
     AOS.refresh();
   };
@@ -71,7 +73,7 @@ const HomeSeven = () => {
   };
   const popularService = {
     dots: true,
-    autoplay: false,
+    autoplay: true,
     arrows:false,
     slidesToShow: 3,
     speed: 500,
@@ -277,7 +279,7 @@ const HomeSeven = () => {
                     <p>Search From 150 Awesome Verified Ads!</p>
                     <h1>
                       Best Solution for Every
-                      <span>House Problems</span>
+                      <span >House Problems</span>
                     </h1>
                     <div className="solution-seven">
                       <h6>2M+ Professionals registered</h6>
@@ -554,7 +556,7 @@ const HomeSeven = () => {
                         </Link>
                       </div>
                       <div className="item-info">
-                        <Link to={routes.providersList}>
+                        <Link to='#'>
                           <span className="item-img">
                             <ImageWithBasePath
                               src="assets/img/profiles/avatar-01.jpg"
@@ -569,15 +571,15 @@ const HomeSeven = () => {
                       <h3 className="title">
                         <Link to={routes.serviceDetails1}>Toughened Glass Fitting Service</Link>
                       </h3>
-                      <p>
+                      {/* <p>
                         <span className="rate">
                           <i className="feather icon-phone" />
                           28-62-76-32
                         </span>
                         <i className="feather icon-map-pin me-2" />
                         New Jersey, USA
-                      </p>
-                      <div className="serv-info">
+                      </p> */}
+                      {/* <div className="serv-info">
                         <div className="rating">
                           <i className="fas fa-star filled" />
                           <i className="fas fa-star filled" />
@@ -587,7 +589,7 @@ const HomeSeven = () => {
                           <span>(234)</span>
                         </div>
                         <h6>$25.00</h6>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div
@@ -611,7 +613,7 @@ const HomeSeven = () => {
                         </Link>
                       </div>
                       <div className="item-info">
-                        <Link to={routes.providersList}>
+                        <Link to='#'>
                           <span className="item-img">
                             <ImageWithBasePath
                               src="assets/img/profiles/avatar-06.jpg"
@@ -626,7 +628,7 @@ const HomeSeven = () => {
                       <h3 className="title">
                         <Link to={routes.serviceDetails1}>Car Repair Service</Link>
                       </h3>
-                      <p>
+                      {/* <p>
                         <span className="rate">
                           <i className="feather icon-phone" />
                           28-62-76-32
@@ -644,7 +646,7 @@ const HomeSeven = () => {
                           <span>(234)</span>
                         </div>
                         <h6>$25.00</h6>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div
@@ -656,7 +658,7 @@ const HomeSeven = () => {
                         <ImageWithBasePath
                           className="img-fluid serv-img"
                           alt="Service Image"
-                          src="assets/img/services/service-66.jpg"
+                          src="assets/img/services/service-661.jpg"
                         />
                       </Link>
                       <div className="fav-item">
@@ -668,7 +670,7 @@ const HomeSeven = () => {
                         </Link>
                       </div>
                       <div className="item-info">
-                        <Link to={routes.providersList}>
+                        <Link to='#'>
                           <span className="item-img">
                             <ImageWithBasePath
                               src="assets/img/profiles/avatar-11.jpg"
@@ -683,7 +685,7 @@ const HomeSeven = () => {
                       <h3 className="title">
                         <Link to={routes.serviceDetails1}>Computer Repairing &amp; Spares</Link>
                       </h3>
-                      <p>
+                      {/* <p>
                         <span className="rate">
                           <i className="feather icon-phone" />
                           28-62-76-32
@@ -703,7 +705,7 @@ const HomeSeven = () => {
                         <h6>
                           $25.00<span className="old-price">$35.00</span>
                         </h6>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div
@@ -727,7 +729,7 @@ const HomeSeven = () => {
                         </Link>
                       </div>
                       <div className="item-info">
-                        <Link to={routes.providersList}>
+                        <Link to='#'>
                           <span className="item-img">
                             <ImageWithBasePath
                               src="assets/img/profiles/avatar-06.jpg"
@@ -742,7 +744,7 @@ const HomeSeven = () => {
                       <h3 className="title">
                         <Link to={routes.serviceDetails1}>Car Repair Service</Link>
                       </h3>
-                      <p>
+                      {/* <p>
                         <span className="rate">
                           <i className="feather icon-phone" />
                           28-62-76-32
@@ -760,7 +762,7 @@ const HomeSeven = () => {
                           <span>(234)</span>
                         </div>
                         <h6>$86.00</h6>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </Slider>
@@ -768,9 +770,290 @@ const HomeSeven = () => {
             </div>
           </div>
         </section>
+        <section style={{
+  padding: '60px 0 80px',
+  backgroundColor: '#fff',
+  position: 'relative'
+}}>
+  <div style={{
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '0 15px'
+  }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', margin: '0 -15px' }}>
+      <div style={{
+        width: '100%',
+        padding: '0 15px',
+        textAlign: 'center',
+        marginBottom: '40px'
+      }}>
+        <div data-aos="fade-up">
+          <h2 style={{
+            fontSize: '36px',
+            fontWeight: '700',
+            marginBottom: '15px',
+            color: '#2d2d2d'
+          }}>Most Popular Services</h2>
+          <p style={{
+            fontSize: '16px',
+            color: '#6f6f6f',
+            margin: '0 auto',
+            maxWidth: '600px'
+          }}>What do you need to find?</p>
+        </div>
+      </div>
+    </div>
+    <div style={{ display: 'flex', flexWrap: 'wrap', margin: '0 -15px' }}>
+      <div style={{ width: '100%', padding: '0 15px' }}>
+        <Slider {...popularService}>
+          {/* Card 1 */}
+          <div style={{ padding: '0 10px' }}>
+            <div data-aos="fade-up" style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              boxShadow: '0 5px 15px rgba(0,0,0,0.05)',
+              transition: 'all 0.3s ease'
+            }}>
+              <div style={{
+                height: '200px',
+                overflow: 'hidden',
+                position: 'relative'
+              }}>
+                <Link to={routes.serviceDetails1}>
+                  <ImageWithBasePath
+                    src="assets/img/services/service-64.jpg"
+                    alt="Service Image"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                </Link>
+                <div style={{
+                  position: 'absolute',
+                  top: '15px',
+                  left: '15px',
+                  right: '15px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  <Link to={routes.categories} style={{
+                    backgroundColor: '#5d78ff',
+                    color: '#fff',
+                    padding: '5px 12px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    textDecoration: 'none'
+                  }}>
+                    Glass Fitting
+                  </Link>
+                  <Link to="javascript:void(0)" style={{
+                    color: '#fff',
+                    backgroundColor: 'rgba(0,0,0,0.3)',
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textDecoration: 'none'
+                  }}>
+                    <i className="feather icon-heart" style={{ fontSize: '14px' }} />
+                  </Link>
+                </div>
+                <div style={{
+                  position: 'absolute',
+                  bottom: '15px',
+                  left: '15px'
+                }}>
+                  <Link to="#" style={{
+                    display: 'inline-block',
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '2px solid #fff'
+                  }}>
+                    <ImageWithBasePath
+                      src="assets/img/profiles/avatar-01.jpg"
+                      alt="User"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  </Link>
+                </div>
+              </div>
+              <div style={{
+                padding: '20px',
+                flexGrow: 1,
+                backgroundColor: '#fff'
+              }}>
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  margin: '0 0 10px',
+                  lineHeight: '1.4'
+                }}>
+                  <Link to={routes.serviceDetails1} style={{
+                    color: '#2d2d2d',
+                    textDecoration: 'none',
+                    transition: 'all 0.3s ease'
+                  }}>
+                    Toughened Glass Fitting Service
+                  </Link>
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div style={{ padding: '0 10px' }}>
+            <div data-aos="fade-up" style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              boxShadow: '0 5px 15px rgba(0,0,0,0.05)',
+              transition: 'all 0.3s ease'
+            }}>
+              <div style={{
+                height: '200px',
+                overflow: 'hidden',
+                position: 'relative'
+              }}>
+                <Link to={routes.serviceDetails1}>
+                  <ImageWithBasePath
+                    src="assets/img/services/service-65.jpg"
+                    alt="Service Image"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                </Link>
+                <div style={{
+                  position: 'absolute',
+                  top: '15px',
+                  left: '15px',
+                  right: '15px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  <Link to={routes.categories} style={{
+                    backgroundColor: '#5d78ff',
+                    color: '#fff',
+                    padding: '5px 12px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    textDecoration: 'none'
+                  }}>
+                    Car Repair
+                  </Link>
+                  <Link to="javascript:void(0)" style={{
+                    color: '#fff',
+                    backgroundColor: 'rgba(0,0,0,0.3)',
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textDecoration: 'none'
+                  }}>
+                    <i className="feather icon-heart" style={{ fontSize: '14px' }} />
+                  </Link>
+                </div>
+                <div style={{
+                  position: 'absolute',
+                  bottom: '15px',
+                  left: '15px'
+                }}>
+                  <Link to="#" style={{
+                    display: 'inline-block',
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '2px solid #fff'
+                  }}>
+                    <ImageWithBasePath
+                      src="assets/img/profiles/avatar-06.jpg"
+                      alt="User"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  </Link>
+                </div>
+              </div>
+              <div style={{
+                padding: '20px',
+                flexGrow: 1,
+                backgroundColor: '#fff'
+              }}>
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  margin: '0 0 10px',
+                  lineHeight: '1.4'
+                }}>
+                  <Link to={routes.serviceDetails1} style={{
+                    color: '#2d2d2d',
+                    textDecoration: 'none',
+                    transition: 'all 0.3s ease'
+                  }}>
+                    Car Repair Service
+                  </Link>
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          {/* Add more cards as needed */}
+        </Slider>
+      </div>
+    </div>
+  </div>
+</section>
+        {/* banner service  */}
+   {/* New Banner Section */}
+ <section className="popular-service-seven-section">
+          <div className="container">
+            
+             <div style={{ width: '100%', height: '100%' }}>
+          <img 
+            src="assets/img/services/banner.webp" 
+            alt="Promotional Banner"
+            style={{
+             width: '100%',
+      height: '400px',
+      display: 'block',
+      objectFit: 'fill',
+      objectPosition: 'center'
+            }}
+          />
+        </div>
+           
+          </div>
+        </section>
         {/* /popular service */}
         {/* Work Section */}
-        <section className="work-section-seven">
+        {/* <section className="work-section-seven">
           <div className="container">
             <div className="row">
               <div className="col-md-12 text-center">
@@ -828,7 +1111,7 @@ const HomeSeven = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* /Work Section */}
         {/* popular service */}
@@ -869,7 +1152,7 @@ const HomeSeven = () => {
                         </Link>
                       </div>
                       <div className="item-info">
-                        <Link to={routes.providersList}>
+                        <Link to='#'>
                           <span className="item-img">
                             <ImageWithBasePath
                               src="assets/img/profiles/avatar-06.jpg"
@@ -929,7 +1212,7 @@ const HomeSeven = () => {
                         </Link>
                       </div>
                       <div className="item-info">
-                        <Link to={routes.providersList}>
+                        <Link to='#'>
                           <span className="item-img">
                             <ImageWithBasePath
                               src="assets/img/profiles/avatar-11.jpg"
@@ -987,7 +1270,7 @@ const HomeSeven = () => {
                         </Link>
                       </div>
                       <div className="item-info">
-                        <Link to={routes.providersList}>
+                        <Link to='#'>
                           <span className="item-img">
                             <ImageWithBasePath
                               src="assets/img/profiles/avatar-19.jpg"
@@ -1045,7 +1328,7 @@ const HomeSeven = () => {
                         </Link>
                       </div>
                       <div className="item-info">
-                        <Link to={routes.providersList}>
+                        <Link to='#'>
                           <span className="item-img">
                             <ImageWithBasePath
                               src="assets/img/profiles/avatar-06.jpg"
@@ -1092,7 +1375,7 @@ const HomeSeven = () => {
         </section>
         {/* /popular service */}
         {/* Providers Section */}
-        <section className="providers-section-seven">
+        {/* <section className="providers-section-seven">
           <div className="container">
             <div className="section-heading section-heading-seven">
               <div className="row">
@@ -1334,10 +1617,10 @@ const HomeSeven = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
         {/* Providers Section */}
         {/* pricing Section */}
-        <section className="price-sections-seven">
+        {/* <section className="price-sections-seven">
           <div className="container">
             <div className="row">
               <div className="col-md-12 text-center">
@@ -1504,7 +1787,7 @@ const HomeSeven = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* /pricing Section */}
         {/* Testimonials Section */}

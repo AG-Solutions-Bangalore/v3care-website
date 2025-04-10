@@ -3,8 +3,8 @@ import PagesRoutes from './pages.routes';
 import { useLocation } from 'react-router-dom';
 import DemoUserHeader from './common/demo-user-header';
 import BookingFooter from './common/booking-footer';
-import NewFooter from '../home/footer/newFooter';
 import HomeHeader from '../home/header/home-header';
+import FooterSeven from '../home/home-seven/footer-seven';
 
 const Pages = () => {
   const location = useLocation();
@@ -35,7 +35,7 @@ const Pages = () => {
         <BookingFooter/>
       )
       : (
-      <NewFooter />
+      <FooterSeven />
 
       )}
       

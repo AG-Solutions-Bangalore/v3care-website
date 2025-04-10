@@ -170,6 +170,8 @@ const rootReducer: any = (state = initialState, action: any) => {
       return { ...state,  offer_data: action.payload };
     case 'categoriesData':
       return { ...state, CATEGORIES: action.payload };
+    case 'SET_CITY':
+      return { ...state, currentCity: action.payload };
     default:
       return state;
   }

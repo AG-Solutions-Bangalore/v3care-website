@@ -66,7 +66,7 @@ import { providerEarningsAdminData } from '../json/provider_earnings';
 import { pendingTransferlistData } from '../json/pendingTransfetList-data';
 import { providerEarning } from '../json/provider_earning';
 import { offer } from '../json/offer';
-import { customerWalletData } from '../service/admin/customerWalletData';
+// import { customerWalletData } from '../service/admin/customerWalletData';
 import { adminDashboard3Data } from '../json/admin-dashboard3';
 import { refundReportData } from '../json/refund-reports';
 import { categoriesData } from '../json/categoriesdata';
@@ -148,11 +148,12 @@ const initialState = {
   provider_earning: providerEarning,
   pendingTransferList: pendingTransferlistData,
   offer: offer,
-  customerWallet: customerWalletData,
+  // customerWallet: customerWalletData,
   mobileSidebar: false,
   refund_reports: refundReportData,
   admin_dashboard_3: adminDashboard3Data,
   offer_data: offer,
+  currentCity: null as string | null, 
  categoriesData :categoriesData
 };
 

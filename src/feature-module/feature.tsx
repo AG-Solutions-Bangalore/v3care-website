@@ -74,6 +74,7 @@ const Feature = () => {
       ${current_route.base == 'home-nine' ? 'home-page-five' : ''} ${current_route.base == 'home-ten' ? 'home-ten' : ''}`}
     >
       <div className={`main-wrapper ${mobileMenu ? 'menu-opened' : ''}`}>
+       
         <Outlet />
       </div>
       <div

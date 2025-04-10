@@ -1125,7 +1125,7 @@ const ServiceRequest = () => {
                         >
                           Back
                         </Link>
-                        <Link to={routes.login} className="btn btn-linear-primary">
+                        <Link to='#' className="btn btn-linear-primary">
                           Checkout
                         </Link>
                       </div>

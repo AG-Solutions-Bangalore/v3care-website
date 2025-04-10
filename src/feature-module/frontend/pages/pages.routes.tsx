@@ -14,14 +14,11 @@ import Pricing from './pricing/pricing';
 import PrivacyPolicy from './privacy-policy/privacy-policy';
 import Booking1 from './booking/booking-1';
 import SessionExpired from './session-expired/session-expired';
-import Error404 from './Error page/error404';
-import Error500 from './Error page/error500';
 
 import BookingDetails from './booking/booking-details';
-import PaymentSetting from '../providers/settings/payment-setting';
 import CommingSoon from './comming-soon/comming-soon';
 import BookingWizard from './booking/booking-wizard';
-import Invoice from '../customers/invoice/invoice';
+// import Invoice from '../customers/invoice/invoice';
 import Categories2 from './categories/categories2';
 
 const PagesRoutes = () => {
@@ -69,12 +66,12 @@ const PagesRoutes = () => {
       route: Route,
     },
     
-    {
-      path: '/invoice',
-      name: 'invoice',
-      element: <Invoice />,
-      route: Route,
-    },
+    // {
+    //   path: '/invoice',
+    //   name: 'invoice',
+    //   element: <Invoice />,
+    //   route: Route,
+    // },
     {
       path: '/terms-condition',
       name: 'terms-condition',
@@ -136,12 +133,7 @@ const PagesRoutes = () => {
       route: Route,
     },
 
-    {
-      path: '/payment-setting',
-      name: 'payment-setting',
-      element: <PaymentSetting />,
-      route: Route,
-    },
+    
 
 
     {

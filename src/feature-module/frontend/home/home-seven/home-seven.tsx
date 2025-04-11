@@ -169,6 +169,7 @@ const HomeSeven = () => {
     ],
   };
   const testimonialSlider = {
+    dots: true,
     autoplay: false,
     slidesToShow: 1,
     speed: 500,
@@ -770,287 +771,328 @@ const HomeSeven = () => {
             </div>
           </div>
         </section>
-        <section style={{
-  padding: '60px 0 80px',
-  backgroundColor: '#fff',
-  position: 'relative'
-}}>
-  <div style={{
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '0 15px'
-  }}>
-    <div style={{ display: 'flex', flexWrap: 'wrap', margin: '0 -15px' }}>
-      <div style={{
-        width: '100%',
-        padding: '0 15px',
-        textAlign: 'center',
-        marginBottom: '40px'
-      }}>
-        <div data-aos="fade-up">
-          <h2 style={{
-            fontSize: '36px',
-            fontWeight: '700',
-            marginBottom: '15px',
-            color: '#2d2d2d'
-          }}>Most Popular Services</h2>
-          <p style={{
-            fontSize: '16px',
-            color: '#6f6f6f',
-            margin: '0 auto',
-            maxWidth: '600px'
-          }}>What do you need to find?</p>
-        </div>
-      </div>
-    </div>
-    <div style={{ display: 'flex', flexWrap: 'wrap', margin: '0 -15px' }}>
-      <div style={{ width: '100%', padding: '0 15px' }}>
-        <Slider {...popularService}>
-          {/* Card 1 */}
-          <div style={{ padding: '0 10px' }}>
-            <div data-aos="fade-up" style={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              boxShadow: '0 5px 15px rgba(0,0,0,0.05)',
-              transition: 'all 0.3s ease'
-            }}>
-              <div style={{
-                height: '200px',
-                overflow: 'hidden',
-                position: 'relative'
-              }}>
-                <Link to={routes.serviceDetails1}>
-                  <ImageWithBasePath
-                    src="assets/img/services/service-64.jpg"
-                    alt="Service Image"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
-                    }}
-                  />
-                </Link>
-                <div style={{
-                  position: 'absolute',
-                  top: '15px',
-                  left: '15px',
-                  right: '15px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}>
-                  <Link to={routes.categories} style={{
-                    backgroundColor: '#5d78ff',
-                    color: '#fff',
-                    padding: '5px 12px',
-                    borderRadius: '4px',
-                    fontSize: '12px',
-                    fontWeight: '500',
-                    textDecoration: 'none'
-                  }}>
-                    Glass Fitting
-                  </Link>
-                  <Link to="javascript:void(0)" style={{
-                    color: '#fff',
-                    backgroundColor: 'rgba(0,0,0,0.3)',
-                    width: '30px',
-                    height: '30px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textDecoration: 'none'
-                  }}>
-                    <i className="feather icon-heart" style={{ fontSize: '14px' }} />
-                  </Link>
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  bottom: '15px',
-                  left: '15px'
-                }}>
-                  <Link to="#" style={{
-                    display: 'inline-block',
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    overflow: 'hidden',
-                    border: '2px solid #fff'
-                  }}>
-                    <ImageWithBasePath
-                      src="assets/img/profiles/avatar-01.jpg"
-                      alt="User"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
-                    />
-                  </Link>
-                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <section className="service-section-seven">
+     
+    
+        <div className="container">
+          <div className="section-heading section-heading-seven">
+            <div className="row">
+              <div className="col-md-6 aos" data-aos="fade-up">
+                <h2>Popular Services</h2>
+                <p>What do you need to find?</p>
               </div>
-              <div style={{
-                padding: '20px',
-                flexGrow: 1,
-                backgroundColor: '#fff'
-              }}>
-                <h3 style={{
-                  fontSize: '18px',
-                  fontWeight: '600',
-                  margin: '0 0 10px',
-                  lineHeight: '1.4'
-                }}>
-                  <Link to={routes.serviceDetails1} style={{
-                    color: '#2d2d2d',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease'
-                  }}>
-                    Toughened Glass Fitting Service
-                  </Link>
-                </h3>
+              <div className="col-md-6 text-md-end aos" data-aos="fade-up">
+                <div className="owl-nav mynav mynav-seven" />
               </div>
             </div>
           </div>
+         
+          <div className="col-md-12">
+              <Slider {...categoriesSlider} className="owl-carousel categories-slider-seven">
+               
+                <Link
+  to={routes.categories}
+  data-aos="fade-up"
+>
+  <div
+    style={{
+      padding: "2px",
+      background: "white",
+      border: "2px solid white",
+      // height: "250px",
+      borderRadius: "0.5rem", // Tailwind's rounded-lg = 0.5rem = 8px
+      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+    }}
+  >
+    <img
+     src="assets/img/services/service-663.jpg"
+      alt="img"
+      className="img-fluid"
+      style={{
+        // height: "210px",
+        borderRadius: "0.5rem" // Optional: if you want the image corners rounded too
+      }}
+    />
+    <h5
+      style={{
+        marginTop: "4px",
+        fontSize:"16px",
+        fontWeight:500,
 
-          {/* Card 2 */}
-          <div style={{ padding: '0 10px' }}>
-            <div data-aos="fade-up" style={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              boxShadow: '0 5px 15px rgba(0,0,0,0.05)',
-              transition: 'all 0.3s ease'
-            }}>
-              <div style={{
-                height: '200px',
-                overflow: 'hidden',
-                position: 'relative'
-              }}>
-                <Link to={routes.serviceDetails1}>
-                  <ImageWithBasePath
-                    src="assets/img/services/service-65.jpg"
-                    alt="Service Image"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
-                    }}
-                  />
-                </Link>
-                <div style={{
-                  position: 'absolute',
-                  top: '15px',
-                  left: '15px',
-                  right: '15px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}>
-                  <Link to={routes.categories} style={{
-                    backgroundColor: '#5d78ff',
-                    color: '#fff',
-                    padding: '5px 12px',
-                    borderRadius: '4px',
-                    fontSize: '12px',
-                    fontWeight: '500',
-                    textDecoration: 'none'
-                  }}>
-                    Car Repair
-                  </Link>
-                  <Link to="javascript:void(0)" style={{
-                    color: '#fff',
-                    backgroundColor: 'rgba(0,0,0,0.3)',
-                    width: '30px',
-                    height: '30px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textDecoration: 'none'
-                  }}>
-                    <i className="feather icon-heart" style={{ fontSize: '14px' }} />
-                  </Link>
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  bottom: '15px',
-                  left: '15px'
-                }}>
-                  <Link to="#" style={{
-                    display: 'inline-block',
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    overflow: 'hidden',
-                    border: '2px solid #fff'
-                  }}>
-                    <ImageWithBasePath
-                      src="assets/img/profiles/avatar-06.jpg"
-                      alt="User"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
-                    />
-                  </Link>
-                </div>
-              </div>
-              <div style={{
-                padding: '20px',
-                flexGrow: 1,
-                backgroundColor: '#fff'
-              }}>
-                <h3 style={{
-                  fontSize: '18px',
-                  fontWeight: '600',
-                  margin: '0 0 10px',
-                  lineHeight: '1.4'
-                }}>
-                  <Link to={routes.serviceDetails1} style={{
-                    color: '#2d2d2d',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease'
-                  }}>
-                    Car Repair Service
-                  </Link>
-                </h3>
-              </div>
-            </div>
-          </div>
-
-          {/* Add more cards as needed */}
-        </Slider>
-      </div>
-    </div>
+      }}
+    >
+      Painting
+    </h5>
   </div>
-</section>
+</Link>
+                <Link
+  to={routes.categories}
+  data-aos="fade-up"
+>
+  <div
+    style={{
+      padding: "2px",
+      background: "white",
+      border: "2px solid white",
+      // height: "250px",
+      borderRadius: "0.5rem", // Tailwind's rounded-lg = 0.5rem = 8px
+      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+    }}
+  >
+    <img
+  src="assets/img/services/service-663.jpg"
+      alt="img"
+      className="img-fluid"
+      style={{
+        // height: "210px",
+        borderRadius: "0.5rem" // Optional: if you want the image corners rounded too
+      }}
+    />
+    <h5
+      style={{
+        marginTop: "4px",
+        fontSize:"16px",
+        fontWeight:500,
+
+      }}
+    >
+      Construction
+    </h5>
+  </div>
+</Link>
+                <Link
+  to={routes.categories}
+  data-aos="fade-up"
+>
+  <div
+    style={{
+      padding: "2px",
+      background: "white",
+      border: "2px solid white",
+      // height: "250px",
+      borderRadius: "0.5rem", // Tailwind's rounded-lg = 0.5rem = 8px
+      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+    }}
+  >
+    <img
+      src="assets/img/services/service-663.jpg"
+      alt="img"
+      className="img-fluid"
+      style={{
+        // height: "210px",
+        borderRadius: "0.5rem" // Optional: if you want the image corners rounded too
+      }}
+    />
+    <h5
+       style={{
+        marginTop: "4px",
+        fontSize:"16px",
+        fontWeight:500,
+
+      }}
+    >
+      Computer
+    </h5>
+  </div>
+</Link>
+                <Link
+  to={routes.categories}
+  data-aos="fade-up"
+>
+  <div
+    style={{
+      padding: "2px",
+      background: "white",
+      border: "2px solid white",
+      // height: "250px",
+      borderRadius: "0.5rem", // Tailwind's rounded-lg = 0.5rem = 8px
+      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+    }}
+  >
+    <img
+     src="assets/img/services/service-663.jpg"
+      alt="img"
+      className="img-fluid"
+      style={{
+        // height: "210px",
+        borderRadius: "0.5rem" // Optional: if you want the image corners rounded too
+      }}
+    />
+    <h5
+      style={{
+        marginTop: "4px",
+        fontSize:"16px",
+        fontWeight:500,
+
+      }}
+    >
+      Car Wash
+    </h5>
+  </div>
+</Link>
+                <Link
+  to={routes.categories}
+  data-aos="fade-up"
+>
+  <div
+    style={{
+      padding: "2px",
+      background: "white",
+      border: "2px solid white",
+      // height: "250px",
+      borderRadius: "0.5rem", // Tailwind's rounded-lg = 0.5rem = 8px
+      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+    }}
+  >
+    <img
+       src="assets/img/services/service-663.jpg"
+      alt="img"
+      className="img-fluid"
+      style={{
+        // height: "210px",
+        borderRadius: "0.5rem" // Optional: if you want the image corners rounded too
+      }}
+    />
+    <h5
+       style={{
+        marginTop: "4px",
+        fontSize:"16px",
+        fontWeight:500,
+
+      }}
+    >
+      Painting
+    </h5>
+  </div>
+</Link>
+                <Link
+  to={routes.categories}
+  data-aos="fade-up"
+>
+  <div
+    style={{
+      padding: "2px",
+      background: "white",
+      border: "2px solid white",
+      // height: "250px",
+      borderRadius: "0.5rem", // Tailwind's rounded-lg = 0.5rem = 8px
+      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+    }}
+  >
+    <img
+   src="assets/img/services/service-663.jpg"
+      alt="img"
+      className="img-fluid"
+      style={{
+        // height: "210px",
+        borderRadius: "0.5rem" // Optional: if you want the image corners rounded too
+      }}
+    />
+    <h5
+      style={{
+        marginTop: "4px",
+        fontSize:"16px",
+        fontWeight:500,
+
+      }}
+    >
+      Painting
+    </h5>
+  </div>
+</Link>
+
+
+
+
+
+
+                
+         
+              </Slider>
+            </div>
+        </div>
+      </section>
+
+
+
+
+
+       
         {/* banner service  */}
    {/* New Banner Section */}
- <section className="popular-service-seven-section">
+ <section className="popular-service-seven-section aos" data-aos="fade-up">
           <div className="container">
             
-             <div style={{ width: '100%', height: '100%' }}>
+             <div  >
           <img 
-            src="assets/img/services/banner.webp" 
+            src="assets/img/services/22.png" 
             alt="Promotional Banner"
             style={{
              width: '100%',
       height: '400px',
       display: 'block',
       objectFit: 'fill',
-      objectPosition: 'center'
+      objectPosition: 'center',
+      borderRadius: "0.5rem" 
             }}
           />
         </div>
            
           </div>
         </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         {/* /popular service */}
         {/* Work Section */}
         {/* <section className="work-section-seven">

@@ -98,7 +98,7 @@ const ServiceDetails1 = () => {
                   <div className="card-body">
                     <div className="service-head mb-2">
                       <div className="d-flex align-items-center justify-content-between flex-wrap">
-                        <h3 className="mb-2">Lighting Services</h3>
+                        <h3 className="mb-2">Lighting Servicesedit</h3>
                         <span className="badge badge-purple-transparent mb-2">
                           <i className="ti ti-calendar-check me-1" />
                           6000+ Bookings
@@ -1139,7 +1139,7 @@ const ServiceDetails1 = () => {
                       </span>
                     </div>
                     <Link
-                      to={routes.booking}
+                      to='#'
                       className="btn btn-lg btn-primary w-100 d-flex align-items-center justify-content-center mb-3"
                     >
                       <i className="ti ti-calendar me-2" />
@@ -1277,7 +1277,7 @@ const ServiceDetails1 = () => {
                       </div>
                       <div className="col-sm-6">
                         <Link
-                          to={routes.providerChat}
+                          to='#'
                           className="btn btn-light btn-lg fs-14 px-1 w-100"
                         >
                           <i className="ti ti-user me-2" />

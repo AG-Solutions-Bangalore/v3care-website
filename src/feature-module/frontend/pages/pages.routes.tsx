@@ -20,6 +20,7 @@ import CommingSoon from './comming-soon/comming-soon';
 import BookingWizard from './booking/booking-wizard';
 // import Invoice from '../customers/invoice/invoice';
 import Categories2 from './categories/categories2';
+import Client from './client/client';
 
 const PagesRoutes = () => {
   const all_pages_routes = [
@@ -27,6 +28,12 @@ const PagesRoutes = () => {
       path: '/about-us',
       name: 'about-us',
       element: <AboutUs />,
+      route: Route,
+    },
+    {
+      path: '/client',
+      name: 'client',
+      element: <Client />,
       route: Route,
     },
     {

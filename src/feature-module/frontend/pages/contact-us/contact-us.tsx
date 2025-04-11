@@ -27,7 +27,7 @@ const ContactUs = () => {
         {/* Contact Details */}
         <div className="contact-details">
           <div className="row justify-content-center">
-            <div className="col-md-6 col-lg-4 d-flex">
+            <div className="col-md-6 col-lg-6 d-flex">
               <div className="card flex-fill">
                 <div className="card-body">
                   <div className="d-flex align-items-center">
@@ -36,14 +36,14 @@ const ContactUs = () => {
                     </span>
                     <div>
                       <h6 className="fs-18 mb-1">Phone Number</h6>
-                      <p className="fs-14">(888) 888-8888</p>
-                      <p className="fs-14">(123) 456-7890</p>
+                      <p className="fs-14">+91 98807 78585</p>
+                    
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-md-6 col-lg-4 d-flex">
+            <div className="col-md-6 col-lg-6 d-flex">
               <div className="card flex-fill">
                 <div className="card-body">
                   <div className="d-flex align-items-center">
@@ -52,14 +52,13 @@ const ContactUs = () => {
                     </span>
                     <div>
                       <h6 className="fs-18 mb-1">Email Address</h6>
-                      <p className="fs-14">truelysell@example.com</p>
-                      <p className="fs-14">johnsmith@example.com</p>
+                      <p className="fs-14">info@v3care.in</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-md-6 col-lg-4 d-flex">
+            {/* <div className="col-md-6 col-lg-4 d-flex">
               <div className="card flex-fill">
                 <div className="card-body">
                   <div className="d-flex align-items-center">
@@ -69,13 +68,13 @@ const ContactUs = () => {
                     <div>
                       <h6 className="fs-18 mb-1">Address</h6>
                       <p className="fs-14">
-                        367 Hillcrest Lane, Irvine, California, United States
+                      V3 CARE # 2296, 24th Main Road, 16th Cross, HSR Layout, Sector 1, Bangalore – 560 102 Land Mark : Opposite Bangalore One
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         {/* /Contact Details */}
@@ -83,11 +82,66 @@ const ContactUs = () => {
         <div className="row">
           <div className="col-md-6 d-flex align-items-center">
             <div className="contact-img flex-fill">
-              <ImageWithBasePath
-                src="assets/img/services/service-76.jpg"
-                className="img-fluid"
-                alt="img"
-              />
+            <div className="card flex-fill">
+                <div className="card-body">
+                  <div className="d-flex align-items-center">
+                    <span className="rounded-circle">
+                      <i className="ti ti-map-pin text-primary" />
+                    </span>
+                    <div>
+                      <h6 className="fs-18 mb-1">Bangalore Address</h6>
+                      <p className="fs-14">
+                      V3 CARE # 2296, 24th Main Road, 16th Cross, HSR Layout, Sector 1, Bangalore – 560 102 Land Mark : Opposite Bangalore One
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <div className="card flex-fill">
+                <div className="card-body">
+                  <div className="d-flex align-items-center">
+                    <span className="rounded-circle">
+                      <i className="ti ti-map-pin text-primary" />
+                    </span>
+                    <div>
+                      <h6 className="fs-18 mb-1">Hyderabad Address</h6>
+                      <p className="fs-14">
+                      V3 CARE H. No. 1-101, 1st Floor, Old Hapeezpet, Miyapur, Hyderabad, Telengana- 500 049
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <div className="card flex-fill">
+                <div className="card-body">
+                  <div className="d-flex align-items-center">
+                    <span className="rounded-circle">
+                      <i className="ti ti-map-pin text-primary" />
+                    </span>
+                    <div>
+                      <h6 className="fs-18 mb-1">Gurugram Address</h6>
+                      <p className="fs-14">
+                      V3 CARE Opposite Raj Bhawan Main Market H no 384, near End of Fly over, Sukhrali, Sector 17, Gurugram, Haryana 122001
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <div className="card flex-fill">
+                <div className="card-body">
+                  <div className="d-flex align-items-center">
+                    <span className="rounded-circle">
+                      <i className="ti ti-map-pin text-primary" />
+                    </span>
+                    <div>
+                      <h6 className="fs-18 mb-1">Pune Address</h6>
+                      <p className="fs-14">
+                      V3 CARE Thite Nagar, Chandan Nagar, Pune, Maharashtra 411014, India
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="col-md-6 d-flex align-items-center justify-content-center">
@@ -127,7 +181,7 @@ const ContactUs = () => {
                         />
                       </div>
                     </div>
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                     <Dropdown
                           value={selectedValue2}
                           onChange={(e) => setSelectedValue2(e.value)}
@@ -136,7 +190,7 @@ const ContactUs = () => {
                           placeholder="Select Service"
                           className="select w-100"
                         />
-                    </div>
+                    </div> */}
                     <div className="mb-3">
                       <div className="form-group">
                         <textarea
@@ -169,7 +223,7 @@ const ContactUs = () => {
   {/* Map */}
   <div className="map-grid">
     <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin"
+   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.909593458343!2d77.633275!3d12.913531899999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1483494c719f%3A0xd95476be691e0257!2sV3%20CARE!5e0!3m2!1sen!2sin!4v1744352225780!5m2!1sen!2sin"
       style={{ border: 0 }}
       allowFullScreen
       loading="lazy"
@@ -179,7 +233,6 @@ const ContactUs = () => {
   </div>
   {/* /Map */}
 </div>
-
     </>
   );
 };

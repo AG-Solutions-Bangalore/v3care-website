@@ -1227,7 +1227,7 @@ const ServiceDetails2 = () => {
                       <h6 className="fs-16">$547</h6>
                     </div>
                     <Link
-                      to={routes.booking}
+                      to='#'
                       className="btn btn-lg btn-primary w-100 d-flex align-items-center justify-content-center mb-3"
                     >
                       <i className="ti ti-calendar me-2" />
@@ -1376,7 +1376,7 @@ const ServiceDetails2 = () => {
                     </div>
                     <div className="border-top pt-3 mb-4">
                       <Link
-                        to={routes.providerChat}
+                        to="#"
                         className="btn btn-lg btn-dark d-flex align-items-center justify-content-center"
                       >
                         <i className="ti ti-message-2 me-2" />

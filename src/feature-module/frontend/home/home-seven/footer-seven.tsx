@@ -11,7 +11,7 @@ const FooterSeven = () => {
   <div className="footer-top aos" data-aos="fade-up">
     <div className="container">
       <div className="row">
-        <div className="col-lg-3 col-md-6">
+        <div className="col-lg-4 col-md-6">
           {/* Footer Widget */}
           <div className="footer-widget footer-widget-seven">
             <div className="footer-logo">
@@ -21,11 +21,10 @@ const FooterSeven = () => {
             </div>
             <div className="footer-content">
               <p>
-                We ara a lorem ipsum dolor sit amet, consectetur adipiscing
-                elit, sed do eiusmod tempor.
+              We are an organisation that cares about our people and our clients – To be the most admired cleaning and facility services partner in our chosen segments in India
               </p>
             </div>
-            <div className="footer-selects footer-selects-seven">
+            <div className="footer-selects footer-selects-seven col-lg-10 col-md-8">
               <h2 className="footer-subtitle">Newsletter Signup</h2>
               <div className="subscribe-form">
                 <input
@@ -41,9 +40,9 @@ const FooterSeven = () => {
           </div>
           {/* /Footer Widget */}
         </div>
-        <div className="col-lg-2 col-md-6">
+        {/* <div className="col-lg-2 col-md-6"> */}
           {/* Footer Widget */}
-          <div className="footer-widget footer-menu">
+          {/* <div className="footer-widget footer-menu">
             <h2 className="footer-title">Support</h2>
             <ul>
               <li>
@@ -65,32 +64,29 @@ const FooterSeven = () => {
                 <Link to={routes.contactUs}>Contact us</Link>
               </li>
             </ul>
-          </div>
+          </div> */}
           {/* /Footer Widget */}
-        </div>
+        {/* </div> */}
         <div className="col-lg-2 col-md-6">
           {/* Footer Widget */}
           <div className="footer-widget footer-menu">
             <h2 className="footer-title">About</h2>
             <ul>
-              <li>
-                <Link to={routes.categories}>Categories</Link>
-              </li>
-              <li>
-                <Link to={routes.serviceGrid}>Services</Link>
-              </li>
-              <li>
+            <li>
                 <Link to={routes.aboutUs}>About us</Link>
               </li>
               <li>
-                <Link to={routes.faq}>FAQ</Link>
+                <Link to={routes.contactUs}>Contact Us</Link>
               </li>
+              <li>
+                <Link to={routes.client}>Client</Link>
+              </li>
+           
+          
               <li>
                 <Link to={routes.blogGrid}>Blog</Link>
               </li>
-              <li>
-                <Link to={routes.termsCondition}>Terms</Link>
-              </li>
+             
             </ul>
           </div>
           {/* /Footer Widget */}
@@ -101,28 +97,26 @@ const FooterSeven = () => {
             <h2 className="footer-title">Services</h2>
             <ul>
               <li>
-                <Link to="#">Car Wash</Link>
+                <Link to="#">Book Services</Link>
               </li>
               <li>
-                <Link to="#">Beauty Saloon</Link>
+                <Link to="#">Residential Services</Link>
               </li>
               <li>
-                <Link to="#">Construction</Link>
+                <Link to="#">Corporate Services</Link>
               </li>
               <li>
-                <Link to="#">Plumbing service</Link>
+                <Link to="#">Industrial service</Link>
               </li>
               <li>
-                <Link to="#">Painting service</Link>
+                <Link to="#">Sofa Cleaning service</Link>
               </li>
-              <li>
-                <Link to="#">Plumbing</Link>
-              </li>
+             
             </ul>
           </div>
           {/* /Footer Widget */}
         </div>
-        <div className="col-lg-3 col-md-6">
+        <div className="col-lg-4 col-md-6">
           {/* Footer Widget */}
           <div className="footer-widget">
             <h2 className="footer-title">Contact</h2>
@@ -133,7 +127,7 @@ const FooterSeven = () => {
                 </span>
                 <div className="footer-six-ryt">
                   <span>Phone Number</span>
-                  <h6>310-437-2766</h6>
+                  <h6> +91 98807 78585</h6>
                 </div>
               </div>
               <div className="footer-six-left">
@@ -142,7 +136,7 @@ const FooterSeven = () => {
                 </span>
                 <div className="footer-six-ryt">
                   <span>Mail Address</span>
-                  <h6>support@truelysell.com</h6>
+                  <h6>info@v3care.com</h6>
                 </div>
               </div>
               <div className="footer-six-left ">
@@ -150,8 +144,16 @@ const FooterSeven = () => {
                   <ImageWithBasePath src="assets/img/icons/location.svg" alt="image" />
                 </span>
                 <div className="footer-six-ryt">
-                  <span>Address</span>
-                  <h6>706 Campfire Ave. Meriden, CT 06450</h6>
+                  <span>Bangalore Address</span>
+                  <h6>V3 CARE, H. No. 2296, 24th Main Road, 16th Cross, HSR Layout, Sector 1, Bangalore – 560 102         <br/></h6>
+         
+                  <h6>Land Mark : Opposite Bangalore One</h6>
+                  <h6>
+
+                  Also we are in: <br/>
+                  Hyderabad, Pune & Gurgaon
+
+                  </h6>
                 </div>
               </div>
             </div>
@@ -170,30 +172,36 @@ const FooterSeven = () => {
         <div className="row gy-2">
           <div className="col-md-6">
             <div className="copyright-text">
-              <p>Copyright 2024 © Truelysell. All right reserved.</p>
+              <p>Copyright 2025 © V3Care. All right reserved.</p>
             </div>
           </div>
           <div className="col-md-6">
             <div className="social-icon justify-content-md-end">
               <ul>
                 <li>
-                  <Link to="#">
+                  <Link target="_blank" rel="noreferrer" to="https://www.facebook.com/v3care">
                     <i className="fa-brands fa-facebook" />{" "}
                   </Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    <i className="fab fa-twitter" />{" "}
-                  </Link>
+                <Link target="_blank" rel="noreferrer" to="https://x.com/care_v3">
+  <i className="fab fa-twitter" />{" "}
+</Link>
+
                 </li>
                 <li>
-                  <Link to="#">
+                  <Link target="_blank" rel="noreferrer" to="https://www.instagram.com/v3care/">
                     <i className="fa-brands fa-instagram" />
                   </Link>
                 </li>
                 <li>
-                  <Link to="#">
+                  <Link target="_blank" rel="noreferrer" to="https://www.linkedin.com/in/v3-care-15135119b/">
                     <i className="fa-brands fa-linkedin" />
+                  </Link>
+                </li>
+                <li>
+                  <Link target="_blank" rel="noreferrer" to="https://www.youtube.com/channel/UC3eZ5BXlhuQk_OZ6zXXgW2w">
+                    <i className="fa-brands fa-youtube" />
                   </Link>
                 </li>
               </ul>

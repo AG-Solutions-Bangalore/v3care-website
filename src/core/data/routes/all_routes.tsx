@@ -22,6 +22,7 @@ export const all_routes = {
   // pages module path
   pages: '/pages/*',
   aboutUs: '/pages/about-us',
+  client: '/pages/client',
   error404: '/authentication/error-404',
   error500: '/authentication/error-500',
   faq: '/pages/faq',

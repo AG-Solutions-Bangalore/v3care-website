@@ -202,8 +202,8 @@ const ProviderDetails = () => {
                           </div>
                           <div className="col-md-4">
                             <div>
-                              <Link
-                                to={routes.booking}
+                            <Link
+                                to='#'
                                 className="btn btn-primary w-100 mb-3"
                               >
                                 <i className="feather icon-calendar me-2" />

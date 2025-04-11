@@ -199,8 +199,8 @@ const HomeHeader: React.FC<props> = ({ type }) => {
                 >
                   <Link to="/services/service-grid">Services</Link>
                 </li>
-                <li className={isRouteActive('#') ? 'active' : ''}>
-                  <Link to="#">Client</Link>
+                <li className={isRouteActive('/pages/client') ? 'active' : ''}>
+                  <Link to="/pages/client">Client</Link>
                 </li>
                 <li
                   className={isRouteActive('/blog/blog-grid') ? 'active' : ''}

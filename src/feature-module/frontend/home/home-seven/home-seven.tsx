@@ -10,16 +10,47 @@ import FooterSeven from './footer-seven';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import HomeHeader from '../header/home-header';
+import axios from 'axios';
+
+interface ServiceSuper {
+  id: number;
+  serviceSuper: string;
+  serviceSuper_image: string | null;
+}
 
 const HomeSeven = () => {
   const routes = all_routes;
-
+  const [serviceSupers, setServiceSupers] = useState<ServiceSuper[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   AOS.init();
  
+
+  const fetchServiceSupers = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await axios.get("http://agscare.site/crmapi/public/api/panel-fetch-web-service-super-out");
+      setServiceSupers(response.data.serviceSuper || []);
+    } catch (error) {
+      console.error('Failed to fetch service supers:', error);
+      setError('Failed to load categories. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getImageUrl = (serviceSuper_image: string | null) => {
+    if (!serviceSuper_image) {
+      return "http://agscare.site/crmapi/public/storage/no_image.jpg";
+    }
+    return `http://agscare.site/crmapi/public/storage/service_super/${serviceSuper_image}`;
+  };
   useEffect(() => {
     AOS.init({
       duration: 1000,
     });
+    fetchServiceSupers();
   }, []);
  
   const handleScroll = () => {
@@ -31,13 +62,37 @@ const HomeSeven = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  const [selectedItems, setSelectedItems] = useState(Array(10).fill(false));
-  const handleItemClick = (index: number) => {
-    setSelectedItems((prevSelectedItems) => {
-      const updatedSelectedItems = [...prevSelectedItems];
-      updatedSelectedItems[index] = !updatedSelectedItems[index];
-      return updatedSelectedItems;
-    });
+  const categoriesSuperSlider = {
+    dots: true,
+    autoplay: false,
+    slidesToShow: 4,
+    speed: 500,
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 776,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 567,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
   const categoriesSlider = {
     dots: true,
@@ -136,38 +191,7 @@ const HomeSeven = () => {
       },
     ],
   };
-  const topProjects = {
-    dots: true,
-    autoplay: false,
-    slidesToShow: 4,
-    speed: 500,
-    responsive: [
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 4,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 776,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 567,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-    ],
-  };
+ 
   const testimonialSlider = {
     dots: true,
     autoplay: false,
@@ -403,120 +427,78 @@ const HomeSeven = () => {
           </ul>
         </div>
         <div className="container">
-          <div className="section-heading section-heading-seven">
-            <div className="row">
-              <div className="col-md-6 aos" data-aos="fade-up">
-                <h2>Featured Categories</h2>
-                <p>What do you need to find?</p>
-              </div>
-              <div className="col-md-6 text-md-end aos" data-aos="fade-up">
-                <div className="owl-nav mynav mynav-seven" />
+            <div className="section-heading section-heading-seven">
+              <div className="row">
+                <div className="col-md-6 aos" data-aos="fade-up">
+                  <h2>Featured Categories</h2>
+                  <p>What do you need to find?</p>
+                </div>
+                <div className="col-md-6 text-md-end aos" data-aos="fade-up">
+                  <div className="owl-nav mynav mynav-seven" />
+                </div>
               </div>
             </div>
+            
+            {/* Loading State */}
+            {isLoading && (
+              <div className="row justify-content-center mb-5">
+                <div className="col-12 text-center">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  <p className="mt-3">Loading categories...</p>
+                </div>
+              </div>
+            )}
+            
+            {/* Error State */}
+            {error && !isLoading && (
+              <div className="row justify-content-center mb-5">
+                <div className="col-12 col-md-8 col-lg-6 text-center">
+                  <div className="alert alert-danger d-flex align-items-center justify-content-center">
+                    <Icon.AlertCircle className="me-2" size={18} />
+                    <span>{error}</span>
+                    <button 
+                      className="btn btn-sm btn-outline-danger ms-3"
+                      onClick={fetchServiceSupers}
+                    >
+                      <Icon.RefreshCw className="me-1" size={14} />
+                      Try Again
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Categories Slider */}
+            {!isLoading && !error && serviceSupers.length > 0 && (
+              <div className="row">
+                <div className="col-md-12">
+                  <Slider {...categoriesSuperSlider} className="owl-carousel categories-slider-seven">
+                    {serviceSupers.map((serviceSuper) => (
+                      <Link
+                        key={serviceSuper.id}
+                        to={`${routes.categories}/${serviceSuper.id}`}
+                        className="feature-box feature-box-seven aos"
+                        data-aos="fade-up"
+                      >
+                        <div className="feature-icon feature-icon-seven">
+                          <span>
+                            <img
+                              src={getImageUrl(serviceSuper.serviceSuper_image)}
+                              alt={serviceSuper.serviceSuper}
+                              className="img-fluid"
+                            />
+                          </span>
+                        </div>
+                        <h5>{serviceSuper.serviceSuper}</h5>
+                      </Link>
+                    ))}
+                  </Slider>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="row">
-            <div className="col-md-12">
-              <Slider {...categoriesSlider} className="owl-carousel categories-slider-seven">
-                <Link
-                  to={routes.categories}
-                  className="feature-box feature-box-seven aos"
-                  data-aos="fade-up"
-                >
-                  <div className="feature-icon feature-icon-seven">
-                    <span>
-                      <ImageWithBasePath
-                        src="assets/img/icons/car-wash.svg"
-                        alt="img"
-                        className="img-fluid"
-                      />
-                    </span>
-                  </div>
-                  <h5>Painting</h5>
-                </Link>
-                <Link
-                  to={routes.categories}
-                  className="feature-box feature-box-seven aos"
-                  data-aos="fade-up"
-                >
-                  <div className="feature-icon feature-icon-seven">
-                    <span>
-                      <ImageWithBasePath
-                        src="assets/img/icons/computer.svg"
-                        alt="img"
-                        className="img-fluid"
-                      />
-                    </span>
-                  </div>
-                  <h5>Construction</h5>
-                </Link>
-                <Link
-                  to={routes.categories}
-                  className="feature-box feature-box-seven aos"
-                  data-aos="fade-up"
-                >
-                  <div className="feature-icon feature-icon-seven">
-                    <span>
-                      <ImageWithBasePath
-                        src="assets/img/icons/construction.svg"
-                        alt="img"
-                        className="img-fluid"
-                      />
-                    </span>
-                  </div>
-                  <h5>Computer</h5>
-                </Link>
-                <Link
-                  to={routes.categories}
-                  className="feature-box feature-box-seven aos"
-                  data-aos="fade-up"
-                >
-                  <div className="feature-icon feature-icon-seven">
-                    <span>
-                      <ImageWithBasePath
-                        src="assets/img/icons/painting.svg"
-                        alt="img"
-                        className="img-fluid"
-                      />
-                    </span>
-                  </div>
-                  <h5>Car Wash</h5>
-                </Link>
-                <Link
-                  to={routes.categories}
-                  className="feature-box feature-box-seven aos"
-                  data-aos="fade-up"
-                >
-                  <div className="feature-icon feature-icon-seven">
-                    <span>
-                      <ImageWithBasePath
-                        src="assets/img/icons/computer.svg"
-                        alt="img"
-                        className="img-fluid"
-                      />
-                    </span>
-                  </div>
-                  <h5>Computer</h5>
-                </Link>
-                <Link
-                  to={routes.categories}
-                  className="feature-box feature-box-seven aos"
-                  data-aos="fade-up"
-                >
-                  <div className="feature-icon feature-icon-seven">
-                    <span>
-                      <ImageWithBasePath
-                        src="assets/img/icons/car-wash.svg"
-                        alt="img"
-                        className="img-fluid"
-                      />
-                    </span>
-                  </div>
-                  <h5>Painting</h5>
-                </Link>
-              </Slider>
-            </div>
-          </div>
-        </div>
       </section>
       {/* /Service Section */}
         {/* popular service */}

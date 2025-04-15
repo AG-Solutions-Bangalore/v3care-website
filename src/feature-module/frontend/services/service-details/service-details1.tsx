@@ -5,25 +5,66 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import VideoModal from '../../../../core/hooks/video-modal';
 import StickyBox from 'react-sticky-box';
+import axios from 'axios';
 
 const ServiceDetails1 = () => {
   const routes = all_routes;
+  const location = useLocation();
+  const { state } = location;
+  const [servicePrices, setServicePrices] = useState<any[]>([]);
+const [selectedPrice, setSelectedPrice] = useState<any>(null);
+const [priceLoading, setPriceLoading] = useState(false);
+const [priceError, setPriceError] = useState<string | null>(null);
+
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
   const sliderRef1 = useRef(null);
   const sliderRef2 = useRef(null);
-
+ // Get data from localStorage
+ const city = localStorage.getItem('city');
+ const branch_id = localStorage.getItem('branch_id');
   const [showModal, setShowModal] = useState(false);
   const videoUrl = 'https://www.youtube.com/watch?v=Vdp6x7Bibtk';
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
   const [open, setOpen] = React.useState(false);
 
+    const fetchServicePrices = async () => {
+      try {
+        setPriceLoading(true);
+        setPriceError(null);
+        
+        const response = await axios.post(
+          "http://agscare.site/crmapi/public/api/panel-fetch-web-service-price-out",
+          {
+            branch_id: branch_id,
+            order_service: state?.service_id,
+            order_service_sub: state?.service_sub_id
+          }
+        );
+  
+        setServicePrices(response.data.serviceprice || []);
+        // Select first price by default
+        if (response.data.serviceprice?.length > 0) {
+          setSelectedPrice(response.data.serviceprice[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching service prices:', error);
+        setPriceError('Failed to load service prices. Please try again.');
+      } finally {
+        setPriceLoading(false);
+      }
+    };
+    useEffect(() => {
+    if (state?.service_id && branch_id) {
+      fetchServicePrices();
+    }
+  }, [state?.service_id, state?.service_sub_id, branch_id]);
   const two = {
     dots: false,
     autoplay: false,
@@ -84,11 +125,11 @@ const ServiceDetails1 = () => {
   }, []);
   return (
     <>
-      <BreadCrumb
+      {/* <BreadCrumb
         title="Service Details"
         item1="Service"
         item2="Service Details"
-      />
+      /> */}
       <div className="page-wrapper">
         <div className="content">
           <div className="container">
@@ -98,7 +139,15 @@ const ServiceDetails1 = () => {
                   <div className="card-body">
                     <div className="service-head mb-2">
                       <div className="d-flex align-items-center justify-content-between flex-wrap">
-                        <h3 className="mb-2">Lighting Servicesedit</h3>
+                      {/* <h3 className="mb-2">Lighting Servicesedit</h3> */}
+                      <h3 className="mb-2">
+  { state?.service_name || 'Service Name'}
+  { state?.service_id || 'Service Id'}---
+  {state?.service_sub_id || 'Service Sub id'}
+  {state?.service_sub_name || 'Service Sub'} ---
+  {city && ` (${city})`}
+  {branch_id && ` [Branch: ${branch_id}]`}
+</h3>
                         <span className="badge badge-purple-transparent mb-2">
                           <i className="ti ti-calendar-check me-1" />
                           6000+ Bookings
@@ -138,115 +187,7 @@ const ServiceDetails1 = () => {
                         </div>
                       </div>
                     </div>
-                    {/* Slider */}
-                    <div className="service-wrap mb-4">
-                      <div className="slider-wrap">
-                        <Slider
-                          {...settings1}
-                          className="owl-carousel reactslick service-carousel nav-center mb-3"
-                        >
-                          <div className="service-img">
-                            <ImageWithBasePath
-                              src="assets/img/services/service-slider-01.jpg"
-                              className="img-fluid"
-                              alt="Slider Img"
-                            />
-                          </div>
-                          <div className="service-img">
-                            <ImageWithBasePath
-                              src="assets/img/services/service-slider-02.jpg"
-                              className="img-fluid"
-                              alt="Slider Img"
-                            />
-                          </div>
-                          <div className="service-img">
-                            <ImageWithBasePath
-                              src="assets/img/services/service-slider-03.jpg"
-                              className="img-fluid"
-                              alt="Slider Img"
-                            />
-                          </div>
-                          <div className="service-img">
-                            <ImageWithBasePath
-                              src="assets/img/services/service-slider-04.jpg"
-                              className="img-fluid"
-                              alt="Slider Img"
-                            />
-                          </div>
-                          <div className="service-img">
-                            <ImageWithBasePath
-                              src="assets/img/services/service-slider-05.jpg"
-                              className="img-fluid"
-                              alt="Slider Img"
-                            />
-                          </div>
-                          <div className="service-img">
-                            <ImageWithBasePath
-                              src="assets/img/services/service-slider-06.jpg"
-                              className="img-fluid"
-                              alt="Slider Img"
-                            />
-                          </div>
-                        </Slider>
-                        <Link
-                          to="#"
-                          onClick={() => setOpen(true)}
-                          
-                          className="btn btn-white btn-sm view-btn"
-                        >
-                          <i className="feather icon-image me-1" />
-                          View all 20 Images
-                        </Link>
-                      </div>
-                      <Slider
-                        {...settings2}
-                        className="owl-carousel slider-nav-thumbnails reactslick nav-center"
-                      >
-                        <div>
-                          <ImageWithBasePath
-                            src="assets/img/services/service-thumb-01.jpg"
-                            className="img-fluid"
-                            alt="Slider Img"
-                          />
-                        </div>
-                        <div>
-                          <ImageWithBasePath
-                            src="assets/img/services/service-thumb-02.jpg"
-                            className="img-fluid"
-                            alt="Slider Img"
-                          />
-                        </div>
-                        <div>
-                          <ImageWithBasePath
-                            src="assets/img/services/service-thumb-03.jpg"
-                            className="img-fluid"
-                            alt="Slider Img"
-                          />
-                        </div>
-                        <div>
-                          <ImageWithBasePath
-                            src="assets/img/services/service-thumb-04.jpg"
-                            className="img-fluid"
-                            alt="Slider Img"
-                          />
-                        </div>
-                        <div>
-                          <ImageWithBasePath
-                            src="assets/img/services/service-thumb-05.jpg"
-                            className="img-fluid"
-                            alt="Slider Img"
-                          />
-                        </div>
-                        <div>
-                          <ImageWithBasePath
-                            src="assets/img/services/service-thumb-06.jpg"
-                            className="img-fluid"
-                            alt="Slider Img"
-                          />
-                        </div>
-                      </Slider>
-                    </div>
-                    {/* /Slider */}
+               
                     <div className="accordion service-accordion">
                       <div className="accordion-item mb-4">
                         <h2 className="accordion-header">
@@ -292,112 +233,69 @@ const ServiceDetails1 = () => {
                               Read More
                             </Link>
                             <div className="bg-light-200 p-3 offer-wrap">
-                              <h4 className="mb-3">Services Offered</h4>
-                              <div className="offer-item d-md-flex align-items-center justify-content-between bg-white mb-2">
-                                <div className="d-sm-flex align-items-center mb-2">
-                                  <span className="avatar avatar-lg flex-shrink-0 me-2 mb-2">
-                                    <ImageWithBasePath
-                                      src="assets/img/services/service-thumb-03.jpg"
-                                      alt="img"
-                                      className="br-10"
-                                    />
-                                  </span>
-                                  <div className="mb-2">
-                                    <h6 className="fs-16 fw-medium">
-                                      Electrical Repairs
-                                    </h6>
-                                    <p className="fs-14">
-                                      Fixing faulty wiring, outlets, switches,
-                                      and more to ensure.
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="pb-3">
-                                  <h6 className="fs-16 fw-medium text-primary mb-0">
-                                    $32.00
-                                  </h6>
-                                  <p>30 Min</p>
-                                </div>
-                              </div>
-                              <div className="offer-item d-md-flex align-items-center justify-content-between bg-white mb-2">
-                                <div className="d-sm-flex align-items-center mb-2">
-                                  <span className="avatar avatar-lg flex-shrink-0 me-2 mb-2">
-                                    <ImageWithBasePath
-                                      src="assets/img/services/service-thumb-06.jpg"
-                                      alt="img"
-                                      className="br-10"
-                                    />
-                                  </span>
-                                  <div className="mb-2">
-                                    <h6 className="fs-16 fw-medium">
-                                      Panel Upgrades
-                                    </h6>
-                                    <p>
-                                      Upgrade your electrical panel to handle
-                                      increased power.
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="pb-3">
-                                  <h6 className="fs-16 fw-medium text-primary mb-0">
-                                    $30.00
-                                  </h6>
-                                  <p>30 Min</p>
-                                </div>
-                              </div>
-                              <div className="offer-item d-md-flex align-items-center justify-content-between bg-white mb-2">
-                                <div className="d-sm-flex align-items-center mb-2">
-                                  <span className="avatar avatar-lg flex-shrink-0 me-2 mb-2">
-                                    <ImageWithBasePath
-                                      src="assets/img/services/service-thumb-05.jpg"
-                                      alt="img"
-                                      className="br-10"
-                                    />
-                                  </span>
-                                  <div className="mb-2">
-                                    <h6 className="fs-16 fw-medium">
-                                      Troubleshooting &amp; Diagnostics
-                                    </h6>
-                                    <p>
-                                      Identify and resolve electrical issues
-                                      quickly and effectively.
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="pb-3">
-                                  <h6 className="fs-16 fw-medium text-primary mb-0">
-                                    $40.00
-                                  </h6>
-                                  <p>40 Min</p>
-                                </div>
-                              </div>
-                              <div className="offer-item d-md-flex align-items-center justify-content-between bg-white">
-                                <div className="d-sm-flex align-items-center mb-2">
-                                  <span className="avatar avatar-lg flex-shrink-0 me-2 mb-2">
-                                    <ImageWithBasePath
-                                      src="assets/img/services/service-thumb-04.jpg"
-                                      alt="img"
-                                      className="br-10"
-                                    />
-                                  </span>
-                                  <div className="mb-2">
-                                    <h6 className="fs-16 fw-medium">
-                                      Lighting Installation &amp; Maintenance
-                                    </h6>
-                                    <p>
-                                      Install and maintain energy-efficient
-                                      lighting solutions
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="pb-3">
-                                  <h6 className="fs-16 fw-medium text-primary mb-0">
-                                    $22.00
-                                  </h6>
-                                  <p>20 Min</p>
-                                </div>
-                              </div>
-                            </div>
+  <h4 className="mb-3">Services Offered</h4>
+  
+  {priceLoading ? (
+    <div className="text-center py-4">
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+      <p className="mt-2">Loading prices...</p>
+    </div>
+  ) : priceError ? (
+    <div className="alert alert-danger d-flex align-items-center justify-content-between">
+      <div>{priceError}</div>
+      <button 
+        className="btn btn-sm btn-outline-danger"
+        onClick={fetchServicePrices}
+      >
+        Try Again
+      </button>
+    </div>
+  ) : servicePrices.length > 0 ? (
+    servicePrices.map((price) => (
+      <div 
+        key={price.id}
+        className={`offer-item d-md-flex align-items-center justify-content-between mb-2 ${selectedPrice?.id === price.id ? 'bg-primary-light border-primary' : 'bg-white'}`}
+        style={{
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          border: selectedPrice?.id === price.id ? '1px solid #0d6efd' : '1px solid #dee2e6',
+          borderRadius: '8px',
+          padding: '12px'
+        }}
+        onClick={() => setSelectedPrice(price)}
+      >
+        <div className="d-sm-flex align-items-center mb-2">
+          <span className="avatar avatar-lg flex-shrink-0 me-2 mb-2">
+            {selectedPrice?.id === price.id ? (
+              <i className="fas fa-check-circle text-primary fs-4"></i>
+            ) : (
+              <i className="far fa-circle text-muted fs-4"></i>
+            )}
+          </span>
+          <div className="mb-2">
+            <h6 className="fs-16 fw-medium">
+              {price.service_price_for}
+            </h6>
+            <p className="fs-14 text-muted">
+              Original Price: &#8377;{price.service_price_rate}
+            </p>
+          </div>
+        </div>
+        <div className="pb-3">
+          <h6 className="fs-16 fw-medium text-primary mb-0">
+          &#8377;{price.service_price_amount}
+          </h6>
+        </div>
+      </div>
+    ))
+  ) : (
+    <div className="alert alert-info">
+      No pricing options available for this service
+    </div>
+  )}
+</div>
                           </div>
                         </div>
                       </div>
@@ -443,7 +341,7 @@ const ServiceDetails1 = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="accordion-item mb-4">
+                      {/* <div className="accordion-item mb-4">
                         <h2 className="accordion-header">
                           <button
                             className="accordion-button p-0"
@@ -537,8 +435,8 @@ const ServiceDetails1 = () => {
                             </Slider>
                           </div>
                         </div>
-                      </div>
-                      <div className="accordion-item mb-4">
+                      </div> */}
+                      {/* <div className="accordion-item mb-4">
                         <h2 className="accordion-header">
                           <button
                             className="accordion-button p-0"
@@ -572,7 +470,7 @@ const ServiceDetails1 = () => {
                             />
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="accordion-item mb-0">
                         <h2 className="accordion-header">
                           <button
@@ -714,407 +612,7 @@ const ServiceDetails1 = () => {
                     </div>
                   </div>
                 </div>
-                <div className="card border-0 mb-xl-0 mb-4">
-                  <div className="card-body">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap">
-                      <h4 className="mb-3">Reviews (45)</h4>
-                      <Link
-                        to="#"
-                        data-bs-toggle="modal"
-                        data-bs-target="#add-review"
-                        className="btn btn-dark btn-sm mb-3"
-                      >
-                        Write a Review
-                      </Link>
-                    </div>
-                    <div className="row align-items-center">
-                      <div className="col-md-5">
-                        <div className="rating-item bg-light-500 text-center mb-3">
-                          <h5 className="mb-3">
-                            Customer Reviews &amp; Ratings
-                          </h5>
-                          <div className="d-inline-flex align-items-center justify-content-center">
-                            <i className="ti ti-star-filled text-warning me-1" />
-                            <i className="ti ti-star-filled text-warning me-1" />
-                            <i className="ti ti-star-filled text-warning me-1" />
-                            <i className="ti ti-star-filled text-warning me-1" />
-                            <i className="ti ti-star-filled text-warning" />
-                          </div>
-                          <p className="mb-3">(4.9 out of 5.0)</p>
-                          <p className="text-gray-9">Based On 2,459 Reviews</p>
-                        </div>
-                      </div>
-                      <div className="col-md-7">
-                        <div className="rating-progress mb-3">
-                          <div className="d-flex align-items-center mb-2">
-                            <p className="me-2 text-nowrap mb-0">
-                              5 Star Ratings
-                            </p>
-                            <div
-                              className="progress w-100"
-                              role="progressbar"
-                              aria-valuenow={90}
-                              aria-valuemin={0}
-                              aria-valuemax={100}
-                            >
-                              <div
-                                className="progress-bar bg-warning"
-                                style={{ width: '90%' }}
-                              />
-                            </div>
-                            <p className="progress-count ms-2">2,547</p>
-                          </div>
-                          <div className="d-flex align-items-center mb-2">
-                            <p className="me-2 text-nowrap mb-0">
-                              4 Star Ratings
-                            </p>
-                            <div
-                              className="progress mb-0 w-100"
-                              role="progressbar"
-                              aria-valuenow={80}
-                              aria-valuemin={0}
-                              aria-valuemax={100}
-                            >
-                              <div
-                                className="progress-bar bg-warning"
-                                style={{ width: '80%' }}
-                              />
-                            </div>
-                            <p className="progress-count ms-2">1,245</p>
-                          </div>
-                          <div className="d-flex align-items-center mb-2">
-                            <p className="me-2 text-nowrap mb-0">
-                              3 Star Ratings
-                            </p>
-                            <div
-                              className="progress mb-0 w-100"
-                              role="progressbar"
-                              aria-valuenow={70}
-                              aria-valuemin={0}
-                              aria-valuemax={100}
-                            >
-                              <div
-                                className="progress-bar bg-warning"
-                                style={{ width: '70%' }}
-                              />
-                            </div>
-                            <p className="progress-count ms-2">600</p>
-                          </div>
-                          <div className="d-flex align-items-center mb-2">
-                            <p className="me-2 text-nowrap mb-0">
-                              2 Star Ratings
-                            </p>
-                            <div
-                              className="progress mb-0 w-100"
-                              role="progressbar"
-                              aria-valuenow={90}
-                              aria-valuemin={0}
-                              aria-valuemax={100}
-                            >
-                              <div
-                                className="progress-bar bg-warning"
-                                style={{ width: '60%' }}
-                              />
-                            </div>
-                            <p className="progress-count ms-2">560</p>
-                          </div>
-                          <div className="d-flex align-items-center">
-                            <p className="me-2 text-nowrap mb-0">
-                              1 Star Ratings
-                            </p>
-                            <div
-                              className="progress mb-0 w-100"
-                              role="progressbar"
-                              aria-valuenow={40}
-                              aria-valuemin={0}
-                              aria-valuemax={100}
-                            >
-                              <div
-                                className="progress-bar bg-warning"
-                                style={{ width: '40%' }}
-                              />
-                            </div>
-                            <p className="progress-count ms-2">400</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="card review-item mb-3">
-                      <div className="card-body p-3">
-                        <div className="review-info">
-                          <div className="d-flex align-items-center justify-content-between flex-wrap">
-                            <div className="d-flex align-items-center mb-2">
-                              <span className="avatar avatar-lg me-2 flex-shrink-0">
-                                <ImageWithBasePath
-                                  src="assets/img/profiles/avatar-01.jpg"
-                                  className="rounded-circle"
-                                  alt="img"
-                                />
-                              </span>
-                              <div>
-                                <h6 className="fs-16 fw-medium">
-                                  Adrian Hendriques
-                                </h6>
-                                <div className="d-flex align-items-center flex-wrap date-info">
-                                  <p className="fs-14 mb-0">2 days ago</p>
-                                  <p className="fs-14 mb-0">
-                                    Excellent service!
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <span className="badge bg-success d-inline-flex align-items-center mb-2">
-                              <i className="ti ti-star-filled me-1" />5
-                            </span>
-                          </div>
-                          <p className="mb-2">
-                            The electricians were prompt, professional, and
-                            resolved our issues quickly.did a fantastic job
-                            upgrading our electrical panel. Highly recommend
-                            them for any electrical work.
-                          </p>
-                          <div className="d-flex align-items-center justify-content-between flex-wrap like-info">
-                            <div className="d-inline-flex align-items-center">
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-up me-2" />
-                                Reply
-                              </Link>
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-up me-2" />
-                                Like
-                              </Link>
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center"
-                              >
-                                <i className="ti ti-thumb-down me-2" />
-                                Dislike
-                              </Link>
-                            </div>
-                            <div className="d-inline-flex align-items-center">
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-up me-2" />
-                                45
-                              </Link>
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-down me-2" />
-                                21
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-info reply mt-2 p-3">
-                          <div className="d-flex align-items-center justify-content-between flex-wrap">
-                            <div className="d-flex align-items-center mb-2">
-                              <span className="avatar avatar-lg me-2 flex-shrink-0">
-                                <ImageWithBasePath
-                                  src="assets/img/profiles/avatar-02.jpg"
-                                  className="rounded-circle"
-                                  alt="img"
-                                />
-                              </span>
-                              <div>
-                                <h6 className="fs-16 fw-medium">
-                                  Stephen Vance
-                                </h6>
-                                <div className="d-flex align-items-center flex-wrap date-info">
-                                  <p className="fs-14 mb-0">2 days ago</p>
-                                  <p className="fs-14 mb-0">
-                                    Excellent service!
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <span className="badge bg-success d-inline-flex align-items-center mb-2">
-                              <i className="ti ti-star-filled me-1" />4
-                            </span>
-                          </div>
-                          <p className="mb-2">
-                            Thank You!!! For Your Appreciation!!!
-                          </p>
-                          <div className="d-flex align-items-center justify-content-between flex-wrap like-info">
-                            <div className="d-inline-flex align-items-center flex-wrap">
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-up me-2" />
-                                Reply
-                              </Link>
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-up me-2" />
-                                Like
-                              </Link>
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center"
-                              >
-                                <i className="ti ti-thumb-down me-2" />
-                                Dislike
-                              </Link>
-                            </div>
-                            <div className="d-inline-flex align-items-center">
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-up me-2" />
-                                45
-                              </Link>
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-down me-2" />
-                                20
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="card review-item mb-3">
-                      <div className="card-body p-3">
-                        <div className="review-info">
-                          <div className="d-flex align-items-center justify-content-between flex-wrap">
-                            <div className="d-flex align-items-center mb-2">
-                              <span className="avatar avatar-lg me-2 flex-shrink-0">
-                                <ImageWithBasePath
-                                  src="assets/img/profiles/avatar-03.jpg"
-                                  className="rounded-circle"
-                                  alt="img"
-                                />
-                              </span>
-                              <div>
-                                <h6 className="fs-16 fw-medium">Don Rosales</h6>
-                                <div className="d-flex align-items-center flex-wrap date-info">
-                                  <p className="fs-14 mb-0">2 days ago</p>
-                                  <p className="fs-14 mb-0">Great Service!</p>
-                                </div>
-                              </div>
-                            </div>
-                            <span className="badge bg-danger d-inline-flex align-items-center mb-2">
-                              <i className="ti ti-star-filled me-1" />1
-                            </span>
-                          </div>
-                          <p className="mb-2">
-                            The quality of work was exceptional, and they left
-                            the site clean and tidy. I was impressed by their
-                            attention to detail and commitment to safety
-                            standards. Highly recommend their services!
-                          </p>
-                          <div className="d-flex align-items-center justify-content-between flex-wrap like-info">
-                            <div className="d-inline-flex align-items-center flex-wrap">
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-up me-2" />
-                                Reply
-                              </Link>
-                            </div>
-                            <div className="d-inline-flex align-items-center">
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-up me-2" />
-                                15
-                              </Link>
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-down me-2" />1
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="card review-item mb-3">
-                      <div className="card-body p-3">
-                        <div className="review-info">
-                          <div className="d-flex align-items-center justify-content-between flex-wrap">
-                            <div className="d-flex align-items-center mb-2">
-                              <span className="avatar avatar-lg me-2 flex-shrink-0">
-                                <ImageWithBasePath
-                                  src="assets/img/profiles/avatar-04.jpg"
-                                  className="rounded-circle"
-                                  alt="img"
-                                />
-                              </span>
-                              <div>
-                                <h6 className="fs-16 fw-medium">Paul Bronk</h6>
-                                <div className="d-flex align-items-center flex-wrap date-info">
-                                  <p className="fs-14 mb-0">2 days ago</p>
-                                  <p className="fs-14 mb-0">
-                                    Reliable and Trustworthy!
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <span className="badge bg-success d-inline-flex align-items-center mb-2">
-                              <i className="ti ti-star-filled me-1" />1
-                            </span>
-                          </div>
-                          <p className="mb-2">
-                            The quality of work was exceptional, and they left
-                            the site clean and tidy. I was impressed by their
-                            attention to detail and commitment to safety
-                            standards. Highly recommend their services!
-                          </p>
-                          <div className="d-flex align-items-center justify-content-between flex-wrap like-info">
-                            <div className="d-inline-flex align-items-center flex-wrap">
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-up me-2" />
-                                Reply
-                              </Link>
-                            </div>
-                            <div className="d-inline-flex align-items-center">
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-up me-2" />
-                                10
-                              </Link>
-                              <Link
-                                to="#"
-                                className="d-inline-flex align-items-center me-2"
-                              >
-                                <i className="ti ti-thumb-down me-2" />2
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <Link to="#" className="btn btn-light btn-sm">
-                        Load More
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+              
               </div>
               <div className="col-xl-4 theiaStickySidebar">
               <StickyBox>
@@ -1124,13 +622,23 @@ const ServiceDetails1 = () => {
                       <div className="d-flex align-items-center">
                         <div className="mb-3">
                           <p className="fs-14 mb-0">Starts From</p>
-                          <h4>
+                          {/* <h4>
                             <span className="display-6 fw-bold">$457</span>
                             <span className="text-decoration-line-through text-default">
                               {' '}
                               $875
                             </span>
-                          </h4>
+                          </h4> */}
+                          <h4>
+  <span className="display-6 fw-bold">
+  &#8377;{selectedPrice?.service_price_amount || '0'}
+  </span>
+  {selectedPrice?.service_price_rate && (
+    <span className="text-decoration-line-through text-default">
+      {' '}${selectedPrice.service_price_rate}
+    </span>
+  )}
+</h4>
                         </div>
                       </div>
                       <span className="badge bg-success mb-3 d-inline-flex align-items-center fw-medium">
@@ -1156,137 +664,7 @@ const ServiceDetails1 = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="card border-0">
-                  <div className="card-body">
-                    <h4 className="mb-3">Service Provider</h4>
-                    <div className="provider-info text-center bg-light-500 p-3 mb-3">
-                      <div className="avatar avatar-xl mb-3">
-                        <ImageWithBasePath
-                          src="assets/img/profiles/avatar-02.jpg"
-                          alt="img"
-                          className="img-fluid rounded-circle"
-                        />
-                        <span className="service-active-dot">
-                          <i className="ti ti-check" />
-                        </span>
-                      </div>
-                      <h5>Thomas Herzberg</h5>
-                      <p className="fs-14">
-                        <i className="ti ti-star-filled text-warning me-2" />
-                        <span className="text-gray-9 fw-semibold">
-                          4.9
-                        </span>{' '}
-                        (255 reviews)
-                      </p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between mb-3">
-                      <h6 className="fs-16 fw-medium mb-0">
-                        <i className="ti ti-user text-default me-2" />
-                        Member Since
-                      </h6>
-                      <p>14 Apr 2023</p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between mb-3">
-                      <h6 className="fs-16 fw-medium mb-0">
-                        <i className="ti ti-map-pin me-1" />
-                        Address
-                      </h6>
-                      <p>Hanover, Maryland</p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between mb-3">
-                      <h6 className="fs-16 fw-medium mb-0">
-                        <i className="ti ti-mail me-1" />
-                        Email
-                      </h6>
-                      <p>thomasxxx@example.com</p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between mb-3">
-                      <h6 className="fs-16 fw-medium mb-0">
-                        <i className="ti ti-phone me-1" />
-                        Phone
-                      </h6>
-                      <p>+1 888 8XX XXXX</p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between mb-3">
-                      <h6 className="fs-16 fw-medium mb-0">
-                        <i className="ti ti-file-text me-1" />
-                        No of Listings
-                      </h6>
-                      <p>03</p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between mb-3">
-                      <h6 className="fs-16 fw-medium">Social Profiles</h6>
-                      <div className="d-flex align-items-center">
-                        <div className="social-icon">
-                          <Link to="#" className="me-2">
-                            <ImageWithBasePath
-                              src="assets/img/icons/fb.svg"
-                              className="img"
-                              alt="icon"
-                            />
-                          </Link>
-                          <Link to="#" className="me-2">
-                            <ImageWithBasePath
-                              src="assets/img/icons/instagram.svg"
-                              className="img"
-                              alt="icon"
-                            />
-                          </Link>
-                          <Link to="#" className="me-2">
-                            <ImageWithBasePath
-                              src="assets/img/icons/twitter.svg"
-                              className="img"
-                              alt="icon"
-                            />
-                          </Link>
-                          <Link to="#" className="me-2">
-                            <ImageWithBasePath
-                              src="assets/img/icons/whatsapp.svg"
-                              className="img"
-                              alt="icon"
-                            />
-                          </Link>
-                          <Link to="#" className="me-2">
-                            <ImageWithBasePath
-                              src="assets/img/icons/youtube.svg"
-                              className="img"
-                              alt="icon"
-                            />
-                          </Link>
-                          <Link to="#">
-                            <ImageWithBasePath
-                              src="assets/img/icons/linkedin.svg"
-                              className="img"
-                              alt="icon"
-                            />
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row border-top pt-3 g-2">
-                      <div className="col-sm-6">
-                        <Link
-                          to="#"
-                          data-bs-toggle="modal"
-                          data-bs-target="#add-contact"
-                          className="btn btn-dark btn-lg fs-14 px-1 w-100"
-                        >
-                          <i className="ti ti-user me-2" />
-                          Contact Provider
-                        </Link>
-                      </div>
-                      <div className="col-sm-6">
-                        <Link
-                          to='#'
-                          className="btn btn-light btn-lg fs-14 px-1 w-100"
-                        >
-                          <i className="ti ti-user me-2" />
-                          Chat Now
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              
                 <div className="card border-0">
                   <div className="card-body">
                     <h4 className="mb-3">Business Hours</h4>

@@ -1,32 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import * as Icon from 'react-feather';
+import axios from "axios";
 
 interface CityModalProps {
-  onSelectCity: (city: string) => void;
+  onSelectCity: (city: string, branchId: number) => void;
   onClose?: () => void;
   selectedCity?: string | null;
+}
+
+interface Branch {
+  id: number;
+  branch_name: string;
 }
 
 const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCity }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
+  const [branches, setBranches] = useState<Branch[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const cities = [
-    'Bengaluru', 'Bhopal', 'Bhubaneswar', 'Cuttack', 'Greater Noida',
-    'Gurugram', 'Hosur', 'Howrah', 'Hyderabad', 'Kolkata', 'Mangaluru',
-    'Mumbai', 'Mysuru', 'Nashik', 'Navi Mumbai', 'New Delhi', 'Noida',
-    'Pune', 'Ranchi', 'Secunderabad', 'Southegowdanahalli', 'Surat',
-    'Vadodara', 'Visakhapatnam'
-  ];
+  const fetchCities = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await axios.get('http://agscare.site/crmapi/public/api/panel-fetch-web-branch-out');
+      const branchList = response.data?.branch || [];
+      setBranches(branchList);
+    } catch (error) {
+      console.error('Failed to fetch cities:', error);
+      setError('Failed to load cities. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
+    fetchCities();
+    
     const timer = setTimeout(() => setIsVisible(true), 50);
     return () => clearTimeout(timer);
   }, []);
 
   const handleClose = () => {
     setIsVisible(false);
-    // Allow animation to complete before actually closing
     setTimeout(() => {
       if (onClose) onClose();
     }, 300);
@@ -54,7 +71,6 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
       whiteSpace: 'nowrap'
     };
 
-    // Highlight if this is the current city OR if it's being hovered
     if (hoveredCity === city || selectedCity === city) {
       return {
         ...baseStyle,
@@ -156,24 +172,47 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
           maxHeight: '50vh',
           overflowY: 'auto'
         }}>
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            margin: '0 -4px'
-          }}>
-            {cities.map(city => (
-              <button
-                key={city}
-                onClick={() => onSelectCity(city)}
-                style={getButtonStyle(city)}
-                onMouseEnter={() => setHoveredCity(city)}
-                onMouseLeave={() => setHoveredCity(null)}
+          {isLoading ? (
+            <div className="d-flex justify-content-center align-items-center py-4">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+              <span className="ms-3">Loading cities...</span>
+            </div>
+          ) : error ? (
+            <div className="d-flex flex-column align-items-center p-3">
+              <div className="d-flex align-items-center text-danger mb-2">
+                <Icon.AlertCircle className="me-2" size={20} />
+                <span>{error}</span>
+              </div>
+              <button 
+                className="btn btn-sm btn-outline-danger"
+                onClick={fetchCities}
               >
-                {city}
+                <Icon.RefreshCw size={14} className="me-1" />
+                Try Again
               </button>
-            ))}
-          </div>
+            </div>
+          ) : (
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              margin: '0 -4px'
+            }}>
+              {branches.map(branch => (
+                <button
+                  key={branch.id}
+                  onClick={() => onSelectCity(branch.branch_name, branch.id)}
+                  style={getButtonStyle(branch.branch_name)}
+                  onMouseEnter={() => setHoveredCity(branch.branch_name)}
+                  onMouseLeave={() => setHoveredCity(null)}
+                >
+                  {branch.branch_name}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div style={{

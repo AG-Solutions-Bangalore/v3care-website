@@ -9174,12 +9174,12 @@ a.table-name:hover span {
   height: 100%;
   background-repeat: no-repeat;
 }
-.price-body ul li.active:before {
+/* .price-body ul li.active:before {
   background-image: url("../img/icons/check-icon.svg");
 }
 .price-body ul li.inactive:before {
   background-image: url("../img/icons/close-icon.svg");
-}
+} */
 .price-body .btn-choose {
   background: #EDF3F9;
   border-radius: 8px;

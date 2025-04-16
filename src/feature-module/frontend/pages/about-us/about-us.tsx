@@ -64,23 +64,14 @@ const AboutUs = () => {
             </div>
             <div className="col-lg-6">
               <div className="about-content">
-                <h6>ABOUT OUR COMPANY</h6>
+                <h6>ABOUT V3 CARE</h6>
                 <h2>Best Solution For Cleaning Services</h2>
                 <p>
-                  Welcome to Truelysell, your premier destination for connecting
-                  with top-rated service providers and finding the perfect match
-                  for your needs. Our platform is designed to simplify the
-                  process of discovering, evaluating, and hiring trusted
-                  professionals across a wide range of services, from home
-                  improvement and IT support to personal care and more.
+                  Welcome to V3 care. the best cleaning service provider from South India- Bangalore. We take great pride in offering all of our clients a reliable, trustworthy and affordable service. we’ve steadily grown and built a reputation for excellence. We guarantee that you will receive the highest standard of service for the best possible price. V3 care offers impeccable service from start to finish. We offer a broad range of cleaning services for Residential, corporate ,Industrial and others, throughout the Bangalore.
+                  
                 </p>
                 <p>
-                  At Truelysell, our mission is to bridge the gap between
-                  service providers and customers by offering a seamless and
-                  efficient marketplace experience. We aim to empower both
-                  parties by providing a reliable platform where quality,
-                  transparency, and customer satisfaction are our top
-                  priorities.
+                We take the time to understand each of our client’s needs, in order to ensure that they receive the best possible bespoke cleaning services for their premises. Our cleaning staff are well trained, motivated and supported by a team of local, knowledgable and experienced operational managers.
                 </p>
                 <div className="row">
                   <div className="col-md-6">
@@ -135,7 +126,7 @@ const AboutUs = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4 d-flex">
+            <div className="col-md-3 d-flex">
               <div className=" card work-box flex-fill">
                 <div className="card-body">
                   <div className="work-icon">
@@ -143,7 +134,7 @@ const AboutUs = () => {
                       <ImageWithBasePath src="assets/img/icons/about-hands.svg" alt="img" />
                     </span>
                   </div>
-                  <h5>1. Search and Browse</h5>
+                  <h5>Employess</h5>
                   <p>
                     Customers can browse or search for specific products or
                     services using categories, filters, or search bars.
@@ -152,7 +143,7 @@ const AboutUs = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-4 d-flex">
+            <div className="col-md-3 d-flex">
               <div className=" card work-box flex-fill">
                 <div className="card-body">
                   <div className="work-icon">
@@ -163,7 +154,7 @@ const AboutUs = () => {
                       />
                     </span>
                   </div>
-                  <h5>2 Add to Cart or Book Now</h5>
+                  <h5>Offices</h5>
                   <p>
                     Customers can add items to their shopping cart. For
                     services, they may select a service and proceed to book.
@@ -172,7 +163,7 @@ const AboutUs = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-4 d-flex">
+            <div className="col-md-3 d-flex">
               <div className=" card work-box flex-fill">
                 <div className="card-body">
                   <div className="work-icon">
@@ -180,7 +171,26 @@ const AboutUs = () => {
                       <ImageWithBasePath src="assets/img/icons/about-book.svg" alt="img" />
                     </span>
                   </div>
-                  <h5>Amazing Places</h5>
+                  <h5>Clients</h5>
+                  <p>
+                    The Customer fulfills the order by either providing the
+                    service to the buyer.
+                  </p>
+                  <h4>03</h4>
+                </div>
+              </div>
+            </div>
+
+
+            <div className="col-md-3 d-flex">
+              <div className=" card work-box flex-fill">
+                <div className="card-body">
+                  <div className="work-icon">
+                    <span>
+                      <ImageWithBasePath src="assets/img/icons/about-book.svg" alt="img" />
+                    </span>
+                  </div>
+                  <h5>Completed</h5>
                   <p>
                     The Customer fulfills the order by either providing the
                     service to the buyer.
@@ -199,7 +209,7 @@ const AboutUs = () => {
           <div className="row align-items-center">
             <div className="col-md-6">
               <div className="choose-content">
-                <h2>Why Choose Us</h2>
+                <h2>V3 care Promises</h2>
                 <p>
                   Choose us for reliable, personalized service and exceptional
                   results.
@@ -215,7 +225,7 @@ const AboutUs = () => {
                         aria-expanded="true"
                         aria-controls="panelsStayOpen-collapseOne"
                       >
-                        24/7 Supports
+                        Trained Staff  
                       </button>
                     </h2>
                     <div
@@ -244,7 +254,8 @@ const AboutUs = () => {
                         aria-expanded="false"
                         aria-controls="panelsStayOpen-collapseTwo"
                       >
-                        Client’s reviews
+                        Complete Background Check
+                      
                       </button>
                     </h2>
                     <div
@@ -273,7 +284,8 @@ const AboutUs = () => {
                         aria-expanded="false"
                         aria-controls="panelsStayOpen-collapseThree"
                       >
-                        Professional Team
+                        Complete Staff Profiling
+                       
                       </button>
                     </h2>
                     <div
@@ -302,7 +314,8 @@ const AboutUs = () => {
                         aria-expanded="false"
                         aria-controls="panelsStayOpen-collapseThree"
                       >
-                        Best Services
+                        Complete Character Check
+                       
                       </button>
                     </h2>
                     <div
@@ -390,6 +403,87 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
+
+
+
+      {/* Our Team */}
+      <div className="about-sec">
+        <div className="container">
+          <div className="row align-items-center">
+
+          <div className="col-lg-6">
+              <div className="about-content">
+                <h6>OUR TEAM</h6>
+                <h2>Best Solution For Cleaning Services</h2>
+                <p>
+                Our team are highly trained, full-time professional cleaners,totally reliable,providing quality cleaning services in Bangalore at affordable prices. We pride ourselves in listening to our customers, ensuring they receive a cleaning service they can trust and rely on whether it is Residential, commercial or corporate clean, we will be there when you need us.You need a professional service which provides consistent high quality cleaning to meet your own very high standards. We can customize our services based on your needs.
+                  
+                </p>
+               
+                <div className="row">
+                  <div className="col-md-6">
+                    <ul>
+                      <li className="text-truncate">
+                        <i className="ti ti-circle-check-filled text-dark me-1" />
+                        We prioritize quality and reliability
+                      </li>
+                      <li className="text-truncate">
+                        <i className="ti ti-circle-check-filled text-dark me-1" />
+                        WeSaving your time and effort.
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="col-md-6">
+                    <ul>
+                      <li className="text-truncate">
+                        <i className="ti ti-circle-check-filled text-dark me-1" />
+                        Clear, detailed service listings &amp; reviews
+                      </li>
+                      <li className="text-truncate">
+                        <i className="ti ti-circle-check-filled text-dark me-1" />{" "}
+                        Smooth and satisfactory experience.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div className="col-lg-6">
+              <div className="about-img d-none d-md-block">
+                <div className="about-exp">
+                  <span>12+ years of experiences</span>
+                </div>
+                <div className="abt-img">
+                  <ImageWithBasePath
+                    src="assets/img/providers/provider-23.jpg"
+                    className="img-fluid"
+                    alt="img"
+                  />
+                </div>
+              </div>
+            </div>
+
+
+            
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
       {/* /Choose Us Section */}
       {/* Providers Section */}
       <section className="providers-section abt-provider">

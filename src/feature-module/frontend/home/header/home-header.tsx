@@ -37,6 +37,7 @@ const HomeHeader: React.FC<props> = ({ type }) => {
     setCurrentCity(storedCity);
   
     const handleCityChange = (event: Event) => {
+      
       const city = (event as CustomEvent).detail;
       setCurrentCity(city);
     };
@@ -56,9 +57,9 @@ const HomeHeader: React.FC<props> = ({ type }) => {
   const handleCityClick = () => {
     setShowCityModal(true);
   };
-
-  const handleCitySelect = (city: string) => {
+  const handleCitySelect = (city: string, branchId: number) => {
     localStorage.setItem('city', city);
+    localStorage.setItem('branch_id', branchId.toString());
     setCurrentCity(city);
     setShowCityModal(false);
   };

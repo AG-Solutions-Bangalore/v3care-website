@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { publicRoutes } from './router.link';
 import { Route, Routes } from 'react-router-dom';
@@ -17,22 +16,17 @@ const AllRoutes = () => {
     }
   }, []);
 
-  // const handleCitySelect = (city: string) => {
-  //   localStorage.setItem('city', city);
-  //   setCurrentCity(city);
-  //   setShowCityModal(false);
-  // };
-  const handleCitySelect = (city: string) => {
+  const handleCitySelect = (city: string, branchId: number) => {
     localStorage.setItem('city', city);
+    localStorage.setItem('branch_id', branchId.toString());
     setCurrentCity(city);
     setShowCityModal(false);
   
-    // Dispatch a custom event to notify others
+    // Dispatch the city name as a string, not an object
     window.dispatchEvent(new CustomEvent('cityChanged', { detail: city }));
   };
   
   const handleCloseModal = () => {
-    // Only allow closing if a city is already selected
     if (currentCity) {
       setShowCityModal(false);
     }

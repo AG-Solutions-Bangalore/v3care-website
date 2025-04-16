@@ -37,7 +37,7 @@ const PagesRoutes = () => {
       route: Route,
     },
     {
-      path: '/categories',
+      path: '/categories/:id',
       name: 'categories',
       element: <Categories />,
       route: Route,

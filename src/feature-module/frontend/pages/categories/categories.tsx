@@ -5,6 +5,7 @@ import 'aos/dist/aos.css';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import axios from 'axios';
 import * as Icon from 'react-feather';
+import BASE_URL from '../../../baseConfig/BaseUrl';
 
 interface Service {
   id: number;
@@ -34,8 +35,8 @@ const Categories = () => {
       setLoading(true);
       setError(null);
       const url = id 
-        ? `http://agscare.site/crmapi/public/api/panel-fetch-web-service-out/${id}`
-        : 'http://agscare.site/crmapi/public/api/panel-fetch-web-service-out/2';
+        ? `${BASE_URL}/api/panel-fetch-web-service-out/${id}`
+        : `${BASE_URL}/api/panel-fetch-web-service-out/2`;
       
       const response = await axios.get<{ service: Service[] }>(url);
       setServices(response.data.service || []);
@@ -51,7 +52,7 @@ const Categories = () => {
     try {
       setSubServiceLoading(true);
       const response = await axios.get<{ servicesub: ServiceSub[] }>(
-        `http://agscare.site/crmapi/public/api/panel-fetch-web-service-sub-out/${serviceId}`
+        `${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceId}`
       );
       
       if (response.data.servicesub && response.data.servicesub.length > 0) {

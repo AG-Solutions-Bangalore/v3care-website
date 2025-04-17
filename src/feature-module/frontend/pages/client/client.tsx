@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import BASE_URL from '../../../baseConfig/BaseUrl';
 
 interface Client {
   client_name: string;
@@ -26,7 +27,7 @@ const Client = () => {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await axios.get("http://agscare.site/crmapi/public/api/panel-fetch-web-clients-out");
+      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-clients-out`);
       setClients(response.data.clients || []);
     } catch (error) {
       console.error('Failed to fetch clients:', error);

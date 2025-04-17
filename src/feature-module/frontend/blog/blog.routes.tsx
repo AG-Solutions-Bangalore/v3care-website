@@ -7,7 +7,7 @@ import BlogList from './blog-list/blog-list';
 const BlogRoutes = () => {
   const all_blogs_routes = [
     {
-      path: '/blog-details',
+      path: '/blog-details/:id',
       name: 'blogDetails',
       element: <BlogDetails />,
       route: Route,

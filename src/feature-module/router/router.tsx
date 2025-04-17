@@ -3,6 +3,7 @@ import { publicRoutes } from './router.link';
 import { Route, Routes } from 'react-router-dom';
 import Feature from '../feature';
 import CityModal from '../components/CityModal';
+import ScrollToTop from '../components/ScrollToTop';
 
 const AllRoutes = () => {
   const [showCityModal, setShowCityModal] = useState<boolean>(false);
@@ -34,6 +35,7 @@ const AllRoutes = () => {
 
   return (
     <>
+    <ScrollToTop/>
       {showCityModal && (
         <CityModal 
           onSelectCity={handleCitySelect} 

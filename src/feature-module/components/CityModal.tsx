@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as Icon from 'react-feather';
 import axios from "axios";
+import BASE_URL from '../baseConfig/BaseUrl';
 
 interface CityModalProps {
   onSelectCity: (city: string, branchId: number) => void;
@@ -24,7 +25,7 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
     try {
       setIsLoading(true);
       setError(null);
-      const response = await axios.get('http://agscare.site/crmapi/public/api/panel-fetch-web-branch-out');
+      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-branch-out`);
       const branchList = response.data?.branch || [];
       setBranches(branchList);
     } catch (error) {

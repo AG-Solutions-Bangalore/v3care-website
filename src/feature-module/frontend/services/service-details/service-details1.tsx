@@ -1,30 +1,31 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Lightbox from 'yet-another-react-lightbox';
+import React, { useEffect, useState ,useRef} from 'react';
 import 'yet-another-react-lightbox/styles.css';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { all_routes } from '../../../../core/data/routes/all_routes';
-import BreadCrumb from '../../common/breadcrumb/breadCrumb';
-import VideoModal from '../../../../core/hooks/video-modal';
 import StickyBox from 'react-sticky-box';
 import axios from 'axios';
 import BASE_URL from '../../../baseConfig/BaseUrl';
 
 const ServiceDetails1 = () => {
-  const routes = all_routes;
+  const REACT_APP_GOOGLE_MAPS_KEY = "AIzaSyAk4WgZpl2DuYxnfgYLCXEQKvVLK3hJ7S0";
+let autoComplete: any;
+
+const [query, setQuery] = useState("");
+const autoCompleteRef = useRef(null);
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
   const branch_id = localStorage.getItem('branch_id');
   const city = localStorage.getItem('city');
   const [servicePrices, setServicePrices] = useState<any[]>([]);
-  const [selectedPrice, setSelectedPrice] = useState<any>(null);
   const [priceLoading, setPriceLoading] = useState(false);
   const [priceError, setPriceError] = useState<string | null>(null);
+  const [serviceCards, setServiceCards] = useState<any[]>([]);
+  const [cardLoading, setCardLoading] = useState(false);
+  const [cardError, setCardError] = useState<string | null>(null);
   const [selectedPrices, setSelectedPrices] = useState<any[]>([]);
+  const [primaryPrice, setPrimaryPrice] = useState<any>(null);
   const [formData, setFormData] = useState({
     order_date: new Date().toISOString().split('T')[0],
     order_year: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
@@ -42,21 +43,18 @@ const ServiceDetails1 = () => {
     branch_id: branch_id || '',
     order_km: '0',
     order_address: '',
+    order_url: "",
     order_flat: '',
     order_landmark: '',
     order_remarks: '',
+    order_building: "",
+    order_advance: "",
+    order_comment: "",
+    order_area: "",
+    order_discount: "",
+      order_custom: "",
+  order_custom_price: "",
   });
-  const [nav1, setNav1] = useState(null);
-  const [nav2, setNav2] = useState(null);
-  const sliderRef1 = useRef(null);
-  const sliderRef2 = useRef(null);
-  // Get data from localStorage
-
-  const [showModal, setShowModal] = useState(false);
-  const videoUrl = 'https://www.youtube.com/watch?v=Vdp6x7Bibtk';
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-  const [open, setOpen] = React.useState(false);
 
   const fetchServicePrices = async () => {
     try {
@@ -73,10 +71,6 @@ const ServiceDetails1 = () => {
       );
 
       setServicePrices(response.data.serviceprice || []);
-      // Select first price by default
-      if (response.data.serviceprice?.length > 0) {
-        setSelectedPrice(response.data.serviceprice[0]);
-      }
     } catch (error) {
       console.error('Error fetching service prices:', error);
       setPriceError('Failed to load service prices. Please try again.');
@@ -84,43 +78,104 @@ const ServiceDetails1 = () => {
       setPriceLoading(false);
     }
   };
+
+  const fetchServiceCard = async () => {
+    try {
+      setCardLoading(true);
+      setCardError(null);
+
+      const response = await axios.post(
+        `${BASE_URL}/api/panel-fetch-web-service-details-out`,
+        {
+          service_id: state?.service_id,
+          service_sub_id: state?.service_sub_id,
+        },
+      );
+
+      setServiceCards(response.data.serviceDetails || []);
+    } catch (error) {
+      console.error('Error fetching service card :', error);
+      setCardError('Failed to load service card . Please try again.');
+    } finally {
+      setCardLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (state?.service_id && branch_id) {
       fetchServicePrices();
     }
   }, [state?.service_id, state?.service_sub_id, branch_id]);
+
+  useEffect(() => {
+    if (state?.service_id) {
+      fetchServiceCard();
+    }
+  }, [state?.service_id, state?.service_sub_id]);
+
   useEffect(() => {
     if (servicePrices.length > 0) {
-      setSelectedPrices([servicePrices[0]]); // Auto-select first price
+      setSelectedPrices([servicePrices[0]]);
     }
   }, [servicePrices]);
 
+// for google map 
+const handleScriptLoad = (updateQuery: any, autoCompleteRef: any) => {
+  autoComplete = new (window as any).google.maps.places.Autocomplete(
+    autoCompleteRef.current,
+    {
+      componentRestrictions: { country: "IN" },
+    }
+  );
+
+  autoComplete.addListener("place_changed", () => {
+    handlePlaceSelect(updateQuery);
+  });
+};
+
+const handlePlaceSelect = async (updateQuery: any) => {
+  const addressObject = await autoComplete.getPlace();
+  const query = addressObject.formatted_address;
+  const url = addressObject.url;
+  updateQuery(query);
+
+  setFormData(prev => ({
+    ...prev,
+    order_address: query,
+    order_url: url
+  }));
+};
+
+useEffect(() => {
+  const loadScript = (url: string, callback: () => void) => {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    if (script.readyState) {
+      script.onreadystatechange = function () {
+        if (script.readyState === "loaded" || script.readyState === "complete") {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else {
+      script.onload = () => callback();
+    }
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  };
+
+  loadScript(
+    `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
+    () => handleScriptLoad(setQuery, autoCompleteRef)
+  );
+}, []);
+
+// google map end
   /*------------------------------------------------start----------------- */
 
-  const [timeOptions, setTimeOptions] = useState<
-    { label: string; value: string }[]
-  >([]);
-  const [selectedTime, setSelectedTime] = useState<{
-    label: string;
-    value: string;
-  } | null>(null);
-
-  // Generate time options for dropdown
-  useEffect(() => {
-    const times = [];
-    for (let hour = 0; hour < 24; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-        times.push({
-          label: timeString,
-          value: timeString,
-        });
-      }
-    }
-    setTimeOptions(times);
-  }, []);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -128,36 +183,23 @@ const ServiceDetails1 = () => {
     }));
   };
 
-  const handleTimeChange = (e: { value: { label: string; value: string } }) => {
-    setSelectedTime(e.value);
-    setFormData((prev) => ({
-      ...prev,
-      order_time: e.value.value,
-    }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      // Update form data with selected prices info
       const finalFormData = {
         ...formData,
-        order_service_price_for:
-          selectedPrices.length > 0 ? selectedPrices[0].service_price_for : '',
-        order_service_price:
-          selectedPrices.length > 0
-            ? selectedPrices[0].service_price_amount
-            : '',
-        order_amount: totalOriginalPrice.toFixed(2),
+        order_service_price_for: primaryPrice?.id || '',
+        order_service_price: primaryPrice?.service_price_amount || '',
+        order_amount: totalPrice.toFixed(2),
         order_remarks:
           selectedPrices.length > 1
-            ? `Selected services: ${selectedPrices.map((p) => p.service_price_for).join(', ')}`
+            ? `Selected services: ${selectedPrices.map((p) => p.service_price_for).join(', ')}\n${formData.order_remarks}`
             : formData.order_remarks,
       };
 
       const response = await axios.post(
-        `${BASE_URL}/api/panel-create-booking-out`,
+        `${BASE_URL}/api/panel-create-booking-outD`,
         finalFormData,
       );
 
@@ -171,64 +213,6 @@ const ServiceDetails1 = () => {
     }
   };
   /*------------------------------------------------end----------------- */
-  const two = {
-    dots: false,
-    autoplay: false,
-    slidesToShow: 6,
-    speed: 500,
-    responsive: [
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 6,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 6,
-        },
-      },
-      {
-        breakpoint: 776,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 567,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-    ],
-  };
-  const settings1 = {
-    dots: false,
-    arrows: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    asNavFor: nav2 || undefined, // Link to the second slider
-    ref: (slider: any) => (sliderRef1.current = slider), // Assign the slider ref
-  };
-
-  const settings2 = {
-    dots: false,
-    arrows: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    focusOnSelect: true,
-    asNavFor: nav1 || undefined, // Link to the first slider
-    ref: (slider: any) => (sliderRef2.current = slider), // Assign the slider ref
-  };
-  useEffect(() => {
-    setNav1(sliderRef1.current);
-    setNav2(sliderRef2.current);
-  }, []);
 
   const togglePriceSelection = (price: any) => {
     setSelectedPrices((prev) => {
@@ -240,7 +224,21 @@ const ServiceDetails1 = () => {
       }
     });
   };
-
+  useEffect(() => {
+    if (selectedPrices.length > 0) {
+      // Find the price with the smallest index in servicePrices
+      const primary = selectedPrices.reduce((prev, current) => {
+        const prevIndex = servicePrices.findIndex((p) => p.id === prev.id);
+        const currentIndex = servicePrices.findIndex(
+          (p) => p.id === current.id,
+        );
+        return prevIndex < currentIndex ? prev : current;
+      });
+      setPrimaryPrice(primary);
+    } else {
+      setPrimaryPrice(null);
+    }
+  }, [selectedPrices, servicePrices]);
   // Calculate total price
   const totalPrice = selectedPrices.reduce(
     (sum, price) => sum + parseFloat(price.service_price_amount),
@@ -253,12 +251,6 @@ const ServiceDetails1 = () => {
 
   return (
     <>
-      {/* <BreadCrumb
-        title="Service Details"
-        item1="Service"
-        item2="Service Details"
-      /> */}
-
       <div className="page-wrapper">
         <div className="content">
           <div className="container">
@@ -437,368 +429,324 @@ const ServiceDetails1 = () => {
                                 </div>
                               )}
                             </div>
-
-                                      {/* booking form  */}
-                                      <div className="bg-light-200 p-3 offer-wrap">
-                              <h4 className="mb-3">Booking Form</h4>
-
-                          
-                            </div>
-
-                                                  {/* booking form end */}
-                           
                           </div>
                         </div>
                       </div>
-                     {/* booking form  */}
+                      <div className="accordion-item mb-4">
+                        <h2 className="accordion-header">
+                          <button
+                            className="accordion-button p-0"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#include"
+                            aria-expanded="false"
+                          >
+                            Booking Form
+                          </button>
+                        </h2>
+                        <div
+                          id="include"
+                          className="accordion-collapse collapse show"
+                        >
+                          <div className="accordion-body border-0 p-0 pt-3">
+                            <div className="bg-light-200 p-3 pb-2 br-10">
+                              <form onSubmit={handleSubmit}>
+                                <div className="row">
+                                  {/* First Column */}
+                                  <div className="col-md-6">
+                                    <div className="mb-3">
+                                      <label className="form-label">Date</label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={formData.order_date}
+                                        disabled
+                                      />
+                                    </div>
 
-                  
-                     <div className="content">
-                          <div className="container">
-                            <div className="row">
-                              <div className="col-xl-12">
-                                <div className="card">
-                                  <div className="card-header">
-                                    <h4 className="card-title">Booking Form</h4>
+                                    <div className="mb-3">
+                                      <label className="form-label">Year</label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={formData.order_year}
+                                        disabled
+                                      />
+                                    </div>
+
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Referral Source
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={formData.order_refer_by}
+                                        disabled
+                                      />
+                                    </div>
+
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Customer Name{' '}
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name="order_customer"
+                                        value={formData.order_customer}
+                                        onChange={handleInputChange}
+                                        required
+                                      />
+                                    </div>
+
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Mobile Number{' '}
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="tel"
+                                        className="form-control"
+                                        name="order_customer_mobile"
+                                        value={formData.order_customer_mobile}
+                                        onChange={handleInputChange}
+                                        required
+                                      />
+                                    </div>
+
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Email{' '}
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="email"
+                                        className="form-control"
+                                        name="order_customer_email"
+                                        value={formData.order_customer_email}
+                                        onChange={handleInputChange}
+                                        required
+                                      />
+                                    </div>
                                   </div>
-                                  <div className="card-body">
-                                    <form onSubmit={handleSubmit}>
-                                      <div className="row">
-                                        {/* First Column */}
-                                        <div className="col-md-6">
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Date
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              value={formData.order_date}
-                                              disabled
-                                            />
-                                          </div>
 
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Year
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              value={formData.order_year}
-                                              disabled
-                                            />
-                                          </div>
+                                  {/* Second Column */}
+                                  <div className="col-md-6">
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Service Date{' '}
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="date"
+                                        className="form-control"
+                                        name="order_service_date"
+                                        value={formData.order_service_date}
+                                        onChange={handleInputChange}
+                                        required
+                                      />
+                                    </div>
 
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Referral Source
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              value={formData.order_refer_by}
-                                              disabled
-                                            />
-                                          </div>
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Service
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={`${state?.service_name || ''} (${formData.order_service})`}
+                                        disabled
+                                      />
+                                    </div>
 
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Customer Name{' '}
-                                              <span className="text-danger">
-                                                *
-                                              </span>
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              name="order_customer"
-                                              value={formData.order_customer}
-                                              onChange={handleInputChange}
-                                              required
-                                            />
-                                          </div>
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Service Subcategory
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={`${state?.service_sub_name || ''} (${formData.order_service_sub})`}
+                                        disabled
+                                      />
+                                    </div>
 
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Mobile Number{' '}
-                                              <span className="text-danger">
-                                                *
-                                              </span>
-                                            </label>
-                                            <input
-                                              type="tel"
-                                              className="form-control"
-                                              name="order_customer_mobile"
-                                              value={
-                                                formData.order_customer_mobile
-                                              }
-                                              onChange={handleInputChange}
-                                              required
-                                            />
-                                          </div>
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Selected Service
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={
+                                          primaryPrice
+                                            ? primaryPrice.service_price_for
+                                            : 'None selected'
+                                        }
+                                        disabled
+                                      />
+                                    </div>
 
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Email{' '}
-                                              <span className="text-danger">
-                                                *
-                                              </span>
-                                            </label>
-                                            <input
-                                              type="email"
-                                              className="form-control"
-                                              name="order_customer_email"
-                                              value={
-                                                formData.order_customer_email
-                                              }
-                                              onChange={handleInputChange}
-                                              required
-                                            />
-                                          </div>
-                                        </div>
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Service Price
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={
+                                          primaryPrice
+                                            ? `₹${primaryPrice.service_price_amount}`
+                                            : '₹0'
+                                        }
+                                        disabled
+                                      />
+                                    </div>
 
-                                        {/* Second Column */}
-                                        <div className="col-md-6">
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Service Date{' '}
-                                              <span className="text-danger">
-                                                *
-                                              </span>
-                                            </label>
-                                            <input
-                                              type="date"
-                                              className="form-control"
-                                              name="order_service_date"
-                                              value={
-                                                formData.order_service_date
-                                              }
-                                              onChange={handleInputChange}
-                                              required
-                                            />
-                                          </div>
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Time{' '}
+                                        <span className="text-danger">*</span>
+                                      </label>
 
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Service
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              value={`${state?.service_name || ''} (${formData.order_service})`}
-                                              disabled
-                                            />
-                                          </div>
-
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Service Subcategory
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              value={`${state?.service_sub_name || ''} (${formData.order_service_sub})`}
-                                              disabled
-                                            />
-                                          </div>
-
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Selected Service
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              value={
-                                                selectedPrices.length > 0
-                                                  ? selectedPrices[0]
-                                                      .service_price_for
-                                                  : 'None selected'
-                                              }
-                                              disabled
-                                            />
-                                          </div>
-
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Service Price
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              value={
-                                                selectedPrices.length > 0
-                                                  ? `₹${selectedPrices[0].service_price_amount}`
-                                                  : '₹0'
-                                              }
-                                              disabled
-                                            />
-                                          </div>
-
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Time{' '}
-                                              <span className="text-danger">
-                                                *
-                                              </span>
-                                            </label>
-                                            {/* // Replace the Dropdown with a native select */}
-                                            <select
-                                              className="form-control"
-                                              value={formData.order_time}
-                                              onChange={(e) =>
-                                                setFormData({
-                                                  ...formData,
-                                                  order_time: e.target.value,
-                                                })
-                                              }
-                                              required
-                                            >
-                                              <option value="">
-                                                Select Time
-                                              </option>
-                                              {timeOptions.map((time) => (
-                                                <option
-                                                  key={time.value}
-                                                  value={time.value}
-                                                >
-                                                  {time.label}
-                                                </option>
-                                              ))}
-                                            </select>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div className="row">
-                                        <div className="col-md-6">
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Branch ID
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              value={formData.branch_id}
-                                              disabled
-                                            />
-                                          </div>
-
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Distance (KM)
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              value={formData.order_km}
-                                              disabled
-                                            />
-                                          </div>
-                                        </div>
-
-                                        <div className="col-md-6">
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Total Amount
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              value={`₹${totalPrice.toFixed(2)}`}
-                                              disabled
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div className="row">
-                                        <div className="col-md-12">
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Address{' '}
-                                              <span className="text-danger">
-                                                *
-                                              </span>
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              name="order_address"
-                                              value={formData.order_address}
-                                              onChange={handleInputChange}
-                                              required
-                                            />
-                                          </div>
-                                        </div>
-
-                                        <div className="col-md-6">
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Flat/Apartment
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              name="order_flat"
-                                              value={formData.order_flat}
-                                              onChange={handleInputChange}
-                                            />
-                                          </div>
-                                        </div>
-
-                                        <div className="col-md-6">
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Landmark
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              name="order_landmark"
-                                              value={formData.order_landmark}
-                                              onChange={handleInputChange}
-                                            />
-                                          </div>
-                                        </div>
-
-                                        <div className="col-md-12">
-                                          <div className="mb-3">
-                                            <label className="form-label">
-                                              Remarks
-                                            </label>
-                                            <textarea
-                                              className="form-control"
-                                              name="order_remarks"
-                                              value={
-                                                selectedPrices.length > 1
-                                                  ? `Selected services: ${selectedPrices.map((p) => p.service_price_for).join(', ')}`
-                                                  : formData.order_remarks
-                                              }
-                                              // onChange={handleInputChange}
-                                              rows={3}
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div className="text-end">
-                                        <button
-                                          type="submit"
-                                          className="btn btn-primary"
-                                        >
-                                          Submit Booking
-                                        </button>
-                                      </div>
-                                    </form>
+                                      <input
+                                        type="time"
+                                        className="form-control"
+                                        value={formData.order_time}
+                                        onChange={(e) =>
+                                          setFormData({
+                                            ...formData,
+                                            order_time: e.target.value,
+                                          })
+                                        }
+                                        required
+                                      />
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
+
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Branch ID
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={formData.branch_id}
+                                        disabled
+                                      />
+                                    </div>
+
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Distance (KM)
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={formData.order_km}
+                                        disabled
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Total Amount
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        value={`₹${totalPrice.toFixed(2)}`}
+                                        disabled
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row">
+                                  <div className="col-md-12">
+                                   
+                                    <div className="mb-3">
+  <label className="form-label">
+    Address <span className="text-danger">*</span>
+  </label>
+  <input
+    className="form-control"
+    ref={autoCompleteRef}
+    id="order_address"
+    required
+    onChange={(event) => setQuery(event.target.value)}
+    placeholder="Search Places ..."
+    value={query}
+  />
+</div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Flat/Apartment
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name="order_flat"
+                                        value={formData.order_flat}
+                                        onChange={handleInputChange}
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Landmark
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name="order_landmark"
+                                        value={formData.order_landmark}
+                                        onChange={handleInputChange}
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-12">
+                                    <div className="mb-3">
+                                      <label className="form-label">
+                                        Remarks
+                                      </label>
+                                      <textarea
+                                        className="form-control"
+                                        name="order_remarks"
+                                        value={formData.order_remarks}
+                                        onChange={handleInputChange}
+                                        rows={3}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="text-end">
+                                  <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                  >
+                                    Submit Booking
+                                  </button>
+                                </div>
+                              </form>
                             </div>
                           </div>
                         </div>
-                     {/* booking form end */}
+                      </div>
                       <div className="accordion-item mb-4">
                         <h2 className="accordion-header">
                           <button
@@ -1030,104 +978,72 @@ const ServiceDetails1 = () => {
                     </div>
                   </div>
 
-                  <div className="card border-0">
-                    <div className="card-body">
-                      <h4 className="mb-3">Business Hours</h4>
-                      <div className="d-flex align-items-center justify-content-between mb-3">
-                        <h6 className="fs-16 fw-medium mb-0">Monday</h6>
-                        <p>9:30 AM - 7:00 PM</p>
+                  {/* recommendation card  */}
+                  {cardLoading ? (
+                    <div className="text-center py-4">
+                      <div
+                        className="spinner-border text-primary"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
                       </div>
-                      <div className="d-flex align-items-center justify-content-between mb-3">
-                        <h6 className="fs-16 fw-medium mb-0">Tuesday</h6>
-                        <p>9:30 AM - 7:00 PM</p>
-                      </div>
-                      <div className="d-flex align-items-center justify-content-between mb-3">
-                        <h6 className="fs-16 fw-medium mb-0">Wednesday</h6>
-                        <p>9:30 AM - 7:00 PM</p>
-                      </div>
-                      <div className="d-flex align-items-center justify-content-between mb-3">
-                        <h6 className="fs-16 fw-medium mb-0">Thursday</h6>
-                        <p>9:30 AM - 7:00 PM</p>
-                      </div>
-                      <div className="d-flex align-items-center justify-content-between mb-3">
-                        <h6 className="fs-16 fw-medium mb-0">Friday</h6>
-                        <p>9:30 AM - 7:00 PM</p>
-                      </div>
-                      <div className="d-flex align-items-center justify-content-between mb-3">
-                        <h6 className="fs-16 fw-medium mb-0">Saturday</h6>
-                        <p>9:30 AM - 7:00 PM</p>
-                      </div>
-                      <div className="d-flex align-items-center justify-content-between mb-0">
-                        <h6 className="fs-16 fw-medium mb-0">Sunday</h6>
-                        <p className="text-danger">Closed</p>
-                      </div>
+                      <p className="mt-2">Loading service cards...</p>
                     </div>
-                  </div>
-                  <div className="card border-0">
-                    <div className="card-body">
-                      <h4 className="mb-3">Location</h4>
-                      <div className="map-wrap">
-                        <iframe
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin"
-                          allowFullScreen
-                          loading="lazy"
-                          referrerPolicy="no-referrer-when-downgrade"
-                          className="contact-map"
-                        />
-                        <div className="map-location bg-white d-flex align-items-center">
-                          <div className="d-flex align-items-center me-2">
-                            <span className="avatar avatar-lg flex-shrink-0">
-                              <ImageWithBasePath
-                                src="assets/img/services/service-thumb-01.jpg"
+                  ) : cardError ? (
+                    <div className="alert alert-danger d-flex align-items-center justify-content-between">
+                      <div>{cardError}</div>
+                      <button
+                        className="btn btn-sm btn-outline-danger"
+                        onClick={fetchServiceCard}
+                      >
+                        Try Again
+                      </button>
+                    </div>
+                  ) : serviceCards.length > 0 ? (
+                    serviceCards.map((card) => (
+                      <>
+                        <div key={card.id} className="card p-0 border-0">
+                          <div className="card-body p-0">
+                            <div className="img-sec w-100">
+                              <img
+                                src={`http://agscare.site/crmapi/public/storage/service_details/${card.serviceDetails_image}`}
+                                className="img-fluid rounded-top w-100 "
                                 alt="img"
-                                className="br-10"
                               />
-                            </span>
-                            <div className="ms-2 overflow-hidden">
-                              <p className="two-line-ellipsis">
-                                12301 Lake Underhill Rd, Suite 126, Orlando,
-                                32828
-                              </p>
+                            </div>
+                            <div className="p-3">
+                              <div>
+                                <h5 className="fs-16 mb-1 text-wrap">
+                                  {card?.service}
+                                </h5>
+
+                                <p
+                                  className="fs-12 "
+                                  style={{
+                                    textAlign: 'justify',
+                                  }}
+                                >
+                                  {card?.serviceDetails}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                          <span>
-                            <i className="feather icon-send fs-16" />
-                          </span>
                         </div>
-                      </div>
+                      </>
+                    ))
+                  ) : (
+                    <div className="alert alert-info">
+                      No pricing options available for this service
                     </div>
-                  </div>
-                  <Link to="#" className="text-danger fs-14">
-                    <i className="ti ti-pennant-filled me-2" />
-                    Report Provider
-                  </Link>
+                  )}
+
+                  {/* recommendation card end */}
                 </StickyBox>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <Lightbox
-        open={open}
-        close={() => setOpen(false)}
-        slides={[
-          {
-            src: '/assets/img/services/service-slider-02.jpg',
-          },
-          {
-            src: '/assets/img/services/service-slider-03.jpg',
-          },
-          {
-            src: '/assets/img/services/service-slider-01.jpg',
-          },
-          {
-            src: '/assets/img/services/service-slider-04.jpg',
-          },
-          {
-            src: '/assets/img/services/service-slider-05.jpg',
-          },
-        ]}
-      />
     </>
   );
 };

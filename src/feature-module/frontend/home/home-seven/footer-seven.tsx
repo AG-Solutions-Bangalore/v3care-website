@@ -8,7 +8,7 @@ const FooterSeven = () => {
   return (
     <footer className="footer footer-seven">
   {/* Footer Top */}
-  <div className="footer-top aos" data-aos="fade-up">
+  <div className="footer-top " >
     <div className="container">
       <div className="row">
         <div className="col-lg-4 col-md-6">

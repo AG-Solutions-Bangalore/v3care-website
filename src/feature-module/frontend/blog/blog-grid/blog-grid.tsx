@@ -72,6 +72,7 @@ const BlogGrid = () => {
     }
   }
 
+  
   return (
     <>
       <BreadCrumb title="Blog Grid" item1="Home" item2="Blog Grid" />
@@ -132,13 +133,7 @@ const BlogGrid = () => {
                               {blog.title}
                             </Link>
                           </h5>
-                          {/*
-                          <p className="fs-14">
-                            Learn how to find environmentally friendly car wash
-                            services that use water-saving techniques and
-                            biodegradable clean...
-                          </p>
-                           */}
+                        
                         </div>
                       </div>
                     </div>

@@ -7,6 +7,8 @@ import StickyBox from 'react-sticky-box';
 import axios from 'axios';
 import BASE_URL from '../../../baseConfig/BaseUrl';
 
+
+
 const ServiceDetails1 = () => {
   const REACT_APP_GOOGLE_MAPS_KEY = "AIzaSyAk4WgZpl2DuYxnfgYLCXEQKvVLK3hJ7S0";
 let autoComplete: any;
@@ -163,6 +165,7 @@ useEffect(() => {
     script.src = url;
     document.getElementsByTagName("head")[0].appendChild(script);
   };
+ 
 
   loadScript(
     `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
@@ -251,7 +254,112 @@ useEffect(() => {
 
   return (
     <>
+<style>
+    {`
+    @keyframes shine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    `}
+  </style>
+    
       <div className="page-wrapper">
+
+
+      <div 
+  className="d-lg-none" 
+  style={{
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+    background: 'linear-gradient(90deg, #4361ee 0%, #7209b7 100%)',
+    color: 'white',
+    zIndex: 1000,
+    borderTopLeftRadius: '12px',
+    borderTopRightRadius: '12px',
+    boxShadow: '0 -3px 10px rgba(0, 0, 0, 0.2)',
+    overflow: 'hidden'
+  }}
+>
+  {/* Shine effect overlay */}
+  <div 
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)',
+      animation: 'shine 3s infinite'
+    }}
+  ></div>
+  
+  {/* Content container */}
+  <div className="container-fluid py-2 px-3">
+    <div className="row align-items-center">
+      <div className="col">
+        <div className="d-flex align-items-center">
+          <span 
+            className="badge rounded-pill me-2" 
+            style={{
+              backgroundColor: '#ffe600',
+              color: '#7209b7',
+              fontWeight: 'bold'
+            }}
+          >
+            {selectedPrices.length}
+          </span>
+          <div>
+            <span className="fw-bold">₹{totalPrice.toFixed(2)}</span>
+            {totalOriginalPrice > 0 && (
+              <small 
+                className="ms-2" 
+                style={{
+                  textDecoration: 'line-through',
+                  opacity: 0.75
+                }}
+              >
+                ₹{totalOriginalPrice.toFixed(2)}
+              </small>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="col-auto">
+        <button 
+          className="btn btn-sm rounded-pill" 
+          style={{
+            backgroundColor: '#ffe600',
+            color: '#4361ee',
+            fontWeight: 'bold',
+            padding: '0.25rem 0.75rem',
+            border: 'none'
+          }}
+        >
+          <i className="fas fa-broom me-1"></i> BOOK NOW
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div className="content">
           <div className="container">
             <div className="row">
@@ -261,20 +369,26 @@ useEffect(() => {
                     <div className="service-head mb-2">
                       <div className="d-flex align-items-center justify-content-between flex-wrap">
                         {/* <h3 className="mb-2">Lighting Servicesedit</h3> */}
-                        <h3 className="mb-2">
+                        {/* <h3 className="mb-2">
                           {state?.service_name || 'Service Name'}
                           {state?.service_id || 'Service Id'}---
                           {state?.service_sub_id || 'Service Sub id'}
                           {state?.service_sub_name || 'Service Sub'} ---
                           {city && ` (${city})`}
                           {branch_id && ` [Branch: ${branch_id}]`}
-                        </h3>
-                        <span className="badge badge-purple-transparent mb-2">
+                        </h3> */}
+                         <h4 className="mb-2  "   >
+                         <span> {state?.service_name || 'Service Name'}</span>
+                        
+                         &nbsp;  <span>{state?.service_sub_name ? `-- ${state?.service_sub_name}` : ""}</span>
+                        
+                        </h4>
+                        {/* <span className="badge badge-purple-transparent mb-2">
                           <i className="ti ti-calendar-check me-1" />
                           6000+ Bookings
-                        </span>
+                        </span> */}
                       </div>
-                      <div className="d-flex align-items-center justify-content-between flex-wrap mb-2">
+                      {/* <div className="d-flex align-items-center justify-content-between flex-wrap mb-2">
                         <div className="d-flex align-items-center flex-wrap">
                           <p className="me-3 mb-2">
                             <i className="ti ti-map-pin me-2" />
@@ -306,7 +420,7 @@ useEffect(() => {
                             Share Now
                           </Link>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="accordion service-accordion">
@@ -449,300 +563,201 @@ useEffect(() => {
                           className="accordion-collapse collapse show"
                         >
                           <div className="accordion-body border-0 p-0 pt-3">
-                            <div className="bg-light-200 p-3 pb-2 br-10">
-                              <form onSubmit={handleSubmit}>
-                                <div className="row">
-                                  {/* First Column */}
-                                  <div className="col-md-6">
-                                    <div className="mb-3">
-                                      <label className="form-label">Date</label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={formData.order_date}
-                                        disabled
-                                      />
-                                    </div>
+                            <div className="bg-light-200 p-2 pb-2 br-10">
+                            <form onSubmit={handleSubmit} className="booking-form">
+  {/* Compact Info Display Section - Read-only information */}
+  <div className="info-summary mb-4 p-2 rounded bg-light border">
+    <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
+      <h5 className="mb-0 text-dark">Booking Summary</h5>
+      <span className="badge bg-success px-3 py-2 rounded-pill">Total: ₹{totalPrice.toFixed(2)}</span>
+    </div>
+    
+    <div className="row g-2">
+      <div className="col-md-4 col-6">
+        <div className="info-chip d-flex">
+          <span className="text-muted me-2">Date:</span>
+          <span className="fw-medium">{formData.order_date}</span>
+        </div>
+      </div>
+      <div className="col-md-4 col-6">
+        <div className="info-chip d-flex">
+          <span className="text-muted me-2">Year:</span>
+          <span className="fw-medium">{formData.order_year}</span>
+        </div>
+      </div>
+      <div className="col-md-4 col-6">
+        <div className="info-chip d-flex">
+          <span className="text-muted me-2">Source:</span>
+          <span className="fw-medium">{formData.order_refer_by}</span>
+        </div>
+      </div>
+      <div className="col-md-4 col-6">
+        <div className="info-chip d-flex">
+          <span className="text-muted me-2">Service:</span>
+          <span className="fw-medium text-truncate">{state?.service_name || '-'}</span>
+        </div>
+      </div>
+      <div className="col-md-4 col-6">
+        <div className="info-chip d-flex">
+          <span className="text-muted me-2">Type:</span>
+          <span className="fw-medium text-truncate">{state?.service_sub_name || '-'}</span>
+        </div>
+      </div>
+      <div className="col-md-4 col-6">
+        <div className="info-chip d-flex">
+          <span className="text-muted me-2">Branch:</span>
+          <span className="fw-medium">{formData.branch_id}</span>
+        </div>
+      </div>
+      <div className="col-md-4 col-6">
+        <div className="info-chip d-flex">
+          <span className="text-muted me-2">Selected:</span>
+          <span className="fw-medium text-truncate">{primaryPrice ? primaryPrice.service_price_for : 'None'}</span>
+        </div>
+      </div>
+      <div className="col-md-4 col-6">
+        <div className="info-chip d-flex">
+          <span className="text-muted me-2">Price:</span>
+          <span className="fw-medium">{primaryPrice ? `₹${primaryPrice.service_price_amount}` : '₹0'}</span>
+        </div>
+      </div>
+      <div className="col-md-4 col-6">
+        <div className="info-chip d-flex">
+          <span className="text-muted me-2">Distance:</span>
+          <span className="fw-medium">{formData.order_km} KM</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                                    <div className="mb-3">
-                                      <label className="form-label">Year</label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={formData.order_year}
-                                        disabled
-                                      />
-                                    </div>
-
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Referral Source
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={formData.order_refer_by}
-                                        disabled
-                                      />
-                                    </div>
-
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Customer Name{' '}
-                                        <span className="text-danger">*</span>
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        name="order_customer"
-                                        value={formData.order_customer}
-                                        onChange={handleInputChange}
-                                        required
-                                      />
-                                    </div>
-
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Mobile Number{' '}
-                                        <span className="text-danger">*</span>
-                                      </label>
-                                      <input
-                                        type="tel"
-                                        className="form-control"
-                                        name="order_customer_mobile"
-                                        value={formData.order_customer_mobile}
-                                        onChange={handleInputChange}
-                                        required
-                                      />
-                                    </div>
-
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Email{' '}
-                                        <span className="text-danger">*</span>
-                                      </label>
-                                      <input
-                                        type="email"
-                                        className="form-control"
-                                        name="order_customer_email"
-                                        value={formData.order_customer_email}
-                                        onChange={handleInputChange}
-                                        required
-                                      />
-                                    </div>
-                                  </div>
-
-                                  {/* Second Column */}
-                                  <div className="col-md-6">
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Service Date{' '}
-                                        <span className="text-danger">*</span>
-                                      </label>
-                                      <input
-                                        type="date"
-                                        className="form-control"
-                                        name="order_service_date"
-                                        value={formData.order_service_date}
-                                        onChange={handleInputChange}
-                                        required
-                                      />
-                                    </div>
-
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Service
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={`${state?.service_name || ''} (${formData.order_service})`}
-                                        disabled
-                                      />
-                                    </div>
-
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Service Subcategory
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={`${state?.service_sub_name || ''} (${formData.order_service_sub})`}
-                                        disabled
-                                      />
-                                    </div>
-
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Selected Service
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={
-                                          primaryPrice
-                                            ? primaryPrice.service_price_for
-                                            : 'None selected'
-                                        }
-                                        disabled
-                                      />
-                                    </div>
-
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Service Price
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={
-                                          primaryPrice
-                                            ? `₹${primaryPrice.service_price_amount}`
-                                            : '₹0'
-                                        }
-                                        disabled
-                                      />
-                                    </div>
-
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Time{' '}
-                                        <span className="text-danger">*</span>
-                                      </label>
-
-                                      <input
-                                        type="time"
-                                        className="form-control"
-                                        value={formData.order_time}
-                                        onChange={(e) =>
-                                          setFormData({
-                                            ...formData,
-                                            order_time: e.target.value,
-                                          })
-                                        }
-                                        required
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="row">
-                                  <div className="col-md-6">
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Branch ID
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={formData.branch_id}
-                                        disabled
-                                      />
-                                    </div>
-
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Distance (KM)
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={formData.order_km}
-                                        disabled
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-md-6">
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Total Amount
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        value={`₹${totalPrice.toFixed(2)}`}
-                                        disabled
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="row">
-                                  <div className="col-md-12">
-                                   
-                                    <div className="mb-3">
-  <label className="form-label">
-    Address <span className="text-danger">*</span>
-  </label>
-  <input
-    className="form-control"
-    ref={autoCompleteRef}
-    id="order_address"
-    required
-    onChange={(event) => setQuery(event.target.value)}
-    placeholder="Search Places ..."
-    value={query}
-  />
-</div>
-                                  </div>
-
-                                  <div className="col-md-6">
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Flat/Apartment
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        name="order_flat"
-                                        value={formData.order_flat}
-                                        onChange={handleInputChange}
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-md-6">
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Landmark
-                                      </label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        name="order_landmark"
-                                        value={formData.order_landmark}
-                                        onChange={handleInputChange}
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-md-12">
-                                    <div className="mb-3">
-                                      <label className="form-label">
-                                        Remarks
-                                      </label>
-                                      <textarea
-                                        className="form-control"
-                                        name="order_remarks"
-                                        value={formData.order_remarks}
-                                        onChange={handleInputChange}
-                                        rows={3}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="text-end">
-                                  <button
-                                    type="submit"
-                                    className="btn btn-primary"
-                                  >
-                                    Submit Booking
-                                  </button>
-                                </div>
-                              </form>
+  {/* All editable fields in one clean section */}
+  <div className="editable-fields p-4 rounded bg-white shadow-sm border">
+   
+    
+    <div className="row g-3">
+      {/* Personal Details */}
+      <div className="col-md-4">
+        <label className="form-label small text-muted">Customer Name <span className="text-danger">*</span></label>
+        <input
+          type="text"
+          className="form-control"
+          name="order_customer"
+          value={formData.order_customer}
+          onChange={handleInputChange}
+          placeholder="Your full name"
+          required
+        />
+      </div>
+      
+      <div className="col-md-4">
+        <label className="form-label small text-muted">Mobile Number <span className="text-danger">*</span></label>
+        <input
+          type="tel"
+          className="form-control"
+          name="order_customer_mobile"
+          value={formData.order_customer_mobile}
+          onChange={handleInputChange}
+          placeholder="Your contact number"
+          required
+        />
+      </div>
+      
+      <div className="col-md-4">
+        <label className="form-label small text-muted">Email <span className="text-danger">*</span></label>
+        <input
+          type="email"
+          className="form-control"
+          name="order_customer_email"
+          value={formData.order_customer_email}
+          onChange={handleInputChange}
+          placeholder="Your email address"
+          required
+        />
+      </div>
+      
+      {/* Schedule Details */}
+      <div className="col-md-6">
+        <label className="form-label small text-muted">Service Date <span className="text-danger">*</span></label>
+        <input
+          type="date"
+          className="form-control"
+          name="order_service_date"
+          value={formData.order_service_date}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+      
+      <div className="col-md-6">
+        <label className="form-label small text-muted">Service Time <span className="text-danger">*</span></label>
+        <input
+          type="time"
+          className="form-control"
+          name="order_time"
+          value={formData.order_time}
+          onChange={(e) => setFormData({...formData, order_time: e.target.value})}
+          required
+        />
+      </div>
+      
+      {/* Location Details */}
+      <div className="col-12">
+        <label className="form-label small text-muted">Address <span className="text-danger">*</span></label>
+        <input
+          type="text"
+          className="form-control"
+          ref={autoCompleteRef}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Search for your address..."
+          value={query}
+          required
+        />
+      </div>
+      
+      <div className="col-md-6">
+        <label className="form-label small text-muted">Flat/Apartment</label>
+        <input
+          type="text"
+          className="form-control"
+          name="order_flat"
+          value={formData.order_flat}
+          onChange={handleInputChange}
+          placeholder="Flat number, building name, etc."
+        />
+      </div>
+      
+      <div className="col-md-6">
+        <label className="form-label small text-muted">Landmark</label>
+        <input
+          type="text"
+          className="form-control"
+          name="order_landmark"
+          value={formData.order_landmark}
+          onChange={handleInputChange}
+          placeholder="Nearby landmark"
+        />
+      </div>
+      
+      <div className="col-12">
+        <label className="form-label small text-muted">Remarks</label>
+        <textarea
+          className="form-control"
+          name="order_remarks"
+          value={formData.order_remarks}
+          onChange={handleInputChange}
+          placeholder="Any special instructions or notes"
+          rows={3}
+        ></textarea>
+      </div>
+      
+      <div className="col-12 mt-4">
+        <button type="submit" className="btn btn-primary w-100 py-2">
+          Book Service
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
                             </div>
                           </div>
                         </div>
@@ -934,7 +949,7 @@ useEffect(() => {
               </div>
               <div className="col-xl-4 theiaStickySidebar">
                 <StickyBox>
-                  <div className="card border-0">
+                  <div className="card border-0 d-none d-lg-block ">
                     <div className="card-body">
                       <div className="d-flex align-items-center justify-content-between border-bottom mb-3">
                         <div className="d-flex align-items-center">
@@ -1040,6 +1055,7 @@ useEffect(() => {
                   {/* recommendation card end */}
                 </StickyBox>
               </div>
+              
             </div>
           </div>
         </div>

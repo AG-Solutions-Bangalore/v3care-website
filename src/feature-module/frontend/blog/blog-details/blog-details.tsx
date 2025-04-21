@@ -14,7 +14,7 @@ const BlogDetails = () => {
   }, []);
   return (
     <>
-    <BreadCrumb title='Blog Details' item1='Home' item2='Blog Details'/>
+    {/* <BreadCrumb title='Blog Details' item1='Home' item2='Blog Details'/> */}
       <>
       <div className="page-wrapper">
   <div className="content">

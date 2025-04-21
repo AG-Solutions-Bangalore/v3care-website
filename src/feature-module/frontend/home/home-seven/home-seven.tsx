@@ -13,6 +13,7 @@ import HomeHeader from '../header/home-header';
 import axios from 'axios';
 import BASE_URL from '../../../baseConfig/BaseUrl';
 import BASE_URL_IMAGE from '../../../baseConfig/BaseUrl';
+import { blogCardData } from '../../../../core/data/json/blog_card';
 interface ServiceSuper {
   id: number;
   serviceSuper: string;
@@ -23,6 +24,11 @@ interface Testimonial {
   testimonial_user: string;
   testimonial_image: string;
 }
+interface Client {
+  client_name: string;
+  client_image: string;
+}
+
 const HomeSeven = () => {
   const routes = all_routes;
   const [serviceSupers, setServiceSupers] = useState<ServiceSuper[]>([]);
@@ -33,8 +39,13 @@ const HomeSeven = () => {
   const [testimonialsError, setTestimonialsError] = useState<string | null>(
     null,
   );
+
+  const [clients, setClients] = useState<Client[]>([]);
+    const [isLoadingClient, setIsLoadingClient] = useState(true);
+    const [errorClient, setErrorClient] = useState<string | null>(null);
   AOS.init();
 
+   
   const fetchServiceSupers = async () => {
     try {
       setIsLoading(true);
@@ -1040,69 +1051,7 @@ const HomeSeven = () => {
           </div>
         </section>
 
-        {/* /popular service */}
-        {/* Work Section */}
-        {/* <section className="work-section-seven">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12 text-center">
-                <div
-                  className="section-heading section-heading-seven aos"
-                  data-aos="fade-up"
-                >
-                  <h2>How It Works</h2>
-                  <p>Aliquam lorem ante, dapibus in, viverra quis</p>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="work-box-seven aos" data-aos="fade-up">
-                  <div className="work-icon-seven">
-                    <span>
-                      <ImageWithBasePath src="assets/img/icons/work-seven-3.svg" alt="img" />
-                    </span>
-                  </div>
-                  <h5 className="mb-2">Choose What To Do</h5>
-                  <p>
-                    Customers can browse or search for specific products or services
-                    using categories, filters, or search bars.
-                  </p>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="work-box-seven aos" data-aos="fade-up">
-                  <div className="work-icon-seven">
-                    <span>
-                      <ImageWithBasePath src="assets/img/icons/work-seven-2.svg" alt="img" />
-                    </span>
-                  </div>
-                  <h5 className="mb-2">Find What You Want</h5>
-                  <p>
-                    Customers can add items to their shopping cart. For services, they
-                    may select a service and proceed to book.
-                  </p>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="work-box-seven aos" data-aos="fade-up">
-                  <div className="work-icon-seven">
-                    <span>
-                      <ImageWithBasePath src="assets/img/icons/work-seven-1.svg" alt="img" />
-                    </span>
-                  </div>
-                  <h5 className="mb-2">Amazing Places</h5>
-                  <p>
-                    The Customer fulfills the order by either providing the service to
-                    the Customers &amp; Get leads from the local Persons
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> */}
-
-        {/* /Work Section */}
+       
         {/* popular service */}
         <section className="popular-service-seven-section">
           <div className="container">
@@ -1369,423 +1318,7 @@ const HomeSeven = () => {
             </div>
           </div>
         </section>
-        {/* /popular service */}
-        {/* Providers Section */}
-        {/* <section className="providers-section-seven">
-          <div className="container">
-            <div className="section-heading section-heading-seven">
-              <div className="row">
-                <div className="col-md-6 aos" data-aos="fade-up">
-                  <h2>Top Providers</h2>
-                  <p>What do you need to find?</p>
-                </div>
-                <div className="col-md-6 text-md-end aos" data-aos="fade-up">
-                  <div className="owl-nav mynav-seven-three" />
-                </div>
-              </div>
-            </div>
-            <div className="row  aos" data-aos="fade-up">
-              <div className="col-md-12">
-                <Slider {...topProjects} className="top-projects-seven">
-                  <div className="providerset">
-                    <div className="providerset-img providerset-img-seven ">
-                      <Link to={routes.providerDetails}>
-                        <ImageWithBasePath src="assets/img/providers/provider-35.jpg" alt="img" />
-                      </Link>
-                      <div className="fav-item d-flex align-items-center justify-content-between">
-                        <i className="fa fa-check-circle fav-icons" aria-hidden="true" />
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="providerset-content providerset-content-seven">
-                      <div className="providerset-price">
-                        <div className="providerset-name">
-                          <h4>
-                            <Link to={routes.providerDetails}>John Smith</Link>
-                          </h4>
-                          <span className="text-primary">Electrician</span>
-                        </div>
-                        <div className="rate">
-                          <i className="fas fa-star filled" />
-                          <span>4.8</span>
-                        </div>
-                      </div>
-                      <div className="provider-rating-seven">
-                        <div className="providerset-prices">
-                          <h6>
-                            $20.00<span>/hr</span>
-                          </h6>
-                        </div>
-                        <Link to={routes.providerDetails} className="btn btn-primary">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="providerset">
-                    <div className="providerset-img providerset-img-seven ">
-                      <Link to={routes.providerDetails}>
-                        <ImageWithBasePath src="assets/img/providers/provider-36.jpg" alt="img" />
-                      </Link>
-                      <div className="fav-item d-flex align-items-center justify-content-between">
-                        <i className="fa fa-check-circle fav-icons" aria-hidden="true" />
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="providerset-content providerset-content-seven">
-                      <div className="providerset-price">
-                        <div className="providerset-name">
-                          <h4>
-                            <Link to={routes.providerDetails}>George Smith</Link>
-                          </h4>
-                          <span className="text-primary">Construction</span>
-                        </div>
-                        <div className="rate">
-                          <i className="fas fa-star filled" />
-                          <span>4.8</span>
-                        </div>
-                      </div>
-                      <div className="provider-rating-seven">
-                        <div className="providerset-prices">
-                          <h6>
-                            $20.00<span>/hr</span>
-                          </h6>
-                        </div>
-                        <Link to={routes.providerDetails} className="btn btn-primary">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="providerset">
-                    <div className="providerset-img providerset-img-seven ">
-                      <Link to={routes.providerDetails}>
-                        <ImageWithBasePath src="assets/img/providers/provider-33.jpg" alt="img" />
-                      </Link>
-                      <div className="fav-item d-flex align-items-center justify-content-between">
-                        <i className="fa fa-check-circle fav-icons" aria-hidden="true" />
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="providerset-content providerset-content-seven">
-                      <div className="providerset-price">
-                        <div className="providerset-name">
-                          <h4>
-                            <Link to={routes.providerDetails}>Matthew Thomas</Link>
-                          </h4>
-                          <span className="text-primary">Computer</span>
-                        </div>
-                        <div className="rate">
-                          <i className="fas fa-star filled" />
-                          <span>4.9</span>
-                        </div>
-                      </div>
-                      <div className="provider-rating-seven">
-                        <div className="providerset-prices">
-                          <h6>
-                            $60.00<span>/hr</span>
-                          </h6>
-                        </div>
-                        <Link to={routes.providerDetails} className="btn btn-primary">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="providerset">
-                    <div className="providerset-img providerset-img-seven ">
-                      <Link to={routes.providerDetails}>
-                        <ImageWithBasePath src="assets/img/providers/provider-34.jpg" alt="img" />
-                      </Link>
-                      <div className="fav-item d-flex align-items-center justify-content-between">
-                        <i className="fa fa-check-circle fav-icons" aria-hidden="true" />
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="providerset-content providerset-content-seven">
-                      <div className="providerset-price">
-                        <div className="providerset-name">
-                          <h4>
-                            <Link to={routes.providerDetails}>John Smith</Link>
-                          </h4>
-                          <span className="text-primary">Electrician</span>
-                        </div>
-                        <div className="rate">
-                          <i className="fas fa-star filled" />
-                          <span>4.8</span>
-                        </div>
-                      </div>
-                      <div className="provider-rating-seven">
-                        <div className="providerset-prices">
-                          <h6>
-                            $20.00<span>/hr</span>
-                          </h6>
-                        </div>
-                        <Link to={routes.providerDetails} className="btn btn-primary">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="providerset">
-                    <div className="providerset-img providerset-img-seven ">
-                      <Link to={routes.providerDetails}>
-                        <ImageWithBasePath src="assets/img/providers/provider-33.jpg" alt="img" />
-                      </Link>
-                      <div className="fav-item d-flex align-items-center justify-content-between">
-                        <i className="fa fa-check-circle fav-icons" aria-hidden="true" />
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="providerset-content providerset-content-seven">
-                      <div className="providerset-price">
-                        <div className="providerset-name">
-                          <h4>
-                            <Link to={routes.providerDetails}>John Smith</Link>
-                          </h4>
-                          <span className="text-primary">Electrician</span>
-                        </div>
-                        <div className="rate">
-                          <i className="fas fa-star filled" />
-                          <span>4.8</span>
-                        </div>
-                      </div>
-                      <div className="provider-rating-seven">
-                        <div className="providerset-prices">
-                          <h6>
-                            $20.00<span>/hr</span>
-                          </h6>
-                        </div>
-                        <Link to={routes.providerDetails} className="btn btn-primary">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="providerset">
-                    <div className="providerset-img providerset-img-seven ">
-                      <Link to={routes.providerDetails}>
-                        <ImageWithBasePath src="assets/img/providers/provider-34.jpg" alt="img" />
-                      </Link>
-                      <div className="fav-item d-flex align-items-center justify-content-between">
-                        <i className="fa fa-check-circle fav-icons" aria-hidden="true" />
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="providerset-content providerset-content-seven">
-                      <div className="providerset-price">
-                        <div className="providerset-name">
-                          <h4>
-                            <Link to={routes.providerDetails}>John Smith</Link>
-                          </h4>
-                          <span className="text-primary">Electrician</span>
-                        </div>
-                        <div className="rate">
-                          <i className="fas fa-star filled" />
-                          <span>4.8</span>
-                        </div>
-                      </div>
-                      <div className="provider-rating-seven">
-                        <div className="providerset-prices">
-                          <h6>
-                            $20.00<span>/hr</span>
-                          </h6>
-                        </div>
-                        <Link to={routes.providerDetails} className="btn btn-primary">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </Slider>
-              </div>
-            </div>
-          </div>
-        </section> */}
-        {/* Providers Section */}
-        {/* pricing Section */}
-        {/* <section className="price-sections-seven">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12 text-center">
-                <div
-                  className="section-heading section-heading-seven aos"
-                  data-aos="fade-up"
-                >
-                  <h2>Pricing Plan</h2>
-                  <p>
-                    Designed to effectively communicate your service offerings and their
-                    associated costs
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="price-toggle price-toggle-seven text-center mb-0">
-              <div className="status-toggle toggle-pink d-inline-flex align-items-center">
-                Bill Monthly
-                <input type="checkbox" id="status_1" className="check" />
-                <label htmlFor="status_1" className="checktoggle mx-3">
-                  checkbox
-                </label>
-                Bill Annualy
-              </div>
-            </div>
-            <div className="row aos" data-aos="fade-up">
-              <div className="col-lg-4 col-sm-12">
-                <div className="pricing-plans price-new pricing-plans-seven">
-                  <div className="pricing-plans-img">
-                    <ImageWithBasePath src="assets/img/icons/pricing-seven-3.svg" alt="image" />
-                  </div>
-                  <div className="pricing-planshead">
-                    <h5>Basic</h5>
-                    <h6>
-                      <span>$</span>10.00
-                    </h6>
-                  </div>
-                  <div className="pricing-planscontent pricing-planscontent-seven">
-                    <ul>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>1 Bathroom cleaning</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Up to 3 bedrooms cleaning</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Full Furnished Room Cleaning</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Additional 05 Rooms</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Small kitchen (0 - 150 ft2)</span>
-                      </li>
-                    </ul>
-                    <div className="pricing-btn">
-                      <Link to={routes.search} className="btn btn-view w-100">
-                        Choose Plan
-                      </Link>
-                    </div>
-                    <div className="price-bg">
-                      <ImageWithBasePath src="assets/img/bg/price-bg-vector.png" alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4 col-sm-12">
-                <div className="pricing-plans price-new pricing-plans-seven active-seven">
-                  <div className="price-block">
-                    <span className="popular">MOST POPULAR</span>
-                  </div>
-                  <div className="pricing-plans-img">
-                    <ImageWithBasePath src="assets/img/icons/pricing-seven-2.svg" alt="image" />
-                  </div>
-                  <div className="pricing-planshead">
-                    <h5>Standard </h5>
-                    <h6>
-                      <span>$</span>90.99
-                    </h6>
-                  </div>
-                  <div className="pricing-planscontent pricing-planscontent-seven">
-                    <ul>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>1 Bathroom cleaning</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Up to 3 bedrooms cleaning</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Full Furnished Room Cleaning</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Additional 05 Rooms</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Small kitchen (0 - 150 ft2)</span>
-                      </li>
-                    </ul>
-                    <div className="pricing-btn">
-                      <Link to={routes.search} className="btn btn-view w-100">
-                        Choose Plan
-                      </Link>
-                    </div>
-                    <div className="price-bg">
-                      <ImageWithBasePath src="assets/img/bg/price-bg-vector.png" alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4 col-sm-12">
-                <div className="pricing-plans price-new pricing-plans-seven">
-                  <div className="pricing-plans-img">
-                    <ImageWithBasePath src="assets/img/icons/pricing-seven-1.svg" alt="image" />
-                  </div>
-                  <div className="pricing-planshead">
-                    <h5>Basic</h5>
-                    <h6>
-                      <span>$</span>150.99
-                    </h6>
-                  </div>
-                  <div className="pricing-planscontent pricing-planscontent-seven">
-                    <ul>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Upto 5 Bathroom Cleaning</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Upto 10 bedrooms Cleaning</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Full Furnished Rooms 15 sqft Cleaning</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Additional 16 Rooms</span>
-                      </li>
-                      <li>
-                        <i className="fa fa-check me-2" />
-                        <span>Small kitchen (0 - 150 ft2)</span>
-                      </li>
-                    </ul>
-                    <div className="pricing-btn">
-                      <Link to={routes.search} className="btn btn-view w-100">
-                        Choose Plan
-                      </Link>
-                    </div>
-                    <div className="price-bg">
-                      <ImageWithBasePath src="assets/img/bg/price-bg-vector.png" alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> */}
-
-        {/* /pricing Section */}
+      
         {/* Testimonials Section */}
         <section className="testimonals-seven-section pt-0">
           <div className="container">
@@ -1898,183 +1431,79 @@ const HomeSeven = () => {
             <div className="row">
               <div className="col-md-12">
                 <Slider {...recentBlog} className="our-recent-blog">
-                  <div
-                    className="blog blog-new flex-fill aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="blog-image">
-                      <Link to={routes.blogDetails}>
-                        <ImageWithBasePath
-                          className="img-fluid"
-                          src="assets/img/blog/house-blog-03.jpg"
-                          alt="Post Image"
-                        />
-                      </Link>
-                      <div className="date">
-                        25<span>Dec</span>
-                      </div>
-                      <ul className="blog-item">
-                        <li>
-                          <div className="post-author">
-                            <Link to="#">
-                              <i className="feather-user" />
-                              <span>Hal Lewis</span>
-                            </Link>
-                          </div>
-                        </li>
-                        <li>
-                          <i className="feather-message-square" />
-                          Comments (5)
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="blog-content mb-0">
-                      <h3 className="blog-title">
-                        <Link to={routes.blogDetails}>
-                          Take Advantage of Trial Periods or Consultations
+                 
+
+
+                {
+                 blogCardData.slice(0, 6).map((blog)=>(
+  <div
+                  className="col-xl-4 col-md-6"
+                  key={blog.id}
+                  data-aos="fade-up"
+                >
+                  <div className="card p-0">
+                    <div className="card-body p-0">
+                      <div className="img-sec w-100">
+                        <Link to={`${routes.blogDetails}/${blog.id}`}>
+                          <img
+                            src={`https://agscare.site/crmapi/public/storage/blog//${blog.img}`}
+                            className="img-fluid rounded-top w-100"
+                            alt="img"
+                          />
                         </Link>
-                      </h3>
-                      <p>
-                        In today’s fast-paced business world, finding the right
-                        services to support your growth can be a game...
-                      </p>
+                      </div>
+                      <div className="p-3">
+                        <div className="d-flex align-items-center mb-3">
+                          <div className="d-flex align-items-center border-end pe-2">
+                            <span className="avatar avatar-sm me-2">
+                              <ImageWithBasePath
+                                src="assets/img/profiles/avatar-55.jpg"
+                                className="rounded-circle"
+                                alt="user"
+                              />
+                            </span>
+                            <h6 className="fs-14 text-gray-6">
+                              V3 Care
+                            </h6>
+                          </div>
+                          <div className="d-flex align-items-center ps-2">
+                            <span>
+                              <i className="ti ti-calendar me-2" />
+                            </span>
+                            <span className="fs-14">{blog.date}</span>
+                          </div>
+                        </div>
+                        <div>
+                          <h5
+                            className="fs-16 mb-1 text-wrap"
+                            style={{
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden',
+                              minHeight: '3em',
+                            }}
+                          >
+                            <Link to={`${routes.blogDetails}/${blog.id}`}>
+                              {blog.title}
+                            </Link>
+                          </h5>
+                        
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div
-                    className="blog blog-new flex-fill  aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="blog-image">
-                      <Link to={routes.blogDetails}>
-                        <ImageWithBasePath
-                          className="img-fluid"
-                          src="assets/img/blog/house-blog-01.jpg"
-                          alt="Post Image"
-                        />
-                      </Link>
-                      <div className="date">
-                        25<span>Dec</span>
-                      </div>
-                      <ul className="blog-item">
-                        <li>
-                          <div className="post-author">
-                            <Link to="#">
-                              <i className="feather-user" />
-                              <span>JohnDoe</span>
-                            </Link>
-                          </div>
-                        </li>
-                        <li>
-                          <i className="feather-message-square" />
-                          Comments (5)
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="blog-content mb-0">
-                      <h3 className="blog-title">
-                        <Link to={routes.blogDetails}>
-                          Maximize Your Business Potential with the Right
-                          Service
-                        </Link>
-                      </h3>
-                      <p>
-                        One of the biggest advantages of using a service
-                        marketplace is the access to a wide range of services.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    className="blog blog-new flex-fill aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="blog-image">
-                      <Link to={routes.blogDetails}>
-                        <ImageWithBasePath
-                          className="img-fluid"
-                          src="assets/img/blog/house-blog-02.jpg"
-                          alt="Post Image"
-                        />
-                      </Link>
-                      <div className="date">
-                        25<span>Dec</span>
-                      </div>
-                      <ul className="blog-item">
-                        <li>
-                          <div className="post-author">
-                            <Link to="#">
-                              <i className="feather-user" />
-                              <span>Greg Avery</span>
-                            </Link>
-                          </div>
-                        </li>
-                        <li>
-                          <i className="feather-message-square" />
-                          Comments (5)
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="blog-content mb-0">
-                      <h3 className="blog-title">
-                        <Link to={routes.blogDetails}>
-                          Specific features and benefits of your service
-                          marketplace.
-                        </Link>
-                      </h3>
-                      <p>
-                        Before hiring a service provider, check their reviews
-                        and ratings on the marketplace...
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    className="blog blog-new flex-fill  aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="blog-image">
-                      <Link to={routes.blogDetails}>
-                        <ImageWithBasePath
-                          className="img-fluid"
-                          src="assets/img/blog/house-blog-03.jpg"
-                          alt="Post Image"
-                        />
-                      </Link>
-                      <div className="date">
-                        25<span>Dec</span>
-                      </div>
-                      <ul className="blog-item">
-                        <li>
-                          <div className="post-author">
-                            <Link to="#">
-                              <i className="feather-user" />
-                              <span>JohnDoe</span>
-                            </Link>
-                          </div>
-                        </li>
-                        <li>
-                          <i className="feather-message-square" />
-                          Comments (5)
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="blog-content mb-0">
-                      <h3 className="blog-title">
-                        <Link to={routes.blogDetails}>
-                          Maximize Your Business Potential with the Right
-                          Service
-                        </Link>
-                      </h3>
-                      <p>
-                        One of the biggest advantages of using a service
-                        marketplace is the access to a wide range of services.
-                      </p>
-                    </div>
-                  </div>
+                </div>
+                 )) 
+                }
+
+
                 </Slider>
               </div>
             </div>
           </div>
         </section>
-        {/* /pricing Section */}
+     
         {/* Partners Section */}
         <section className="our-partners-seven">
           <div className="container">
@@ -2084,7 +1513,7 @@ const HomeSeven = () => {
                   className="section-heading section-heading-seven aos"
                   data-aos="fade-up"
                 >
-                  <h2>Our Partners</h2>
+                  <h2>Our Clients</h2>
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                   </p>

@@ -28,6 +28,8 @@ const autoCompleteRef = useRef(null);
   const [cardError, setCardError] = useState<string | null>(null);
   const [selectedPrices, setSelectedPrices] = useState<any[]>([]);
   const [primaryPrice, setPrimaryPrice] = useState<any>(null);
+  const [showFullText, setShowFullText] = useState<Record<string | number, boolean>>({});
+  const [showBreakdown, setShowBreakdown] = useState(false);
   const [formData, setFormData] = useState({
     order_date: new Date().toISOString().split('T')[0],
     order_year: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
@@ -186,26 +188,61 @@ useEffect(() => {
     }));
   };
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const finalFormData = {
+  //       ...formData,
+  //       order_service_price_for: primaryPrice?.id || '',
+  //       order_service_price: primaryPrice?.service_price_amount || '',
+  //       order_amount: totalPrice.toFixed(2),
+  //       order_remarks:
+  //         selectedPrices.length > 1
+  //           ? `Selected services: ${selectedPrices.map((p) => p.service_price_for).join(', ')}\n${formData.order_remarks}`
+  //           : formData.order_remarks,
+  //     };
+
+  //     const response = await axios.post(
+  //       `${BASE_URL}/api/panel-create-booking-outD`,
+  //       finalFormData,
+  //     );
+
+  //     if (response.data.success) {
+  //       navigate('/');
+  //     } else {
+  //       console.error(response.data.message || 'Failed to create booking');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error creating booking:', error);
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     try {
+      const bookingData = selectedPrices.map(price => ({
+        order_service_price_for: price.id,
+        order_service_price: price.service_price_rate,
+        order_amount: price.service_price_amount,
+        order_remarks:formData.order_remarks,
+        ...Object.fromEntries(
+          Object.entries(formData).filter(([key]) => !['order_service_price_for', 'order_service_price', 'order_amount'].includes(key))
+        )
+      }));
+  
       const finalFormData = {
-        ...formData,
-        order_service_price_for: primaryPrice?.id || '',
-        order_service_price: primaryPrice?.service_price_amount || '',
-        order_amount: totalPrice.toFixed(2),
-        order_remarks:
-          selectedPrices.length > 1
-            ? `Selected services: ${selectedPrices.map((p) => p.service_price_for).join(', ')}\n${formData.order_remarks}`
-            : formData.order_remarks,
+        booking_data: bookingData,
+   
+        
       };
-
+  
       const response = await axios.post(
-        `${BASE_URL}/api/panel-create-booking-outD`,
+        `${BASE_URL}/api/panel-create-web-booking-outD`,
         finalFormData,
       );
-
+  
       if (response.data.success) {
         navigate('/');
       } else {
@@ -265,7 +302,7 @@ useEffect(() => {
     
       <div className="page-wrapper">
 
-
+{/* 
       <div 
   className="d-lg-none" 
   style={{
@@ -283,7 +320,7 @@ useEffect(() => {
     overflow: 'hidden'
   }}
 >
-  {/* Shine effect overlay */}
+  
   <div 
     style={{
       position: 'absolute',
@@ -295,8 +332,7 @@ useEffect(() => {
       animation: 'shine 3s infinite'
     }}
   ></div>
-  
-  {/* Content container */}
+
   <div className="container-fluid py-2 px-3">
     <div className="row align-items-center">
       <div className="col">
@@ -343,11 +379,103 @@ useEffect(() => {
       </div>
     </div>
   </div>
+</div> */}
+
+
+
+<div 
+  className="d-lg-none" 
+  style={{
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+    background: 'linear-gradient(90deg, #4361ee 0%, #7209b7 100%)',
+    color: 'white',
+    zIndex: 1000,
+    borderTopLeftRadius: showBreakdown ? '0' : '12px',
+    borderTopRightRadius: showBreakdown ? '0' : '12px',
+    boxShadow: '0 -3px 10px rgba(0, 0, 0, 0.2)',
+    overflow: 'hidden',
+    transition: 'border-radius 0.3s ease'
+  }}
+>
+  {/* Shine effect overlay */}
+  <div 
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)',
+      animation: 'shine 3s infinite'
+    }}
+  ></div>
+  
+  {/* Content container */}
+  <div className="container-fluid py-2 px-3">
+    <div className="row align-items-center" onClick={() => setShowBreakdown(!showBreakdown)}>
+      <div className="col">
+        <div className="d-flex align-items-center">
+          <span 
+            className="badge rounded-pill me-2" 
+            style={{
+              backgroundColor: '#ffe600',
+              color: '#7209b7',
+              fontWeight: 'bold'
+            }}
+          >
+            {selectedPrices.length}
+          </span>
+          <div>
+            <span className="fw-bold">₹{totalPrice.toFixed(2)}</span>
+            {totalOriginalPrice > 0 && (
+              <small 
+                className="ms-2" 
+                style={{
+                  textDecoration: 'line-through',
+                  opacity: 0.75
+                }}
+              >
+                ₹{totalOriginalPrice.toFixed(2)}
+              </small>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="col-auto">
+        <i className={`fas fa-chevron-${showBreakdown ? 'down' : 'up'} text-white`}></i>
+      </div>
+    </div>
+
+    {showBreakdown && (
+      <div className="mt-3 pt-2 border-top">
+        {selectedPrices.map((price, index) => (
+          <div key={index} className="d-flex justify-content-between mb-2">
+            <span>{price.service_price_for}</span>
+            <span>₹{price.service_price_amount}</span>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <button 
+      className="btn btn-sm rounded-pill w-100 mt-2" 
+      style={{
+        backgroundColor: '#ffe600',
+        color: '#4361ee',
+        fontWeight: 'bold',
+        padding: '0.5rem',
+        border: 'none'
+      }}
+      onClick={handleSubmit}
+    >
+      <i className="fas fa-broom me-1"></i> BOOK NOW
+    </button>
+  </div>
 </div>
-
-
-
-
 
 
 
@@ -609,7 +737,7 @@ useEffect(() => {
           <span className="fw-medium">{formData.branch_id}</span>
         </div>
       </div>
-      <div className="col-md-4 col-6">
+      {/* <div className="col-md-4 col-6">
         <div className="info-chip d-flex">
           <span className="text-muted me-2">Selected:</span>
           <span className="fw-medium text-truncate">{primaryPrice ? primaryPrice.service_price_for : 'None'}</span>
@@ -620,7 +748,38 @@ useEffect(() => {
           <span className="text-muted me-2">Price:</span>
           <span className="fw-medium">{primaryPrice ? `₹${primaryPrice.service_price_amount}` : '₹0'}</span>
         </div>
+      </div> */}
+      <div className="col-md-6">
+  <div className="info-chip">
+    <span className="text-muted me-2">Selected Services:</span>
+    <div className="mt-1">
+      {selectedPrices.length > 0 ? (
+        selectedPrices.map((price, index) => (
+          <div key={index} className="d-flex justify-content-between">
+            <span className="fw-medium">{price.service_price_for}</span>
+            <span className="fw-medium">₹{price.service_price_amount}</span>
+          </div>
+        ))
+      ) : (
+        <span className="fw-medium">None</span>
+      )}
+    </div>
+  </div>
+</div>
+<div className="col-md-6">
+  <div className="info-chip d-flex flex-column">
+    <div className="d-flex justify-content-between">
+      <span className="text-muted">Total Price:</span>
+      <span className="fw-bold">₹{totalPrice.toFixed(2)}</span>
+    </div>
+    {totalOriginalPrice > 0 && (
+      <div className="d-flex justify-content-between">
+        <span className="text-muted">Original Price:</span>
+        <span className="text-decoration-line-through">₹{totalOriginalPrice.toFixed(2)}</span>
       </div>
+    )}
+  </div>
+</div>
       <div className="col-md-4 col-6">
         <div className="info-chip d-flex">
           <span className="text-muted me-2">Distance:</span>
@@ -1032,16 +1191,33 @@ useEffect(() => {
                                   {card?.service}
                                 </h5>
 
-                                <p
-                                  className="fs-12 "
-                                  style={{
-                                    textAlign: 'justify',
-                                  }}
-                                >
-                                  {card?.serviceDetails}
-                                </p>
+                              
+                                <p className="fs-12" style={{ textAlign: 'justify' }}>
+  {card?.serviceDetails && (
+    <>
+      {showFullText?.[card.id] ? (
+        card.serviceDetails
+      ) : (
+        <>
+          {card.serviceDetails.split(' ').slice(0, 25).join(' ')}
+          {card.serviceDetails.split(' ').length > 25 && '...'}
+        </>
+      )}
+      {card.serviceDetails.split(' ').length > 25 && (
+        <span 
+          className="link-primary text-decoration-underline ms-1"
+          style={{ cursor: 'pointer' }}
+          onClick={() => setShowFullText(prev => ({ ...prev, [card.id]: !prev?.[card.id] }))}
+        >
+          {showFullText?.[card.id] ? 'Read less' : 'Read more'}
+        </span>
+      )}
+    </>
+  )}
+</p>
                               </div>
                             </div>
+                           
                           </div>
                         </div>
                       </>

@@ -77,6 +77,26 @@ const HomeSeven = () => {
       setIsTestimonialsLoading(false);
     }
   };
+  const fetchClients = async () => {
+    try {
+      setIsLoadingClient(true);
+      setErrorClient(null);
+      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-clients-out`);
+      setClients(response.data.clients || []);
+    } catch (error) {
+      console.error('Failed to fetch clients:', error);
+      setErrorClient('Failed to load partners. Please try again.');
+    } finally {
+      setIsLoadingClient(false);
+    }
+  };
+
+  const getClientImageUrl = (imageName: string) => {
+    if (!imageName) {
+      return "http://agscare.site/crmapi/public/storage/no_image.jpg";
+    }
+    return `http://agscare.site/crmapi/public/storage/clients/${imageName}`;
+  };
   const getImageUrl = (serviceSuper_image: string | null) => {
     if (!serviceSuper_image) {
       return `http://agscare.site/crmapi/public/storage/no_image.jpg`;
@@ -95,6 +115,7 @@ const HomeSeven = () => {
     });
     fetchServiceSupers();
     fetchTestimonials();
+    fetchClients();
   }, []);
 
   const handleScroll = () => {
@@ -582,7 +603,7 @@ const HomeSeven = () => {
                         <ImageWithBasePath
                           className="img-fluid serv-img"
                           alt="Service Image"
-                          src="assets/img/services/service-64.jpg"
+                          src="assets/img/services/f1.png"
                         />
                       </Link>
                       <div className="fav-item">
@@ -641,7 +662,7 @@ const HomeSeven = () => {
                         <ImageWithBasePath
                           className="img-fluid serv-img"
                           alt="Service Image"
-                          src="assets/img/services/service-65.jpg"
+                          src="assets/img/services/f2.png"
                         />
                       </Link>
                       <div className="fav-item">
@@ -700,7 +721,7 @@ const HomeSeven = () => {
                         <ImageWithBasePath
                           className="img-fluid serv-img"
                           alt="Service Image"
-                          src="assets/img/services/service-661.jpg"
+                          src="assets/img/services/f3.png"
                         />
                       </Link>
                       <div className="fav-item">
@@ -729,27 +750,7 @@ const HomeSeven = () => {
                           Computer Repairing &amp; Spares
                         </Link>
                       </h3>
-                      {/* <p>
-                        <span className="rate">
-                          <i className="feather icon-phone" />
-                          28-62-76-32
-                        </span>
-                        <i className="feather icon-map-pin me-2" />
-                        New Jersey, USA
-                      </p>
-                      <div className="serv-info">
-                        <div className="rating">
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <span>(234)</span>
-                        </div>
-                        <h6>
-                          $25.00<span className="old-price">$35.00</span>
-                        </h6>
-                      </div> */}
+                   
                     </div>
                   </div>
                   <div
@@ -761,7 +762,7 @@ const HomeSeven = () => {
                         <ImageWithBasePath
                           className="img-fluid serv-img"
                           alt="Service Image"
-                          src="assets/img/services/service-65.jpg"
+                          src="assets/img/services/f4.png"
                         />
                       </Link>
                       <div className="fav-item">
@@ -848,7 +849,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/service-663.jpg"
+                      src="assets/img/services/221.jpeg"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -879,7 +880,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/service-663.jpg"
+                      src="assets/img/services/221.jpeg"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -910,7 +911,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/service-663.jpg"
+                      src="assets/img/services/221.jpeg"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -941,7 +942,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/service-663.jpg"
+                      src="assets/img/services/221.jpeg"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -972,7 +973,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/service-663.jpg"
+                      src="assets/img/services/221.jpeg"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -1003,7 +1004,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/service-663.jpg"
+                      src="assets/img/services/221.jpeg"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -1053,7 +1054,7 @@ const HomeSeven = () => {
 
        
         {/* popular service */}
-        <section className="popular-service-seven-section">
+        {/* <section className="popular-service-seven-section">
           <div className="container">
             <div className="section-heading section-heading-seven">
               <div className="row">
@@ -1317,7 +1318,7 @@ const HomeSeven = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       
         {/* Testimonials Section */}
         <section className="testimonals-seven-section pt-0">
@@ -1504,62 +1505,68 @@ const HomeSeven = () => {
           </div>
         </section>
      
+      
         {/* Partners Section */}
-        <section className="our-partners-seven">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12 text-center">
-                <div
-                  className="section-heading section-heading-seven aos"
-                  data-aos="fade-up"
-                >
-                  <h2>Our Clients</h2>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  </p>
-                </div>
-              </div>
-              <Slider {...partnersSlider} className="partners-slider-seven aos">
-                <div className="partner-img">
-                  <ImageWithBasePath
-                    src="assets/img/partner/partner1.svg"
-                    alt="img"
-                  />
-                </div>
-                <div className="partner-img">
-                  <ImageWithBasePath
-                    src="assets/img/partner/partner2.svg"
-                    alt="img"
-                  />
-                </div>
-                <div className="partner-img">
-                  <ImageWithBasePath
-                    src="assets/img/partner/partner3.svg"
-                    alt="img"
-                  />
-                </div>
-                <div className="partner-img">
-                  <ImageWithBasePath
-                    src="assets/img/partner/partner4.svg"
-                    alt="img"
-                  />
-                </div>
-                <div className="partner-img">
-                  <ImageWithBasePath
-                    src="assets/img/partner/partner5.svg"
-                    alt="img"
-                  />
-                </div>
-                <div className="partner-img">
-                  <ImageWithBasePath
-                    src="assets/img/partner/partner6.svg"
-                    alt="img"
-                  />
-                </div>
-              </Slider>
-            </div>
+<section className="our-partners-seven">
+  <div className="container">
+    <div className="row">
+      <div className="col-md-12 text-center">
+        <div
+          className="section-heading section-heading-seven aos"
+          data-aos="fade-up"
+        >
+          <h2>Our Clients</h2>
+          <p>
+            We are proud to partner with industry leaders and trusted brands
+          </p>
+        </div>
+      </div>
+
+      {/* Loading State */}
+      {isLoadingClient && (
+        <div className="col-12 text-center mb-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
-        </section>
+          <p className="mt-3">Loading partners...</p>
+        </div>
+      )}
+
+      {/* Error State */}
+      {errorClient && !isLoadingClient && (
+        <div className="col-12 text-center mb-5">
+          <div className="alert alert-danger d-flex align-items-center justify-content-center">
+            <Icon.AlertCircle className="me-2" size={18} />
+            <span>{errorClient}</span>
+            <button
+              className="btn btn-sm btn-outline-danger ms-3"
+              onClick={fetchClients}
+            >
+              <Icon.RefreshCw className="me-1" size={14} />
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Partners Slider */}
+      {!isLoadingClient && !errorClient && clients.length > 0 && (
+        <Slider {...partnersSlider} className="partners-slider-seven aos">
+          {clients.map((client, index) => (
+            <div  key={index}>
+              <img
+                src={getClientImageUrl(client.client_image)}
+                alt={client.client_name}
+                className="img-fluid"
+                style={{ maxHeight: '100px', objectFit: 'contain' }}
+              />
+            </div>
+          ))}
+        </Slider>
+      )}
+    </div>
+  </div>
+</section>
         {/* Partners Section */}
       </div>
       <FooterSeven />

@@ -51,7 +51,7 @@ const ServicesRoutes = () => {
       route: Route,
     },
     {
-      path: '/service-grid',
+      path: '/service',
       name: 'ServiceGrid',
       element: <ServiceGrid />,
       route: Route,

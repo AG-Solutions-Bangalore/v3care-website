@@ -1098,6 +1098,7 @@ table.dataTable thead .sorting_desc_disabled:after {
 }
 .navbar-brand.logo {
 	margin-right: 0;
+	
 }
 .logo img {
     height: auto;
@@ -24540,6 +24541,7 @@ header.header nav ul li a:hover {
 	}
 	.navbar-brand.logo {
 		display: none;
+		
 	}
 	.navbar-brand.logo-small {
 		display: block;

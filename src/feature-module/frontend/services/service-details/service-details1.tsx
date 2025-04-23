@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import 'yet-another-react-lightbox/styles.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -11,10 +11,10 @@ import BASE_URL from '../../../baseConfig/BaseUrl';
 
 const ServiceDetails1 = () => {
   const REACT_APP_GOOGLE_MAPS_KEY = "AIzaSyAk4WgZpl2DuYxnfgYLCXEQKvVLK3hJ7S0";
-let autoComplete: any;
+  let autoComplete: any;
 
-const [query, setQuery] = useState("");
-const autoCompleteRef = useRef(null);
+  const [query, setQuery] = useState("");
+  const autoCompleteRef = useRef(null);
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
@@ -56,8 +56,8 @@ const autoCompleteRef = useRef(null);
     order_comment: "",
     order_area: "",
     order_discount: "",
-      order_custom: "",
-  order_custom_price: "",
+    order_custom: "",
+    order_custom_price: "",
   });
 
   const fetchServicePrices = async () => {
@@ -123,59 +123,59 @@ const autoCompleteRef = useRef(null);
     }
   }, [servicePrices]);
 
-// for google map 
-const handleScriptLoad = (updateQuery: any, autoCompleteRef: any) => {
-  autoComplete = new (window as any).google.maps.places.Autocomplete(
-    autoCompleteRef.current,
-    {
-      componentRestrictions: { country: "IN" },
-    }
-  );
+  // for google map 
+  const handleScriptLoad = (updateQuery: any, autoCompleteRef: any) => {
+    autoComplete = new (window as any).google.maps.places.Autocomplete(
+      autoCompleteRef.current,
+      {
+        componentRestrictions: { country: "IN" },
+      }
+    );
 
-  autoComplete.addListener("place_changed", () => {
-    handlePlaceSelect(updateQuery);
-  });
-};
-
-const handlePlaceSelect = async (updateQuery: any) => {
-  const addressObject = await autoComplete.getPlace();
-  const query = addressObject.formatted_address;
-  const url = addressObject.url;
-  updateQuery(query);
-
-  setFormData(prev => ({
-    ...prev,
-    order_address: query,
-    order_url: url
-  }));
-};
-
-useEffect(() => {
-  const loadScript = (url: string, callback: () => void) => {
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    if (script.readyState) {
-      script.onreadystatechange = function () {
-        if (script.readyState === "loaded" || script.readyState === "complete") {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else {
-      script.onload = () => callback();
-    }
-    script.src = url;
-    document.getElementsByTagName("head")[0].appendChild(script);
+    autoComplete.addListener("place_changed", () => {
+      handlePlaceSelect(updateQuery);
+    });
   };
- 
 
-  loadScript(
-    `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
-    () => handleScriptLoad(setQuery, autoCompleteRef)
-  );
-}, []);
+  const handlePlaceSelect = async (updateQuery: any) => {
+    const addressObject = await autoComplete.getPlace();
+    const query = addressObject.formatted_address;
+    const url = addressObject.url;
+    updateQuery(query);
 
-// google map end
+    setFormData(prev => ({
+      ...prev,
+      order_address: query,
+      order_url: url
+    }));
+  };
+
+  useEffect(() => {
+    const loadScript = (url: string, callback: () => void) => {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      if (script.readyState) {
+        script.onreadystatechange = function () {
+          if (script.readyState === "loaded" || script.readyState === "complete") {
+            script.onreadystatechange = null;
+            callback();
+          }
+        };
+      } else {
+        script.onload = () => callback();
+      }
+      script.src = url;
+      document.getElementsByTagName("head")[0].appendChild(script);
+    };
+
+
+    loadScript(
+      `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
+      () => handleScriptLoad(setQuery, autoCompleteRef)
+    );
+  }, []);
+
+  // google map end
   /*------------------------------------------------start----------------- */
 
   const handleInputChange = (
@@ -220,29 +220,29 @@ useEffect(() => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     try {
       const bookingData = selectedPrices.map(price => ({
         order_service_price_for: price.id,
         order_service_price: price.service_price_rate,
         order_amount: price.service_price_amount,
-        order_remarks:formData.order_remarks,
+        order_remarks: formData.order_remarks,
         ...Object.fromEntries(
           Object.entries(formData).filter(([key]) => !['order_service_price_for', 'order_service_price', 'order_amount'].includes(key))
         )
       }));
-  
+
       const finalFormData = {
         booking_data: bookingData,
-   
-        
+
+
       };
-  
+
       const response = await axios.post(
-        `${BASE_URL}/api/panel-create-web-booking-outD`,
+        `${BASE_URL}/api/panel-create-web-booking-out`,
         finalFormData,
       );
-  
+
       if (response.data.success) {
         navigate('/');
       } else {
@@ -291,18 +291,18 @@ useEffect(() => {
 
   return (
     <>
-<style>
-    {`
+      <style>
+        {`
     @keyframes shine {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
     }
     `}
-  </style>
-    
+      </style>
+
       <div className="page-wrapper">
 
-{/* 
+        {/* 
       <div 
   className="d-lg-none" 
   style={{
@@ -383,99 +383,99 @@ useEffect(() => {
 
 
 
-<div 
-  className="d-lg-none" 
-  style={{
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: '100%',
-    background: 'linear-gradient(90deg, #4361ee 0%, #7209b7 100%)',
-    color: 'white',
-    zIndex: 1000,
-    borderTopLeftRadius: showBreakdown ? '0' : '12px',
-    borderTopRightRadius: showBreakdown ? '0' : '12px',
-    boxShadow: '0 -3px 10px rgba(0, 0, 0, 0.2)',
-    overflow: 'hidden',
-    transition: 'border-radius 0.3s ease'
-  }}
->
-  {/* Shine effect overlay */}
-  <div 
-    style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)',
-      animation: 'shine 3s infinite'
-    }}
-  ></div>
-  
-  {/* Content container */}
-  <div className="container-fluid py-2 px-3">
-    <div className="row align-items-center" onClick={() => setShowBreakdown(!showBreakdown)}>
-      <div className="col">
-        <div className="d-flex align-items-center">
-          <span 
-            className="badge rounded-pill me-2" 
+        <div
+          className="d-lg-none"
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            width: '100%',
+            background: 'linear-gradient(90deg, #4361ee 0%, #7209b7 100%)',
+            color: 'white',
+            zIndex: 1000,
+            borderTopLeftRadius: showBreakdown ? '0' : '12px',
+            borderTopRightRadius: showBreakdown ? '0' : '12px',
+            boxShadow: '0 -3px 10px rgba(0, 0, 0, 0.2)',
+            overflow: 'hidden',
+            transition: 'border-radius 0.3s ease'
+          }}
+        >
+          {/* Shine effect overlay */}
+          <div
             style={{
-              backgroundColor: '#ffe600',
-              color: '#7209b7',
-              fontWeight: 'bold'
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)',
+              animation: 'shine 3s infinite'
             }}
-          >
-            {selectedPrices.length}
-          </span>
-          <div>
-            <span className="fw-bold">₹{totalPrice.toFixed(2)}</span>
-            {totalOriginalPrice > 0 && (
-              <small 
-                className="ms-2" 
-                style={{
-                  textDecoration: 'line-through',
-                  opacity: 0.75
-                }}
-              >
-                ₹{totalOriginalPrice.toFixed(2)}
-              </small>
+          ></div>
+
+          {/* Content container */}
+          <div className="container-fluid py-2 px-3">
+            <div className="row align-items-center" onClick={() => setShowBreakdown(!showBreakdown)}>
+              <div className="col">
+                <div className="d-flex align-items-center">
+                  <span
+                    className="badge rounded-pill me-2"
+                    style={{
+                      backgroundColor: '#ffe600',
+                      color: '#7209b7',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {selectedPrices.length}
+                  </span>
+                  <div>
+                    <span className="fw-bold">₹{totalPrice.toFixed(2)}</span>
+                    {totalOriginalPrice > 0 && (
+                      <small
+                        className="ms-2"
+                        style={{
+                          textDecoration: 'line-through',
+                          opacity: 0.75
+                        }}
+                      >
+                        ₹{totalOriginalPrice.toFixed(2)}
+                      </small>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="col-auto">
+                <i className={`fas fa-chevron-${showBreakdown ? 'down' : 'up'} text-white`}></i>
+              </div>
+            </div>
+
+            {showBreakdown && (
+              <div className="mt-3 pt-2 border-top">
+                {selectedPrices.map((price, index) => (
+                  <div key={index} className="d-flex justify-content-between mb-2">
+                    <span>{price.service_price_for}</span>
+                    <span>₹{price.service_price_amount}</span>
+                  </div>
+                ))}
+              </div>
             )}
+
+            {/* <button
+              className="btn btn-sm rounded-pill w-100 mt-2"
+              style={{
+                backgroundColor: '#ffe600',
+                color: '#4361ee',
+                fontWeight: 'bold',
+                padding: '0.5rem',
+                border: 'none'
+              }}
+              onClick={handleSubmit}
+            >
+              <i className="fas fa-broom me-1"></i> BOOK NOW
+            </button> */}
           </div>
         </div>
-      </div>
-      <div className="col-auto">
-        <i className={`fas fa-chevron-${showBreakdown ? 'down' : 'up'} text-white`}></i>
-      </div>
-    </div>
-
-    {showBreakdown && (
-      <div className="mt-3 pt-2 border-top">
-        {selectedPrices.map((price, index) => (
-          <div key={index} className="d-flex justify-content-between mb-2">
-            <span>{price.service_price_for}</span>
-            <span>₹{price.service_price_amount}</span>
-          </div>
-        ))}
-      </div>
-    )}
-
-    <button 
-      className="btn btn-sm rounded-pill w-100 mt-2" 
-      style={{
-        backgroundColor: '#ffe600',
-        color: '#4361ee',
-        fontWeight: 'bold',
-        padding: '0.5rem',
-        border: 'none'
-      }}
-      onClick={handleSubmit}
-    >
-      <i className="fas fa-broom me-1"></i> BOOK NOW
-    </button>
-  </div>
-</div>
 
 
 
@@ -505,11 +505,11 @@ useEffect(() => {
                           {city && ` (${city})`}
                           {branch_id && ` [Branch: ${branch_id}]`}
                         </h3> */}
-                         <h4 className="mb-2  "   >
-                         <span> {state?.service_name || 'Service Name'}</span>
-                        
-                         &nbsp;  <span>{state?.service_sub_name ? `-- ${state?.service_sub_name}` : ""}</span>
-                        
+                        <h4 className="mb-2  "   >
+                          <span> {state?.service_name || 'Service Name'}</span>
+
+                          &nbsp;  <span>{state?.service_sub_name ? `-- ${state?.service_sub_name}` : ""}</span>
+
                         </h4>
                         {/* <span className="badge badge-purple-transparent mb-2">
                           <i className="ti ti-calendar-check me-1" />
@@ -692,231 +692,220 @@ useEffect(() => {
                         >
                           <div className="accordion-body border-0 p-0 pt-3">
                             <div className="bg-light-200 p-2 pb-2 br-10">
-                            <form onSubmit={handleSubmit} className="booking-form">
-  {/* Compact Info Display Section - Read-only information */}
-  <div className="info-summary mb-4 p-2 rounded bg-light border">
-    <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
-      <h5 className="mb-0 text-dark">Booking Summary</h5>
-      <span className="badge bg-success px-3 py-2 rounded-pill">Total: ₹{totalPrice.toFixed(2)}</span>
-    </div>
-    
-    <div className="row g-2">
-      <div className="col-md-4 col-6">
-        <div className="info-chip d-flex">
-          <span className="text-muted me-2">Date:</span>
-          <span className="fw-medium">{formData.order_date}</span>
-        </div>
-      </div>
-      <div className="col-md-4 col-6">
-        <div className="info-chip d-flex">
-          <span className="text-muted me-2">Year:</span>
-          <span className="fw-medium">{formData.order_year}</span>
-        </div>
-      </div>
-      <div className="col-md-4 col-6">
-        <div className="info-chip d-flex">
-          <span className="text-muted me-2">Source:</span>
-          <span className="fw-medium">{formData.order_refer_by}</span>
-        </div>
-      </div>
-      <div className="col-md-4 col-6">
-        <div className="info-chip d-flex">
-          <span className="text-muted me-2">Service:</span>
-          <span className="fw-medium text-truncate">{state?.service_name || '-'}</span>
-        </div>
-      </div>
-      <div className="col-md-4 col-6">
-        <div className="info-chip d-flex">
-          <span className="text-muted me-2">Type:</span>
-          <span className="fw-medium text-truncate">{state?.service_sub_name || '-'}</span>
-        </div>
-      </div>
-      <div className="col-md-4 col-6">
-        <div className="info-chip d-flex">
-          <span className="text-muted me-2">Branch:</span>
-          <span className="fw-medium">{formData.branch_id}</span>
-        </div>
-      </div>
-      {/* <div className="col-md-4 col-6">
-        <div className="info-chip d-flex">
-          <span className="text-muted me-2">Selected:</span>
-          <span className="fw-medium text-truncate">{primaryPrice ? primaryPrice.service_price_for : 'None'}</span>
-        </div>
-      </div>
-      <div className="col-md-4 col-6">
-        <div className="info-chip d-flex">
-          <span className="text-muted me-2">Price:</span>
-          <span className="fw-medium">{primaryPrice ? `₹${primaryPrice.service_price_amount}` : '₹0'}</span>
-        </div>
-      </div> */}
-      <div className="col-md-6">
-  <div className="info-chip">
-    <span className="text-muted me-2">Selected Services:</span>
-    <div className="mt-1">
-      {selectedPrices.length > 0 ? (
-        selectedPrices.map((price, index) => (
-          <div key={index} className="d-flex justify-content-between">
-            <span className="fw-medium">{price.service_price_for}</span>
-            <span className="fw-medium">₹{price.service_price_amount}</span>
-          </div>
-        ))
-      ) : (
-        <span className="fw-medium">None</span>
-      )}
-    </div>
-  </div>
-</div>
-<div className="col-md-6">
-  <div className="info-chip d-flex flex-column">
-    <div className="d-flex justify-content-between">
-      <span className="text-muted">Total Price:</span>
-      <span className="fw-bold">₹{totalPrice.toFixed(2)}</span>
-    </div>
-    {totalOriginalPrice > 0 && (
-      <div className="d-flex justify-content-between">
-        <span className="text-muted">Original Price:</span>
-        <span className="text-decoration-line-through">₹{totalOriginalPrice.toFixed(2)}</span>
-      </div>
-    )}
-  </div>
-</div>
-      <div className="col-md-4 col-6">
-        <div className="info-chip d-flex">
-          <span className="text-muted me-2">Distance:</span>
-          <span className="fw-medium">{formData.order_km} KM</span>
-        </div>
-      </div>
-    </div>
-  </div>
+                              <form onSubmit={handleSubmit} className="booking-form">
+                                {/* Compact Info Display Section - Read-only information */}
+                                {/* <div className="info-summary mb-4 p-2 rounded bg-light border">
+                                  <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                                    <h5 className="mb-0 text-dark">Booking Summary</h5>
+                                    <span className="badge bg-success px-3 py-2 rounded-pill">Total: ₹{totalPrice.toFixed(2)}</span>
+                                  </div>
 
-  {/* All editable fields in one clean section */}
-  <div className="editable-fields p-4 rounded bg-white shadow-sm border">
-   
-    
-    <div className="row g-3">
-      {/* Personal Details */}
-      <div className="col-md-4">
-        <label className="form-label small text-muted">Customer Name <span className="text-danger">*</span></label>
-        <input
-          type="text"
-          className="form-control"
-          name="order_customer"
-          value={formData.order_customer}
-          onChange={handleInputChange}
-          placeholder="Your full name"
-          required
-        />
-      </div>
-      
-      <div className="col-md-4">
-        <label className="form-label small text-muted">Mobile Number <span className="text-danger">*</span></label>
-        <input
-          type="tel"
-          className="form-control"
-          name="order_customer_mobile"
-          value={formData.order_customer_mobile}
-          onChange={handleInputChange}
-          placeholder="Your contact number"
-          required
-        />
-      </div>
-      
-      <div className="col-md-4">
-        <label className="form-label small text-muted">Email <span className="text-danger">*</span></label>
-        <input
-          type="email"
-          className="form-control"
-          name="order_customer_email"
-          value={formData.order_customer_email}
-          onChange={handleInputChange}
-          placeholder="Your email address"
-          required
-        />
-      </div>
-      
-      {/* Schedule Details */}
-      <div className="col-md-6">
-        <label className="form-label small text-muted">Service Date <span className="text-danger">*</span></label>
-        <input
-          type="date"
-          className="form-control"
-          name="order_service_date"
-          value={formData.order_service_date}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      
-      <div className="col-md-6">
-        <label className="form-label small text-muted">Service Time <span className="text-danger">*</span></label>
-        <input
-          type="time"
-          className="form-control"
-          name="order_time"
-          value={formData.order_time}
-          onChange={(e) => setFormData({...formData, order_time: e.target.value})}
-          required
-        />
-      </div>
-      
-      {/* Location Details */}
-      <div className="col-12">
-        <label className="form-label small text-muted">Address <span className="text-danger">*</span></label>
-        <input
-          type="text"
-          className="form-control"
-          ref={autoCompleteRef}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search for your address..."
-          value={query}
-          required
-        />
-      </div>
-      
-      <div className="col-md-6">
-        <label className="form-label small text-muted">Flat/Apartment</label>
-        <input
-          type="text"
-          className="form-control"
-          name="order_flat"
-          value={formData.order_flat}
-          onChange={handleInputChange}
-          placeholder="Flat number, building name, etc."
-        />
-      </div>
-      
-      <div className="col-md-6">
-        <label className="form-label small text-muted">Landmark</label>
-        <input
-          type="text"
-          className="form-control"
-          name="order_landmark"
-          value={formData.order_landmark}
-          onChange={handleInputChange}
-          placeholder="Nearby landmark"
-        />
-      </div>
-      
-      <div className="col-12">
-        <label className="form-label small text-muted">Remarks</label>
-        <textarea
-          className="form-control"
-          name="order_remarks"
-          value={formData.order_remarks}
-          onChange={handleInputChange}
-          placeholder="Any special instructions or notes"
-          rows={3}
-        ></textarea>
-      </div>
-      
-      <div className="col-12 mt-4">
-        <button type="submit" className="btn btn-primary w-100 py-2">
-          Book Service
-        </button>
-      </div>
-    </div>
-  </div>
-</form>
+                                  <div className="row g-2">
+                                    <div className="col-md-4 col-6">
+                                      <div className="info-chip d-flex">
+                                        <span className="text-muted me-2">Date:</span>
+                                        <span className="fw-medium">{formData.order_date}</span>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4 col-6">
+                                      <div className="info-chip d-flex">
+                                        <span className="text-muted me-2">Year:</span>
+                                        <span className="fw-medium">{formData.order_year}</span>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4 col-6">
+                                      <div className="info-chip d-flex">
+                                        <span className="text-muted me-2">Source:</span>
+                                        <span className="fw-medium">{formData.order_refer_by}</span>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4 col-6">
+                                      <div className="info-chip d-flex">
+                                        <span className="text-muted me-2">Service:</span>
+                                        <span className="fw-medium text-truncate">{state?.service_name || '-'}</span>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4 col-6">
+                                      <div className="info-chip d-flex">
+                                        <span className="text-muted me-2">Type:</span>
+                                        <span className="fw-medium text-truncate">{state?.service_sub_name || '-'}</span>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4 col-6">
+                                      <div className="info-chip d-flex">
+                                        <span className="text-muted me-2">Branch:</span>
+                                        <span className="fw-medium">{formData.branch_id}</span>
+                                      </div>
+                                    </div>
+                                   
+                                    <div className="col-md-6">
+                                      <div className="info-chip">
+                                        <span className="text-muted me-2">Selected Services:</span>
+                                        <div className="mt-1">
+                                          {selectedPrices.length > 0 ? (
+                                            selectedPrices.map((price, index) => (
+                                              <div key={index} className="d-flex justify-content-between">
+                                                <span className="fw-medium">{price.service_price_for}</span>
+                                                <span className="fw-medium">₹{price.service_price_amount}</span>
+                                              </div>
+                                            ))
+                                          ) : (
+                                            <span className="fw-medium">None</span>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                      <div className="info-chip d-flex flex-column">
+                                        <div className="d-flex justify-content-between">
+                                          <span className="text-muted">Total Price:</span>
+                                          <span className="fw-bold">₹{totalPrice.toFixed(2)}</span>
+                                        </div>
+                                        {totalOriginalPrice > 0 && (
+                                          <div className="d-flex justify-content-between">
+                                            <span className="text-muted">Original Price:</span>
+                                            <span className="text-decoration-line-through">₹{totalOriginalPrice.toFixed(2)}</span>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4 col-6">
+                                      <div className="info-chip d-flex">
+                                        <span className="text-muted me-2">Distance:</span>
+                                        <span className="fw-medium">{formData.order_km} KM</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div> */}
+
+                                {/* All editable fields in one clean section */}
+                                <div className="editable-fields p-4 rounded bg-white shadow-sm border">
+
+
+                                  <div className="row g-3">
+                                    {/* Personal Details */}
+                                    <div className="col-md-4">
+                                      <label className="form-label small text-muted">Customer Name <span className="text-danger">*</span></label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name="order_customer"
+                                        value={formData.order_customer}
+                                        onChange={handleInputChange}
+                                        placeholder="Your full name"
+                                        required
+                                      />
+                                    </div>
+
+                                    <div className="col-md-4">
+                                      <label className="form-label small text-muted">Mobile Number <span className="text-danger">*</span></label>
+                                      <input
+                                        type="tel"
+                                        className="form-control"
+                                        name="order_customer_mobile"
+                                        value={formData.order_customer_mobile}
+                                        onChange={handleInputChange}
+                                        placeholder="Your contact number"
+                                        required
+                                      />
+                                    </div>
+
+                                    <div className="col-md-4">
+                                      <label className="form-label small text-muted">Email <span className="text-danger">*</span></label>
+                                      <input
+                                        type="email"
+                                        className="form-control"
+                                        name="order_customer_email"
+                                        value={formData.order_customer_email}
+                                        onChange={handleInputChange}
+                                        placeholder="Your email address"
+                                        required
+                                      />
+                                    </div>
+
+                                    {/* Schedule Details */}
+                                    <div className="col-md-6">
+                                      <label className="form-label small text-muted">Service Date <span className="text-danger">*</span></label>
+                                      <input
+                                        type="date"
+                                        className="form-control"
+                                        name="order_service_date"
+                                        value={formData.order_service_date}
+                                        onChange={handleInputChange}
+                                        required
+                                      />
+                                    </div>
+
+                                    <div className="col-md-6">
+                                      <label className="form-label small text-muted">Service Time <span className="text-danger">*</span></label>
+                                      <input
+                                        type="time"
+                                        className="form-control"
+                                        name="order_time"
+                                        value={formData.order_time}
+                                        onChange={(e) => setFormData({ ...formData, order_time: e.target.value })}
+                                        required
+                                      />
+                                    </div>
+
+                                    {/* Location Details */}
+                                    <div className="col-12">
+                                      <label className="form-label small text-muted">Address <span className="text-danger">*</span></label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        ref={autoCompleteRef}
+                                        onChange={(event) => setQuery(event.target.value)}
+                                        placeholder="Search for your address..."
+                                        value={query}
+                                        required
+                                      />
+                                    </div>
+
+                                    <div className="col-md-6">
+                                      <label className="form-label small text-muted">Flat/Apartment</label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name="order_flat"
+                                        value={formData.order_flat}
+                                        onChange={handleInputChange}
+                                        placeholder="Flat number, building name, etc."
+                                      />
+                                    </div>
+
+                                    <div className="col-md-6">
+                                      <label className="form-label small text-muted">Landmark</label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name="order_landmark"
+                                        value={formData.order_landmark}
+                                        onChange={handleInputChange}
+                                        placeholder="Nearby landmark"
+                                      />
+                                    </div>
+
+                                    <div className="col-12">
+                                      <label className="form-label small text-muted">Remarks</label>
+                                      <textarea
+                                        className="form-control"
+                                        name="order_remarks"
+                                        value={formData.order_remarks}
+                                        onChange={handleInputChange}
+                                        placeholder="Any special instructions or notes"
+                                        rows={3}
+                                      ></textarea>
+                                    </div>
+
+                                    <div className="col-12 mt-4">
+                                      <button type="submit" className="btn btn-primary w-100 py-2">
+                                        Book Service
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
                             </div>
                           </div>
                         </div>
@@ -1133,7 +1122,7 @@ useEffect(() => {
                           50% Offer
                         </span>
                       </div>
-                      <Link
+                      {/* <Link
                         to="#"
                         className="btn btn-lg btn-primary w-100 d-flex align-items-center justify-content-center mb-3"
                       >
@@ -1148,7 +1137,7 @@ useEffect(() => {
                       >
                         <i className="ti ti-mail me-2" />
                         Send Enquiry
-                      </Link>
+                      </Link> */}
                     </div>
                   </div>
 
@@ -1188,36 +1177,36 @@ useEffect(() => {
                             <div className="p-3">
                               <div>
                                 <h5 className="fs-16 mb-1 text-wrap">
-                                  {card?.service}
+                                  {card?.serviceDetails_name}
                                 </h5>
 
-                              
+
                                 <p className="fs-12" style={{ textAlign: 'justify' }}>
-  {card?.serviceDetails && (
-    <>
-      {showFullText?.[card.id] ? (
-        card.serviceDetails
-      ) : (
-        <>
-          {card.serviceDetails.split(' ').slice(0, 25).join(' ')}
-          {card.serviceDetails.split(' ').length > 25 && '...'}
-        </>
-      )}
-      {card.serviceDetails.split(' ').length > 25 && (
-        <span 
-          className="link-primary text-decoration-underline ms-1"
-          style={{ cursor: 'pointer' }}
-          onClick={() => setShowFullText(prev => ({ ...prev, [card.id]: !prev?.[card.id] }))}
-        >
-          {showFullText?.[card.id] ? 'Read less' : 'Read more'}
-        </span>
-      )}
-    </>
-  )}
-</p>
+                                  {card?.serviceDetails && (
+                                    <>
+                                      {showFullText?.[card.id] ? (
+                                        card.serviceDetails
+                                      ) : (
+                                        <>
+                                          {card.serviceDetails.split(' ').slice(0, 25).join(' ')}
+                                          {card.serviceDetails.split(' ').length > 25 && '...'}
+                                        </>
+                                      )}
+                                      {card.serviceDetails.split(' ').length > 25 && (
+                                        <span
+                                          className="link-primary text-decoration-underline ms-1"
+                                          style={{ cursor: 'pointer' }}
+                                          onClick={() => setShowFullText(prev => ({ ...prev, [card.id]: !prev?.[card.id] }))}
+                                        >
+                                          {showFullText?.[card.id] ? 'Read less' : 'Read more'}
+                                        </span>
+                                      )}
+                                    </>
+                                  )}
+                                </p>
                               </div>
                             </div>
-                           
+
                           </div>
                         </div>
                       </>
@@ -1231,7 +1220,7 @@ useEffect(() => {
                   {/* recommendation card end */}
                 </StickyBox>
               </div>
-              
+
             </div>
           </div>
         </div>

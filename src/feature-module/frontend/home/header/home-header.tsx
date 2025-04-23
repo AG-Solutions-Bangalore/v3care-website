@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import {
-  
+
   set_toggleSidebar_data,
 } from '../../../../core/data/redux/action';
 import * as Icon from 'react-feather';
@@ -23,11 +23,11 @@ const HomeHeader: React.FC<props> = ({ type }) => {
   const [showCityModal, setShowCityModal] = useState<boolean>(false);
   const [currentCity, setCurrentCity] = useState<string | null>(null);
 
-  
+
   const dispatch = useDispatch();
 
   // useEffect(() => {
-    
+
   //   const city = localStorage.getItem('city');
   //   setCurrentCity(city);
   // }, []);
@@ -35,20 +35,20 @@ const HomeHeader: React.FC<props> = ({ type }) => {
   useEffect(() => {
     const storedCity = localStorage.getItem('city');
     setCurrentCity(storedCity);
-  
+
     const handleCityChange = (event: Event) => {
-      
+
       const city = (event as CustomEvent).detail;
       setCurrentCity(city);
     };
-  
+
     window.addEventListener('cityChanged', handleCityChange);
-  
+
     return () => {
       window.removeEventListener('cityChanged', handleCityChange);
     };
   }, []);
-  
+
 
   const toogle = () => {
     dispatch(set_toggleSidebar_data(toggle_data ? false : true));
@@ -110,9 +110,9 @@ const HomeHeader: React.FC<props> = ({ type }) => {
   };
   return (
     <>
-{showCityModal && (
-        <CityModal 
-          onSelectCity={handleCitySelect} 
+      {showCityModal && (
+        <CityModal
+          onSelectCity={handleCitySelect}
           onClose={handleCloseModal}
           selectedCity={currentCity}
         />
@@ -147,16 +147,17 @@ const HomeHeader: React.FC<props> = ({ type }) => {
                   <span />
                 </span>
               </Link>
-              <Link to="/" className="navbar-brand logo">
-                <ImageWithBasePath
-                  src="assets/img/logo.svg"
-                  className="img-fluid"
+              <Link to="/" className="navbar-brand logo" >
+                <img
+                  src="https://new.agsdraft.online/assets/v3logo-Chdt_krj.png"
+                  className="img-fluid "
+                  style={{ width:"100px", height:"50px"}}
                   alt="Logo"
                 />
               </Link>
               <Link to="/" className="navbar-brand logo-small">
-                <ImageWithBasePath
-                  src="assets/img/logo-small.svg"
+                <img
+                 src="https://new.agsdraft.online/assets/v3logo-Chdt_krj.png"
                   className="img-fluid"
                   alt="Logo"
                 />
@@ -186,7 +187,7 @@ const HomeHeader: React.FC<props> = ({ type }) => {
                 <li className={isRouteActive('/') ? 'active' : ''}>
                   <Link to="/">Home</Link>
                 </li>
-               
+
                 <li
                   className={isRouteActive('/pages/about-us') ? 'active' : ''}
                 >
@@ -195,18 +196,18 @@ const HomeHeader: React.FC<props> = ({ type }) => {
 
                 <li
                   className={
-                    isRouteActive('/services/service-grid') ? 'active' : ''
+                    isRouteActive('/services/service') ? 'active' : ''
                   }
                 >
-                  <Link to="/services/service-grid">Services</Link>
+                  <Link to="/services/service">Services</Link>
                 </li>
                 <li className={isRouteActive('/pages/client') ? 'active' : ''}>
                   <Link to="/pages/client">Client</Link>
                 </li>
                 <li
-                  className={isRouteActive('/blog/blog-grid') ? 'active' : ''}
+                  className={isRouteActive('/blog/blog') ? 'active' : ''}
                 >
-                  <Link to="/blog/blog-grid">Blog</Link>
+                  <Link to="/blog/blog">Blog</Link>
                 </li>
                 <li
                   className={isRouteActive('/pages/contact-us') ? 'active' : ''}
@@ -217,7 +218,7 @@ const HomeHeader: React.FC<props> = ({ type }) => {
             </div>
 
             <ul className="nav header-navbar-rht">
-            <li className="nav-item city-selector" onClick={handleCityClick}>
+              <li className="nav-item city-selector" onClick={handleCityClick}>
                 <div className="nav-link" style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -228,7 +229,7 @@ const HomeHeader: React.FC<props> = ({ type }) => {
                   transition: 'all 0.2s ease'
                 }}>
                   <Icon.MapPin size={16} style={{ marginRight: '8px', color: '#3182ce' }} />
-                  <span style={{ 
+                  <span style={{
                     fontSize: '0.875rem',
                     fontWeight: 500,
                     color: currentCity ? '#2d3748' : '#718096'
@@ -237,19 +238,22 @@ const HomeHeader: React.FC<props> = ({ type }) => {
                   </span>
                 </div>
               </li>
+
+
               <li className="nav-item">
                 <Link
-                  className="nav-link header-login"
+                  className="nav-link d-flex align-items-center border border-danger rounded px-2 py-1 header-login text-white"
                   to="/services/service-request"
                 >
-                  <i className="fa-regular fa-circle-user me-2"></i>Book 
-                  Service
+                  <i className="fa-regular fa-circle-user me-1"></i>
+                  <span className="fs-16">Become a Vendor</span>
                 </Link>
-
               </li>
-             
+
+
+
             </ul>
-           
+
           </nav>
         </div>
       </header>

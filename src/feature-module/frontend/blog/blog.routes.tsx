@@ -13,7 +13,7 @@ const BlogRoutes = () => {
       route: Route,
     },
     {
-      path: '/blog-grid',
+      path: '/blog',
       name: ' blogGrid',
       element: <BlogGrid />,
       route: Route,

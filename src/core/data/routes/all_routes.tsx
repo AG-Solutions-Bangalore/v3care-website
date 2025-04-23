@@ -5,11 +5,12 @@ export const all_routes = {
   // blog module path
   blog: '/blog/*',
   blogDetails: '/blog/blog-details',
-  blogGrid: '/blog/blog-grid',
+  blogGrid: '/blog/blog',
   blogList: '/blog/blog-list',
+  
   // services module path
   services: '/services/*',
-  serviceGrid: '/services/service-grid',
+  serviceGrid: '/services/service',
   serviceList: '/services/service-list',
   createService: '/services/create-service',
   providerDetails: '/services/providers/provider-details',

@@ -55,7 +55,7 @@ const AboutUs = () => {
                 </div>
                 <div className="abt-img">
                   <ImageWithBasePath
-                    src="assets/img/providers/provider-23.jpg"
+                    src="assets/img/providers/about1.jpg"
                     className="img-fluid"
                     alt="img"
                   />
@@ -340,7 +340,7 @@ const AboutUs = () => {
             <div className="col-md-6">
               <div className="chooseus-img">
                 <ImageWithBasePath
-                  src="assets/img/services/service-75.jpg"
+                  src="assets/img/providers/promisesabout.jpg"
                   className="img-fluid"
                   alt="img"
                 />
@@ -459,7 +459,7 @@ const AboutUs = () => {
                 </div>
                 <div className="abt-img">
                   <ImageWithBasePath
-                    src="assets/img/providers/provider-23.jpg"
+                    src="assets/img/providers/teamabout.jpg"
                     className="img-fluid"
                     alt="img"
                   />

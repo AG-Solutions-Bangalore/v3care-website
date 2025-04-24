@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import BreadCrumb from '../../common/breadcrumb/breadCrumb'
 import axios from 'axios'
-import BASE_URL from '../../../baseConfig/BaseUrl';
 import Select from 'react-select';
-import { Link } from 'react-router-dom';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
+import { BASE_URL, BASE_URL_PINCODE } from '../../../baseConfig/BaseUrl';
 
 interface BranchType {
   id: string;
@@ -58,7 +56,7 @@ interface VendorBranchType {
 
 const ServiceRequest = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const BASE_URL_PINCODE = "https://api.v3care.in"; 
+  
 
   const [vendor, setVendor] = useState<VendorState>({
     vendor_short: "",

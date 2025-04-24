@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import Feature from '../feature';
 import CityModal from '../components/CityModal';
 import ScrollToTop from '../components/ScrollToTop';
+import JoinUs from '../components/JoinUs';
 
 const AllRoutes = () => {
   const [showCityModal, setShowCityModal] = useState<boolean>(false);
@@ -35,6 +36,7 @@ const AllRoutes = () => {
 
   return (
     <>
+    <JoinUs/>
     <ScrollToTop/>
       {showCityModal && (
         <CityModal 

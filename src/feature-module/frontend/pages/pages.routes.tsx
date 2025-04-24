@@ -18,9 +18,12 @@ import SessionExpired from './session-expired/session-expired';
 import BookingDetails from './booking/booking-details';
 import CommingSoon from './comming-soon/comming-soon';
 import BookingWizard from './booking/booking-wizard';
-// import Invoice from '../customers/invoice/invoice';
-import Categories2 from './categories/categories2';
 import Client from './client/client';
+import ServiceGrid from './service-grid/service-grid';
+import BlogGrid from './blog-grid/blog-grid';
+import ServiceDetails1 from './service-details/service-details1';
+import ServiceRequest from './service-request/serviceRequest';
+import BlogDetails from './blog-details/blog-details';
 
 const PagesRoutes = () => {
   const all_pages_routes = [
@@ -42,12 +45,7 @@ const PagesRoutes = () => {
       element: <Categories />,
       route: Route,
     },
-    {
-      path: '/categories-2',
-      name: 'categories-2',
-      element: <Categories2 />,
-      route: Route,
-    },
+  
     {
       path: '/coming-soon',
       name: 'coming-soon',
@@ -72,13 +70,38 @@ const PagesRoutes = () => {
       element: <Howitworks />,
       route: Route,
     },
+    {
+      path: '/service',
+      name: 'ServiceGrid',
+      element: <ServiceGrid />,
+      route: Route,
+    },
+    {
+      path: '/service-details',
+      name: 'service-details-1',
+      element: <ServiceDetails1 />,
+      route: Route,
+    },
+    {
+      path: '/become-vendor',
+      name: 'service-request',
+      element: <ServiceRequest />,
+      route: Route,
+    },
+    {
+      path: '/blog',
+      name: ' blogGrid',
+      element: <BlogGrid />,
+      route: Route,
+    },
+    {
+      path: '/blog-details/:id',
+      name: 'blogDetails',
+      element: <BlogDetails />,
+      route: Route,
+    },
     
-    // {
-    //   path: '/invoice',
-    //   name: 'invoice',
-    //   element: <Invoice />,
-    //   route: Route,
-    // },
+   
     {
       path: '/terms-condition',
       name: 'terms-condition',

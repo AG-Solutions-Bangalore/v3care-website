@@ -5,7 +5,7 @@ import 'aos/dist/aos.css';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import axios from 'axios';
 import * as Icon from 'react-feather';
-import BASE_URL from '../../../baseConfig/BaseUrl';
+import {BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL} from '../../../baseConfig/BaseUrl';
 
 interface Service {
   id: number;
@@ -59,7 +59,7 @@ const Categories = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate('/services/service-details/service-details1', {
+        navigate('/pages/service-details', {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -68,7 +68,7 @@ const Categories = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate('/services/service-details/service-details1', {
+      navigate('/pages/service-details', {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -86,11 +86,11 @@ const Categories = () => {
 
   const getImageUrl = (imageName: string | null, isSubService = false) => {
     if (!imageName) {
-      return "http://agscare.site/crmapi/public/storage/no_image.jpg";
+      return `${NO_IMAGE_URL}`;
     }
     return isSubService 
-      ? `http://agscare.site/crmapi/public/storage/service_sub/${imageName}`
-      : `http://agscare.site/crmapi/public/storage/service/${imageName}`;
+      ? `${SERVICE_SUB_IMAGE_URL}/${imageName}`
+      : `${SERVICE_IMAGE_URL}/${imageName}`;
   };
 
   useEffect(() => {
@@ -250,7 +250,7 @@ const Categories = () => {
                 <div key={subService.id} className="col-6 col-sm-4 col-md-3" >
                   <div 
                     className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                    onClick={() => navigate('/services/service-details/service-details1', {
+                    onClick={() => navigate('/pages/service-details', {
                       state: {
                         service_id: selectedService?.id,
                         service_name: selectedService?.service,

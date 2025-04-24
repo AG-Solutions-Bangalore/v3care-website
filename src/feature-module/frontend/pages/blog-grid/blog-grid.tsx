@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
-import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import { blogCardData } from '../../../../core/data/json/blog_card';
+import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
+
 
 const BlogGrid = () => {
   const routes = all_routes;
@@ -75,7 +76,7 @@ const BlogGrid = () => {
   
   return (
     <>
-      <BreadCrumb title="Blog Grid" item1="Home" item2="Blog Grid" />
+      <BreadCrumb title="Blog" item1="Home" item2="Blog" />
       <div className="page-wrapper">
         <div className="content">
           <div className="container">

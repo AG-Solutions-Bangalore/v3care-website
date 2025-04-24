@@ -3,12 +3,7 @@ import { Navigate, Route } from 'react-router-dom';
 import { all_routes } from '../../core/data/routes/all_routes';
 import HomeSeven from '../frontend/home/home-seven/home-seven';
 import Pages from '../frontend/pages/pages';
-import Services from '../frontend/services/services';
-import Blog from '../frontend/blog/blog';
 import Booking1 from '../frontend/pages/booking/booking-1';
-import Error404 from '../frontend/pages/Error page/error404';
-import NewHome from '../frontend/home/new-home';
-import Error500 from '../frontend/pages/Error page/error500';
 
 const routes = all_routes;
 
@@ -83,18 +78,6 @@ const publicRoutes = [
     route: Route,
   },
   
-  {
-    path: routes.services,
-    name: 'services',
-    element: <Services />,
-    route: Route,
-  },
-  {
-    path: routes.blog,
-    name: 'blog',
-    element: <Blog />,
-    route: Route,
-  },
  
   
  

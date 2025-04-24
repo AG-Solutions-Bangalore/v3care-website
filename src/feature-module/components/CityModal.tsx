@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as Icon from 'react-feather';
 import axios from "axios";
-import BASE_URL from '../baseConfig/BaseUrl';
+import {BASE_URL} from '../baseConfig/BaseUrl';
 
 interface CityModalProps {
   onSelectCity: (city: string, branchId: number) => void;

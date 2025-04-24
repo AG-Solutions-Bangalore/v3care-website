@@ -5,12 +5,12 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StickyBox from 'react-sticky-box';
 import axios from 'axios';
-import BASE_URL from '../../../baseConfig/BaseUrl';
+import {BASE_URL} from '../../../baseConfig/BaseUrl';
 
 
 
 const ServiceDetails1 = () => {
-  const REACT_APP_GOOGLE_MAPS_KEY = "AIzaSyAk4WgZpl2DuYxnfgYLCXEQKvVLK3hJ7S0";
+  const REACT_APP_GOOGLE_MAPS_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
   let autoComplete: any;
 
   const [query, setQuery] = useState("");

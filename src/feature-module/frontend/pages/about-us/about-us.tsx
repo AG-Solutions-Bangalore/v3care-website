@@ -105,11 +105,15 @@ const AboutUs = () => {
               <div className="about-content">
                 <h6>ABOUT V3 CARE</h6>
                 <h2>Best Solution For Cleaning Services</h2>
-                <p className='text-justify'>
+                <p style={{
+                  textAlign:"justify"
+                }}>
                   Welcome to V3 care. the best cleaning service provider from South India- Bangalore. We take great pride in offering all of our clients a reliable, trustworthy and affordable service. we’ve steadily grown and built a reputation for excellence. We guarantee that you will receive the highest standard of service for the best possible price. V3 care offers impeccable service from start to finish. We offer a broad range of cleaning services for Residential, corporate ,Industrial and others, throughout the Bangalore.
                   
                 </p>
-                <p className='text-justify'>
+                <p style={{
+                  textAlign:"justify"
+                }}>
                 We take the time to understand each of our client’s needs, in order to ensure that they receive the best possible bespoke cleaning services for their premises. Our cleaning staff are well trained, motivated and supported by a team of local, knowledgable and experienced operational managers.
                 </p>
                 <div className="row">
@@ -454,7 +458,9 @@ const AboutUs = () => {
               <div className="about-content">
                 <h6>OUR TEAM</h6>
                 <h2>Best Solution For Cleaning Services</h2>
-                <p className='text-justify'>
+                <p style={{
+                  textAlign:"justify"
+                }}>
                 Our team are highly trained, full-time professional cleaners,totally reliable,providing quality cleaning services in Bangalore at affordable prices. We pride ourselves in listening to our customers, ensuring they receive a cleaning service they can trust and rely on whether it is Residential, commercial or corporate clean, we will be there when you need us.You need a professional service which provides consistent high quality cleaning to meet your own very high standards. We can customize our services based on your needs.
                   
                 </p>

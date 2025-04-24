@@ -165,10 +165,11 @@ const HomeHeader: React.FC<props> = ({ type }) => {
             </div>
             <div className="main-menu-wrapper">
               <div className="menu-header">
-                <Link to="/" className="menu-logo">
-                  <ImageWithBasePath
-                    src="assets/img/logo.svg"
+                <Link to="/" onClick={() => dispatch(set_toggleSidebar_data(false))} className="menu-logo">
+                  <img
+                 src="https://new.agsdraft.online/assets/v3logo-Chdt_krj.png"
                     className="img-fluid"
+                    style={{ width:"100px", height:"50px", textAlign:"center"}}
                     alt="Logo"
                   />
                 </Link>
@@ -181,9 +182,10 @@ const HomeHeader: React.FC<props> = ({ type }) => {
                   {' '}
                   <i className="fas fa-times" />
                 </Link>
+                
               </div>
 
-              <ul className="main-nav align-items-lg-center">
+              {/* <ul className="main-nav align-items-lg-center">
                 <li className={isRouteActive('/') ? 'active' : ''}>
                   <Link to="/">Home</Link>
                 </li>
@@ -214,7 +216,32 @@ const HomeHeader: React.FC<props> = ({ type }) => {
                 >
                   <Link to="/pages/contact-us">Contact Us</Link>
                 </li>
-              </ul>
+              </ul> */}
+              <ul className="main-nav align-items-lg-center">
+  <li className={isRouteActive('/') ? 'active' : ''}>
+    <Link to="/" onClick={() => dispatch(set_toggleSidebar_data(false))}>Home</Link>
+  </li>
+
+  <li className={isRouteActive('/pages/about-us') ? 'active' : ''}>
+    <Link to="/pages/about-us" onClick={() => dispatch(set_toggleSidebar_data(false))}>About Us</Link>
+  </li>
+
+  <li className={isRouteActive('/pages/service') ? 'active' : ''}>
+    <Link to="/pages/service" onClick={() => dispatch(set_toggleSidebar_data(false))}>Services</Link>
+  </li>
+  
+  <li className={isRouteActive('/pages/client') ? 'active' : ''}>
+    <Link to="/pages/client" onClick={() => dispatch(set_toggleSidebar_data(false))}>Client</Link>
+  </li>
+  
+  <li className={isRouteActive('/pages/blog') ? 'active' : ''}>
+    <Link to="/pages/blog" onClick={() => dispatch(set_toggleSidebar_data(false))}>Blog</Link>
+  </li>
+  
+  <li className={isRouteActive('/pages/contact-us') ? 'active' : ''}>
+    <Link to="/pages/contact-us" onClick={() => dispatch(set_toggleSidebar_data(false))}>Contact Us</Link>
+  </li>
+</ul>
             </div>
 
             <ul className="nav header-navbar-rht">

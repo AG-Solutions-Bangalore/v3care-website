@@ -132,6 +132,7 @@ const HomeSeven = () => {
   const categoriesSuperSlider = {
     dots: true,
     autoplay: false,
+    arrows: false,
     slidesToShow: 4,
     speed: 500,
     responsive: [
@@ -157,6 +158,7 @@ const HomeSeven = () => {
         breakpoint: 567,
         settings: {
           slidesToShow: 1,
+          arrows: false,
         },
       },
     ],
@@ -165,6 +167,7 @@ const HomeSeven = () => {
     dots: true,
     autoplay: false,
     slidesToShow: 5,
+    
     speed: 500,
     responsive: [
       {
@@ -183,12 +186,14 @@ const HomeSeven = () => {
         breakpoint: 776,
         settings: {
           slidesToShow: 2,
+          arrows: false,
         },
       },
       {
         breakpoint: 567,
         settings: {
           slidesToShow: 1,
+          arrows: false,
         },
       },
     ],
@@ -226,38 +231,7 @@ const HomeSeven = () => {
       },
     ],
   };
-  const recentProject = {
-    dots: true,
-    autoplay: false,
-    slidesToShow: 3,
-    speed: 500,
-    responsive: [
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 776,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 567,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-    ],
-  };
+  
 
   const testimonialSlider = {
     dots: true,
@@ -359,7 +333,7 @@ const HomeSeven = () => {
       {
         breakpoint: 567,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 2,
         },
       },
     ],
@@ -457,50 +431,7 @@ const HomeSeven = () => {
         {/* /Hero Section */}
         {/* Service Section */}
         <section className="service-section-seven">
-          {/* <div className="search-box-two search-box-seven">
-            <form >
-              <div className="search-input-new line">
-                <i className="fas fa-tv bficon" />
-                <div className="form-group mb-0">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="What are you looking for?"
-                  />
-                </div>
-              </div>
-              <div className="search-input-new">
-                <i className="fas fa-location-arrow bficon" />
-                <div className="form-group mb-0">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Your Location"
-                  />
-                  <Link className="current-loc-icon current_location" to="#" />
-                </div>
-              </div>
-              <div className="search-btn">
-                <button className="btn btn-primary rounded-pill" type="submit">
-                  <i className="feather icon-search" /> Search
-                </button>
-              </div>
-            </form>
-          </div> */}
-          {/* <div className="popularsearch-top">
-            <h6>Popular Searches</h6>
-            <ul>
-              <li>
-                <Link to={routes.search}>Electrical Works</Link>
-              </li>
-              <li>
-                <Link to={routes.search}>Cleaning</Link>
-              </li>
-              <li>
-                <Link to={routes.search}>AC Repair</Link>
-              </li>
-            </ul>
-          </div> */}
+        
           <div className="container">
             <div className="section-heading section-heading-seven">
               <div className="row">
@@ -634,25 +565,7 @@ const HomeSeven = () => {
                           Toughened Glass Fitting Service
                         </Link>
                       </h3>
-                      {/* <p>
-                        <span className="rate">
-                          <i className="feather icon-phone" />
-                          28-62-76-32
-                        </span>
-                        <i className="feather icon-map-pin me-2" />
-                        New Jersey, USA
-                      </p> */}
-                      {/* <div className="serv-info">
-                        <div className="rating">
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <span>(234)</span>
-                        </div>
-                        <h6>$25.00</h6>
-                      </div> */}
+                     
                     </div>
                   </div>
                   <div
@@ -693,25 +606,7 @@ const HomeSeven = () => {
                           Car Repair Service
                         </Link>
                       </h3>
-                      {/* <p>
-                        <span className="rate">
-                          <i className="feather icon-phone" />
-                          28-62-76-32
-                        </span>
-                        <i className="feather icon-map-pin me-2" />
-                        New Jersey, USA
-                      </p>
-                      <div className="serv-info">
-                        <div className="rating">
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <span>(234)</span>
-                        </div>
-                        <h6>$25.00</h6>
-                      </div> */}
+                     
                     </div>
                   </div>
                   <div
@@ -793,25 +688,7 @@ const HomeSeven = () => {
                           Car Repair Service
                         </Link>
                       </h3>
-                      {/* <p>
-                        <span className="rate">
-                          <i className="feather icon-phone" />
-                          28-62-76-32
-                        </span>
-                        <i className="feather icon-map-pin me-2" />
-                        New Jersey, USA
-                      </p>
-                      <div className="serv-info">
-                        <div className="rating">
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <span>(234)</span>
-                        </div>
-                        <h6>$86.00</h6>
-                      </div> */}
+                    
                     </div>
                   </div>
                 </Slider>
@@ -845,9 +722,9 @@ const HomeSeven = () => {
                       padding: '2px',
                       background: 'white',
                       border: '2px solid white',
-                      // height: "250px",
-                      borderRadius: '0.5rem', // Tailwind's rounded-lg = 0.5rem = 8px
-                      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+                    
+                      borderRadius: '0.5rem', 
+                   
                     }}
                   >
                     <img
@@ -855,8 +732,8 @@ const HomeSeven = () => {
                       alt="img"
                       className="img-fluid"
                       style={{
-                        // height: "210px",
-                        borderRadius: '0.5rem', // Optional: if you want the image corners rounded too
+                       
+                        borderRadius: '0.5rem', 
                       }}
                     />
                     <h5
@@ -876,9 +753,9 @@ const HomeSeven = () => {
                       padding: '2px',
                       background: 'white',
                       border: '2px solid white',
-                      // height: "250px",
-                      borderRadius: '0.5rem', // Tailwind's rounded-lg = 0.5rem = 8px
-                      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+                     
+                      borderRadius: '0.5rem', 
+                     
                     }}
                   >
                     <img
@@ -886,8 +763,8 @@ const HomeSeven = () => {
                       alt="img"
                       className="img-fluid"
                       style={{
-                        // height: "210px",
-                        borderRadius: '0.5rem', // Optional: if you want the image corners rounded too
+                     
+                        borderRadius: '0.5rem', 
                       }}
                     />
                     <h5
@@ -907,9 +784,9 @@ const HomeSeven = () => {
                       padding: '2px',
                       background: 'white',
                       border: '2px solid white',
-                      // height: "250px",
-                      borderRadius: '0.5rem', // Tailwind's rounded-lg = 0.5rem = 8px
-                      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+                     
+                      borderRadius: '0.5rem', 
+                   
                     }}
                   >
                     <img
@@ -917,8 +794,8 @@ const HomeSeven = () => {
                       alt="img"
                       className="img-fluid"
                       style={{
-                        // height: "210px",
-                        borderRadius: '0.5rem', // Optional: if you want the image corners rounded too
+                       
+                        borderRadius: '0.5rem',
                       }}
                     />
                     <h5
@@ -938,9 +815,9 @@ const HomeSeven = () => {
                       padding: '2px',
                       background: 'white',
                       border: '2px solid white',
-                      // height: "250px",
-                      borderRadius: '0.5rem', // Tailwind's rounded-lg = 0.5rem = 8px
-                      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+                  
+                      borderRadius: '0.5rem', 
+                 
                     }}
                   >
                     <img
@@ -948,8 +825,8 @@ const HomeSeven = () => {
                       alt="img"
                       className="img-fluid"
                       style={{
-                        // height: "210px",
-                        borderRadius: '0.5rem', // Optional: if you want the image corners rounded too
+                  
+                        borderRadius: '0.5rem', 
                       }}
                     />
                     <h5
@@ -969,9 +846,8 @@ const HomeSeven = () => {
                       padding: '2px',
                       background: 'white',
                       border: '2px solid white',
-                      // height: "250px",
-                      borderRadius: '0.5rem', // Tailwind's rounded-lg = 0.5rem = 8px
-                      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+                    
+                      borderRadius: '0.5rem', 
                     }}
                   >
                     <img
@@ -979,8 +855,8 @@ const HomeSeven = () => {
                       alt="img"
                       className="img-fluid"
                       style={{
-                        // height: "210px",
-                        borderRadius: '0.5rem', // Optional: if you want the image corners rounded too
+                        
+                        borderRadius: '0.5rem', 
                       }}
                     />
                     <h5
@@ -1000,9 +876,8 @@ const HomeSeven = () => {
                       padding: '2px',
                       background: 'white',
                       border: '2px solid white',
-                      // height: "250px",
-                      borderRadius: '0.5rem', // Tailwind's rounded-lg = 0.5rem = 8px
-                      // boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" // Tailwind's shadow-md
+                 
+                      borderRadius: '0.5rem', 
                     }}
                   >
                     <img
@@ -1010,8 +885,8 @@ const HomeSeven = () => {
                       alt="img"
                       className="img-fluid"
                       style={{
-                        // height: "210px",
-                        borderRadius: '0.5rem', // Optional: if you want the image corners rounded too
+                     
+                        borderRadius: '0.5rem', 
                       }}
                     />
                     <h5
@@ -1043,7 +918,7 @@ const HomeSeven = () => {
                 alt="Promotional Banner"
                 style={{
                   width: '100%',
-                  height: '400px',
+                  height: 'auto',
                   display: 'block',
                   objectFit: 'fill',
                   objectPosition: 'center',
@@ -1055,272 +930,7 @@ const HomeSeven = () => {
         </section>
 
        
-        {/* popular service */}
-        {/* <section className="popular-service-seven-section">
-          <div className="container">
-            <div className="section-heading section-heading-seven">
-              <div className="row">
-                <div className="col-md-6 aos" data-aos="fade-up">
-                  <h2>Featured Categories</h2>
-                  <p>What do you need to find?</p>
-                </div>
-                <div className="col-md-6 text-md-end aos" data-aos="fade-up">
-                  <div className="owl-nav mynav-seven-two" />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-12">
-                <Slider {...recentProject} className="recent-projects-seven">
-                  <div
-                    className="service-widget service-two service-seven aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="service-img">
-                      <Link to={routes.serviceDetails1}>
-                        <ImageWithBasePath
-                          className="img-fluid serv-img"
-                          alt="Service Image"
-                          src="assets/img/services/service-107.jpg"
-                        />
-                      </Link>
-                      <div className="fav-item">
-                        <Link to={routes.categories}>
-                          <span className="item-cat">Plumbing</span>
-                        </Link>
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                      <div className="item-info">
-                        <Link to="#">
-                          <span className="item-img">
-                            <ImageWithBasePath
-                              src="assets/img/profiles/avatar-06.jpg"
-                              className="avatar"
-                              alt="image"
-                            />{' '}
-                            Jeny Doe
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="service-content service-content-seven">
-                      <h3 className="title">
-                        <Link to={routes.serviceDetails1}>
-                          Repairing Pipes by latest Machines
-                        </Link>
-                      </h3>
-                      <p>
-                        <span className="rate">
-                          <i className="feather icon-phone" />
-                          28-62-76-32
-                        </span>
-                        <i className="feather icon-map-pin me-2" />
-                        New Jersey, USA
-                      </p>
-                      <div className="serv-info">
-                        <div className="rating">
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <span>(234)</span>
-                        </div>
-                        <h6>
-                          $25.00<span className="old-price">$35.00</span>
-                        </h6>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="service-widget service-two service-seven aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="service-img">
-                      <Link to={routes.serviceDetails1}>
-                        <ImageWithBasePath
-                          className="img-fluid serv-img"
-                          alt="Service Image"
-                          src="assets/img/services/service-108.jpg"
-                        />
-                      </Link>
-                      <div className="fav-item">
-                        <Link to={routes.categories}>
-                          <span className="item-cat">Interior Design</span>
-                        </Link>
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                      <div className="item-info">
-                        <Link to="#">
-                          <span className="item-img">
-                            <ImageWithBasePath
-                              src="assets/img/profiles/avatar-11.jpg"
-                              className="avatar"
-                              alt="image"
-                            />{' '}
-                            Jeny Doe
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="service-content service-content-seven">
-                      <h3 className="title">
-                        <Link to={routes.serviceDetails1}>
-                          Grinding Steel Metal
-                        </Link>
-                      </h3>
-                      <p>
-                        <span className="rate">
-                          <i className="feather icon-phone" />
-                          28-62-76-32
-                        </span>
-                        <i className="feather icon-map-pin me-2" />
-                        New Jersey, USA
-                      </p>
-                      <div className="serv-info">
-                        <div className="rating">
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <span>(234)</span>
-                        </div>
-                        <h6>$25.00</h6>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="service-widget service-two service-seven aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="service-img">
-                      <Link to={routes.serviceDetails1}>
-                        <ImageWithBasePath
-                          className="img-fluid serv-img"
-                          alt="Service Image"
-                          src="assets/img/services/service-109.jpg"
-                        />
-                      </Link>
-                      <div className="fav-item">
-                        <Link to={routes.categories}>
-                          <span className="item-cat">Pipe Installation</span>
-                        </Link>
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                      <div className="item-info">
-                        <Link to="#">
-                          <span className="item-img">
-                            <ImageWithBasePath
-                              src="assets/img/profiles/avatar-19.jpg"
-                              className="avatar"
-                              alt="image"
-                            />{' '}
-                            Jeny Doe
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="service-content service-content-seven">
-                      <h3 className="title">
-                        <Link to={routes.serviceDetails1}>
-                          Installing Pipes &amp; Water Supply
-                        </Link>
-                      </h3>
-                      <p>
-                        <span className="rate">
-                          <i className="feather icon-phone" />
-                          28-62-76-32
-                        </span>
-                        <i className="feather icon-map-pin me-2" />
-                        New Jersey, USA
-                      </p>
-                      <div className="serv-info">
-                        <div className="rating">
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <span>(234)</span>
-                        </div>
-                        <h6>$35.00</h6>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="service-widget service-two service-seven aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="service-img">
-                      <Link to={routes.serviceDetails1}>
-                        <ImageWithBasePath
-                          className="img-fluid serv-img"
-                          alt="Service Image"
-                          src="assets/img/services/service-107.jpg"
-                        />
-                      </Link>
-                      <div className="fav-item">
-                        <Link to={routes.categories}>
-                          <span className="item-cat">Car Repair</span>
-                        </Link>
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                      <div className="item-info">
-                        <Link to="#">
-                          <span className="item-img">
-                            <ImageWithBasePath
-                              src="assets/img/profiles/avatar-06.jpg"
-                              className="avatar"
-                              alt="image"
-                            />{' '}
-                            Jeny Doe
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="service-content service-content-seven">
-                      <h3 className="title">
-                        <Link to={routes.serviceDetails1}>
-                          Repairing Pipes by latest Machines
-                        </Link>
-                      </h3>
-                      <p>
-                        <span className="rate">
-                          <i className="feather icon-phone" />
-                          28-62-76-32
-                        </span>
-                        <i className="feather icon-map-pin me-2" />
-                        New Jersey, USA
-                      </p>
-                      <div className="serv-info">
-                        <div className="rating">
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <i className="fas fa-star filled" />
-                          <span>(234)</span>
-                        </div>
-                        <h6>
-                          $25.00<span className="old-price">$35.00</span>
-                        </h6>
-                      </div>
-                    </div>
-                  </div>
-                </Slider>
-              </div>
-            </div>
-          </div>
-        </section> */}
+       
       
         {/* Testimonials Section */}
         <section className="testimonals-seven-section pt-0">

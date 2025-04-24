@@ -16,7 +16,7 @@ const JoinUs: React.FC = () => {
     <div
       style={{
         position: 'fixed',
-        left: '1rem',
+        right: '1rem',
         bottom: '2rem',
         zIndex: 50,
         width: '50px',
@@ -33,7 +33,7 @@ const JoinUs: React.FC = () => {
         <div style={{
           position: 'absolute',
           bottom: '60px',
-          left: '0',
+          right: '0',
           width: '50px',
           borderRadius: '8px 8px 0 0',
           overflow: 'hidden',
@@ -102,7 +102,7 @@ const JoinUs: React.FC = () => {
         <div style={{
           position: 'absolute',
           bottom: '0',
-          left: '0',
+          right: '0',
           height: '50px',
           width: '50px',
           backgroundColor: '#ff008a',

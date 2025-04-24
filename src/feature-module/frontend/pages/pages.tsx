@@ -11,6 +11,7 @@ const Pages = () => {
   console.log('location2', location);
   return (
     <>
+    
       {location?.pathname == '/pages/booking'?
        (
         <DemoUserHeader />

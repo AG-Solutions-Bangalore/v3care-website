@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -8,11 +8,50 @@ import 'aos/dist/aos.css';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import axios from 'axios';
+import * as Icon from 'react-feather';
+import { BASE_URL, NO_IMAGE_URL, TESTIMONIAL_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 
+interface Testimonial {
+  testimonial_description: string;
+  testimonial_user: string;
+  testimonial_image: string;
+}
 const AboutUs = () => {
   const routes = all_routes;
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [isTestimonialsLoading, setIsTestimonialsLoading] = useState(true);
+  const [testimonialsError, setTestimonialsError] = useState<string | null>(
+    null,
+  );
+  const fetchTestimonials = async () => {
+    try {
+      setIsTestimonialsLoading(true);
+      setTestimonialsError(null);
+      const response = await axios.get(
+        `${BASE_URL}/api/panel-fetch-web-testimonial-out`,
+      );
+      setTestimonials(response.data.testimonial || []);
+    } catch (error) {
+      console.error('Failed to fetch testimonials:', error);
+      setTestimonialsError('Failed to load testimonials. Please try again.');
+    } finally {
+      setIsTestimonialsLoading(false);
+    }
+  };
+
+  const getTestimonialImageUrl = (testimonial_image: string) => {
+    if (!testimonial_image) {
+      return `${NO_IMAGE_URL}`;
+    }
+    return `${TESTIMONIAL_IMAGE_URL}/${testimonial_image}`;
+  };
+
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
+    AOS.init({
+      duration: 1000,
+    });
+    fetchTestimonials();
   }, []);
   const clientSlider = {
     dots: false,
@@ -66,11 +105,11 @@ const AboutUs = () => {
               <div className="about-content">
                 <h6>ABOUT V3 CARE</h6>
                 <h2>Best Solution For Cleaning Services</h2>
-                <p>
+                <p className='text-justify'>
                   Welcome to V3 care. the best cleaning service provider from South India- Bangalore. We take great pride in offering all of our clients a reliable, trustworthy and affordable service. we’ve steadily grown and built a reputation for excellence. We guarantee that you will receive the highest standard of service for the best possible price. V3 care offers impeccable service from start to finish. We offer a broad range of cleaning services for Residential, corporate ,Industrial and others, throughout the Bangalore.
                   
                 </p>
-                <p>
+                <p className='text-justify'>
                 We take the time to understand each of our client’s needs, in order to ensure that they receive the best possible bespoke cleaning services for their premises. Our cleaning staff are well trained, motivated and supported by a team of local, knowledgable and experienced operational managers.
                 </p>
                 <div className="row">
@@ -415,7 +454,7 @@ const AboutUs = () => {
               <div className="about-content">
                 <h6>OUR TEAM</h6>
                 <h2>Best Solution For Cleaning Services</h2>
-                <p>
+                <p className='text-justify'>
                 Our team are highly trained, full-time professional cleaners,totally reliable,providing quality cleaning services in Bangalore at affordable prices. We pride ourselves in listening to our customers, ensuring they receive a cleaning service they can trust and rely on whether it is Residential, commercial or corporate clean, we will be there when you need us.You need a professional service which provides consistent high quality cleaning to meet your own very high standards. We can customize our services based on your needs.
                   
                 </p>
@@ -486,7 +525,7 @@ const AboutUs = () => {
 
       {/* /Choose Us Section */}
       {/* Providers Section */}
-      <section className="providers-section abt-provider">
+      {/* <section className="providers-section abt-provider">
         <div className="container">
           <div className="section-heading">
             <div className="row">
@@ -501,7 +540,7 @@ const AboutUs = () => {
               <div className="card providerset p-0 flex-fill">
                 <div className="card-body">
                   <div className="providerset-img">
-                    <Link to={routes.providerDetails}>
+                    <Link to="/">
                       <ImageWithBasePath
                         src="assets/img/providers/provider-12.jpg"
                         alt="img"
@@ -514,7 +553,7 @@ const AboutUs = () => {
                         <div className="providerset-name">
                           <h4 className="d-flex align-items-center">
                             <Link
-                              to={routes.providerDetails}
+                              to="/"
                               className="me-1 text-truncate"
                             >
                               John Smith
@@ -548,7 +587,7 @@ const AboutUs = () => {
               <div className="card providerset p-0">
                 <div className="card-body">
                   <div className="providerset-img">
-                    <Link to={routes.providerDetails}>
+                    <Link to="/">
                       <ImageWithBasePath
                         src="assets/img/providers/provider-01.jpg"
                         alt="img"
@@ -560,7 +599,7 @@ const AboutUs = () => {
                       <div className="d-flex justify-content-between align-items-center flex-fill">
                         <div className="providerset-name">
                           <h4 className="d-flex align-items-center">
-                            <Link to={routes.providerDetails} className="me-1">
+                            <Link to="/" className="me-1">
                               Michael
                             </Link>
                             <i className="ti ti-circle-check-filled text-success" />
@@ -592,7 +631,7 @@ const AboutUs = () => {
               <div className="card providerset p-0">
                 <div className="card-body">
                   <div className="providerset-img">
-                    <Link to={routes.providerDetails}>
+                    <Link to="/">
                       <ImageWithBasePath
                         src="assets/img/providers/provider-02.jpg"
                         alt="img"
@@ -604,7 +643,7 @@ const AboutUs = () => {
                       <div className="d-flex justify-content-between align-items-center flex-fill">
                         <div className="providerset-name">
                           <h4 className="d-flex align-items-center">
-                            <Link to={routes.providerDetails} className="me-1">
+                            <Link to="/" className="me-1">
                               Antoinette
                             </Link>
                             <i className="ti ti-circle-check-filled text-success" />
@@ -638,7 +677,7 @@ const AboutUs = () => {
               <div className="card providerset p-0">
                 <div className="card-body">
                   <div className="providerset-img">
-                    <Link to={routes.providerDetails}>
+                    <Link to="/">
                       <ImageWithBasePath
                         src="assets/img/providers/provider-03.jpg"
                         alt="img"
@@ -650,7 +689,7 @@ const AboutUs = () => {
                       <div className="d-flex justify-content-between align-items-center flex-fill">
                         <div className="providerset-name">
                           <h4 className="d-flex align-items-center">
-                            <Link to={routes.providerDetails} className="me-1">
+                            <Link to="/" className="me-1">
                               Thompson
                             </Link>
                             <i className="ti ti-circle-check-filled text-success" />
@@ -680,7 +719,7 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       {/* /Providers Section */}
       {/* Client Section */}
       <section className="client-section client-section-about">
@@ -714,75 +753,54 @@ const AboutUs = () => {
           </div>
           <div className="row">
             <div className="col-md-12">
+                  {/* Testimonials Loading State */}
+                  {isTestimonialsLoading && (
+                <div className="text-center">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  <p className="mt-3">Loading testimonials...</p>
+                </div>
+              )}
+              
+              {/* Testimonials Error State */}
+              {testimonialsError && !isTestimonialsLoading && (
+                <div className="alert alert-danger d-flex align-items-center justify-content-center">
+                  <Icon.AlertCircle className="me-2" size={18} />
+                  <span>{testimonialsError}</span>
+                  <button 
+                    className="btn btn-sm btn-outline-danger ms-3"
+                    onClick={fetchTestimonials}
+                  >
+                    <Icon.RefreshCw className="me-1" size={14} />
+                    Try Again
+                  </button>
+                </div>
+              )}
+               {/* Testimonials Slider */}
+               {!isTestimonialsLoading && !testimonialsError && testimonials.length > 0 && (
               <Slider className="  testimonial-slider-3" {...clientSlider}>
-                <div className=" card client-widget">
+                   {testimonials.map((testimonial, index) => (
+                <div className=" card client-widget" key={index}>
                   <div className="card-body">
                     <div className="client-img">
-                      <Link to="#">
-                        <ImageWithBasePath
-                          className="img-fluid rounded-circle"
-                          alt="Image"
-                          src="assets/img/user/user-03.jpg"
-                        />
-                      </Link>
+                     
+                      <img
+                            src={getTestimonialImageUrl(testimonial.testimonial_image)}
+                            alt={testimonial.testimonial_user}
+                            className="img-fluid rounded-circle"
+                          />
                     </div>
                     <div className="client-content">
-                      <p>
-                        “I was thoroughly impressed with the quality and
-                        efficiency of the service I received. The team was
-                        professional, and the results exceeded my expectations.”{" "}
-                      </p>
-                      <h5>John Doe</h5>
-                      <h6>Director</h6>
+                    <p>{testimonial.testimonial_description}</p>
+                      {/* <h5>John Doe</h5>
+                      <h6>Director</h6> */}
                     </div>
                   </div>
                 </div>
-                <div className="card client-widget">
-                  <div className="card-body">
-                    <div className="client-img">
-                      <Link to="#">
-                        <ImageWithBasePath
-                          className="img-fluid rounded-circle"
-                          alt="Image"
-                          src="assets/img/user/user-06.jpg"
-                        />
-                      </Link>
-                    </div>
-                    <div className="client-content">
-                      <p>
-                      &quot;The value for money was excellent, and the quality of
-                        work was outstanding. I felt that I received more than
-                        what I paid for, with high standards and professional
-                        results.&quot;
-                      </p>
-                      <h5>John Doe</h5>
-                      <h6>Director</h6>
-                    </div>
-                  </div>
-                </div>
-                <div className="card client-widget">
-                  <div className="card-body">
-                    <div className="client-img">
-                      <Link to="#">
-                        <ImageWithBasePath
-                          className="img-fluid rounded-circle"
-                          alt="Image"
-                          src="assets/img/user/user-07.jpg"
-                        />
-                      </Link>
-                    </div>
-                    <div className="client-content">
-                      <p>
-                        “I was thoroughly impressed with the quality and
-                        efficiency of the service I received. The team was
-                        professional, and the results exceeded my expectations.”
-                      </p>
-                      <h5>Mike Hussy</h5>
-                      <h6>Director</h6>
-                    </div>
-                  </div>
-                </div>
+                 ))}
                 </Slider>
+                  )}
             </div>
           </div>
         </div>

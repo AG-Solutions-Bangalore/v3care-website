@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { all_routes } from '../../../../core/data/routes/all_routes';
-import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import axios from 'axios';
 import * as Icon from 'react-feather';
-import BASE_URL from '../../../baseConfig/BaseUrl';
-// import AOS from 'aos';
-// import 'aos/dist/aos.css';
+import { all_routes } from '../../../../core/data/routes/all_routes';
+import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import { BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL } from '../../../baseConfig/BaseUrl';
+
+
 
 interface ServiceSuper {
   id: number;
@@ -105,7 +105,7 @@ const ServiceGrid = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate('/services/service-details/service-details1', {
+        navigate('/pages/service-details', {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -114,7 +114,7 @@ const ServiceGrid = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate('/services/service-details/service-details1', {
+      navigate('/pages/service-details', {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -138,11 +138,11 @@ const ServiceGrid = () => {
 
   const getImageUrl = (imageName: string | null, isSubService = false) => {
     if (!imageName) {
-      return "http://agscare.site/crmapi/public/storage/no_image.jpg";
+      return `${NO_IMAGE_URL}`;
     }
     return isSubService 
-      ? `http://agscare.site/crmapi/public/storage/service_sub/${imageName}`
-      : `http://agscare.site/crmapi/public/storage/service/${imageName}`;
+      ? `${SERVICE_SUB_IMAGE_URL}/${imageName}`
+      : `${SERVICE_IMAGE_URL}/${imageName}`;
   };
 
   const handleItemClick = (index: number, e: React.MouseEvent) => {
@@ -479,7 +479,7 @@ const ServiceGrid = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3">
                         <div 
                           className="card h-100 border-0 overflow-hidden position-relative"
-                          onClick={() => navigate('/services/service-details/service-details1', {
+                          onClick={() => navigate('/pages/service-details', {
                             state: {
                               service_id: selectedService?.id,
                               service_name: selectedService?.service,

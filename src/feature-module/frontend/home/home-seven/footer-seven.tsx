@@ -16,7 +16,7 @@ const FooterSeven = () => {
           <div className="footer-widget footer-widget-seven">
             <div className="footer-logo">
               <Link to={routes.index}>
-                <ImageWithBasePath src="assets/img/logo-white.svg" alt="logo" />
+                <img src="https://new.agsdraft.online/assets/v3logo-Chdt_krj.png"  alt="logo" />
               </Link>
             </div>
             <div className="footer-content">
@@ -127,7 +127,8 @@ const FooterSeven = () => {
                 </span>
                 <div className="footer-six-ryt">
                   <span>Phone Number</span>
-                  <h6> +91 98807 78585</h6>
+                  {/* <h6> +91 98807 78585</h6> */}
+                  <h6><a href="tel:+919880778585" className='text-white'>+91 98807 78585</a></h6>
                 </div>
               </div>
               <div className="footer-six-left">
@@ -136,7 +137,8 @@ const FooterSeven = () => {
                 </span>
                 <div className="footer-six-ryt">
                   <span>Mail Address</span>
-                  <h6>info@v3care.com</h6>
+                  {/* <h6>info@v3care.com</h6> */}
+                  <h6><a href="mailto:info@v3care.com"  className='text-white'>info@v3care.com</a></h6>
                 </div>
               </div>
               <div className="footer-six-left ">
@@ -172,7 +174,7 @@ const FooterSeven = () => {
         <div className="row gy-2">
           <div className="col-md-6">
             <div className="copyright-text">
-              <p>Copyright 2025 © V3Care. All right reserved.</p>
+            <p>Copyright 2025 © <a href="https://ag-solutions.in/" target="_blank" rel="noreferrer" className='text-white'>AGSolutions</a>. All right reserved.</p>
             </div>
           </div>
           <div className="col-md-6">

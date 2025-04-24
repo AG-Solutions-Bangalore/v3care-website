@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
-import BASE_URL from '../../../baseConfig/BaseUrl';
+import {BASE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL} from '../../../baseConfig/BaseUrl';
 
 interface Client {
   client_name: string;
@@ -39,9 +39,9 @@ const Client = () => {
 
   const getImageUrl = (imageName: string) => {
     if (!imageName) {
-      return "http://agscare.site/crmapi/public/storage/no_image.jpg";
+      return `${NO_IMAGE_URL}`;
     }
-    return `http://agscare.site/crmapi/public/storage/clients/${imageName}`;
+    return `${CLIENT_IMAGE_URL}/${imageName}`;
   };
 
 

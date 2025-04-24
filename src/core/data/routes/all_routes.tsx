@@ -2,28 +2,16 @@ export const all_routes = {
   // home module path
 
   index: '/',
-  // blog module path
-  blog: '/blog/*',
-  blogDetails: '/blog/blog-details',
-  blogGrid: '/blog/blog',
-  blogList: '/blog/blog-list',
-  
-  // services module path
-  services: '/services/*',
-  serviceGrid: '/services/service',
-  serviceList: '/services/service-list',
-  createService: '/services/create-service',
-  providerDetails: '/services/providers/provider-details',
-  search: '/services/search',
-  serviceRequest: '/services/service-request',
-  searchList: '/services/search-list',
-  provider: '/services/providers/provider-list',
-  serviceDetails1: '/services/service-details/service-details1',
-  serviceDetails2: '/services/service-details/service-details2',
+
   // pages module path
   pages: '/pages/*',
   aboutUs: '/pages/about-us',
   client: '/pages/client',
+  serviceGrid: '/pages/service',
+  serviceRequest: '/pages/become-vendor',
+  serviceDetails1: '/pages/service-details',
+  blogGrid: '/pages/blog',
+  blogDetails: '/pages/blog-details',
   error404: '/authentication/error-404',
   error500: '/authentication/error-500',
   faq: '/pages/faq',
@@ -39,7 +27,6 @@ export const all_routes = {
   contactUs: '/pages/contact-us',
   comingSoon: '/pages/coming-soon',
   categories: '/pages/categories',
-  categories2: '/pages/categories-2',
   privacyPolicy: '/pages/privacy-policy',
   pricingPlan: '/pages/pricing-plan',
   sessionExpired: '/pages/session-expired',

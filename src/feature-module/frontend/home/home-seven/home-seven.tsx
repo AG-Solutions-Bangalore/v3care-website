@@ -11,8 +11,7 @@ import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import HomeHeader from '../header/home-header';
 import axios from 'axios';
-import BASE_URL from '../../../baseConfig/BaseUrl';
-import BASE_URL_IMAGE from '../../../baseConfig/BaseUrl';
+import {BASE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL, SERVICE_SUPER_IMAGE_URL, TESTIMONIAL_IMAGE_URL} from '../../../baseConfig/BaseUrl';
 import { blogCardData } from '../../../../core/data/json/blog_card';
 interface ServiceSuper {
   id: number;
@@ -93,22 +92,25 @@ const HomeSeven = () => {
 
   const getClientImageUrl = (imageName: string) => {
     if (!imageName) {
-      return "http://agscare.site/crmapi/public/storage/no_image.jpg";
+      return `${NO_IMAGE_URL}`;
     }
-    return `http://agscare.site/crmapi/public/storage/clients/${imageName}`;
+    return `${CLIENT_IMAGE_URL}/${imageName}`;
   };
   const getImageUrl = (serviceSuper_image: string | null) => {
     if (!serviceSuper_image) {
-      return `http://agscare.site/crmapi/public/storage/no_image.jpg`;
+      return `${NO_IMAGE_URL}`;
     }
-    return `http://agscare.site/crmapi/public/storage/service_super/${serviceSuper_image}`;
+    return `${SERVICE_SUPER_IMAGE_URL}/${serviceSuper_image}`;
   };
   const getTestimonialImageUrl = (testimonial_image: string) => {
     if (!testimonial_image) {
-      return 'http://agscare.site/crmapi/public/storage/no_image.jpg';
+      return `${NO_IMAGE_URL}`;
     }
-    return `http://agscare.site/crmapi/public/storage/testimonial/${testimonial_image}`;
+    return `${TESTIMONIAL_IMAGE_URL}/${testimonial_image}`;
   };
+
+
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -455,8 +457,8 @@ const HomeSeven = () => {
         {/* /Hero Section */}
         {/* Service Section */}
         <section className="service-section-seven">
-          <div className="search-box-two search-box-seven">
-            <form action={routes.search}>
+          {/* <div className="search-box-two search-box-seven">
+            <form >
               <div className="search-input-new line">
                 <i className="fas fa-tv bficon" />
                 <div className="form-group mb-0">
@@ -484,8 +486,8 @@ const HomeSeven = () => {
                 </button>
               </div>
             </form>
-          </div>
-          <div className="popularsearch-top">
+          </div> */}
+          {/* <div className="popularsearch-top">
             <h6>Popular Searches</h6>
             <ul>
               <li>
@@ -498,7 +500,7 @@ const HomeSeven = () => {
                 <Link to={routes.search}>AC Repair</Link>
               </li>
             </ul>
-          </div>
+          </div> */}
           <div className="container">
             <div className="section-heading section-heading-seven">
               <div className="row">
@@ -849,7 +851,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/221.jpeg"
+                      src="assets/img/services/p1.png"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -880,7 +882,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/221.jpeg"
+                      src="assets/img/services/p2.png"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -911,7 +913,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/221.jpeg"
+                      src="assets/img/services/p3.png"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -942,7 +944,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/221.jpeg"
+                      src="assets/img/services/p4.png"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -973,7 +975,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/221.jpeg"
+                      src="assets/img/services/p5.png"
                       alt="img"
                       className="img-fluid"
                       style={{
@@ -1004,7 +1006,7 @@ const HomeSeven = () => {
                     }}
                   >
                     <img
-                      src="assets/img/services/221.jpeg"
+                      src="assets/img/services/p6.png"
                       alt="img"
                       className="img-fluid"
                       style={{

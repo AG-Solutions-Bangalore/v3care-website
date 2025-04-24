@@ -117,7 +117,7 @@ const HomeHeader: React.FC<props> = ({ type }) => {
           selectedCity={currentCity}
         />
       )}
-      <div className={` top-bar `}>
+      {/* <div className={` top-bar `}>
         <h6>50% OFF on Christmas</h6>
         <ul>
           <li>2</li>
@@ -128,7 +128,7 @@ const HomeHeader: React.FC<props> = ({ type }) => {
         <Link to="#" className="top-close" onClick={() => setClose(false)}>
           <Icon.X />
         </Link>
-      </div>
+      </div> */}
 
 
 
@@ -196,18 +196,18 @@ const HomeHeader: React.FC<props> = ({ type }) => {
 
                 <li
                   className={
-                    isRouteActive('/services/service') ? 'active' : ''
+                    isRouteActive('/pages/service') ? 'active' : ''
                   }
                 >
-                  <Link to="/services/service">Services</Link>
+                  <Link to="/pages/service">Services</Link>
                 </li>
                 <li className={isRouteActive('/pages/client') ? 'active' : ''}>
                   <Link to="/pages/client">Client</Link>
                 </li>
                 <li
-                  className={isRouteActive('/blog/blog') ? 'active' : ''}
+                  className={isRouteActive('/pages/blog') ? 'active' : ''}
                 >
-                  <Link to="/blog/blog">Blog</Link>
+                  <Link to="/pages/blog">Blog</Link>
                 </li>
                 <li
                   className={isRouteActive('/pages/contact-us') ? 'active' : ''}
@@ -243,7 +243,7 @@ const HomeHeader: React.FC<props> = ({ type }) => {
               <li className="nav-item">
                 <Link
                   className="nav-link d-flex align-items-center border border-danger rounded px-2 py-1 header-login text-white"
-                  to="/services/service-request"
+                  to="/pages/become-vendor"
                 >
                   <i className="fa-regular fa-circle-user me-1"></i>
                   <span className="fs-16">Become a Vendor</span>

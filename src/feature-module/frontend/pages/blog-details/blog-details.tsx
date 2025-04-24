@@ -3,11 +3,12 @@ import { Link, useParams } from 'react-router-dom';
 import StickyBox from 'react-sticky-box';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
-import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import { blogDetailsData } from '../../../../core/data/json/blog_details';
 import { blogCardData } from '../../../../core/data/json/blog_card';
+import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
+
 
 
 const BlogDetails = () => {

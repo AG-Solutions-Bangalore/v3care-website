@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StickyBox from 'react-sticky-box';
 import axios from 'axios';
 import {BASE_URL} from '../../../baseConfig/BaseUrl';
+import HomeHeader from '../../home/header/home-header';
 
 
 
@@ -291,6 +292,7 @@ const ServiceDetails1 = () => {
 
   return (
     <>
+     <HomeHeader type={8} />
       <style>
         {`
     @keyframes shine {

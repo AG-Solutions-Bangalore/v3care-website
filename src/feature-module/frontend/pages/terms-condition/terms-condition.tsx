@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import HomeHeader from '../../home/header/home-header';
 
 const TermsCondition = () => {
   useEffect(() => {
@@ -10,7 +11,7 @@ const TermsCondition = () => {
   }, []);
   return (
     <>
-      
+         <HomeHeader type={8} />
       {/* Breadcrumb */}
       <BreadCrumb title='Terms & Conditions' item1='Home' item2='Terms & Conditions'/>
       {/* /Breadcrumb */}

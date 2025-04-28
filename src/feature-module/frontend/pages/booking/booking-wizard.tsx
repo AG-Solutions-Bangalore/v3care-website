@@ -10,6 +10,7 @@ import BookDateTime from './wizard-content/book-dateTime'
 import BookServices from './wizard-content/book-services'
 import BookStaff from './wizard-content/book-staff'
 import BookLocation from './wizard-content/book-location'
+import HomeHeader from '../../home/header/home-header'
 
 const BookingWizard = () => {
     const routes = all_routes
@@ -26,6 +27,8 @@ const BookingWizard = () => {
       setCurrentStep(currentStep - 1);
     };
   return (
+    <>
+    <HomeHeader type={8} />
     <div className="page-wrapper">
   <div className="content">
     <div className="container">
@@ -93,7 +96,7 @@ const BookingWizard = () => {
                       <div className="text-center">
                         <p className="fs-10 text-white">
                           Already have an account?{" "}
-                          <Link to={routes.login} className="link-primary">
+                          <Link to="/" className="link-primary">
                             Login
                           </Link>
                         </p>
@@ -161,6 +164,7 @@ const BookingWizard = () => {
     </div>
   </div>
 </div>
+</>
 
   )
 }

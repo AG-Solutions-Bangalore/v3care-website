@@ -8,6 +8,7 @@ import { blogDetailsData } from '../../../../core/data/json/blog_details';
 import { blogCardData } from '../../../../core/data/json/blog_card';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
+import HomeHeader from '../../home/header/home-header';
 
 
 
@@ -27,6 +28,7 @@ const BlogDetails = () => {
 
   return (
     <>
+     <HomeHeader type={8} />
       {/* <BreadCrumb title='Blog Details' item1='Home' item2='Blog Details'/> */}
       <div className="page-wrapper">
         <div className="content">

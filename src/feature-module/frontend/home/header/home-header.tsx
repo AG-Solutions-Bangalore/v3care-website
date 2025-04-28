@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import {
 
   set_toggleSidebar_data,
@@ -12,9 +11,10 @@ import CityModal from '../../../components/CityModal';
 
 type props = {
   type: number;
+  
 };
 
-const HomeHeader: React.FC<props> = ({ type }) => {
+const HomeHeader: React.FC<props> = ({ type  }) => {
   const location = useLocation();
 
   const toggle_data = useSelector((state: AppState) => state.toggleSidebar);
@@ -149,15 +149,15 @@ const HomeHeader: React.FC<props> = ({ type }) => {
               </Link>
               <Link to="/" className="navbar-brand logo" >
                 <img
-                  src="https://new.agsdraft.online/assets/v3logo-Chdt_krj.png"
+                  src="assets/img/services/v3.png"
                   className="img-fluid "
-                  style={{ width:"100px", height:"50px"}}
+                  style={{ width: "100px", height: "50px" }}
                   alt="Logo"
                 />
               </Link>
               <Link to="/" className="navbar-brand logo-small">
                 <img
-                 src="https://new.agsdraft.online/assets/v3logo-Chdt_krj.png"
+                  src="assets/img/services/v3.png"
                   className="img-fluid"
                   alt="Logo"
                 />
@@ -167,9 +167,9 @@ const HomeHeader: React.FC<props> = ({ type }) => {
               <div className="menu-header">
                 <Link to="/" onClick={() => dispatch(set_toggleSidebar_data(false))} className="menu-logo">
                   <img
-                 src="https://new.agsdraft.online/assets/v3logo-Chdt_krj.png"
+                    src="assets/img/services/v3.png"
                     className="img-fluid"
-                    style={{ width:"100px", height:"50px", textAlign:"center"}}
+                    style={{ width: "100px", height: "50px", textAlign: "center" }}
                     alt="Logo"
                   />
                 </Link>
@@ -182,7 +182,7 @@ const HomeHeader: React.FC<props> = ({ type }) => {
                   {' '}
                   <i className="fas fa-times" />
                 </Link>
-                
+
               </div>
 
               {/* <ul className="main-nav align-items-lg-center">
@@ -218,30 +218,30 @@ const HomeHeader: React.FC<props> = ({ type }) => {
                 </li>
               </ul> */}
               <ul className="main-nav align-items-lg-center">
-  <li className={isRouteActive('/') ? 'active' : ''}>
-    <Link to="/" onClick={() => dispatch(set_toggleSidebar_data(false))}>Home</Link>
-  </li>
+                <li className={isRouteActive('/') ? 'active' : ''}>
+                  <Link to="/" onClick={() => dispatch(set_toggleSidebar_data(false))}>Home</Link>
+                </li>
 
-  <li className={isRouteActive('/pages/about-us') ? 'active' : ''}>
-    <Link to="/pages/about-us" onClick={() => dispatch(set_toggleSidebar_data(false))}>About Us</Link>
-  </li>
+                <li className={isRouteActive('/about-us') ? 'active' : ''}>
+                  <Link to="/about-us" onClick={() => dispatch(set_toggleSidebar_data(false))}>About Us</Link>
+                </li>
 
-  <li className={isRouteActive('/pages/service') ? 'active' : ''}>
-    <Link to="/pages/service" onClick={() => dispatch(set_toggleSidebar_data(false))}>Services</Link>
-  </li>
-  
-  <li className={isRouteActive('/pages/client') ? 'active' : ''}>
-    <Link to="/pages/client" onClick={() => dispatch(set_toggleSidebar_data(false))}>Client</Link>
-  </li>
-  
-  <li className={isRouteActive('/pages/blog') ? 'active' : ''}>
-    <Link to="/pages/blog" onClick={() => dispatch(set_toggleSidebar_data(false))}>Blog</Link>
-  </li>
-  
-  <li className={isRouteActive('/pages/contact-us') ? 'active' : ''}>
-    <Link to="/pages/contact-us" onClick={() => dispatch(set_toggleSidebar_data(false))}>Contact Us</Link>
-  </li>
-</ul>
+                <li className={isRouteActive('/service') ? 'active' : ''}>
+                  <Link to="/service" onClick={() => dispatch(set_toggleSidebar_data(false))}>Services</Link>
+                </li>
+
+                <li className={isRouteActive('/client') ? 'active' : ''}>
+                  <Link to="/client" onClick={() => dispatch(set_toggleSidebar_data(false))}>Client</Link>
+                </li>
+
+                <li className={isRouteActive('/blog') ? 'active' : ''}>
+                  <Link to="/blog" onClick={() => dispatch(set_toggleSidebar_data(false))}>Blog</Link>
+                </li>
+
+                <li className={isRouteActive('/contact-us') ? 'active' : ''}>
+                  <Link to="/contact-us" onClick={() => dispatch(set_toggleSidebar_data(false))}>Contact Us</Link>
+                </li>
+              </ul>
             </div>
 
             <ul className="nav header-navbar-rht">
@@ -270,7 +270,7 @@ const HomeHeader: React.FC<props> = ({ type }) => {
               <li className="nav-item">
                 <Link
                   className="nav-link d-flex align-items-center border border-danger rounded px-2 py-1 header-login text-white"
-                  to="/pages/become-vendor"
+                  to="/become-vendor"
                 >
                   <i className="fa-regular fa-circle-user me-1"></i>
                   <span className="fs-16">Become a Vendor</span>

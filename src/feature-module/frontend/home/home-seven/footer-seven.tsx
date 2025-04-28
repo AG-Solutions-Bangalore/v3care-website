@@ -16,7 +16,7 @@ const FooterSeven = () => {
           <div className="footer-widget footer-widget-seven">
             <div className="footer-logo">
               <Link to={routes.index}>
-                <img src="https://new.agsdraft.online/assets/v3logo-Chdt_krj.png"  alt="logo" />
+                <img src="assets/img/services/v3.png"  alt="logo_footer" />
               </Link>
             </div>
             <div className="footer-content">

@@ -11,6 +11,7 @@ import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import axios from 'axios';
 import * as Icon from 'react-feather';
 import { BASE_URL, NO_IMAGE_URL, TESTIMONIAL_IMAGE_URL } from '../../../baseConfig/BaseUrl';
+import HomeHeader from '../../home/header/home-header';
 
 interface Testimonial {
   testimonial_description: string;
@@ -78,6 +79,7 @@ const AboutUs = () => {
   };
   return (
     <>
+    <HomeHeader type={8} />
       <BreadCrumb title='About Us' item1='Home' item2='About Us' />
       <>
   {/* Page Wrapper */}

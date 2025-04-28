@@ -6,6 +6,7 @@ import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import axios from 'axios';
 import * as Icon from 'react-feather';
 import {BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL} from '../../../baseConfig/BaseUrl';
+import HomeHeader from '../../home/header/home-header';
 
 interface Service {
   id: number;
@@ -59,7 +60,7 @@ const Categories = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate('/pages/service-details', {
+        navigate('/service-details', {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -68,7 +69,7 @@ const Categories = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate('/pages/service-details', {
+      navigate('/service-details', {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -150,7 +151,7 @@ const Categories = () => {
             <h4>No services found</h4>
             <p>We couldn not find any services matching your criteria.</p>
             {id && (
-              <Link to="/pages/categories" className="btn btn-primary">
+              <Link to="/categories" className="btn btn-primary">
                 View all categories
               </Link>
             )}
@@ -162,6 +163,7 @@ const Categories = () => {
 
   return (
     <>
+     <HomeHeader type={8} />
       <BreadCrumb title="Categories" item1="Categories" />
       <div className="page-wrapper">
         <div className="content">
@@ -250,7 +252,7 @@ const Categories = () => {
                 <div key={subService.id} className="col-6 col-sm-4 col-md-3" >
                   <div 
                     className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                    onClick={() => navigate('/pages/service-details', {
+                    onClick={() => navigate('/service-details', {
                       state: {
                         service_id: selectedService?.id,
                         service_name: selectedService?.service,

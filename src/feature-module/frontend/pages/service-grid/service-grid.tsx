@@ -5,6 +5,7 @@ import * as Icon from 'react-feather';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import { BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL } from '../../../baseConfig/BaseUrl';
+import HomeHeader from '../../home/header/home-header';
 
 
 
@@ -105,7 +106,7 @@ const ServiceGrid = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate('/pages/service-details', {
+        navigate('/service-details', {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -114,7 +115,7 @@ const ServiceGrid = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate('/pages/service-details', {
+      navigate('/service-details', {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -211,6 +212,7 @@ const ServiceGrid = () => {
 
   return (
     <>
+     <HomeHeader type={8} />
       <BreadCrumb title="Services" item1="Services" />
       
       <div  >
@@ -479,7 +481,7 @@ const ServiceGrid = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3">
                         <div 
                           className="card h-100 border-0 overflow-hidden position-relative"
-                          onClick={() => navigate('/pages/service-details', {
+                          onClick={() => navigate('/service-details', {
                             state: {
                               service_id: selectedService?.id,
                               service_name: selectedService?.service,

@@ -7,6 +7,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import {BASE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL} from '../../../baseConfig/BaseUrl';
+import HomeHeader from '../../home/header/home-header';
 
 interface Client {
   client_name: string;
@@ -48,6 +49,7 @@ const Client = () => {
 
   return (
     <>
+     <HomeHeader type={8} />
       <BreadCrumb title='Our Partners' item1='Home' item2='Client' />
       
       {/* Page Wrapper */}

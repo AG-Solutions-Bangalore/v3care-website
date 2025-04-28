@@ -3,6 +3,7 @@ import axios from 'axios'
 import Select from 'react-select';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { BASE_URL, BASE_URL_PINCODE } from '../../../baseConfig/BaseUrl';
+import HomeHeader from '../../home/header/home-header';
 
 interface BranchType {
   id: string;
@@ -414,6 +415,7 @@ const ServiceRequest = () => {
 
   return (
     <>
+     <HomeHeader type={8} />
       <div className="page-wrapper">
         <div className="content">
           <div className="container">

@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
+import HomeHeader from '../../home/header/home-header';
 
 const CommingSoon = () => {
   return (
+    <>
+     <HomeHeader type={8} />
+   
     <div className="container">
     {/* Header */}
     <div className="authentication-header">
@@ -132,7 +136,7 @@ const CommingSoon = () => {
     </div>
     {/* /Footer */}
   </div>
-  
+  </>
   );
 };
 

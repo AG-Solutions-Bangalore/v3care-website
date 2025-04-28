@@ -1,9 +1,11 @@
 import React from 'react';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import HomeHeader from '../../home/header/home-header';
 
 const PrivacyPolicy = () => {
   return (
     <>
+     <HomeHeader type={8} />
     <BreadCrumb title='Privacy Policy' item1='Home' item2='Privacy Policy'/>
   {/* Page Wrapper */}
   <div className="page-wrapper">

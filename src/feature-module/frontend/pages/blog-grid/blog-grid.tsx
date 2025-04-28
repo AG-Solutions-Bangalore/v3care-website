@@ -6,6 +6,7 @@ import { all_routes } from '../../../../core/data/routes/all_routes';
 import { blogCardData } from '../../../../core/data/json/blog_card';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
+import HomeHeader from '../../home/header/home-header';
 
 
 const BlogGrid = () => {
@@ -76,6 +77,7 @@ const BlogGrid = () => {
   
   return (
     <>
+     <HomeHeader type={8} />
       <BreadCrumb title="Blog" item1="Home" item2="Blog" />
       <div className="page-wrapper">
         <div className="content">

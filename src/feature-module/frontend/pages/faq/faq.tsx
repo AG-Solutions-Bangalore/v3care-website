@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import HomeHeader from '../../home/header/home-header';
 
 const Faq = () => {
   useEffect(() => {
@@ -10,6 +11,7 @@ const Faq = () => {
   }, []);
   return (
     <>
+       <HomeHeader type={8} />
       <BreadCrumb title='Frequently Asked Questions' item1='Home' item2='Frequently Asked Questions'/>
       <>
   {/* Page Wrapper */}

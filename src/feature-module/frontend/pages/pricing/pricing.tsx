@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import HomeHeader from '../../home/header/home-header';
 
 const Pricing = () => {
   return (
       <>
+       <HomeHeader type={8} />
       <BreadCrumb title='Pricing' item1='Home' item2='Pricing'/>
 
       <>

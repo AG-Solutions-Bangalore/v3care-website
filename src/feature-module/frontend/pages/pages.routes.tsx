@@ -27,141 +27,141 @@ import BlogDetails from './blog-details/blog-details';
 
 const PagesRoutes = () => {
   const all_pages_routes = [
-    {
-      path: '/about-us',
-      name: 'about-us',
-      element: <AboutUs />,
-      route: Route,
-    },
-    {
-      path: '/client',
-      name: 'client',
-      element: <Client />,
-      route: Route,
-    },
-    {
-      path: '/categories/:id',
-      name: 'categories',
-      element: <Categories />,
-      route: Route,
-    },
+    // {
+    //   path: '/about-us',
+    //   name: 'about-us',
+    //   element: <AboutUs />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/client',
+    //   name: 'client',
+    //   element: <Client />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/categories/:id',
+    //   name: 'categories',
+    //   element: <Categories />,
+    //   route: Route,
+    // },
   
-    {
-      path: '/coming-soon',
-      name: 'coming-soon',
-      element: <CommingSoon />,
-      route: Route,
-    },
-    {
-      path: '/contact-us',
-      name: 'contact-us',
-      element: <ContactUs />,
-      route: Route,
-    },
-    {
-      path: '/faq',
-      name: 'faq',
-      element: <Faq />,
-      route: Route,
-    },
-    {
-      path: '/how-it-works',
-      name: 'how-it-works',
-      element: <Howitworks />,
-      route: Route,
-    },
-    {
-      path: '/service',
-      name: 'ServiceGrid',
-      element: <ServiceGrid />,
-      route: Route,
-    },
-    {
-      path: '/service-details',
-      name: 'service-details-1',
-      element: <ServiceDetails1 />,
-      route: Route,
-    },
-    {
-      path: '/become-vendor',
-      name: 'service-request',
-      element: <ServiceRequest />,
-      route: Route,
-    },
-    {
-      path: '/blog',
-      name: ' blogGrid',
-      element: <BlogGrid />,
-      route: Route,
-    },
-    {
-      path: '/blog-details/:id',
-      name: 'blogDetails',
-      element: <BlogDetails />,
-      route: Route,
-    },
+    // {
+    //   path: '/coming-soon',
+    //   name: 'coming-soon',
+    //   element: <CommingSoon />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/contact-us',
+    //   name: 'contact-us',
+    //   element: <ContactUs />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/faq',
+    //   name: 'faq',
+    //   element: <Faq />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/how-it-works',
+    //   name: 'how-it-works',
+    //   element: <Howitworks />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/service',
+    //   name: 'ServiceGrid',
+    //   element: <ServiceGrid />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/service-details',
+    //   name: 'service-details-1',
+    //   element: <ServiceDetails1 />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/become-vendor',
+    //   name: 'service-request',
+    //   element: <ServiceRequest />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/blog',
+    //   name: ' blogGrid',
+    //   element: <BlogGrid />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/blog-details/:id',
+    //   name: 'blogDetails',
+    //   element: <BlogDetails />,
+    //   route: Route,
+    // },
     
    
-    {
-      path: '/terms-condition',
-      name: 'terms-condition',
-      element: <TermsCondition />,
-      route: Route,
-    },
-    {
-      path: '/installer',
-      name: 'installer',
-      element: <Installer />,
-      route: Route,
-    },
-    {
-      path: '/installer-new',
-      name: 'installer',
-      element: <InstallerNew />,
-      route: Route,
-    },
-    {
-      path: '/maintenance',
-      name: 'maintenance',
-      element: <Maintenance />,
-      route: Route,
-    },
-    {
-      path: '/pricing-plan',
-      name: 'pricing',
-      element: <Pricing />,
-      route: Route,
-    },
-    {
-      path: '/privacy-policy',
-      name: 'privacy-policy',
-      element: <PrivacyPolicy />,
-      route: Route,
-    },
-    {
-      path: '/booking',
-      name: 'booking',
-      element: <BookingWizard />,
-      route: Route,
-    },
-    {
-      path: '/booking/booking-1',
-      name: 'booking-1 ',
-      element: <Booking1 />,
-      route: Route,
-    },
-    {
-      path: '/booking/booking-details',
-      name: 'booking-details',
-      element: <BookingDetails />,
-      route: Route,
-    },
-    {
-      path: '/session-expired',
-      name: 'SessionExpired',
-      element: <SessionExpired />,
-      route: Route,
-    },
+    // {
+    //   path: '/terms-condition',
+    //   name: 'terms-condition',
+    //   element: <TermsCondition />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/installer',
+    //   name: 'installer',
+    //   element: <Installer />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/installer-new',
+    //   name: 'installer',
+    //   element: <InstallerNew />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/maintenance',
+    //   name: 'maintenance',
+    //   element: <Maintenance />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/pricing-plan',
+    //   name: 'pricing',
+    //   element: <Pricing />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/privacy-policy',
+    //   name: 'privacy-policy',
+    //   element: <PrivacyPolicy />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/booking',
+    //   name: 'booking',
+    //   element: <BookingWizard />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/booking/booking-1',
+    //   name: 'booking-1 ',
+    //   element: <Booking1 />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/booking/booking-details',
+    //   name: 'booking-details',
+    //   element: <BookingDetails />,
+    //   route: Route,
+    // },
+    // {
+    //   path: '/session-expired',
+    //   name: 'SessionExpired',
+    //   element: <SessionExpired />,
+    //   route: Route,
+    // },
 
     
 

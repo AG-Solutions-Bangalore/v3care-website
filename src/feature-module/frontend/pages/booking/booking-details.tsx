@@ -5,6 +5,7 @@ import 'aos/dist/aos.css';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import HomeHeader from '../../home/header/home-header';
 // import BookingModals from '../../customers/common/bookingModals';
 
 const BookingDetails = () => {
@@ -18,6 +19,7 @@ const BookingDetails = () => {
   }, []);
   return (
     <>
+      <HomeHeader type={8} />
       <BreadCrumb title='Booking Details' item1='Pages' item2='Booking Details'/>
       {/* /Breadcrumb */}
       {/* Page Wrapper */}
@@ -60,7 +62,7 @@ const BookingDetails = () => {
                         LiveTrack
                       </Link>
                       <Link
-                        to={routes.invoice}
+                        to="/"
                         className="btn btn-light d-flex align-items-center justify-content-center"
                       >
                         <i className="ti ti-file-text me-1" />

@@ -7,6 +7,7 @@ import Calendar from 'react-calendar';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import HomeHeader from '../../home/header/home-header';
 
 const Booking1 = () => {
   const routes = all_routes;
@@ -29,6 +30,7 @@ const Booking1 = () => {
 
   return (
     <>
+      <HomeHeader type={8} />
     <BreadCrumb title='Bookings' item1='Customer' item2='Bookings'/>
     <>
   {/* Page Wrapper */}

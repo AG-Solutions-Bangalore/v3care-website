@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
+import HomeHeader from '../../home/header/home-header';
 
 const Installer = () => {
   const routes = all_routes;
@@ -17,6 +18,7 @@ const Installer = () => {
   };
   return (
 <>
+<HomeHeader type={8} />
   <div className="installation-header">
     <div className="container">
       <div>

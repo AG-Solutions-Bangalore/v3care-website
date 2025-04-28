@@ -2,10 +2,15 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath'
 import { all_routes } from '../../../../core/data/routes/all_routes';
+import HomeHeader from '../../home/header/home-header';
 
 const SessionExpired = () => {
   const routes = all_routes;
   return (
+    <>
+      <HomeHeader type={8} />
+    
+    
     <div className="container">
   {/* Header */}
   <div className="authentication-header">
@@ -58,6 +63,7 @@ const SessionExpired = () => {
   </div>
   {/* /Page Wrapper */}
 </div>
+</>
 
   )
 }

@@ -3,6 +3,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+import HomeHeader from '../../home/header/home-header';
 
 const Howitworks = () => {
   useEffect(() => {
@@ -10,6 +11,7 @@ const Howitworks = () => {
   }, []);
   return (
     <>
+       <HomeHeader type={8} />
       <BreadCrumb title='How It Works' item1='Home' item2='How It Works'/>
       <>
   {/* Page Wrapper */}

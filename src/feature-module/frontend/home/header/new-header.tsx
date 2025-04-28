@@ -33,7 +33,7 @@ const NewHeader: React.FC<props> = ({ type }) => {
                 <div className="offcanvas-head d-flex justify-content-between align-items-center mb-3">
                   <Link to={routes.index}>
                     <ImageWithBasePath
-                      src="assets/img/logo.svg"
+                      src="assets/img/services/v3.png"
                       alt="logo-img"
                     />
                   </Link>
@@ -66,7 +66,7 @@ const NewHeader: React.FC<props> = ({ type }) => {
               <div className="navbar-logo">
                 <Link className="header-logo" to={routes.index}>
                   <ImageWithBasePath
-                    src="assets/img/logo.svg"
+                    src="assets/img/services/v3.png"
                     className="logo"
                     alt="Logo"
                   />
@@ -350,7 +350,7 @@ const NewHeader: React.FC<props> = ({ type }) => {
                             <div className="d-flex">
                               <span className="avatar avatar-lg me-2 flex-shrink-0">
                                 <ImageWithBasePath
-                                  src="assets/img/profiles/avatar-52.jpg"
+                                  src="assets/img/services/v3.png"
                                   alt="Profile"
                                   className="rounded-circle"
                                 />
@@ -378,7 +378,7 @@ const NewHeader: React.FC<props> = ({ type }) => {
                             <div className="d-flex">
                               <span className="avatar avatar-lg me-2 flex-shrink-0">
                                 <ImageWithBasePath
-                                  src="assets/img/profiles/avatar-36.jpg"
+                                  src="assets/img/services/v3.png"
                                   alt="Profile"
                                   className="rounded-circle"
                                 />
@@ -410,7 +410,7 @@ const NewHeader: React.FC<props> = ({ type }) => {
                             <div className="d-flex">
                               <span className="avatar avatar-lg me-2 flex-shrink-0">
                                 <ImageWithBasePath
-                                  src="assets/img/profiles/avatar-02.jpg"
+                                  src="assets/img/services/v3.png"
                                   alt="Profile"
                                   className="rounded-circle"
                                 />
@@ -433,7 +433,7 @@ const NewHeader: React.FC<props> = ({ type }) => {
                             <div className="d-flex">
                               <span className="avatar avatar-lg me-2 flex-shrink-0">
                                 <ImageWithBasePath
-                                  src="assets/img/profiles/avatar-22.jpg"
+                                  src="assets/img/services/v3.png"
                                   alt="Profile"
                                   className="rounded-circle"
                                 />
@@ -479,7 +479,7 @@ const NewHeader: React.FC<props> = ({ type }) => {
                   >
                     <div className="booking-user d-flex align-items-center">
                       <span className="user-img">
-                        <ImageWithBasePath src="assets/img/profiles/avatar-02.jpg" alt="user" />
+                        <ImageWithBasePath src="assets/img/services/v3.png" alt="user" />
                       </span>
                     </div>
                   </a>

@@ -5,6 +5,8 @@ import Feature from '../feature';
 import CityModal from '../components/CityModal';
 import ScrollToTop from '../components/ScrollToTop';
 import JoinUs from '../components/JoinUs';
+import HomeHeader from '../frontend/home/header/home-header';
+import FooterSeven from '../frontend/home/home-seven/footer-seven';
 
 const AllRoutes = () => {
   const [showCityModal, setShowCityModal] = useState<boolean>(false);
@@ -36,7 +38,9 @@ const AllRoutes = () => {
 
   return (
     <>
+    
     <JoinUs/>
+    {/* <HomeHeader type={8} /> */}
     <ScrollToTop/>
       {showCityModal && (
         <CityModal 
@@ -52,6 +56,7 @@ const AllRoutes = () => {
           ))}
         </Route>
       </Routes>
+        <FooterSeven />
     </>
   );
 };

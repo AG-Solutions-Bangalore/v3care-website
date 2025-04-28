@@ -1,18 +1,127 @@
 import React, { useState } from 'react';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
-import { Dropdown } from 'primereact/dropdown';
+import HomeHeader from '../../home/header/home-header';
+import { BASE_URL } from '../../../baseConfig/BaseUrl';
+import axios from 'axios';
 const ContactUs = () => {
-  const [selectedValue2, setSelectedValue2] = useState(null);
+  const [formData, setFormData] = useState({
+    fullname: '',
+    mobile_no: '',
+    email_id: '',
+    description: ''
+  });
+
+  const [errors, setErrors] = useState({
+    fullname: '',
+    mobile_no: '',
+    email_id: '',
+    description: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{success: boolean, message: string} | null>(null);
+
+ 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+   
+    if (errors[name as keyof typeof errors]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+ 
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = {
+      fullname: '',
+      mobile_no: '',
+      email_id: '',
+      description: ''
+    };
+
+    if (!formData.fullname.trim()) {
+      newErrors.fullname = 'Name is required';
+      valid = false;
+    }
+
+    if (!formData.mobile_no.trim()) {
+      newErrors.mobile_no = 'Phone number is required';
+      valid = false;
+    } else if (!/^\d{10}$/.test(formData.mobile_no)) {
+      newErrors.mobile_no = 'Please enter a valid 10-digit phone number';
+      valid = false;
+    }
+
+    if (!formData.email_id.trim()) {
+      newErrors.email_id = 'Email is required';
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email_id)) {
+      newErrors.email_id = 'Please enter a valid email address';
+      valid = false;
+    }
+
+    if (!formData.description.trim()) {
+      newErrors.description = 'Message is required';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await axios.post(`${BASE_URL}/api/panel-create-web-enquiry-out`, {
+        fullname: formData.fullname,
+        mobile_no: formData.mobile_no,
+        email_id: formData.email_id,
+        description: formData.description
+      });
+
+      if (response.status === 200) {
+        setSubmitStatus({ success: true, message: 'Thank you! Your message has been sent successfully.' });
+       
+        setFormData({
+          fullname: '',
+          mobile_no: '',
+          email_id: '',
+          description: ''
+        });
+      } else {
+        setSubmitStatus({ 
+          success: false, 
+          message: response.data.message || 'Failed to send message. Please try again.' 
+        });
+      }
+    } catch (error) {
+      setSubmitStatus({ success: false, message: 'An error occurred. Please try again later.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   
-  const value2 = [
-    { name: 'Select Service' },
-    { name: 'Car Repair' },
-    { name: 'House Cleaning' },
-    { name: 'Interior Designing' },
-  ];
   return (
     <>
+     <HomeHeader type={8} />
      <BreadCrumb title='Contact Us' item1='Home' item2='Contact Us'/>
      <div className="page-wrapper">
   <div className="content">
@@ -37,7 +146,6 @@ const ContactUs = () => {
                     <div>
                       <h6 className="fs-18 mb-1">Phone Number</h6>
                       <p className="fs-14">+91 98807 78585</p>
-                    
                     </div>
                   </div>
                 </div>
@@ -58,23 +166,6 @@ const ContactUs = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="col-md-6 col-lg-4 d-flex">
-              <div className="card flex-fill">
-                <div className="card-body">
-                  <div className="d-flex align-items-center">
-                    <span className="rounded-circle">
-                      <i className="ti ti-map-pin text-primary" />
-                    </span>
-                    <div>
-                      <h6 className="fs-18 mb-1">Address</h6>
-                      <p className="fs-14">
-                      V3 CARE # 2296, 24th Main Road, 16th Cross, HSR Layout, Sector 1, Bangalore – 560 102 Land Mark : Opposite Bangalore One
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
         {/* /Contact Details */}
@@ -147,72 +238,93 @@ const ContactUs = () => {
           <div className="col-md-6 d-flex align-items-center justify-content-center">
             <div className="contact-queries flex-fill">
               <h2>Get In Touch</h2>
-              <form >
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="mb-3">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Your Name"
-                        />
+              {submitStatus && (
+                      <div className={`alert alert-${submitStatus.success ? 'success' : 'danger'}`}>
+                        {submitStatus.message}
                       </div>
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="mb-3">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="email"
-                          placeholder="Your Email Address"
-                        />
+                    )}
+                    <form onSubmit={handleSubmit}>
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="mb-3">
+                            <div className="form-group">
+                              <input
+                                className={`form-control ${errors.fullname ? 'is-invalid' : ''}`}
+                                type="text"
+                                name="fullname"
+                                placeholder="Your Name"
+                                value={formData.fullname}
+                                onChange={handleChange}
+                              />
+                              {errors.fullname && <div className="invalid-feedback">{errors.fullname}</div>}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-12">
+                          <div className="mb-3">
+                            <div className="form-group">
+                              <input
+                                className={`form-control ${errors.email_id ? 'is-invalid' : ''}`}
+                                type="email"
+                                name="email_id"
+                                placeholder="Your Email Address"
+                                value={formData.email_id}
+                                onChange={handleChange}
+                              />
+                              {errors.email_id && <div className="invalid-feedback">{errors.email_id}</div>}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-12">
+                          <div className="mb-3">
+                            <div className="form-group">
+                              <input
+                                className={`form-control ${errors.mobile_no ? 'is-invalid' : ''}`}
+                                type="text"
+                                name="mobile_no"
+                                placeholder="Your Phone Number"
+                                value={formData.mobile_no}
+                                onChange={handleChange}
+                              />
+                              {errors.mobile_no && <div className="invalid-feedback">{errors.mobile_no}</div>}
+                            </div>
+                          </div>
+                        
+                          <div className="mb-3">
+                            <div className="form-group">
+                              <textarea
+                                className={`form-control ${errors.description ? 'is-invalid' : ''}`}
+                                name="description"
+                                placeholder="Type Message"
+                                id="floatingTextarea"
+                                value={formData.description}
+                                onChange={handleChange}
+                              />
+                              {errors.description && <div className="invalid-feedback">{errors.description}</div>}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-12 submit-btn">
+                          <button
+                            className="btn btn-dark d-flex align-items-center"
+                            type="submit"
+                            disabled={isSubmitting}
+                          >
+                            {isSubmitting ? (
+                              <>
+                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                Sending...
+                              </>
+                            ) : (
+                              <>
+                                Send Message
+                                <i className="feather icon-arrow-right-circle ms-2" />
+                              </>
+                            )}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="mb-3">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Your Phone Number"
-                        />
-                      </div>
-                    </div>
-                    {/* <div className="mb-3">
-                    <Dropdown
-                          value={selectedValue2}
-                          onChange={(e) => setSelectedValue2(e.value)}
-                          options={value2}
-                          optionLabel="name"
-                          placeholder="Select Service"
-                          className="select w-100"
-                        />
-                    </div> */}
-                    <div className="mb-3">
-                      <div className="form-group">
-                        <textarea
-                          className="form-control"
-                          placeholder="Type Message"
-                          id="floatingTextarea"
-                          defaultValue={""}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-12 submit-btn">
-                    <button
-                      className="btn btn-dark d-flex align-items-center "
-                      type="button"
-                    >
-                      Send Message
-                      <i className="feather icon-arrow-right-circle ms-2" />
-                    </button>
-                  </div>
-                </div>
-              </form>
+                    </form>
             </div>
           </div>
         </div>

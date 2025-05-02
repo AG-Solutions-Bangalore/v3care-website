@@ -5,13 +5,15 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StickyBox from 'react-sticky-box';
 import axios from 'axios';
-import {BASE_URL} from '../../../baseConfig/BaseUrl';
+import { BASE_URL } from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
+import { toast } from 'sonner';
 
 
 
 const ServiceDetails1 = () => {
   const REACT_APP_GOOGLE_MAPS_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
+  const REACT_APP_RAZARPAY_KEY = process.env.REACT_APP_RAZARPAY_KEY;
   let autoComplete: any;
 
   const [query, setQuery] = useState("");
@@ -59,8 +61,52 @@ const ServiceDetails1 = () => {
     order_discount: "",
     order_custom: "",
     order_custom_price: "",
+    order_payment_amount:'',
+    order_payment_type:"",
+    order_transaction_details:"",
   });
+/*---------------------------------vaildation----------------------- */
+const validateForm = () => {
+  const requiredFields = [
+    'order_customer',
+    'order_customer_mobile',
+    'order_customer_email',
+    'order_service_date',
+    'order_time',
+    'order_address'
+  ];
 
+  // Check if all required fields are filled
+  for (const field of requiredFields) {
+    if (!formData[field as keyof typeof formData]) {
+      toast.error(`Please fill in the ${field.replace('order_', '').replace('_', ' ')} field`);
+      return false;
+    }
+  }
+
+  // Validate mobile number format (Indian mobile numbers)
+  const mobileRegex = /^[6-9]\d{9}$/;
+  if (!mobileRegex.test(formData.order_customer_mobile)) {
+    toast.error('Please enter a valid 10-digit Indian mobile number');
+    return false;
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(formData.order_customer_email)) {
+    toast.error('Please enter a valid email address');
+    return false;
+  }
+
+  // Check if at least one service is selected
+  if (selectedPrices.length === 0) {
+    toast.error('Please select at least one service');
+    return false;
+  }
+
+  return true;
+};
+/*---------------------------------------validation-end----------- */
   const fetchServicePrices = async () => {
     try {
       setPriceLoading(true);
@@ -100,7 +146,7 @@ const ServiceDetails1 = () => {
       setServiceCards(response.data.serviceDetails || []);
     } catch (error) {
       console.error('Error fetching service card :', error);
-      setCardError('Failed to load service card . Please try again.');
+      setCardError('Failed to load service card. Please try again.');
     } finally {
       setCardLoading(false);
     }
@@ -189,70 +235,307 @@ const ServiceDetails1 = () => {
     }));
   };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const finalFormData = {
-  //       ...formData,
-  //       order_service_price_for: primaryPrice?.id || '',
-  //       order_service_price: primaryPrice?.service_price_amount || '',
-  //       order_amount: totalPrice.toFixed(2),
-  //       order_remarks:
-  //         selectedPrices.length > 1
-  //           ? `Selected services: ${selectedPrices.map((p) => p.service_price_for).join(', ')}\n${formData.order_remarks}`
-  //           : formData.order_remarks,
-  //     };
-
-  //     const response = await axios.post(
-  //       `${BASE_URL}/api/panel-create-booking-outD`,
-  //       finalFormData,
-  //     );
-
-  //     if (response.data.success) {
-  //       navigate('/');
-  //     } else {
-  //       console.error(response.data.message || 'Failed to create booking');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error creating booking:', error);
-  //   }
-  // };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const bookingData = selectedPrices.map(price => ({
-        order_service_price_for: price.id,
-        order_service_price: price.service_price_rate,
-        order_amount: price.service_price_amount,
-        order_remarks: formData.order_remarks,
-        ...Object.fromEntries(
-          Object.entries(formData).filter(([key]) => !['order_service_price_for', 'order_service_price', 'order_amount'].includes(key))
-        )
-      }));
-
-      const finalFormData = {
-        booking_data: bookingData,
 
 
-      };
 
-      const response = await axios.post(
-        `${BASE_URL}/api/panel-create-web-booking-out`,
-        finalFormData,
-      );
 
-      if (response.data.success) {
-        navigate('/');
-      } else {
-        console.error(response.data.message || 'Failed to create booking');
-      }
-    } catch (error) {
-      console.error('Error creating booking:', error);
+const handleSubmitPayLater = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault();
+ 
+ if (!validateForm()) {
+  return;
+}
+  try {
+    const bookingData = selectedPrices.map(price => ({
+      order_service_price_for: price.id,
+      order_service_price: price.service_price_rate,
+      order_amount: price.service_price_amount,
+     
+      order_remarks: formData.order_remarks,
+      ...Object.fromEntries(
+        Object.entries(formData).filter(([key]) => !['order_service_price_for', 'order_service_price', 'order_amount'].includes(key))
+      )
+    }));
+
+    const finalFormData = {
+      booking_data: bookingData,
+    };
+
+    const response = await axios.post(
+      `${BASE_URL}/api/panel-create-web-booking-out`,
+      finalFormData,
+    );
+
+    if (response.data.code == 200) {
+   
+      toast.success(response.data.msg || "payment successfull")
+      navigate('/payment-success', {
+        state: {
+          amount: totalPrice,
+          service_name: state?.service_name,
+          service_sub_name: state?.service_sub_name,
+          payment_mode: 'pay_later',
+          payment_status: 'pending',
+          booking_status: 'confirmed',
+          booking_data: bookingData,
+          selected_prices: selectedPrices
+        }
+      });
+    } else {
+      console.error(response.data.message || 'Failed to create booking');
+      navigate('/booking-failed', {
+        state: {
+          error: response.data.message || 'Booking creation failed',
+          amount: totalPrice,
+          service_name: state?.service_name,
+          service_sub_name: state?.service_sub_name
+        }
+      });
     }
-  };
+  } catch (error) {
+    console.error('Error creating booking:', error);
+    navigate('/booking-failed', {
+      state: {
+        error: error instanceof Error ? error.message : 'Booking failed',
+        amount: totalPrice,
+        service_name: state?.service_name,
+        service_sub_name: state?.service_sub_name
+      }
+    });
+  }
+};
+
+
+const loadScript = () =>
+    new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      document.body.appendChild(script);
+    });
+   
+
+  
+const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault();
+
+   if (!validateForm()) {
+    return;
+  }
+  const res = await loadScript();
+  if (!res) {
+    toast.error("Razorpay SDK failed to load");
+    return;
+  }
+
+  try {
+    const bookingDataTemplate = selectedPrices.map(price => ({
+      order_service_price_for: price.id,
+      order_service_price: price.service_price_rate,
+      order_amount: price.service_price_amount,
+      order_payment_amount: price.service_price_amount,
+      order_remarks: formData.order_remarks,
+      ...Object.fromEntries(
+        Object.entries(formData).filter(([key]) => 
+          !['order_service_price_for', 'order_service_price', 'order_amount','order_payment_amount'].includes(key)
+        )
+      )
+    }));
+
+    const bookingDataTemplateModalClose = selectedPrices.map(price => ({
+      order_service_price_for: price.id,
+      order_service_price: price.service_price_rate,
+      order_amount: price.service_price_amount,
+      order_remarks: formData.order_remarks,
+      ...Object.fromEntries(
+        Object.entries(formData).filter(([key]) => 
+          !['order_service_price_for', 'order_service_price', 'order_amount'].includes(key)
+        )
+      )
+    }));
+   
+    // Calculate total price
+    const totalPrice = selectedPrices.reduce(
+      (sum, price) => sum + parseFloat(price.service_price_amount),
+      0
+    );
+    
+    // Razorpay options
+    const options = {
+      key: REACT_APP_RAZARPAY_KEY,
+      amount: Math.round(totalPrice * 100),
+      currency: "INR",
+      name: formData.order_customer ||   "V3 Care",
+      description: `Payment for ${state?.service_name || 'Service'}`,
+      handler: async function(response: any) {
+        try {
+         
+          const finalBookingData = bookingDataTemplate.map(data => ({
+            ...data,
+            order_transaction_details: response.razorpay_payment_id,
+            order_payment_type: response.razorpay_method || 'online' 
+          }));
+
+         
+          const bookingResponse = await axios.post(
+            `${BASE_URL}/api/panel-create-web-booking-out`,
+            { booking_data: finalBookingData }
+          );
+
+          if (bookingResponse.data.code === 200) {
+            navigate('/payment-success', {
+              state: {
+                payment_id: response.razorpay_payment_id,
+                amount: totalPrice,
+                service_name: state?.service_name,
+                service_sub_name: state?.service_sub_name,
+                payment_mode: response.razorpay_method || 'online',
+                payment_status: 'success',
+                booking_status: 'confirmed',
+                booking_data: finalBookingData,
+                selected_prices: selectedPrices,
+                payment_details: {
+                  method: response.razorpay_method,
+                  transaction_id: response.razorpay_payment_id,
+                  order_id: response.razorpay_order_id
+                }
+              }
+            });
+          } else {
+            navigate('/payment-success', {
+              state: {
+                payment_id: response.razorpay_payment_id,
+                amount: totalPrice,
+                service_name: state?.service_name,
+                service_sub_name: state?.service_sub_name,
+                payment_mode: response.razorpay_method || 'online',
+                payment_status: 'success',
+                booking_status: 'failed',
+                payment_details: {
+                  method: response.razorpay_method,
+                  transaction_id: response.razorpay_payment_id
+                }
+              }
+            });
+          }
+        } catch (error) {
+          console.error("Booking creation failed after payment:", error);
+            navigate('/payment-success', {
+              state: {
+                payment_id: response.razorpay_payment_id,
+                amount: totalPrice,
+                service_name: state?.service_name,
+                service_sub_name: state?.service_sub_name,
+                payment_mode: response.razorpay_method || 'online',
+                payment_status: 'success',
+                booking_status: 'failed',
+                payment_details: {
+                  method: response.razorpay_method,
+                  transaction_id: response.razorpay_payment_id
+                }
+              }})
+        }
+      },
+      prefill: {
+        name: formData.order_customer || "",
+        email: formData.order_customer_email || "",
+        contact: formData.order_customer_mobile || "",
+      },
+      theme: {
+        color: "#4361ee"
+      },
+      modal: {
+        ondismiss: async function() {
+         
+          console.log("Payment modal dismissed");
+          try {
+            const bookingResponse =  await axios.post(
+              `${BASE_URL}/api/panel-create-web-booking-out`,
+              { booking_data: bookingDataTemplateModalClose }
+            );
+            
+            if (bookingResponse.data.code === 200) {
+              navigate('/payment-success', {
+                state: {
+                  amount: totalPrice,
+                  service_name: state?.service_name,
+                  service_sub_name: state?.service_sub_name,
+                  payment_status: 'failed',
+                  booking_status: 'confirmed',
+                  selected_prices: selectedPrices,
+                  booking_data: bookingDataTemplateModalClose
+                }
+              });
+            } else {
+              
+              navigate('/booking-failed', {
+                state: {
+                  error: 'Payment was not completed and booking creation failed',
+                  amount: totalPrice,
+                  service_name: state?.service_name,
+                  service_sub_name: state?.service_sub_name
+                }
+              });
+            }
+          } catch (error) {
+            console.error("Failed to update booking status:", error);
+            navigate('/booking-failed', {
+              state: {
+                error: 'Payment was not completed and booking creation failed',
+                amount: totalPrice,
+                service_name: state?.service_name,
+                service_sub_name: state?.service_sub_name
+              }
+            });
+          }
+        }
+      }
+    };
+
+    const rzp = new (window as any).Razorpay(options);
+    
+    rzp.on('payment.failed', function(response: {
+      error: {
+        description: string;
+        code: string;
+        metadata: {
+          payment_id?: string;
+          order_id?: string;
+        };
+      };
+    }) {
+      let errorMessage = response.error.description;
+    const paymentMethod = '';
+      
+      
+      if (response.error.code === 'PAYMENT_CANCELLED') {
+        errorMessage = 'Payment was cancelled by user';
+      } else if (response.error.code === 'PAYMENT_FAILED') {
+        errorMessage = 'Payment failed. Please try again or use another method';
+      }
+
+      navigate('/booking-failed', {
+        state: {
+          error: errorMessage,
+          payment_id: response.error.metadata?.payment_id,
+          payment_method: paymentMethod
+        }
+      });
+    });
+    
+    rzp.open();
+    
+  } catch (error) {
+    console.error('Payment initiation failed:', error);
+    navigate('/booking-failed', {
+      state: {
+        error: error instanceof Error ? error.message : 'Payment initialization failed'
+      }
+    });
+  }
+};
+
+
   /*------------------------------------------------end----------------- */
 
   const togglePriceSelection = (price: any) => {
@@ -292,7 +575,7 @@ const ServiceDetails1 = () => {
 
   return (
     <>
-     <HomeHeader type={8} />
+      <HomeHeader type={8} />
       <style>
         {`
     @keyframes shine {
@@ -304,84 +587,7 @@ const ServiceDetails1 = () => {
 
       <div className="page-wrapper">
 
-        {/* 
-      <div 
-  className="d-lg-none" 
-  style={{
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: '100%',
-    background: 'linear-gradient(90deg, #4361ee 0%, #7209b7 100%)',
-    color: 'white',
-    zIndex: 1000,
-    borderTopLeftRadius: '12px',
-    borderTopRightRadius: '12px',
-    boxShadow: '0 -3px 10px rgba(0, 0, 0, 0.2)',
-    overflow: 'hidden'
-  }}
->
-  
-  <div 
-    style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)',
-      animation: 'shine 3s infinite'
-    }}
-  ></div>
 
-  <div className="container-fluid py-2 px-3">
-    <div className="row align-items-center">
-      <div className="col">
-        <div className="d-flex align-items-center">
-          <span 
-            className="badge rounded-pill me-2" 
-            style={{
-              backgroundColor: '#ffe600',
-              color: '#7209b7',
-              fontWeight: 'bold'
-            }}
-          >
-            {selectedPrices.length}
-          </span>
-          <div>
-            <span className="fw-bold">₹{totalPrice.toFixed(2)}</span>
-            {totalOriginalPrice > 0 && (
-              <small 
-                className="ms-2" 
-                style={{
-                  textDecoration: 'line-through',
-                  opacity: 0.75
-                }}
-              >
-                ₹{totalOriginalPrice.toFixed(2)}
-              </small>
-            )}
-          </div>
-        </div>
-      </div>
-      <div className="col-auto">
-        <button 
-          className="btn btn-sm rounded-pill" 
-          style={{
-            backgroundColor: '#ffe600',
-            color: '#4361ee',
-            fontWeight: 'bold',
-            padding: '0.25rem 0.75rem',
-            border: 'none'
-          }}
-        >
-          <i className="fas fa-broom me-1"></i> BOOK NOW
-        </button>
-      </div>
-    </div>
-  </div>
-</div> */}
 
 
 
@@ -463,19 +669,7 @@ const ServiceDetails1 = () => {
               </div>
             )}
 
-            {/* <button
-              className="btn btn-sm rounded-pill w-100 mt-2"
-              style={{
-                backgroundColor: '#ffe600',
-                color: '#4361ee',
-                fontWeight: 'bold',
-                padding: '0.5rem',
-                border: 'none'
-              }}
-              onClick={handleSubmit}
-            >
-              <i className="fas fa-broom me-1"></i> BOOK NOW
-            </button> */}
+
           </div>
         </div>
 
@@ -513,44 +707,9 @@ const ServiceDetails1 = () => {
                           &nbsp;  <span>{state?.service_sub_name ? `-- ${state?.service_sub_name}` : ""}</span>
 
                         </h4>
-                        {/* <span className="badge badge-purple-transparent mb-2">
-                          <i className="ti ti-calendar-check me-1" />
-                          6000+ Bookings
-                        </span> */}
+
                       </div>
-                      {/* <div className="d-flex align-items-center justify-content-between flex-wrap mb-2">
-                        <div className="d-flex align-items-center flex-wrap">
-                          <p className="me-3 mb-2">
-                            <i className="ti ti-map-pin me-2" />
-                            18 Boon Lay Way, Singapore{' '}
-                            <Link
-                              to="#"
-                              className="link-primary text-decoration-underline"
-                            >
-                              View Location
-                            </Link>
-                          </p>
-                          <p className="mb-2">
-                            <i className="ti ti-star-filled text-warning me-2" />
-                            <span className="text-gray-9">4.9</span>(255
-                            reviews)
-                          </p>
-                        </div>
-                        <div className="d-flex align-items-center flex-wrap">
-                          <Link to="javscript:void(0);" className="me-3 mb-2">
-                            <i className="ti ti-eye me-2" />
-                            3050 Views
-                          </Link>
-                          <Link to="javscript:void(0);" className="me-3 mb-2">
-                            <i className="ti ti-heart me-2" />
-                            Add to Wishlist
-                          </Link>
-                          <Link to="javscript:void(0);" className="me-3 mb-2">
-                            <i className="ti ti-share me-2" />
-                            Share Now
-                          </Link>
-                        </div>
-                      </div> */}
+
                     </div>
 
                     <div className="accordion service-accordion">
@@ -694,7 +853,7 @@ const ServiceDetails1 = () => {
                         >
                           <div className="accordion-body border-0 p-0 pt-3">
                             <div className="bg-light-200 p-2 pb-2 br-10">
-                              <form onSubmit={handleSubmit} className="booking-form">
+                              <form className="booking-form">
                                 {/* Compact Info Display Section - Read-only information */}
                                 {/* <div className="info-summary mb-4 p-2 rounded bg-light border">
                                   <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
@@ -900,11 +1059,27 @@ const ServiceDetails1 = () => {
                                       ></textarea>
                                     </div>
 
-                                    <div className="col-12 mt-4">
+                                    {/* <div className="col-12 mt-4">
                                       <button type="submit" className="btn btn-primary w-100 py-2">
                                         Book Service
                                       </button>
-                                    </div>
+                                    </div> */}
+                                    <div className="col-12 mt-4 d-flex gap-2">
+  <button 
+    type="button" 
+    className="btn btn-primary flex-grow-1 py-2"
+    onClick={handleSubmitPayNow} 
+  >
+    Pay Now
+  </button>
+  <button 
+    type="button" 
+    className="btn btn-outline-primary flex-grow-1 py-2"
+    onClick={handleSubmitPayLater} 
+  >
+    Pay Later
+  </button>
+</div>
                                   </div>
                                 </div>
                               </form>
@@ -1124,22 +1299,7 @@ const ServiceDetails1 = () => {
                           50% Offer
                         </span>
                       </div>
-                      {/* <Link
-                        to="#"
-                        className="btn btn-lg btn-primary w-100 d-flex align-items-center justify-content-center mb-3"
-                      >
-                        <i className="ti ti-calendar me-2" />
-                        Book Service
-                      </Link>
-                      <Link
-                        to="#"
-                        data-bs-toggle="modal"
-                        data-bs-target="#add-enquiry"
-                        className="btn btn-lg btn-outline-light d-flex align-items-center justify-content-center w-100"
-                      >
-                        <i className="ti ti-mail me-2" />
-                        Send Enquiry
-                      </Link> */}
+
                     </div>
                   </div>
 

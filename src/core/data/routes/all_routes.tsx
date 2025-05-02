@@ -23,6 +23,8 @@ export const all_routes = {
   booking1: '/booking/booking-1',
   bookingDetails: '/booking/booking-details',
   sessionExpired: '/session-expired',
+  paymentSuccess: '/payment-success',
+  bookingFailed: '/booking-failed',
 
   // pages module path
   // pages: '/pages/*',

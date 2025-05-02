@@ -4,6 +4,7 @@ import Select from 'react-select';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { BASE_URL, BASE_URL_PINCODE } from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
+import { toast } from 'sonner';
 
 interface BranchType {
   id: string;
@@ -178,7 +179,7 @@ const ServiceRequest = () => {
 
   const handleNext = () => {
     if (!validateCurrentStep(currentStep)) {
-      alert("Please fill all required fields before proceeding");
+      toast.error("Please fill all required fields before proceeding");
       return;
     }
     setCurrentStep(currentStep + 1);
@@ -255,7 +256,7 @@ const ServiceRequest = () => {
         })
         .catch(error => {
           console.error("Error fetching pincode data:", error);
-         alert("Error fetching location data for this pincode");
+          toast.error("Error fetching location data for this pincode");
         });
     }
   };
@@ -266,7 +267,7 @@ const ServiceRequest = () => {
 
     const form = e.currentTarget;
     if (!form.checkValidity()) {
-      alert("Please fill all required fields");
+      toast.error("Please fill all required fields");
       setLoading(false);
       return;
     }
@@ -320,7 +321,7 @@ const ServiceRequest = () => {
       );
 
       if (response.data.code == "200") {
-        alert(response.data.msg);
+        toast.success(response.data.msg);
         
         setVendor({
           vendor_short: "",
@@ -356,18 +357,18 @@ const ServiceRequest = () => {
         setCurrentStep(1);
       } else {
         if (response.data.code == "402") {
-          alert(response.data.msg);
+          toast.error(response.data.msg);
         } else if (response.data.code == "403") {
-          alert(response.data.msg);
+          toast.error(response.data.msg);
         }else if (response.data.code == "400") {
-          alert(response.data.msg);
+          toast.error(response.data.msg);
         } else {
-          alert(response.data.msg);
+          toast.error(response.data.msg);
         }
       }
     } catch (error) {
       console.error("Error submitting service request:", error);
-      alert("Error submitting service request");
+      toast.error("Error submitting service request");
     } finally {
       setLoading(false);
     }

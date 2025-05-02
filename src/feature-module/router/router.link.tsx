@@ -24,6 +24,9 @@ import PrivacyPolicy from '../frontend/pages/privacy-policy/privacy-policy';
 import BookingWizard from '../frontend/pages/booking/booking-wizard';
 import BookingDetails from '../frontend/pages/booking/booking-details';
 import SessionExpired from '../frontend/pages/session-expired/session-expired';
+import PaymentSuccess from '../frontend/pages/payment-success/payment-success';
+import BookingFailed from '../frontend/pages/payment-success/booking-failed';
+
 
 const routes = all_routes;
 
@@ -125,6 +128,21 @@ const publicRoutes = [
     path: routes.comingSoon,
     name: 'coming-soon',
     element: <CommingSoon />,
+    route: Route,
+  },
+  {
+    path: routes.paymentSuccess,
+    name: 'payment-success',
+    element: <PaymentSuccess />,
+    route: Route,
+  },
+
+
+
+  {
+    path: routes.bookingFailed,
+    name: 'booking-failed',
+    element: <BookingFailed />,
     route: Route,
   },
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
-
+import logoNav from "../../../../logo/v3.png";
 const FooterSeven = () => {
   const routes = all_routes;
   return (
@@ -16,7 +16,7 @@ const FooterSeven = () => {
           <div className="footer-widget footer-widget-seven">
             <div className="footer-logo">
               <Link to={routes.index}>
-                <img src="assets/img/services/v3.png"  alt="logo_footer" />
+                <img src={logoNav}  alt="logo_footer" />
               </Link>
             </div>
             <div className="footer-content">

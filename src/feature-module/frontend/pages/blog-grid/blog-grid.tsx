@@ -7,6 +7,7 @@ import { blogCardData } from '../../../../core/data/json/blog_card';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import HomeHeader from '../../home/header/home-header';
+import { BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 
 
 const BlogGrid = () => {
@@ -94,7 +95,7 @@ const BlogGrid = () => {
                       <div className="img-sec w-100">
                         <Link to={`${routes.blogDetails}/${blog.id}`}>
                           <img
-                            src={`https://agscare.site/crmapi/public/storage/blog//${blog.img}`}
+                            src={`${BLOG_IMAGE_URL}/${blog.img}`}
                             className="img-fluid rounded-top w-100"
                             alt="img"
                           />

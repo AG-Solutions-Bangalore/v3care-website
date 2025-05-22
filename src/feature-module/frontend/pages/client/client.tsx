@@ -116,7 +116,7 @@ const Client = () => {
           )}
 
           {/* CTA Section */}
-          <div className="row mt-5" data-aos="fade-up" data-aos-delay="300">
+          {/* <div className="row mt-5" data-aos="fade-up" data-aos-delay="300">
             <div className="col-12">
               <div className="bg-light rounded-3 p-5 text-center">
                 <h3 className="fw-bold mb-3">Join Our Partner Network</h3>
@@ -133,7 +133,7 @@ const Client = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* /Page Wrapper */}

@@ -326,7 +326,7 @@ const ServiceGrid = () => {
                 <div className="col-12 text-center">
                   <div className="empty-state">
                     <img
-                      src="http://agscare.site/crmapi/public/storage/no_image.jpg"
+                      src={`${NO_IMAGE_URL}`}
                       alt="No services found"
                       className="img-fluid mb-4"
                       style={{ maxWidth: '280px', opacity: 0.7 }}
@@ -378,7 +378,7 @@ const ServiceGrid = () => {
                           style={{ objectFit: 'cover' }}
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = "http://agscare.site/crmapi/public/storage/no_image.jpg";
+                            target.src = `${NO_IMAGE_URL}`;
                           }}
                         />
                         <button
@@ -519,7 +519,7 @@ const ServiceGrid = () => {
                               }}
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
-                                target.src = "http://agscare.site/crmapi/public/storage/no_image.jpg";
+                                target.src = `${NO_IMAGE_URL}`;
                               }}
                             />
                           </div>

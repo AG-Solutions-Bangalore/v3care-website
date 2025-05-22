@@ -11,7 +11,7 @@ import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import HomeHeader from '../header/home-header';
 import axios from 'axios';
-import {BASE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL, SERVICE_SUPER_IMAGE_URL, TESTIMONIAL_IMAGE_URL} from '../../../baseConfig/BaseUrl';
+import {BASE_URL, BLOG_IMAGE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL, SERVICE_SUPER_IMAGE_URL, TESTIMONIAL_IMAGE_URL} from '../../../baseConfig/BaseUrl';
 import { blogCardData } from '../../../../core/data/json/blog_card';
 interface ServiceSuper {
   id: number;
@@ -933,7 +933,7 @@ const HomeSeven = () => {
        
       
         {/* Testimonials Section */}
-        <section className="testimonals-seven-section pt-0">
+        <section className="testimonals-seven-section pt-5">
           <div className="container">
             <div className="section-heading section-heading-seven">
               <div className="row">
@@ -1059,7 +1059,7 @@ const HomeSeven = () => {
                       <div className="img-sec w-100">
                         <Link to={`${routes.blogDetails}/${blog.id}`}>
                           <img
-                            src={`https://agscare.site/crmapi/public/storage/blog//${blog.img}`}
+                            src={`${BLOG_IMAGE_URL}/${blog.img}`}
                             className="img-fluid rounded-top w-100"
                             alt="img"
                           />

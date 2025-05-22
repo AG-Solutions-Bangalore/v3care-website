@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StickyBox from 'react-sticky-box';
 import axios from 'axios';
-import { BASE_URL } from '../../../baseConfig/BaseUrl';
+import { BASE_URL, SERVICE_DETAILS_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
 import { toast } from 'sonner';
 
@@ -1331,7 +1331,7 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
                           <div className="card-body p-0">
                             <div className="img-sec w-100">
                               <img
-                                src={`http://agscare.site/crmapi/public/storage/service_details/${card.serviceDetails_image}`}
+                                src={`${SERVICE_DETAILS_IMAGE_URL}/${card.serviceDetails_image}`}
                                 className="img-fluid rounded-top w-100 "
                                 alt="img"
                               />

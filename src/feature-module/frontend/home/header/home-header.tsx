@@ -8,6 +8,7 @@ import {
 import * as Icon from 'react-feather';
 import { AppState } from '../../../../core/models/interface';
 import CityModal from '../../../components/CityModal';
+import logoNav from "../../../../logo/v3.png";
 
 type props = {
   type: number;
@@ -149,7 +150,7 @@ const HomeHeader: React.FC<props> = ({ type  }) => {
               </Link>
               <Link to="/" className="navbar-brand logo" >
                 <img
-                  src="assets/img/services/v3.png"
+                  src={logoNav}
                   className="img-fluid "
                   style={{ width: "100px", height: "50px" }}
                   alt="Logo"
@@ -157,7 +158,7 @@ const HomeHeader: React.FC<props> = ({ type  }) => {
               </Link>
               <Link to="/" className="navbar-brand logo-small">
                 <img
-                  src="assets/img/services/v3.png"
+                  src={logoNav}
                   className="img-fluid"
                   alt="Logo"
                 />
@@ -167,7 +168,7 @@ const HomeHeader: React.FC<props> = ({ type  }) => {
               <div className="menu-header">
                 <Link to="/" onClick={() => dispatch(set_toggleSidebar_data(false))} className="menu-logo">
                   <img
-                    src="assets/img/services/v3.png"
+                     src={logoNav}
                     className="img-fluid"
                     style={{ width: "100px", height: "50px", textAlign: "center" }}
                     alt="Logo"

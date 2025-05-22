@@ -143,7 +143,7 @@ const Categories = () => {
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
             <img
-              src="http://agscare.site/crmapi/public/storage/no_image.jpg"
+              src={`${NO_IMAGE_URL}`}
               alt="No services found"
               className="img-fluid mb-3"
               style={{ maxWidth: '300px' }}
@@ -290,7 +290,7 @@ const Categories = () => {
                         }}
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = "http://agscare.site/crmapi/public/storage/no_image.jpg";
+                          target.src = `${NO_IMAGE_URL}`;
                         }}
                       />
                     </div>

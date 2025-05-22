@@ -815,7 +815,7 @@ const AboutUs = () => {
       </section>
       {/* /Client Section */}
       {/* Service Section */}
-      <div className="service-offer about-service-offer">
+      {/* <div className="service-offer about-service-offer">
         <div className="container">
           <div className="card">
             <div className="card-body">
@@ -850,7 +850,7 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* /Service Section */}
     </div>
   </div>

@@ -176,6 +176,7 @@ const ServiceGrid = () => {
   if (loading && serviceSupers.length === 0) {
     return (
       <>
+      <HomeHeader type={8} />
         <BreadCrumb title="Services" item1="Services" />
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
@@ -192,9 +193,10 @@ const ServiceGrid = () => {
   if (error) {
     return (
       <>
+           <HomeHeader type={8} />
         <BreadCrumb title="Services" item1="Services" />
-        <div className="d-flex justify-content-center align-items-center vh-100">
-          <div className="alert alert-danger d-flex align-items-center" role="alert">
+        <div className="d-flex justify-content-center align-items-center vh-50">
+          <div className="alert alert-danger d-flex align-items-center mt-4" role="alert">
             <Icon.AlertCircle className="me-2" size={18} />
             <div>{error}</div>
             <button 
@@ -381,6 +383,16 @@ const ServiceGrid = () => {
                             target.src = `${NO_IMAGE_URL}`;
                           }}
                         />
+                       {/* <img
+                          src={`https://agscare.site/crmapi/storage/app/public/blog/blog4.jpg`}
+                          className="w-100 h-100"
+                          alt={service.service}
+                          style={{ objectFit: 'cover' }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = `${NO_IMAGE_URL}`;
+                          }}
+                        />  */}
                         <button
                           type="button"
                           className={`btn position-absolute top-0 end-0 mt-2 me-2 ${
@@ -522,6 +534,22 @@ const ServiceGrid = () => {
                                 target.src = `${NO_IMAGE_URL}`;
                               }}
                             />
+
+{/* <img
+                              src={"https://agscare.site/crmapi/storage/app/public/blog/blog9.jpg"}
+                              alt={subService.service_sub}
+                              className="img-fluid"
+                              style={{ 
+                                objectFit: 'cover',
+                                objectPosition: 'center',
+                                height: '100%',
+                                width: '100%'
+                              }}
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.src = `${NO_IMAGE_URL}`;
+                              }}
+                            /> */}
                           </div>
                           <div className="card-body p-2 text-center">
                             <h6 className="card-title mb-0" style={{

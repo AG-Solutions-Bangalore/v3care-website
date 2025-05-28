@@ -102,6 +102,7 @@ const Categories = () => {
   if (loading) {
     return (
       <>
+       <HomeHeader type={8} />
         <BreadCrumb title="Categories" item1="Categories" />
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
@@ -118,9 +119,10 @@ const Categories = () => {
   if (error) {
     return (
       <>
+         <HomeHeader type={8} />
         <BreadCrumb title="Categories" item1="Categories" />
-        <div className="d-flex justify-content-center align-items-center vh-100">
-          <div className="alert alert-danger d-flex align-items-center" role="alert">
+        <div className="d-flex justify-content-center align-items-center vh-80">
+          <div className="alert alert-danger d-flex align-items-center mt-4" role="alert">
             <i className="fas fa-exclamation-circle me-2"></i>
             <div>{error}</div>
             <button 
@@ -139,9 +141,10 @@ const Categories = () => {
   if (services.length === 0) {
     return (
       <>
+       <HomeHeader type={8} />
         <BreadCrumb title="Categories" item1="Categories" />
-        <div className="d-flex justify-content-center align-items-center vh-100">
-          <div className="text-center">
+        <div className="d-flex justify-content-center align-items-center vh-50">
+          <div className="text-center mb-4">
             <img
               src={`${NO_IMAGE_URL}`}
               alt="No services found"
@@ -150,11 +153,11 @@ const Categories = () => {
             />
             <h4>No services found</h4>
             <p>We couldn not find any services matching your criteria.</p>
-            {id && (
+            {/* {id && (
               <Link to="/categories" className="btn btn-primary">
                 View all categories
               </Link>
-            )}
+            )} */}
           </div>
         </div>
       </>
@@ -184,6 +187,12 @@ const Categories = () => {
                             alt={service.service}
                             style={{ borderRadius: '8px' }}
                           />
+                          {/* <img
+                       src={`https://agscare.site/crmapi/storage/app/public/blog/blog4.jpg`}
+                            className="img-fluid w-100 h-100 object-fit-cover"
+                            alt={service.service}
+                            style={{ borderRadius: '8px' }}
+                          /> */}
                         </div>
                         <h5 className="text-center mb-0">{service.service}</h5>
                       </div>
@@ -279,7 +288,7 @@ const Categories = () => {
                     }}
                   >
                     <div className="ratio ratio-1x1" style={{ backgroundColor: '#fdf2f8', }}>
-                      <img
+                    <img
                         src={getImageUrl(subService.service_sub_image, true)}
                         alt={subService.service_sub}
                         className="img-fluid object-fit-cover"
@@ -292,7 +301,21 @@ const Categories = () => {
                           const target = e.target as HTMLImageElement;
                           target.src = `${NO_IMAGE_URL}`;
                         }}
-                      />
+                      /> 
+                      {/* <img
+                        src={"https://agscare.site/crmapi/storage/app/public/blog/blog9.jpg"}
+                        alt={subService.service_sub}
+                        className="img-fluid object-fit-cover"
+                        style={{ 
+                          objectPosition: 'center',
+                          height: '100%',
+                          width: '100%'
+                        }}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `${NO_IMAGE_URL}`;
+                        }}
+                      /> */}
                     </div>
                     <div className="card-body p-2 text-center">
                       <h6 className="card-title mb-0" style={{

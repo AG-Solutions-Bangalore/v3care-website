@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import 'yet-another-react-lightbox/styles.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {  useLocation, useNavigate } from 'react-router-dom';
 import StickyBox from 'react-sticky-box';
 import axios from 'axios';
 import { BASE_URL, SERVICE_DETAILS_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
-import { toast } from 'sonner';
+
 
 
 
@@ -22,7 +22,10 @@ const ServiceDetails1 = () => {
   const { state } = location;
   const navigate = useNavigate();
   const branch_id = localStorage.getItem('branch_id');
-  const city = localStorage.getItem('city');
+  
+  const city = localStorage.getItem("city") || "your area";
+const message = `We're not available in ${city} at the moment, but we're expanding and will be there soon!`;
+
   const [servicePrices, setServicePrices] = useState<any[]>([]);
   const [priceLoading, setPriceLoading] = useState(false);
   const [priceError, setPriceError] = useState<string | null>(null);
@@ -33,6 +36,12 @@ const ServiceDetails1 = () => {
   const [primaryPrice, setPrimaryPrice] = useState<any>(null);
   const [showFullText, setShowFullText] = useState<Record<string | number, boolean>>({});
   const [showBreakdown, setShowBreakdown] = useState(false);
+  const [notifications, setNotifications] = useState<{
+      id: string;
+      message: string;
+      type: 'success' | 'error';
+    }[]>([]);
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
   const [formData, setFormData] = useState({
     order_date: new Date().toISOString().split('T')[0],
     order_year: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
@@ -65,6 +74,29 @@ const ServiceDetails1 = () => {
     order_payment_type:"",
     order_transaction_details:"",
   });
+
+
+
+
+    const showNotification = (message: string, type: 'success' | 'error') => {
+      const id = Date.now().toString();
+      setNotifications((prev) => [...prev, { id, message, type }]);
+      
+      // Auto-remove after 5 seconds
+      setTimeout(() => {
+        removeNotification(id);
+      }, 5000);
+    };
+    
+    const removeNotification = (id: string) => {
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    };
+
+    useEffect(() => {
+      const handleResize = () => setIsSmallScreen(window.innerWidth < 600);
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
 /*---------------------------------vaildation----------------------- */
 const validateForm = () => {
   const requiredFields = [
@@ -79,7 +111,7 @@ const validateForm = () => {
   // Check if all required fields are filled
   for (const field of requiredFields) {
     if (!formData[field as keyof typeof formData]) {
-      toast.error(`Please fill in the ${field.replace('order_', '').replace('_', ' ')} field`);
+      showNotification(`Please fill in the ${field.replace('order_', '').replace('_', ' ')} field`, 'error');
       return false;
     }
   }
@@ -87,20 +119,20 @@ const validateForm = () => {
   // Validate mobile number format (Indian mobile numbers)
   const mobileRegex = /^[6-9]\d{9}$/;
   if (!mobileRegex.test(formData.order_customer_mobile)) {
-    toast.error('Please enter a valid 10-digit Indian mobile number');
+    showNotification('Please enter a valid 10-digit Indian mobile number','error');
     return false;
   }
 
   // Validate email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(formData.order_customer_email)) {
-    toast.error('Please enter a valid email address');
+    showNotification('Please enter a valid email address' ,'error');
     return false;
   }
 
   // Check if at least one service is selected
   if (selectedPrices.length === 0) {
-    toast.error('Please select at least one service');
+    showNotification('Please select at least one service','error');
     return false;
   }
 
@@ -224,11 +256,23 @@ const validateForm = () => {
 
   // google map end
   /*------------------------------------------------start----------------- */
-
+  const validateOnlyDigits = (inputtxt: string): boolean => {
+    const phoneno = /^\d+$/;
+    return phoneno.test(inputtxt) || inputtxt.length === 0;
+  };
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
+    if (
+      (name === "order_customer_mobile") 
+    
+       
+       &&
+      !validateOnlyDigits(value)
+    ) {
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -268,7 +312,7 @@ const handleSubmitPayLater = async (e: React.MouseEvent<HTMLButtonElement>) => {
 
     if (response.data.code == 200) {
    
-      toast.success(response.data.msg || "payment successfull")
+      showNotification(response.data.msg || "Payment successful", 'success');
       navigate('/payment-success', {
         state: {
           amount: totalPrice,
@@ -324,7 +368,8 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
   }
   const res = await loadScript();
   if (!res) {
-    toast.error("Razorpay SDK failed to load");
+   
+    showNotification('Razorpay SDK failed to load', 'error');
     return;
   }
 
@@ -584,11 +629,92 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
     }
     `}
       </style>
+      <style>
+  {`
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  `}
+</style>
+{/* <div style={{
+  position: 'fixed',
+  top: '90px',
+  right: '20px',
+  zIndex: 1000,
+  maxWidth: '350px',
+  width: '100%'
+}}>
+  {notifications.map((notification) => (
+    <div 
+      key={notification.id}
+      className={`alert alert-${notification.type === 'success' ? 'success' : 'danger'} alert-dismissible fade show p-2 mb-2`}
+      style={{
+        width: '100%',
+        borderRadius: '4px',
+        fontSize: '14px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        animation: 'slideDown 0.3s ease-out',
+        boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+      }}
+    >
+      <span style={{ flex: 1 }}>{notification.message}</span>
+      <button 
+        type="button" 
+        className="btn-close p-1" 
+        style={{ fontSize: '10px' }}
+        onClick={() => removeNotification(notification.id)}
+        aria-label="Close"
+      />
+    </div>
+  ))}
+</div> */}
+<div
+style={{
+  position: 'fixed',
+  top: isSmallScreen ? '70px' : '90px',
+  right: '20px',
+  zIndex: 1000,
+  maxWidth: '300px',
+  width: '100%',
+  left: isSmallScreen ? '50%' : 'auto',
+  transform: isSmallScreen ? 'translateX(-50%)' : 'none',
+}}
+>
+  {notifications.map((notification) => (
+    <div 
+      key={notification.id}
+      className={`alert alert-${notification.type === 'success' ? 'success' : 'danger'} alert-dismissible fade show p-2 mb-2`}
+      style={{
+        width: '100%',
+        borderRadius: '4px',
+        fontSize: '14px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        animation: 'slideDown 0.3s ease-out',
+        boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+      }}
+    >
+      <span style={{ flex: 1 }}>{notification.message}</span>
+      <button 
+        type="button" 
+        className="btn-close p-1" 
+        style={{ fontSize: '10px' }}
+        onClick={() => removeNotification(notification.id)}
+        aria-label="Close"
+      />
+    </div>
+  ))}
+</div>
+
 
       <div className="page-wrapper">
 
 
-
+      
 
 
         <div
@@ -685,6 +811,7 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
 
 
         <div className="content">
+          
           <div className="container">
             <div className="row">
               <div className="col-xl-8">
@@ -701,7 +828,7 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
                           {city && ` (${city})`}
                           {branch_id && ` [Branch: ${branch_id}]`}
                         </h3> */}
-                        <h4 className="mb-2  "   >
+                        <h4 className="mb-2  text-primary"   >
                           <span> {state?.service_name || 'Service Name'}</span>
 
                           &nbsp;  <span>{state?.service_sub_name ? `-- ${state?.service_sub_name}` : ""}</span>
@@ -722,7 +849,7 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
                             data-bs-target="#overview"
                             aria-expanded="false"
                           >
-                            Service Overview
+                            Service Offered
                           </button>
                         </h2>
                         <div
@@ -730,7 +857,7 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
                           className="accordion-collapse collapse show"
                         >
                           <div className="accordion-body border-0 p-0 pt-3">
-                            <div className="more-text">
+                            {/* <div className="more-text">
                               <p>
                                 Provides reliable and professional electrical
                                 solutions for residential and commercial
@@ -749,15 +876,15 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
                                 benefits, location, contact details, special
                                 offers, and customer reviews.
                               </p>
-                            </div>
-                            <Link
+                            </div> */}
+                            {/* <Link
                               to="#"
                               className="link-primary text-decoration-underline more-btn mb-4"
                             >
                               Read More
-                            </Link>
+                            </Link> */}
                             <div className="bg-light-200 p-3 offer-wrap">
-                              <h4 className="mb-3">Services Offered</h4>
+                              {/* <h4 className="mb-3">Services Offered</h4> */}
 
                               {priceLoading ? (
                                 <div className="text-center py-4">
@@ -828,7 +955,8 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
                                 ))
                               ) : (
                                 <div className="alert alert-info">
-                                  No pricing options available for this service
+                                  {/* No pricing options available for this service */}
+                                 {message}
                                 </div>
                               )}
                             </div>
@@ -851,6 +979,42 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
                           id="include"
                           className="accordion-collapse collapse show"
                         >
+                           {/* Notification Container - Add this right here */}
+                           {/* <div style={{ position: 'relative', marginBottom: notifications.length ? '10px' : '0' }}>
+    <div style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 1000
+    }}>
+      {notifications.map((notification) => (
+        <div 
+          key={notification.id}
+          className={`alert alert-${notification.type === 'success' ? 'success' : 'danger'} alert-dismissible fade show p-2 mb-2`}
+          style={{
+            width: '100%',
+            borderRadius: '4px',
+            fontSize: '14px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            animation: 'slideDown 0.3s ease-out',
+            boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+          }}
+        >
+          <span style={{ flex: 1 }}>{notification.message}</span>
+          <button 
+            type="button" 
+            className="btn-close p-1" 
+            style={{ fontSize: '10px' }}
+            onClick={() => removeNotification(notification.id)}
+            aria-label="Close"
+          />
+        </div>
+      ))}
+    </div>
+  </div> */}
                           <div className="accordion-body border-0 p-0 pt-3">
                             <div className="bg-light-200 p-2 pb-2 br-10">
                               <form className="booking-form">
@@ -966,6 +1130,8 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
                                         name="order_customer_mobile"
                                         value={formData.order_customer_mobile}
                                         onChange={handleInputChange}
+                                        minLength={10}
+                                        maxLength={10}
                                         placeholder="Your contact number"
                                         required
                                       />

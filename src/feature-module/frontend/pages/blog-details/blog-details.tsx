@@ -17,14 +17,89 @@ const BlogDetails = () => {
   const routes = all_routes;
   const { id } = useParams();
   const blog = blogDetailsData.find(item => item.id === id);
-  const latestBlogs = blogCardData.slice(0, 4); // Get 4 latest blogs for sidebar
+  const latestBlogs = blogCardData.slice(0, 5); 
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
   if (!blog) {
-    return <div>Blog post not found</div>;
+    return (
+      <>
+        <HomeHeader type={8} />
+        <div className="page-wrapper">
+        <div className="content">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-8 col-md-12 blog-details">
+                <div className="blog-head">
+                  <div className="blog-category">
+                    <ul>
+                      <li>
+                        <span className="badge badge-light text-dark">
+                          Cleaning
+                        </span>
+                      </li>
+                
+                      <li>
+                        <div className="post-author">
+                          <Link to="#">
+                            <ImageWithBasePath
+                              src="assets/img/profiles/avatar-55.jpg"
+                              alt="Post Author"
+                            />
+                            <span>V3 Care</span>
+                          </Link>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+               
+                </div>
+                <div className="card blog-list shadow-none">
+                  <div className="card-body">
+                  BLOG NOT FOUND
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-12 blog-sidebar theiaStickySidebar">
+                <StickyBox>
+                  <div className="card post-widget">
+                    <div className="card-body">
+                      <h4 className="side-title">Latest News</h4>
+                      <ul className="latest-posts">
+                        {latestBlogs.map((latestBlog) => (
+                          <li key={latestBlog.id}>
+                            <div className="post-thumb">
+                              <Link to={`${routes.blogDetails}/${latestBlog.id}`}>
+                                <img
+                                  className="img-fluid"
+                                  src={`${BLOG_IMAGE_URL}/${latestBlog.img}`}
+                                  alt="Blog Image"
+                                />
+                              </Link>
+                            </div>
+                            <div className="post-info">
+                              <p>{latestBlog.date}</p>
+                              <h4>
+                                <Link to={`${routes.blogDetails}/${latestBlog.id}`}>
+                                  {latestBlog.title}
+                                </Link>
+                              </h4>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </StickyBox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </>
+    );
   }
 
   return (

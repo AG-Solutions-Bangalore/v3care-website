@@ -4,7 +4,7 @@ import Select from 'react-select';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { BASE_URL, BASE_URL_PINCODE } from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
-import { toast } from 'sonner';
+
 
 interface BranchType {
   id: string;
@@ -84,6 +84,12 @@ const ServiceRequest = () => {
     vendor_ref_mobile_2: "",
   });
 
+    const [notifications, setNotifications] = useState<{
+        id: string;
+        message: string;
+        type: 'success' | 'error';
+      }[]>([]);
+      const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
   const [branches, setBranches] = useState<BranchType[]>([]);
   const [services, setServices] = useState<ServiceType[]>([]);
   const [locations, setLocations] = useState<LocationType[]>([]);
@@ -117,7 +123,25 @@ const ServiceRequest = () => {
 
   const useTemplate2 = { vendor_area: "" };
   const [users2, setUsers2] = useState([useTemplate2]);
+const showNotification = (message: string, type: 'success' | 'error') => {
+      const id = Date.now().toString();
+      setNotifications((prev) => [...prev, { id, message, type }]);
+      
+      // Auto-remove after 5 seconds
+      setTimeout(() => {
+        removeNotification(id);
+      }, 5000);
+    };
+    
+    const removeNotification = (id: string) => {
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    };
 
+    useEffect(() => {
+      const handleResize = () => setIsSmallScreen(window.innerWidth < 600);
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
   useEffect(() => {
     const fetchBranches = async () => {
       try {
@@ -179,7 +203,7 @@ const ServiceRequest = () => {
 
   const handleNext = () => {
     if (!validateCurrentStep(currentStep)) {
-      toast.error("Please fill all required fields before proceeding");
+      showNotification("Please fill all required fields before proceeding",'error');
       return;
     }
     setCurrentStep(currentStep + 1);
@@ -256,7 +280,7 @@ const ServiceRequest = () => {
         })
         .catch(error => {
           console.error("Error fetching pincode data:", error);
-          toast.error("Error fetching location data for this pincode");
+          showNotification("Error fetching location data for this pincode",'error');
         });
     }
   };
@@ -267,7 +291,7 @@ const ServiceRequest = () => {
 
     const form = e.currentTarget;
     if (!form.checkValidity()) {
-      toast.error("Please fill all required fields");
+      showNotification("Please fill all required fields",'error');
       setLoading(false);
       return;
     }
@@ -321,7 +345,7 @@ const ServiceRequest = () => {
       );
 
       if (response.data.code == "200") {
-        toast.success(response.data.msg);
+        showNotification(response.data.msg,'success');
         
         setVendor({
           vendor_short: "",
@@ -357,18 +381,18 @@ const ServiceRequest = () => {
         setCurrentStep(1);
       } else {
         if (response.data.code == "402") {
-          toast.error(response.data.msg);
+          showNotification(response.data.msg ,'error');
         } else if (response.data.code == "403") {
-          toast.error(response.data.msg);
+          showNotification(response.data.msg,'error');
         }else if (response.data.code == "400") {
-          toast.error(response.data.msg);
+          showNotification(response.data.msg,'error');
         } else {
-          toast.error(response.data.msg);
+          showNotification(response.data.msg,'error');
         }
       }
     } catch (error) {
       console.error("Error submitting service request:", error);
-      toast.error("Error submitting service request");
+      showNotification("Error submitting service request",'error');
     } finally {
       setLoading(false);
     }
@@ -416,7 +440,54 @@ const ServiceRequest = () => {
 
   return (
     <>
-     <HomeHeader type={8} />
+    <style>
+  {`
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  `}
+</style>
+     
+     <div
+style={{
+  position: 'fixed',
+  top: isSmallScreen ? '70px' : '90px',
+  right: '20px',
+  zIndex: 1000,
+  maxWidth: '300px',
+  width: '100%',
+  left: isSmallScreen ? '50%' : 'auto',
+  transform: isSmallScreen ? 'translateX(-50%)' : 'none',
+}}
+>
+  {notifications.map((notification) => (
+    <div 
+      key={notification.id}
+      className={`alert alert-${notification.type === 'success' ? 'success' : 'danger'} alert-dismissible fade show p-2 mb-2`}
+      style={{
+        width: '100%',
+        borderRadius: '4px',
+        fontSize: '14px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        animation: 'slideDown 0.3s ease-out',
+        boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+      }}
+    >
+      <span style={{ flex: 1 }}>{notification.message}</span>
+      <button 
+        type="button" 
+        className="btn-close p-1" 
+        style={{ fontSize: '10px' }}
+        onClick={() => removeNotification(notification.id)}
+        aria-label="Close"
+      />
+    </div>
+  ))}
+</div>
+<HomeHeader type={8} />
       <div className="page-wrapper">
         <div className="content">
           <div className="container">

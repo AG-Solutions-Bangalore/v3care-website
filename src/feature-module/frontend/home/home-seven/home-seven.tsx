@@ -532,7 +532,7 @@ const HomeSeven = () => {
                     data-aos="fade-up"
                   >
                     <div className="service-img">
-                      <Link to={routes.serviceDetails1}>
+                      <Link to={'#'}>
                         <ImageWithBasePath
                           className="img-fluid serv-img"
                           alt="Service Image"
@@ -540,7 +540,7 @@ const HomeSeven = () => {
                         />
                       </Link>
                       <div className="fav-item">
-                        <Link to={routes.categories}>
+                        <Link to={'#'}>
                           <span className="item-cat">Glass Fitting</span>
                         </Link>
                         <Link to="javascript:void(0)" className="fav-icon">
@@ -561,7 +561,7 @@ const HomeSeven = () => {
                     </div>
                     <div className="service-content service-content-seven">
                       <h3 className="title">
-                        <Link to={routes.serviceDetails1}>
+                        <Link to={'#'}>
                           Toughened Glass Fitting Service
                         </Link>
                       </h3>
@@ -573,7 +573,7 @@ const HomeSeven = () => {
                     data-aos="fade-up"
                   >
                     <div className="service-img">
-                      <Link to={routes.serviceDetails1}>
+                      <Link to={'#'}>
                         <ImageWithBasePath
                           className="img-fluid serv-img"
                           alt="Service Image"
@@ -581,7 +581,7 @@ const HomeSeven = () => {
                         />
                       </Link>
                       <div className="fav-item">
-                        <Link to={routes.categories}>
+                        <Link to={'#'}>
                           <span className="item-cat">Car Repair</span>
                         </Link>
                         <Link to="javascript:void(0)" className="fav-icon">
@@ -602,7 +602,7 @@ const HomeSeven = () => {
                     </div>
                     <div className="service-content service-content-seven">
                       <h3 className="title">
-                        <Link to={routes.serviceDetails1}>
+                        <Link to={'#'}>
                           Car Repair Service
                         </Link>
                       </h3>
@@ -614,7 +614,7 @@ const HomeSeven = () => {
                     data-aos="fade-up"
                   >
                     <div className="service-img">
-                      <Link to={routes.serviceDetails1}>
+                      <Link to={'#'}>
                         <ImageWithBasePath
                           className="img-fluid serv-img"
                           alt="Service Image"
@@ -622,7 +622,7 @@ const HomeSeven = () => {
                         />
                       </Link>
                       <div className="fav-item">
-                        <Link to={routes.categories}>
+                        <Link to={'#'}>
                           <span className="item-cat">Computer Repair</span>
                         </Link>
                         <Link to="javascript:void(0)" className="fav-icon">
@@ -643,7 +643,7 @@ const HomeSeven = () => {
                     </div>
                     <div className="service-content service-content-seven">
                       <h3 className="title">
-                        <Link to={routes.serviceDetails1}>
+                        <Link to={'#'}>
                           Computer Repairing &amp; Spares
                         </Link>
                       </h3>
@@ -655,7 +655,7 @@ const HomeSeven = () => {
                     data-aos="fade-up"
                   >
                     <div className="service-img">
-                      <Link to={routes.serviceDetails1}>
+                      <Link to={'#'}>
                         <ImageWithBasePath
                           className="img-fluid serv-img"
                           alt="Service Image"
@@ -663,7 +663,7 @@ const HomeSeven = () => {
                         />
                       </Link>
                       <div className="fav-item">
-                        <Link to={routes.categories}>
+                        <Link to={'#'}>
                           <span className="item-cat">Car Repair</span>
                         </Link>
                         <Link to="javascript:void(0)" className="fav-icon">
@@ -684,7 +684,7 @@ const HomeSeven = () => {
                     </div>
                     <div className="service-content service-content-seven">
                       <h3 className="title">
-                        <Link to={routes.serviceDetails1}>
+                        <Link to={'#'}>
                           Car Repair Service
                         </Link>
                       </h3>
@@ -716,7 +716,7 @@ const HomeSeven = () => {
                 {...categoriesSlider}
                 className="owl-carousel categories-slider-seven"
               >
-                <Link to={routes.categories} data-aos="fade-up">
+                <Link to={'#'} data-aos="fade-up">
                   <div
                     style={{
                       padding: '2px',
@@ -747,7 +747,7 @@ const HomeSeven = () => {
                     </h5>
                   </div>
                 </Link>
-                <Link to={routes.categories} data-aos="fade-up">
+                <Link to={'#'} data-aos="fade-up">
                   <div
                     style={{
                       padding: '2px',
@@ -778,7 +778,7 @@ const HomeSeven = () => {
                     </h5>
                   </div>
                 </Link>
-                <Link to={routes.categories} data-aos="fade-up">
+                <Link to={'#'} data-aos="fade-up">
                   <div
                     style={{
                       padding: '2px',
@@ -809,7 +809,7 @@ const HomeSeven = () => {
                     </h5>
                   </div>
                 </Link>
-                <Link to={routes.categories} data-aos="fade-up">
+                <Link to={'#'} data-aos="fade-up">
                   <div
                     style={{
                       padding: '2px',
@@ -840,7 +840,7 @@ const HomeSeven = () => {
                     </h5>
                   </div>
                 </Link>
-                <Link to={routes.categories} data-aos="fade-up">
+                <Link to={'#'} data-aos="fade-up">
                   <div
                     style={{
                       padding: '2px',
@@ -870,7 +870,7 @@ const HomeSeven = () => {
                     </h5>
                   </div>
                 </Link>
-                <Link to={routes.categories} data-aos="fade-up">
+                <Link to={'#'} data-aos="fade-up">
                   <div
                     style={{
                       padding: '2px',

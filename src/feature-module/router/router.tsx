@@ -7,7 +7,8 @@ import ScrollToTop from '../components/ScrollToTop';
 import JoinUs from '../components/JoinUs';
 import HomeHeader from '../frontend/home/header/home-header';
 import FooterSeven from '../frontend/home/home-seven/footer-seven';
-import { Toaster } from 'sonner';
+import RefreshLoader from '../components/RefreshLoader';
+
 const AllRoutes = () => {
   const [showCityModal, setShowCityModal] = useState<boolean>(false);
   const [currentCity, setCurrentCity] = useState<string | null>(null);
@@ -38,7 +39,7 @@ const AllRoutes = () => {
 
   return (
     <>
-     <Toaster  position='top-right'  richColors/>
+    <RefreshLoader/>
     <JoinUs/>
     {/* <HomeHeader type={8} /> */}
     <ScrollToTop/>

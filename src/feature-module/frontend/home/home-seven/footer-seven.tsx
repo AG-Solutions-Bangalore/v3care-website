@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
-import logoNav from "../../../../logo/v3.png";
+import logoNav from "../../../../logo/v3.png"
 const FooterSeven = () => {
   const routes = all_routes;
   return (
@@ -91,8 +91,8 @@ const FooterSeven = () => {
           </div>
           {/* /Footer Widget */}
         </div>
-        <div className="col-lg-2 col-md-6">
-          {/* Footer Widget */}
+        {/* <div className="col-lg-2 col-md-6"> */}
+{/*          
           <div className="footer-widget footer-menu">
             <h2 className="footer-title">Services</h2>
             <ul>
@@ -113,10 +113,10 @@ const FooterSeven = () => {
               </li>
              
             </ul>
-          </div>
-          {/* /Footer Widget */}
-        </div>
-        <div className="col-lg-4 col-md-6">
+          </div> */}
+        
+        {/* </div> */}
+        <div className="col-lg-6 col-md-6">
           {/* Footer Widget */}
           <div className="footer-widget">
             <h2 className="footer-title">Contact</h2>

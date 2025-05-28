@@ -20,7 +20,7 @@ const HomeHeader: React.FC<props> = ({ type  }) => {
 
   const toggle_data = useSelector((state: AppState) => state.toggleSidebar);
   const [scrollYPosition, setScrollYPosition] = useState<number>(0);
-  const [close, setClose] = useState<boolean>(true);
+
   const [showCityModal, setShowCityModal] = useState<boolean>(false);
   const [currentCity, setCurrentCity] = useState<string | null>(null);
 
@@ -152,7 +152,7 @@ const HomeHeader: React.FC<props> = ({ type  }) => {
                 <img
                   src={logoNav}
                   className="img-fluid "
-                  style={{ width: "100px", height: "50px" }}
+               
                   alt="Logo"
                 />
               </Link>
@@ -170,7 +170,7 @@ const HomeHeader: React.FC<props> = ({ type  }) => {
                   <img
                      src={logoNav}
                     className="img-fluid"
-                    style={{ width: "100px", height: "50px", textAlign: "center" }}
+                    // style={{ width: "100px", height: "50px", textAlign: "center" }}
                     alt="Logo"
                   />
                 </Link>
@@ -185,6 +185,7 @@ const HomeHeader: React.FC<props> = ({ type  }) => {
                 </Link>
 
               </div>
+            
 
               {/* <ul className="main-nav align-items-lg-center">
                 <li className={isRouteActive('/') ? 'active' : ''}>
@@ -242,7 +243,54 @@ const HomeHeader: React.FC<props> = ({ type  }) => {
                 <li className={isRouteActive('/contact-us') ? 'active' : ''}>
                   <Link to="/contact-us" onClick={() => dispatch(set_toggleSidebar_data(false))}>Contact Us</Link>
                 </li>
+                
               </ul>
+
+              <div className="menu-header mt-5">
+  <ul className="nav  flex-column gap-3 ">
+    <li className=" city-selector" onClick={handleCityClick}>
+      <div 
+        className="nav-link d-flex align-items-center" 
+        style={{
+          padding: '8px 12px',
+          borderRadius: '2px',
+          background: '#f5f7fa',
+          transition: 'all 0.3s ease',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+          width: '100%'
+        }}
+      >
+        <Icon.MapPin size={18} style={{ 
+          marginRight: '12px', 
+          color: '#3182ce',
+          flexShrink: 0 
+        }} />
+        <span style={{
+          fontSize: '1rem',
+          fontWeight: 600,
+          color: currentCity ? '#2d3748' : '#718096',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }}>
+          {currentCity || 'Select Your City'}
+        </span>
+      </div>
+    </li>
+
+    <li className="nav-item bg-primary rounded-lg border border-danger">
+      <Link
+              className="nav-link d-flex align-items-center   px-2 py-1 header-login text-white"
+        to="/become-vendor"
+        onClick={() => dispatch(set_toggleSidebar_data(false))}
+       
+      >
+        <i className="fa-regular fa-circle-user me-2 "></i>
+        <span className=' '>Vendor</span>
+      </Link>
+    </li>
+  </ul>
+</div>
             </div>
 
             <ul className="nav header-navbar-rht">

@@ -21,7 +21,7 @@ const Pages = () => {
       location?.pathname == '/pages/session-expired' ||
       location?.pathname == '/pages/maintenance') ? (
         <></>
-      ):<HomeHeader type={2}/>}
+      ):<HomeHeader />}
       <PagesRoutes />
       {location?.pathname == '/pages/coming-soon' ||
       location?.pathname == '/pages/installer'  ||

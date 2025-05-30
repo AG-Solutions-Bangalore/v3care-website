@@ -7,6 +7,8 @@ import StickyBox from 'react-sticky-box';
 import axios from 'axios';
 import { BASE_URL, SERVICE_DETAILS_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../../../core/redux/slices/CartSlice';
 
 
 
@@ -15,7 +17,7 @@ const ServiceDetails1 = () => {
   const REACT_APP_GOOGLE_MAPS_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
   const REACT_APP_RAZARPAY_KEY = process.env.REACT_APP_RAZARPAY_KEY;
   let autoComplete: any;
-
+  const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const autoCompleteRef = useRef(null);
   const location = useLocation();
@@ -42,6 +44,7 @@ const message = `We're not available in ${city} at the moment, but we're expandi
       type: 'success' | 'error';
     }[]>([]);
     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
+
   const [formData, setFormData] = useState({
     order_date: new Date().toISOString().split('T')[0],
     order_year: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
@@ -202,6 +205,10 @@ const validateForm = () => {
     }
   }, [servicePrices]);
 
+
+
+
+
   // for google map 
   const handleScriptLoad = (updateQuery: any, autoCompleteRef: any) => {
     autoComplete = new (window as any).google.maps.places.Autocomplete(
@@ -306,7 +313,7 @@ const handleSubmitPayLater = async (e: React.MouseEvent<HTMLButtonElement>) => {
     };
 
     const response = await axios.post(
-      `${BASE_URL}/api/panel-create-web-booking-out`,
+      `${BASE_URL}/api/panel-create-web-booking-ouDt`,
       finalFormData,
     );
 
@@ -580,6 +587,17 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
   }
 };
 
+const totalPrice = selectedPrices.reduce(
+  (sum, price) => sum + parseFloat(price.service_price_amount),
+  0,
+);
+const totalOriginalPrice = selectedPrices.reduce(
+  (sum, price) => sum + parseFloat(price.service_price_rate),
+  0,
+);
+
+
+
 
   /*------------------------------------------------end----------------- */
 
@@ -593,6 +611,7 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
       }
     });
   };
+
   useEffect(() => {
     if (selectedPrices.length > 0) {
       // Find the price with the smallest index in servicePrices
@@ -609,18 +628,14 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
     }
   }, [selectedPrices, servicePrices]);
   // Calculate total price
-  const totalPrice = selectedPrices.reduce(
-    (sum, price) => sum + parseFloat(price.service_price_amount),
-    0,
-  );
-  const totalOriginalPrice = selectedPrices.reduce(
-    (sum, price) => sum + parseFloat(price.service_price_rate),
-    0,
-  );
+
+
+
+ 
 
   return (
     <>
-      <HomeHeader type={8} />
+      <HomeHeader  />
       <style>
         {`
     @keyframes shine {
@@ -637,40 +652,7 @@ const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
     }
   `}
 </style>
-{/* <div style={{
-  position: 'fixed',
-  top: '90px',
-  right: '20px',
-  zIndex: 1000,
-  maxWidth: '350px',
-  width: '100%'
-}}>
-  {notifications.map((notification) => (
-    <div 
-      key={notification.id}
-      className={`alert alert-${notification.type === 'success' ? 'success' : 'danger'} alert-dismissible fade show p-2 mb-2`}
-      style={{
-        width: '100%',
-        borderRadius: '4px',
-        fontSize: '14px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        animation: 'slideDown 0.3s ease-out',
-        boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-      }}
-    >
-      <span style={{ flex: 1 }}>{notification.message}</span>
-      <button 
-        type="button" 
-        className="btn-close p-1" 
-        style={{ fontSize: '10px' }}
-        onClick={() => removeNotification(notification.id)}
-        aria-label="Close"
-      />
-    </div>
-  ))}
-</div> */}
+
 <div
 style={{
   position: 'fixed',
@@ -712,9 +694,6 @@ style={{
 
 
       <div className="page-wrapper">
-
-
-      
 
 
         <div
@@ -800,16 +779,6 @@ style={{
         </div>
 
 
-
-
-
-
-
-
-
-
-
-
         <div className="content">
           
           <div className="container">
@@ -857,34 +826,9 @@ style={{
                           className="accordion-collapse collapse show"
                         >
                           <div className="accordion-body border-0 p-0 pt-3">
-                            {/* <div className="more-text">
-                              <p>
-                                Provides reliable and professional electrical
-                                solutions for residential and commercial
-                                clients. Our licensed electricians are dedicated
-                                to delivering top-quality service, ensuring
-                                safety, and meeting all your electrical needs.
-                                Committed to providing high-quality electrical
-                                solutions with a focus on safety and customer
-                                satisfaction. Our team of licensed electricians
-                                is equipped to handle both residential and
-                                commercial projects with expertise and care.
-                              </p>
-                              <p>
-                                Comprehensive overview of Electrical Services,
-                                including the types of services offered, key
-                                benefits, location, contact details, special
-                                offers, and customer reviews.
-                              </p>
-                            </div> */}
-                            {/* <Link
-                              to="#"
-                              className="link-primary text-decoration-underline more-btn mb-4"
-                            >
-                              Read More
-                            </Link> */}
+                           
                             <div className="bg-light-200 p-3 offer-wrap">
-                              {/* <h4 className="mb-3">Services Offered</h4> */}
+                             
 
                               {priceLoading ? (
                                 <div className="text-center py-4">
@@ -963,7 +907,8 @@ style={{
                           </div>
                         </div>
                       </div>
-                      <div className="accordion-item mb-4">
+
+                  <div className="accordion-item mb-4">
                         <h2 className="accordion-header">
                           <button
                             className="accordion-button p-0"
@@ -979,47 +924,13 @@ style={{
                           id="include"
                           className="accordion-collapse collapse show"
                         >
-                           {/* Notification Container - Add this right here */}
-                           {/* <div style={{ position: 'relative', marginBottom: notifications.length ? '10px' : '0' }}>
-    <div style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 1000
-    }}>
-      {notifications.map((notification) => (
-        <div 
-          key={notification.id}
-          className={`alert alert-${notification.type === 'success' ? 'success' : 'danger'} alert-dismissible fade show p-2 mb-2`}
-          style={{
-            width: '100%',
-            borderRadius: '4px',
-            fontSize: '14px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            animation: 'slideDown 0.3s ease-out',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-          }}
-        >
-          <span style={{ flex: 1 }}>{notification.message}</span>
-          <button 
-            type="button" 
-            className="btn-close p-1" 
-            style={{ fontSize: '10px' }}
-            onClick={() => removeNotification(notification.id)}
-            aria-label="Close"
-          />
-        </div>
-      ))}
-    </div>
-  </div> */}
+                          
+                         
                           <div className="accordion-body border-0 p-0 pt-3">
                             <div className="bg-light-200 p-2 pb-2 br-10">
                               <form className="booking-form">
-                                {/* Compact Info Display Section - Read-only information */}
-                                {/* <div className="info-summary mb-4 p-2 rounded bg-light border">
+                            
+                                <div className="info-summary mb-4 p-2 rounded bg-light border">
                                   <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
                                     <h5 className="mb-0 text-dark">Booking Summary</h5>
                                     <span className="badge bg-success px-3 py-2 rounded-pill">Total: ₹{totalPrice.toFixed(2)}</span>
@@ -1101,14 +1012,14 @@ style={{
                                       </div>
                                     </div>
                                   </div>
-                                </div> */}
+                                </div>
 
-                                {/* All editable fields in one clean section */}
+                                
                                 <div className="editable-fields p-4 rounded bg-white shadow-sm border">
 
 
                                   <div className="row g-3">
-                                    {/* Personal Details */}
+                                   
                                     <div className="col-md-4">
                                       <label className="form-label small text-muted">Customer Name <span className="text-danger">*</span></label>
                                       <input
@@ -1150,7 +1061,7 @@ style={{
                                       />
                                     </div>
 
-                                    {/* Schedule Details */}
+                                  
                                     <div className="col-md-6">
                                       <label className="form-label small text-muted">Service Date <span className="text-danger">*</span></label>
                                       <input
@@ -1175,7 +1086,7 @@ style={{
                                       />
                                     </div>
 
-                                    {/* Location Details */}
+                              
                                     <div className="col-12">
                                       <label className="form-label small text-muted">Address <span className="text-danger">*</span></label>
                                       <input
@@ -1225,11 +1136,7 @@ style={{
                                       ></textarea>
                                     </div>
 
-                                    {/* <div className="col-12 mt-4">
-                                      <button type="submit" className="btn btn-primary w-100 py-2">
-                                        Book Service
-                                      </button>
-                                    </div> */}
+                                   
                                     <div className="col-12 mt-4 d-flex gap-2">
   <button 
     type="button" 
@@ -1252,7 +1159,95 @@ style={{
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div className="accordion-item mb-4">
+  <h2 className="accordion-header">
+    <button
+      className="accordion-button p-0"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#include"
+      aria-expanded="false"
+    >
+      Booking Options
+    </button>
+  </h2>
+  <div id="include" className="accordion-collapse collapse show">
+    <div className="accordion-body border-0 p-0 pt-3">
+      <div className="bg-light-200 p-3 br-10">
+        <div className="d-flex gap-3">
+          <button 
+            className="btn btn-primary flex-grow-1 py-3"
+            onClick={() => {
+              if (selectedPrices.length === 0) {
+                showNotification('Please select at least one service', 'error');
+                return;
+              }
+              selectedPrices.forEach(price => {
+                dispatch(addToCart({
+                  id: price.id,
+                  service_price_for: price.service_price_for,
+                  service_price_rate: price.service_price_rate,
+                  service_price_amount: price.service_price_amount,
+                  service_id: state?.service_id,
+                  service_name: state?.service_name,
+                  service_sub_id: state?.service_sub_id,
+                  service_sub_name: state?.service_sub_name
+                }));
+              });
+              showNotification('Service added to cart', 'success');
+            }}
+          >
+            <i className="fas fa-cart-plus me-2"></i> Add to Cart
+          </button>
+          <button 
+            className="btn btn-outline-primary flex-grow-1 py-3"
+            onClick={() => navigate('/cart')}
+          >
+            <i className="fas fa-shopping-bag me-2"></i> Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
                       <div className="accordion-item mb-4">
                         <h2 className="accordion-header">
                           <button
@@ -1434,6 +1429,7 @@ style={{
                           </div>
                         </div>
                       </div>
+
                     </div>
                   </div>
                 </div>

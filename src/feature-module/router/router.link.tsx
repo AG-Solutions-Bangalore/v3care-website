@@ -26,6 +26,7 @@ import BookingDetails from '../frontend/pages/booking/booking-details';
 import SessionExpired from '../frontend/pages/session-expired/session-expired';
 import PaymentSuccess from '../frontend/pages/payment-success/payment-success';
 import BookingFailed from '../frontend/pages/payment-success/booking-failed';
+import Cart from '../frontend/pages/cart/Cart';
 
 
 const routes = all_routes;
@@ -67,6 +68,12 @@ const publicRoutes = [
     path: routes.client,
     name: 'client',
     element: <Client />,
+    route: Route,
+  },
+  {
+    path: routes.cart,
+    name: 'cart',
+    element: <Cart />,
     route: Route,
   },
  

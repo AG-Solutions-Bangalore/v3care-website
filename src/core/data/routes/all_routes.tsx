@@ -3,6 +3,7 @@ export const all_routes = {
 
   index: '/',
   client: '/client',
+  cart: '/cart',
   aboutUs: '/about-us',
   serviceGrid: '/service',
   blogGrid: '/blog',

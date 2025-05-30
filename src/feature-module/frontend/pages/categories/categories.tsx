@@ -22,6 +22,7 @@ interface ServiceSub {
 
 const Categories = () => {
   const { id } = useParams<{ id?: string }>();
+  const branchId = localStorage.getItem("branch_id")
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,8 +37,8 @@ const Categories = () => {
       setLoading(true);
       setError(null);
       const url = id 
-        ? `${BASE_URL}/api/panel-fetch-web-service-out/${id}`
-        : `${BASE_URL}/api/panel-fetch-web-service-out/2`;
+        ? `${BASE_URL}/api/panel-fetch-web-service-out/${id}/${branchId}`
+        : `${BASE_URL}/api/panel-fetch-web-service-out/2/2`;
       
       const response = await axios.get<{ service: Service[] }>(url);
       setServices(response.data.service || []);
@@ -53,7 +54,7 @@ const Categories = () => {
     try {
       setSubServiceLoading(true);
       const response = await axios.get<{ servicesub: ServiceSub[] }>(
-        `${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceId}`
+        `${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceId}/${branchId}`
       );
       
       if (response.data.servicesub && response.data.servicesub.length > 0) {
@@ -102,7 +103,7 @@ const Categories = () => {
   if (loading) {
     return (
       <>
-       <HomeHeader type={8} />
+       <HomeHeader  />
         <BreadCrumb title="Categories" item1="Categories" />
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
@@ -119,7 +120,7 @@ const Categories = () => {
   if (error) {
     return (
       <>
-         <HomeHeader type={8} />
+         <HomeHeader  />
         <BreadCrumb title="Categories" item1="Categories" />
         <div className="d-flex justify-content-center align-items-center vh-80">
           <div className="alert alert-danger d-flex align-items-center mt-4" role="alert">
@@ -141,7 +142,7 @@ const Categories = () => {
   if (services.length === 0) {
     return (
       <>
-       <HomeHeader type={8} />
+       <HomeHeader  />
         <BreadCrumb title="Categories" item1="Categories" />
         <div className="d-flex justify-content-center align-items-center vh-50">
           <div className="text-center mb-4">
@@ -166,7 +167,7 @@ const Categories = () => {
 
   return (
     <>
-     <HomeHeader type={8} />
+     <HomeHeader />
       <BreadCrumb title="Categories" item1="Categories" />
       <div className="page-wrapper">
         <div className="content">
@@ -187,12 +188,7 @@ const Categories = () => {
                             alt={service.service}
                             style={{ borderRadius: '8px' }}
                           />
-                          {/* <img
-                       src={`https://agscare.site/crmapi/storage/app/public/blog/blog4.jpg`}
-                            className="img-fluid w-100 h-100 object-fit-cover"
-                            alt={service.service}
-                            style={{ borderRadius: '8px' }}
-                          /> */}
+                        
                         </div>
                         <h5 className="text-center mb-0">{service.service}</h5>
                       </div>
@@ -213,13 +209,13 @@ const Categories = () => {
   }} tabIndex={-1}>
     <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: '680px' }}>
       <div className="modal-content border-0" style={{
-        boxShadow: '0 5px 30px rgba(236, 72, 153, 0.2)',
+          boxShadow: '0 5px 30px rgba(138, 141, 242, 0.2)',
         borderRadius: '14px',
         overflow: 'hidden'
       }}>
         {/* Modal Header - Pink Theme */}
         <div className="modal-header py-3 px-4" style={{
-          background: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
+            background: '#6366f1',
           borderBottom: 'none'
         }}>
           <h5 className="modal-title text-white" style={{
@@ -302,20 +298,7 @@ const Categories = () => {
                           target.src = `${NO_IMAGE_URL}`;
                         }}
                       /> 
-                      {/* <img
-                        src={"https://agscare.site/crmapi/storage/app/public/blog/blog9.jpg"}
-                        alt={subService.service_sub}
-                        className="img-fluid object-fit-cover"
-                        style={{ 
-                          objectPosition: 'center',
-                          height: '100%',
-                          width: '100%'
-                        }}
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = `${NO_IMAGE_URL}`;
-                        }}
-                      /> */}
+                     
                     </div>
                     <div className="card-body p-2 text-center">
                       <h6 className="card-title mb-0" style={{
@@ -340,7 +323,7 @@ const Categories = () => {
 
         {/* Modal Footer - Pink Theme */}
         <div className="modal-footer py-2 px-3" style={{
-          background: 'linear-gradient(to right, #ffffff, #fdf2f8)',
+          background: 'linear-gradient(to right, #ffffff, #a5a7fa)',
           borderTop: '1px solid rgba(236, 72, 153, 0.1)'
         }}>
           <button 
@@ -349,15 +332,15 @@ const Categories = () => {
             onClick={() => setShowSubServiceModal(false)}
             style={{
               fontSize: '0.8rem',
-              backgroundColor: '#ec4899',
+              backgroundColor: '#6366f1',
               color: 'white',
               border: 'none',
               borderRadius: '8px',
               padding: '0.35rem 1rem',
-              boxShadow: '0 2px 5px rgba(236, 72, 153, 0.3)'
+              // boxShadow: '0 2px 5px rgba(236, 72, 153, 0.3)'
             }}
           >
-            Close Selection
+            Close 
           </button>
         </div>
       </div>

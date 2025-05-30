@@ -49,7 +49,7 @@ const Client = () => {
 
   return (
     <>
-     <HomeHeader type={8} />
+     <HomeHeader  />
       <BreadCrumb title='Our Partners' item1='Home' item2='Client' />
       
       {/* Page Wrapper */}

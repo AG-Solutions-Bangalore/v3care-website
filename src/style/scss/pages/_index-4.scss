@@ -145,7 +145,7 @@
     padding: 20px;
     background-color: #ff0080;
     color: #fff;
-    border: 1px solid #ff008a;
+    border: 1px solid #b02406;
     font-size: 14px;
     transition: all 0.5s;
     display: inline-block;
@@ -153,18 +153,18 @@
 
     &:hover {
         background-color: transparent;
-        border: 1px solid #FF008A;
-        box-shadow: inset 0 70px 0 0 #FF008A;
+        border: 1px solid #B02406;
+        box-shadow: inset 0 70px 0 0 #B02406;
         color: #fff;
         transition: all 0.7s;
     }
 }
 
 .cta-btn {
-    background: #ff008a;
-    border: 1px solid #ff008a;
+    background: #b02406;
+    border: 1px solid #b02406;
     border-radius: 40px;
-    box-shadow: inset 0 70px 0 0 #ff008a;
+    box-shadow: inset 0 70px 0 0 #b02406;
     color: #fff;
     border-radius: 4px;
     min-width: 176px;
@@ -177,8 +177,8 @@
 
     &:hover {
         background-color: transparent;
-        border: 1px solid #ff008a;
-        color: #ff008a;
+        border: 1px solid #b02406;
+        color: #b02406;
         box-shadow: inset 0 0px 0 0 transparent;
         -webkit-transition: all 0.7s;
         -moz-transition: all 0.7s;
@@ -186,7 +186,7 @@
         transition: all 0.7s;
 
         a {
-            color: #ff008a;
+            color: #b02406;
         }
     }
 
@@ -453,7 +453,7 @@
         font-size: 14px;
 
         &:hover {
-            border: 1px solid #FF008A;
+            border: 1px solid #B02406;
         }
     }
 }
@@ -641,8 +641,8 @@
 
         &:hover {
             background-color: transparent;
-            border: 1px solid #FF008A;
-            box-shadow: inset 0 70px 0 0 #FF008A;
+            border: 1px solid #B02406;
+            box-shadow: inset 0 70px 0 0 #B02406;
             color: #fff;
             transition: all 0.7s;
         }
@@ -1281,9 +1281,9 @@
     .header-navbar-rht {
         li {
             >a.header-login {
-                background: #ff008a;
-                border: 1px solid #ff008a;
-                box-shadow: inset 0 70px 0 0 #ff008a;
+                background: #b02406;
+                border: 1px solid #b02406;
+                box-shadow: inset 0 70px 0 0 #b02406;
             }
         }
     }
@@ -1291,9 +1291,9 @@
 
 .register-btn {
     z-index: 1;
-    background: #ff008a;
-    border: 1px solid #ff008a;
-    box-shadow: inset 0 70px 0 0 #ff008a;
+    background: #b02406;
+    border: 1px solid #b02406;
+    box-shadow: inset 0 70px 0 0 #b02406;
     border-radius: 5px;
     font-size: 16px;
     padding: 15px;

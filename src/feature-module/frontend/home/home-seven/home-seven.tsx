@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import * as Icon from 'react-feather';
@@ -11,7 +11,7 @@ import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import HomeHeader from '../header/home-header';
 import axios from 'axios';
-import {BASE_URL, BLOG_IMAGE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL, SERVICE_SUPER_IMAGE_URL, TESTIMONIAL_IMAGE_URL} from '../../../baseConfig/BaseUrl';
+import {BASE_URL, BLOG_IMAGE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL, SERVICE_SUPER_IMAGE_URL, TESTIMONIAL_IMAGE_URL} from '../../../baseConfig/BaseUrl';
 import { blogCardData } from '../../../../core/data/json/blog_card';
 interface ServiceSuper {
   id: number;
@@ -27,9 +27,22 @@ interface Client {
   client_name: string;
   client_image: string;
 }
+interface Service {
+  id: number;
+  service: string;
+  service_image: string | null;
+  service_show_website: string;
+}
 
+interface ServiceSub {
+  id: number;
+  service_sub: string;
+  service_sub_image: string | null;
+}
 const HomeSeven = () => {
   const routes = all_routes;
+  const navigate =useNavigate()
+  const branchId = localStorage.getItem("branch_id")
   const [serviceSupers, setServiceSupers] = useState<ServiceSuper[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,13 +51,75 @@ const HomeSeven = () => {
   const [testimonialsError, setTestimonialsError] = useState<string | null>(
     null,
   );
-
   const [clients, setClients] = useState<Client[]>([]);
     const [isLoadingClient, setIsLoadingClient] = useState(true);
     const [errorClient, setErrorClient] = useState<string | null>(null);
+
+    const [services, setServices] = useState<Service[]>([]);
+    const [servicesTwo, setServicesTwo] = useState<Service[]>([]);
+const [isServicesLoading, setIsServicesLoading] = useState(true);
+const [servicesError, setServicesError] = useState<string | null>(null);
+const [selectedService, setSelectedService] = useState<Service | null>(null);
+const [subServices, setSubServices] = useState<ServiceSub[]>([]);
+const [showSubServiceModal, setShowSubServiceModal] = useState(false);
+const [subServiceLoading, setSubServiceLoading] = useState(false);
+
+
   AOS.init();
 
-   
+  const fetchServices = async () => {
+    try {
+      setIsServicesLoading(true);
+      setServicesError(null);
+      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-all-out`);
+      // Filter services where service_show_website includes "1"
+      const filteredServices = response.data.service.filter((service: Service) => 
+        service.service_show_website.includes("1")
+      );
+      const filteredServicesTwo = response.data.service.filter((service: Service) => 
+        service.service_show_website.includes("2")
+      );
+      setServices(filteredServices);
+      setServicesTwo(filteredServicesTwo);
+    } catch (error) {
+      console.error('Failed to fetch services:', error);
+      setServicesError('Failed to load services. Please try again.');
+    } finally {
+      setIsServicesLoading(false);
+    }
+  };
+  
+  const fetchSubServices = async (serviceId: number, serviceName: string) => {
+    try {
+      setSubServiceLoading(true);
+      const response = await axios.get(
+        `${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceId}/${branchId}`
+      );
+      
+      if (response.data.servicesub && response.data.servicesub.length > 0) {
+        setSubServices(response.data.servicesub);
+        setShowSubServiceModal(true);
+      } else {
+        navigate('/service-details', {
+          state: {
+            service_id: serviceId,
+            service_name: serviceName
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching sub-services:', error);
+      navigate('/service-details', {
+        state: {
+          service_id: serviceId,
+          service_name: serviceName
+        }
+      });
+    } finally {
+      setSubServiceLoading(false);
+    }
+  };
+
   const fetchServiceSupers = async () => {
     try {
       setIsLoading(true);
@@ -109,7 +184,29 @@ const HomeSeven = () => {
     return `${TESTIMONIAL_IMAGE_URL}/${testimonial_image}`;
   };
 
-
+  // const getServiceImageUrl = (imageName: string | null) => {
+  //   if (!imageName) {
+  //     return `${NO_IMAGE_URL}`;
+  //   }
+  //   return `${SERVICE_IMAGE_URL}/${imageName}`;
+  // };
+  //  const getServiceImageUrl = (imageName: string | null, isSubService = false) => {
+  //     if (!imageName) {
+  //       return `${NO_IMAGE_URL}`;
+  //     }
+  //     return isSubService 
+  //       ? `${SERVICE_SUB_IMAGE_URL}/${imageName}`
+  //       : `${SERVICE_IMAGE_URL}/${imageName}`;
+  //   };
+  
+    const getImageUrlService = (imageName: string | null, isSubService = false) => {
+      if (!imageName) {
+        return `${NO_IMAGE_URL}`;
+      }
+      return isSubService 
+        ? `${SERVICE_SUB_IMAGE_URL}/${imageName}`
+        : `${SERVICE_IMAGE_URL}/${imageName}`;
+    };
 
   useEffect(() => {
     AOS.init({
@@ -118,10 +215,16 @@ const HomeSeven = () => {
     fetchServiceSupers();
     fetchTestimonials();
     fetchClients();
+    fetchClients();
+    fetchServices();
   }, []);
 
   const handleScroll = () => {
     AOS.refresh();
+  };
+  const handleServiceClick = (service: Service) => {
+    setSelectedService(service);
+    fetchSubServices(service.id, service.service);
   };
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -164,16 +267,16 @@ const HomeSeven = () => {
     ],
   };
   const categoriesSlider = {
-    dots: true,
+    dots: false,
     autoplay: false,
-    slidesToShow: 5,
+    slidesToShow: 3,
     
     speed: 500,
     responsive: [
       {
         breakpoint: 992,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 3,
         },
       },
       {
@@ -199,9 +302,9 @@ const HomeSeven = () => {
     ],
   };
   const popularService = {
-    dots: true,
+    dots: false,
     autoplay: true,
-    arrows: false,
+    arrows: true,
     slidesToShow: 3,
     speed: 500,
     responsive: [
@@ -221,12 +324,14 @@ const HomeSeven = () => {
         breakpoint: 776,
         settings: {
           slidesToShow: 2,
+          arrows: false,
         },
       },
       {
         breakpoint: 567,
         settings: {
           slidesToShow: 1,
+          arrows: false,
         },
       },
     ],
@@ -340,7 +445,7 @@ const HomeSeven = () => {
   };
   return (
     <>
-      <HomeHeader type={8} />
+      <HomeHeader  />
       <div className="home-seven-wrapper">
         {/* Hero Section */}
         <section className="hero-section-seven">
@@ -511,7 +616,7 @@ const HomeSeven = () => {
         </section>
         {/* /Service Section */}
         {/* popular service */}
-        <section className="popular-service-seven-section">
+        {/* <section className="popular-service-seven-section">
           <div className="container">
             <div className="row">
               <div className="col-md-12 text-center">
@@ -695,14 +800,107 @@ const HomeSeven = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
+<section className="popular-service-seven-section">
+  <div className="container">
+    <div className="row">
+      <div className="col-md-12 text-center">
+        <div
+          className="section-heading section-heading-seven aos"
+          data-aos="fade-up"
+        >
+          <h2>Most Popular Services</h2>
+          <p>What do you need to find?</p>
+        </div>
+      </div>
+    </div>
 
-        <section className="service-section-seven">
+    {/* Loading State */}
+    {isServicesLoading && (
+      <div className="row justify-content-center mb-5">
+        <div className="col-12 text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-3">Loading services...</p>
+        </div>
+      </div>
+    )}
+
+    {/* Error State */}
+    {servicesError && !isServicesLoading && (
+      <div className="row justify-content-center mb-5">
+        <div className="col-12 col-md-8 col-lg-6 text-center">
+          <div className="alert alert-danger d-flex align-items-center justify-content-center">
+            <Icon.AlertCircle className="me-2" size={18} />
+            <span>{servicesError}</span>
+            <button
+              className="btn btn-sm btn-outline-danger ms-3"
+              onClick={fetchServices}
+            >
+              <Icon.RefreshCw className="me-1" size={14} />
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* Services Slider */}
+    {!isServicesLoading && !servicesError && services.length > 0 && (
+      <div className="row">
+        <div className="col-md-12">
+          <Slider {...popularService}  className="owl-carousel categories-slider-seven">
+            {services.map((service) => (
+              <div
+                key={service.id}
+                className="service-widget service-two service-seven aos "
+                data-aos="fade-up"
+                onClick={() => handleServiceClick(service)}
+              
+              >
+                <div className="service-img" >
+                  <img
+                    className="img-fluid serv-img"
+                    alt="Service Image"
+                    src={getImageUrlService(service.service_image)}
+                  />
+                  <div className="fav-item">
+                    <span className="item-cat">{service.service}</span>
+                  
+                  </div>
+                  {/* <div className="item-info">
+                    <span className="item-img">
+                      <img
+                        src="assets/img/profiles/avatar-01.jpg"
+                        className="avatar"
+                        alt="image"
+                      />
+                    </span>
+                  </div> */}
+                </div>
+                <div  style={{
+                  cursor:"pointer"
+                }}  className="service-content service-content-seven">
+                  <h3 className="title">
+                    {service.service}
+                  </h3>
+                </div>
+              </div>
+            ))}
+          </Slider>
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+        {/* <section className="service-section-seven">
           <div className="container">
             <div className="section-heading section-heading-seven">
               <div className="row">
                 <div className="col-md-6 aos" data-aos="fade-up">
-                  <h2>Popular Services</h2>
+                  <h2>Popular Services   </h2>
                   <p>What do you need to find?</p>
                 </div>
                 <div className="col-md-6 text-md-end aos" data-aos="fade-up">
@@ -711,12 +909,43 @@ const HomeSeven = () => {
               </div>
             </div>
 
+{isServicesLoading && (
+      <div className="row justify-content-center mb-5">
+        <div className="col-12 text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-3">Loading popular services...</p>
+        </div>
+      </div>
+    )}
+
+   
+    {servicesError && !isServicesLoading && (
+      <div className="row justify-content-center mb-5">
+        <div className="col-12 col-md-8 col-lg-6 text-center">
+          <div className="alert alert-danger d-flex align-items-center justify-content-center">
+            <Icon.AlertCircle className="me-2" size={18} />
+            <span>{servicesError}</span>
+            <button
+              className="btn btn-sm btn-outline-danger ms-3"
+              onClick={fetchServices}
+            >
+              <Icon.RefreshCw className="me-1" size={14} />
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+      {!isServicesLoading && !servicesError && servicesTwo.length > 0 && (
             <div className="col-md-12">
               <Slider
                 {...categoriesSlider}
                 className="owl-carousel categories-slider-seven"
               >
-                <Link to={'#'} data-aos="fade-up">
+                   {servicesTwo.map((service) => (
+                <div  key={service.id} data-aos="fade-up">
                   <div
                     style={{
                       padding: '2px',
@@ -746,164 +975,14 @@ const HomeSeven = () => {
                       Painting
                     </h5>
                   </div>
-                </Link>
-                <Link to={'#'} data-aos="fade-up">
-                  <div
-                    style={{
-                      padding: '2px',
-                      background: 'white',
-                      border: '2px solid white',
-                     
-                      borderRadius: '0.5rem', 
-                     
-                    }}
-                  >
-                    <img
-                      src="assets/img/services/p2.png"
-                      alt="img"
-                      className="img-fluid"
-                      style={{
-                     
-                        borderRadius: '0.5rem', 
-                      }}
-                    />
-                    <h5
-                      style={{
-                        marginTop: '4px',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      Construction
-                    </h5>
-                  </div>
-                </Link>
-                <Link to={'#'} data-aos="fade-up">
-                  <div
-                    style={{
-                      padding: '2px',
-                      background: 'white',
-                      border: '2px solid white',
-                     
-                      borderRadius: '0.5rem', 
-                   
-                    }}
-                  >
-                    <img
-                      src="assets/img/services/p3.png"
-                      alt="img"
-                      className="img-fluid"
-                      style={{
-                       
-                        borderRadius: '0.5rem',
-                      }}
-                    />
-                    <h5
-                      style={{
-                        marginTop: '4px',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      Computer
-                    </h5>
-                  </div>
-                </Link>
-                <Link to={'#'} data-aos="fade-up">
-                  <div
-                    style={{
-                      padding: '2px',
-                      background: 'white',
-                      border: '2px solid white',
-                  
-                      borderRadius: '0.5rem', 
-                 
-                    }}
-                  >
-                    <img
-                      src="assets/img/services/p4.png"
-                      alt="img"
-                      className="img-fluid"
-                      style={{
-                  
-                        borderRadius: '0.5rem', 
-                      }}
-                    />
-                    <h5
-                      style={{
-                        marginTop: '4px',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      Car Wash
-                    </h5>
-                  </div>
-                </Link>
-                <Link to={'#'} data-aos="fade-up">
-                  <div
-                    style={{
-                      padding: '2px',
-                      background: 'white',
-                      border: '2px solid white',
-                    
-                      borderRadius: '0.5rem', 
-                    }}
-                  >
-                    <img
-                      src="assets/img/services/p5.png"
-                      alt="img"
-                      className="img-fluid"
-                      style={{
-                        
-                        borderRadius: '0.5rem', 
-                      }}
-                    />
-                    <h5
-                      style={{
-                        marginTop: '4px',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      Painting
-                    </h5>
-                  </div>
-                </Link>
-                <Link to={'#'} data-aos="fade-up">
-                  <div
-                    style={{
-                      padding: '2px',
-                      background: 'white',
-                      border: '2px solid white',
-                 
-                      borderRadius: '0.5rem', 
-                    }}
-                  >
-                    <img
-                      src="assets/img/services/p6.png"
-                      alt="img"
-                      className="img-fluid"
-                      style={{
-                     
-                        borderRadius: '0.5rem', 
-                      }}
-                    />
-                    <h5
-                      style={{
-                        marginTop: '4px',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      Painting
-                    </h5>
-                  </div>
-                </Link>
+                </div>
+                 ))}
               </Slider>
             </div>
+             )}
           </div>
-        </section>
+       
+        </section> */}
 
         {/* banner service  */}
         {/* New Banner Section */}
@@ -1181,6 +1260,148 @@ const HomeSeven = () => {
 </section>
         {/* Partners Section */}
       </div>
+      {showSubServiceModal && (
+  <div className="modal fade show d-block" style={{ 
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    backdropFilter: 'blur(3px)'
+  }} tabIndex={-1}>
+    <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: '680px' }}>
+      <div className="modal-content border-0" style={{
+        boxShadow: '0 5px 30px rgba(138, 141, 242, 0.2)',
+        borderRadius: '14px',
+        overflow: 'hidden'
+      }}>
+        {/* Modal Header - Pink Theme */}
+        <div className="modal-header py-3 px-4" style={{
+          background: '#6366f1',
+          borderBottom: 'none'
+        }}>
+          <h5 className="modal-title text-white" style={{
+            fontSize: '1.1rem',
+            fontWeight: 600,
+            letterSpacing: '0.3px'
+          }}>
+            <Icon.Grid className="me-2" size={18} />
+            Select {selectedService?.service}
+          </h5>
+          <button 
+            type="button" 
+            className="btn-close btn-close-white" 
+            onClick={() => setShowSubServiceModal(false)}
+            aria-label="Close"
+          />
+        </div>
+
+        {/* Modal Body */}
+        <div className="modal-body p-3" style={{ 
+          maxHeight: '65vh',
+          overflowY: 'auto',
+          scrollbarWidth: 'thin',
+        }}>
+          {subServiceLoading ? (
+            <div className="d-flex justify-content-center align-items-center py-4">
+              <div 
+                className="spinner-grow spinner-grow-sm" 
+                role="status"
+                style={{ color: '#ec4899' }}
+              >
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <div className="row g-2">
+              {subServices.map((subService) => (
+                <div key={subService.id} className="col-6 col-sm-4 col-md-3">
+                  <div 
+                    className="card h-100 border-0 overflow-hidden transition-all position-relative"
+                    onClick={() => navigate('/service-details', {
+                      state: {
+                        service_id: selectedService?.id,
+                        service_name: selectedService?.service,
+                        service_sub_id: subService.id,
+                        service_sub_name: subService.service_sub
+                      }
+                    })}
+                    style={{
+                      cursor: 'pointer',
+                      transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                      borderRadius: '8px',
+                      border: '2px solid rgba(236, 72, 153, 0.1)',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-3px)';
+                      e.currentTarget.style.boxShadow = '0 8px 15px rgba(236, 72, 153, 0.1)';
+                      e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = '';
+                      e.currentTarget.style.boxShadow = 'none';
+                      e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.1)';
+                    }}
+                  >
+                    <div className="ratio ratio-1x1" style={{ backgroundColor: '#fdf2f8' }}>
+                      <img
+                        src={getImageUrlService(subService.service_sub_image, true)}
+                        alt={subService.service_sub}
+                        className="img-fluid object-fit-cover"
+                        style={{ 
+                          objectPosition: 'center',
+                          height: '100%',
+                          width: '100%'
+                        }}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `${NO_IMAGE_URL}`;
+                        }}
+                      />
+                    </div>
+                    <div className="card-body p-2 text-center">
+                      <h6 className="card-title mb-0" style={{
+                        fontSize: '0.9rem',
+                        color: '#000000',
+                        fontWeight: 500,
+                        lineHeight: 1.25,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}>
+                        {subService.service_sub}
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Modal Footer - Pink Theme */}
+        <div className="modal-footer py-2 px-3" style={{
+          background: 'linear-gradient(to right, #ffffff, #a5a7fa)',
+          borderTop: '1px solid rgba(236, 72, 153, 0.1)'
+        }}>
+          <button 
+            type="button" 
+            className="btn btn-sm px-3 fw-medium"
+            onClick={() => setShowSubServiceModal(false)}
+            style={{
+              fontSize: '0.8rem',
+              backgroundColor: '#6366f1',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '0.35rem 1rem',
+              // boxShadow: '0 2px 5px rgba(236, 72, 153, 0.3)'
+            }}
+          >
+            Close 
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
       {/* <FooterSeven /> */}
     </>
   );

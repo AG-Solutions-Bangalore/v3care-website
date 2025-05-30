@@ -30,6 +30,7 @@ interface ServiceSub {
 const ServiceGrid = () => {
   const routes = all_routes;
   const navigate = useNavigate();
+  const branchId = localStorage.getItem("branch_id")
   const [serviceSupers, setServiceSupers] = useState<ServiceSuper[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [filteredServices, setFilteredServices] = useState<Service[]>([]);
@@ -84,7 +85,7 @@ const ServiceGrid = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-out/${superCategoryId}`);
+      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-out/${superCategoryId}/${branchId}`);
       setServices(response.data.service || []);
       setFilteredServices(response.data.service || []);
       setSelectedItems(Array(response.data.service?.length || 0).fill(false));
@@ -100,7 +101,7 @@ const ServiceGrid = () => {
   const fetchSubServices = async (serviceId: number, serviceName: string) => {
     try {
       setSubServiceLoading(true);
-      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceId}`);
+      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceId}/${branchId}`);
       
       if (response.data.servicesub && response.data.servicesub.length > 0) {
         setSubServices(response.data.servicesub);
@@ -176,7 +177,7 @@ const ServiceGrid = () => {
   if (loading && serviceSupers.length === 0) {
     return (
       <>
-      <HomeHeader type={8} />
+      <HomeHeader  />
         <BreadCrumb title="Services" item1="Services" />
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
@@ -193,7 +194,7 @@ const ServiceGrid = () => {
   if (error) {
     return (
       <>
-           <HomeHeader type={8} />
+           <HomeHeader  />
         <BreadCrumb title="Services" item1="Services" />
         <div className="d-flex justify-content-center align-items-center vh-50">
           <div className="alert alert-danger d-flex align-items-center mt-4" role="alert">
@@ -214,7 +215,7 @@ const ServiceGrid = () => {
 
   return (
     <>
-     <HomeHeader type={8} />
+     <HomeHeader  />
       <BreadCrumb title="Services" item1="Services" />
       
       <div  >
@@ -446,13 +447,13 @@ const ServiceGrid = () => {
         }} tabIndex={-1}>
           <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: '680px' }}>
             <div className="modal-content border-0" style={{
-              boxShadow: '0 5px 30px rgba(236, 72, 153, 0.2)',
+              boxShadow: '0 5px 30px rgba(138, 141, 242, 0.2)',
               borderRadius: '14px',
               overflow: 'hidden'
             }}>
               {/* Modal Header - Pink Theme */}
               <div className="modal-header py-3 px-4" style={{
-                background: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
+                background: '#6366f1',
                 borderBottom: 'none'
               }}>
                 <h5 className="modal-title text-white" style={{
@@ -574,7 +575,7 @@ const ServiceGrid = () => {
 
               {/* Modal Footer - Pink Theme */}
               <div className="modal-footer py-2 px-3" style={{
-                background: 'linear-gradient(to right, #ffffff, #fdf2f8)',
+                background: 'linear-gradient(to right, #ffffff, #a5a7fa)',
                 borderTop: '1px solid rgba(236, 72, 153, 0.1)'
               }}>
                 <button 
@@ -583,15 +584,15 @@ const ServiceGrid = () => {
                   onClick={() => setShowSubServiceModal(false)}
                   style={{
                     fontSize: '0.8rem',
-                    backgroundColor: '#ec4899',
+                    backgroundColor: '#6366f1',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
                     padding: '0.35rem 1rem',
-                    boxShadow: '0 2px 5px rgba(236, 72, 153, 0.3)'
+                    // boxShadow: '0 2px 5px rgba(236, 72, 153, 0.3)'
                   }}
                 >
-                  Close Selection
+                  Close 
                 </button>
               </div>
             </div>

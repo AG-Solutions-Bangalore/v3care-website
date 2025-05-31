@@ -59,6 +59,7 @@
     "react-svg-worldmap": "^2.0.0-alpha.16",
     "react-tag-input-component": "^2.0.2",
     "react-time-picker": "^6.6.0",
+    "redux-persist": "^6.0.0",
     "sass": "^1.85.1",
     "slick-carousel": "^1.8.1",
     "smoothscroll-polyfill": "^0.4.4",

@@ -908,7 +908,7 @@ style={{
                         </div>
                       </div>
 
-                  <div className="accordion-item mb-4">
+                  {/* <div className="accordion-item mb-4">
                         <h2 className="accordion-header">
                           <button
                             className="accordion-button p-0"
@@ -1159,7 +1159,7 @@ style={{
                             </div>
                           </div>
                         </div>
-                      </div> 
+                      </div>  */}
 
 
 
@@ -1239,7 +1239,27 @@ style={{
           </button>
           <button 
             className="btn btn-outline-primary flex-grow-1 py-3"
-            onClick={() => navigate('/cart')}
+         
+            onClick={() => {
+              if (selectedPrices.length === 0) {
+                showNotification('Please select at least one service', 'error');
+                return;
+              }
+              navigate('/cart')
+              selectedPrices.forEach(price => {
+                dispatch(addToCart({
+                  id: price.id,
+                  service_price_for: price.service_price_for,
+                  service_price_rate: price.service_price_rate,
+                  service_price_amount: price.service_price_amount,
+                  service_id: state?.service_id,
+                  service_name: state?.service_name,
+                  service_sub_id: state?.service_sub_id,
+                  service_sub_name: state?.service_sub_name
+                }));
+              });
+              showNotification('Service added to cart', 'success');
+            }}
           >
             <i className="fas fa-shopping-bag me-2"></i> Checkout
           </button>

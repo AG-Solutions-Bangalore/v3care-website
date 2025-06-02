@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as Icon from 'react-feather';
 import CityModal from '../../../components/CityModal';
@@ -14,6 +14,10 @@ const HomeHeader = () => {
   const [showCityModal, setShowCityModal] = useState(false);
   const [currentCity, setCurrentCity] = useState<string | null>(null);
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     const storedCity = localStorage.getItem('city');
     setCurrentCity(storedCity);
@@ -43,11 +47,31 @@ const HomeHeader = () => {
     localStorage.setItem('branch_id', branchId.toString());
     setCurrentCity(city);
     setShowCityModal(false);
+    window.dispatchEvent(new CustomEvent('cityChanged', { detail: city }));
   };
 
   const handleCloseModal = () => setShowCityModal(false);
 
   const isRouteActive = (path: string) => location.pathname === path;
+
+  // Close sidebar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarRef.current && 
+        toggleButtonRef.current && 
+        !sidebarRef.current.contains(event.target as Node) && 
+        !toggleButtonRef.current.contains(event.target as Node)
+      ) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -95,13 +119,13 @@ const HomeHeader = () => {
           <nav className="medium-nav">
             <ul className="nav-links">
               <li className={isRouteActive('/') ? 'active' : ''}>
-              <Link to="/">Home</Link>
+                <Link to="/">Home</Link>
               </li>
               <li className={isRouteActive('/service') ? 'active' : ''}>
-              <Link to="/service">Services</Link>
+                <Link to="/service">Services</Link>
               </li>
               <li className={isRouteActive('/contact-us') ? 'active' : ''}>
-              <Link to="/contact-us">Contact</Link>
+                <Link to="/contact-us">Contact</Link>
               </li>
             </ul>
           </nav>
@@ -114,18 +138,23 @@ const HomeHeader = () => {
               </button>
             </div>
             <Link to="/cart" className="cart-icon">
-  <Icon.ShoppingCart size={24} />
-  {cartItems.length > 0 && (
-    <span className="cart-count">{cartItems.length}</span>
-  )}
-</Link>
+              <Icon.ShoppingCart size={24} />
+              {cartItems.length > 0 && (
+                <span className="cart-count">{cartItems.length}</span>
+              )}
+            </Link>
 
             <Link to="/become-vendor" className="vendor-btn">
               <Icon.User size={16} />
               <span>Become a Vendor</span>
             </Link>
 
-            <button className="menu-toggle" onClick={toggleMenu} aria-label="Toggle menu">
+            <button 
+              className="menu-toggle" 
+              onClick={toggleMenu} 
+              aria-label="Toggle menu" 
+              ref={toggleButtonRef}
+            >
               <Icon.Menu size={24} />
             </button>
           </div>
@@ -133,7 +162,7 @@ const HomeHeader = () => {
 
         {/* Mobile Sidebar */}
         <div className={`sidebar-overlay ${isMenuOpen ? 'open' : ''}`} onClick={closeMenu}></div>
-        <div className={`mobile-sidebar ${isMenuOpen ? 'open' : ''}`}>
+        <div className={`mobile-sidebar ${isMenuOpen ? 'open' : ''}`} ref={sidebarRef}>
           <div className="sidebar-header">
             <Link to="/" className="sidebar-logo" onClick={closeMenu}>
               <img src={logoNav} alt="Company Logo" />
@@ -205,3 +234,4 @@ const HomeHeader = () => {
 };
 
 export default HomeHeader;
+//sajid 

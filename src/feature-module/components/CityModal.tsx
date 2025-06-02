@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as Icon from 'react-feather';
 import axios from "axios";
-import {BASE_URL} from '../baseConfig/BaseUrl';
+import { BASE_URL } from '../baseConfig/BaseUrl';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart } from '../../core/redux/slices/CartSlice';
+import { RootState } from '../../core/redux/store';
 
 interface CityModalProps {
   onSelectCity: (city: string, branchId: number) => void;
@@ -20,6 +23,8 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
   const [branches, setBranches] = useState<Branch[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const fetchCities = async () => {
     try {
@@ -38,7 +43,6 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
 
   useEffect(() => {
     fetchCities();
-    
     const timer = setTimeout(() => setIsVisible(true), 50);
     return () => clearTimeout(timer);
   }, []);
@@ -48,6 +52,101 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
     setTimeout(() => {
       if (onClose) onClose();
     }, 300);
+  };
+
+  const showLoadingOverlay = (city: string) => {
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100vw";
+    overlay.style.height = "100vh";
+    overlay.style.background = "rgba(255, 255, 255, 0.1)";
+    overlay.style.backdropFilter = "blur(15px)";
+    overlay.style.display = "flex";
+    overlay.style.flexDirection = "column";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.fontFamily = "Arial, sans-serif";
+    overlay.style.zIndex = "99999";
+
+    const styleSheet = document.createElement("style");
+    styleSheet.innerHTML = `
+      @keyframes float {
+        from { transform: translateY(0px); }
+        to { transform: translateY(10px); }
+      }
+      @keyframes pulse {
+        0% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.2); }
+        50% { box-shadow: 0 0 20px rgba(0, 123, 255, 0.5); }
+        100% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.2); }
+      }
+    `;
+    document.head.appendChild(styleSheet);
+
+    const animation = document.createElement("div");
+    animation.innerHTML = '📍';
+    animation.style.fontSize = "80px";
+    animation.style.marginBottom = "20px";
+    animation.style.animation = "float 2s ease-in-out infinite alternate";
+
+    const message = document.createElement("p");
+    message.style.fontSize = "22px";
+    message.style.color = "#333";
+    message.style.fontWeight = "bold";
+    message.style.marginBottom = "15px";
+    message.innerText = `Updating to ${city}! Preparing your experience...`;
+
+    const progressBarContainer = document.createElement("div");
+    progressBarContainer.style.width = "300px";
+    progressBarContainer.style.height = "8px";
+    progressBarContainer.style.borderRadius = "10px";
+    progressBarContainer.style.background = "rgba(0, 0, 0, 0.1)";
+    progressBarContainer.style.overflow = "hidden";
+
+    const progressBar = document.createElement("div");
+    progressBar.style.width = "0%";
+    progressBar.style.height = "100%";
+    progressBar.style.borderRadius = "10px";
+    progressBar.style.background = "linear-gradient(to right, #3182ce, #63b3ed)";
+    progressBar.style.transition = "width 0.3s ease-in-out";
+
+    progressBarContainer.appendChild(progressBar);
+
+    overlay.appendChild(animation);
+    overlay.appendChild(message);
+    overlay.appendChild(progressBarContainer);
+    document.body.appendChild(overlay);
+
+    let progress = 1;
+    const interval = setInterval(() => {
+      progress += Math.floor(Math.random() * 10) + 5;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        progressBar.style.width = "100%";
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      } else {
+        progressBar.style.width = `${progress}%`;
+      }
+    }, 150);
+  };
+
+  const handleCitySelect = (city: string, branchId: number) => {
+    if (cartItems.length > 0) {
+      const shouldProceed = window.confirm(
+        `You have ${cartItems.length} item(s) in your cart. Changing city will clear your cart. Do you want to proceed?`
+      );
+      
+      if (!shouldProceed) return;
+      
+      dispatch(clearCart());
+    }
+    
+    onSelectCity(city, branchId);
+    showLoadingOverlay(city);
   };
 
   const getButtonStyle = (city: string) => {
@@ -112,7 +211,6 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
         overflow: 'hidden',
         position: 'relative'
       }}>
-        {/* Close button */}
         {onClose && (
           <button 
             onClick={handleClose}
@@ -204,7 +302,7 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
               {branches.map(branch => (
                 <button
                   key={branch.id}
-                  onClick={() => onSelectCity(branch.branch_name, branch.id)}
+                  onClick={() => handleCitySelect(branch.branch_name, branch.id)}
                   style={getButtonStyle(branch.branch_name)}
                   onMouseEnter={() => setHoveredCity(branch.branch_name)}
                   onMouseLeave={() => setHoveredCity(null)}

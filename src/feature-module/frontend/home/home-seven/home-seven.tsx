@@ -100,7 +100,7 @@ const [subServiceLoading, setSubServiceLoading] = useState(false);
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate('/service-details', {
+        navigate(`/service-details/${encodeURIComponent(serviceName)}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -109,7 +109,7 @@ const [subServiceLoading, setSubServiceLoading] = useState(false);
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate('/service-details', {
+      navigate(`/service-details/${encodeURIComponent(serviceName)}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -184,20 +184,7 @@ const [subServiceLoading, setSubServiceLoading] = useState(false);
     return `${TESTIMONIAL_IMAGE_URL}/${testimonial_image}`;
   };
 
-  // const getServiceImageUrl = (imageName: string | null) => {
-  //   if (!imageName) {
-  //     return `${NO_IMAGE_URL}`;
-  //   }
-  //   return `${SERVICE_IMAGE_URL}/${imageName}`;
-  // };
-  //  const getServiceImageUrl = (imageName: string | null, isSubService = false) => {
-  //     if (!imageName) {
-  //       return `${NO_IMAGE_URL}`;
-  //     }
-  //     return isSubService 
-  //       ? `${SERVICE_SUB_IMAGE_URL}/${imageName}`
-  //       : `${SERVICE_IMAGE_URL}/${imageName}`;
-  //   };
+  
   
     const getImageUrlService = (imageName: string | null, isSubService = false) => {
       if (!imageName) {
@@ -266,41 +253,7 @@ const [subServiceLoading, setSubServiceLoading] = useState(false);
       },
     ],
   };
-  const categoriesSlider = {
-    dots: false,
-    autoplay: false,
-    slidesToShow: 3,
-    
-    speed: 500,
-    responsive: [
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 776,
-        settings: {
-          slidesToShow: 2,
-          arrows: false,
-        },
-      },
-      {
-        breakpoint: 567,
-        settings: {
-          slidesToShow: 1,
-          arrows: false,
-        },
-      },
-    ],
-  };
+  
   const popularService = {
     dots: false,
     autoplay: true,
@@ -463,47 +416,48 @@ const [subServiceLoading, setSubServiceLoading] = useState(false);
                       <div className="solution-seven">
                         <h6>2M+ Professionals registered</h6>
                         <ul className="total-client-avatar total-client-avatar-seven d-flex align-items-center mt-2">
-                          <li>
-                            <Link to="#">
-                              <ImageWithBasePath
-                                src="assets/img/profiles/avatar-06.jpg"
-                                alt="User"
-                              />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link to="#">
-                              <ImageWithBasePath
-                                src="assets/img/profiles/avatar-07.jpg"
-                                alt="image"
-                              />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link to="#">
-                              <ImageWithBasePath
-                                src="assets/img/profiles/avatar-08.jpg"
-                                alt="image"
-                              />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link to="#">
-                              <ImageWithBasePath
-                                src="assets/img/profiles/avatar-09.jpg"
-                                alt="User"
-                              />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link to="#">
-                              <ImageWithBasePath
-                                src="assets/img/profiles/avatar-10.jpg"
-                                alt="User"
-                              />
-                            </Link>
-                          </li>
-                        </ul>
+  <li>
+    <Link to="#">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="12" fill="#FF6B6B" />
+        <path fill="#fff" d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+      </svg>
+    </Link>
+  </li>
+  <li>
+    <Link to="#">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="12" fill="#4CAF50" />
+        <path fill="#fff" d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+      </svg>
+    </Link>
+  </li>
+  <li>
+    <Link to="#">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="12" fill="#2196F3" />
+        <path fill="#fff" d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+      </svg>
+    </Link>
+  </li>
+  <li>
+    <Link to="#">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="12" fill="#FFC107" />
+        <path fill="#fff" d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+      </svg>
+    </Link>
+  </li>
+  <li>
+    <Link to="#">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="12" fill="#9C27B0" />
+        <path fill="#fff" d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+      </svg>
+    </Link>
+  </li>
+</ul>
+
                       </div>
                     </div>
                   </div>
@@ -520,10 +474,26 @@ const [subServiceLoading, setSubServiceLoading] = useState(false);
                           <p>Services Completed</p>
                         </div>
                         <span>
-                          <ImageWithBasePath
-                            src="assets/img/icons/suitcase.svg"
-                            alt="image"
-                          />
+                        <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="40"
+  height="40"
+  viewBox="0 0 24 24"
+>
+
+  <path
+    fill="#9370DB"
+    d="M6 7V6a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h2a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h2zm2 0h8V6a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v1z"
+  />
+  
+
+  <path
+    fill="#FFFFFF"
+    d="M5 9h14v1H5V9zm0 3h14v1H5v-1zm0 3h14v1H5v-1z"
+  />
+</svg>
+
+
                         </span>
                       </div>
                     </div>
@@ -592,7 +562,7 @@ const [subServiceLoading, setSubServiceLoading] = useState(false);
                     {serviceSupers.map((serviceSuper) => (
                       <Link
                         key={serviceSuper.id}
-                        to={`${routes.categories}/${serviceSuper.id}`}
+                        to={`${routes.categories}/${encodeURIComponent(serviceSuper.serviceSuper)}/${serviceSuper.id}`}
                         className="feature-box feature-box-seven aos"
                         data-aos="fade-up"
                       >
@@ -615,192 +585,7 @@ const [subServiceLoading, setSubServiceLoading] = useState(false);
           </div>
         </section>
         {/* /Service Section */}
-        {/* popular service */}
-        {/* <section className="popular-service-seven-section">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12 text-center">
-                <div
-                  className="section-heading section-heading-seven aos"
-                  data-aos="fade-up"
-                >
-                  <h2>Most Popular Services</h2>
-                  <p>What do you need to find?</p>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-12">
-                <Slider {...popularService} className="popular-service-seven">
-                  <div
-                    className="service-widget service-two service-seven aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="service-img">
-                      <Link to={'#'}>
-                        <ImageWithBasePath
-                          className="img-fluid serv-img"
-                          alt="Service Image"
-                          src="assets/img/services/f1.png"
-                        />
-                      </Link>
-                      <div className="fav-item">
-                        <Link to={'#'}>
-                          <span className="item-cat">Glass Fitting</span>
-                        </Link>
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                      <div className="item-info">
-                        <Link to="#">
-                          <span className="item-img">
-                            <ImageWithBasePath
-                              src="assets/img/profiles/avatar-01.jpg"
-                              className="avatar"
-                              alt="image"
-                            />
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="service-content service-content-seven">
-                      <h3 className="title">
-                        <Link to={'#'}>
-                          Toughened Glass Fitting Service
-                        </Link>
-                      </h3>
-                     
-                    </div>
-                  </div>
-                  <div
-                    className="service-widget service-two service-seven aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="service-img">
-                      <Link to={'#'}>
-                        <ImageWithBasePath
-                          className="img-fluid serv-img"
-                          alt="Service Image"
-                          src="assets/img/services/f2.png"
-                        />
-                      </Link>
-                      <div className="fav-item">
-                        <Link to={'#'}>
-                          <span className="item-cat">Car Repair</span>
-                        </Link>
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                      <div className="item-info">
-                        <Link to="#">
-                          <span className="item-img">
-                            <ImageWithBasePath
-                              src="assets/img/profiles/avatar-06.jpg"
-                              className="avatar"
-                              alt="image"
-                            />
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="service-content service-content-seven">
-                      <h3 className="title">
-                        <Link to={'#'}>
-                          Car Repair Service
-                        </Link>
-                      </h3>
-                     
-                    </div>
-                  </div>
-                  <div
-                    className="service-widget service-two service-seven aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="service-img">
-                      <Link to={'#'}>
-                        <ImageWithBasePath
-                          className="img-fluid serv-img"
-                          alt="Service Image"
-                          src="assets/img/services/f3.png"
-                        />
-                      </Link>
-                      <div className="fav-item">
-                        <Link to={'#'}>
-                          <span className="item-cat">Computer Repair</span>
-                        </Link>
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                      <div className="item-info">
-                        <Link to="#">
-                          <span className="item-img">
-                            <ImageWithBasePath
-                              src="assets/img/profiles/avatar-11.jpg"
-                              className="avatar"
-                              alt="image"
-                            />
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="service-content service-content-seven">
-                      <h3 className="title">
-                        <Link to={'#'}>
-                          Computer Repairing &amp; Spares
-                        </Link>
-                      </h3>
-                   
-                    </div>
-                  </div>
-                  <div
-                    className="service-widget service-two service-seven aos"
-                    data-aos="fade-up"
-                  >
-                    <div className="service-img">
-                      <Link to={'#'}>
-                        <ImageWithBasePath
-                          className="img-fluid serv-img"
-                          alt="Service Image"
-                          src="assets/img/services/f4.png"
-                        />
-                      </Link>
-                      <div className="fav-item">
-                        <Link to={'#'}>
-                          <span className="item-cat">Car Repair</span>
-                        </Link>
-                        <Link to="javascript:void(0)" className="fav-icon">
-                          <i className="feather icon-heart" />
-                        </Link>
-                      </div>
-                      <div className="item-info">
-                        <Link to="#">
-                          <span className="item-img">
-                            <ImageWithBasePath
-                              src="assets/img/profiles/avatar-06.jpg"
-                              className="avatar"
-                              alt="image"
-                            />
-                          </span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="service-content service-content-seven">
-                      <h3 className="title">
-                        <Link to={'#'}>
-                          Car Repair Service
-                        </Link>
-                      </h3>
-                    
-                    </div>
-                  </div>
-                </Slider>
-              </div>
-            </div>
-          </div>
-        </section> */}
+      
 <section className="popular-service-seven-section">
   <div className="container">
     <div className="row">
@@ -895,96 +680,8 @@ const [subServiceLoading, setSubServiceLoading] = useState(false);
   </div>
 </section>
 
-        {/* <section className="service-section-seven">
-          <div className="container">
-            <div className="section-heading section-heading-seven">
-              <div className="row">
-                <div className="col-md-6 aos" data-aos="fade-up">
-                  <h2>Popular Services   </h2>
-                  <p>What do you need to find?</p>
-                </div>
-                <div className="col-md-6 text-md-end aos" data-aos="fade-up">
-                  <div className="owl-nav mynav mynav-seven" />
-                </div>
-              </div>
-            </div>
-
-{isServicesLoading && (
-      <div className="row justify-content-center mb-5">
-        <div className="col-12 text-center">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <p className="mt-3">Loading popular services...</p>
-        </div>
-      </div>
-    )}
-
-   
-    {servicesError && !isServicesLoading && (
-      <div className="row justify-content-center mb-5">
-        <div className="col-12 col-md-8 col-lg-6 text-center">
-          <div className="alert alert-danger d-flex align-items-center justify-content-center">
-            <Icon.AlertCircle className="me-2" size={18} />
-            <span>{servicesError}</span>
-            <button
-              className="btn btn-sm btn-outline-danger ms-3"
-              onClick={fetchServices}
-            >
-              <Icon.RefreshCw className="me-1" size={14} />
-              Try Again
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
-      {!isServicesLoading && !servicesError && servicesTwo.length > 0 && (
-            <div className="col-md-12">
-              <Slider
-                {...categoriesSlider}
-                className="owl-carousel categories-slider-seven"
-              >
-                   {servicesTwo.map((service) => (
-                <div  key={service.id} data-aos="fade-up">
-                  <div
-                    style={{
-                      padding: '2px',
-                      background: 'white',
-                      border: '2px solid white',
-                    
-                      borderRadius: '0.5rem', 
-                   
-                    }}
-                  >
-                    <img
-                      src="assets/img/services/p1.png"
-                      alt="img"
-                      className="img-fluid"
-                      style={{
-                       
-                        borderRadius: '0.5rem', 
-                      }}
-                    />
-                    <h5
-                      style={{
-                        marginTop: '4px',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      Painting
-                    </h5>
-                  </div>
-                </div>
-                 ))}
-              </Slider>
-            </div>
-             )}
-          </div>
-       
-        </section> */}
-
-        {/* banner service  */}
+        
+     
         {/* New Banner Section */}
         <section
           className="popular-service-seven-section aos"
@@ -1314,7 +1011,7 @@ const [subServiceLoading, setSubServiceLoading] = useState(false);
                 <div key={subService.id} className="col-6 col-sm-4 col-md-3">
                   <div 
                     className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                    onClick={() => navigate('/service-details', {
+                       onClick={() => navigate(`/service-details/${selectedService?.service}/${subService.service_sub}`, {
                       state: {
                         service_id: selectedService?.id,
                         service_name: selectedService?.service,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'yet-another-react-lightbox/styles.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -14,12 +14,12 @@ import { addToCart } from '../../../../core/redux/slices/CartSlice';
 
 
 const ServiceDetails1 = () => {
-  const REACT_APP_GOOGLE_MAPS_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
-  const REACT_APP_RAZARPAY_KEY = process.env.REACT_APP_RAZARPAY_KEY;
-  let autoComplete: any;
+  // const REACT_APP_GOOGLE_MAPS_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
+  // const REACT_APP_RAZARPAY_KEY = process.env.REACT_APP_RAZARPAY_KEY;
+  // let autoComplete: any;
   const dispatch = useDispatch();
-  const [query, setQuery] = useState("");
-  const autoCompleteRef = useRef(null);
+  // const [query, setQuery] = useState("");
+  // const autoCompleteRef = useRef(null);
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const message = `We're not available in ${city} at the moment, but we're expandi
   const [cardLoading, setCardLoading] = useState(false);
   const [cardError, setCardError] = useState<string | null>(null);
   const [selectedPrices, setSelectedPrices] = useState<any[]>([]);
-  const [primaryPrice, setPrimaryPrice] = useState<any>(null);
+  // const [primaryPrice, setPrimaryPrice] = useState<any>(null);
   const [showFullText, setShowFullText] = useState<Record<string | number, boolean>>({});
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [notifications, setNotifications] = useState<{
@@ -45,38 +45,38 @@ const message = `We're not available in ${city} at the moment, but we're expandi
     }[]>([]);
     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
-  const [formData, setFormData] = useState({
-    order_date: new Date().toISOString().split('T')[0],
-    order_year: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
-    order_refer_by: 'website',
-    order_customer: '',
-    order_customer_mobile: '',
-    order_customer_email: '',
-    order_service_date: '',
-    order_service: state?.service_id || '',
-    order_service_sub: state?.service_sub_id || '',
-    order_service_price_for: '',
-    order_service_price: '',
-    order_amount: '',
-    order_time: '',
-    branch_id: branch_id || '',
-    order_km: '0',
-    order_address: '',
-    order_url: "",
-    order_flat: '',
-    order_landmark: '',
-    order_remarks: '',
-    order_building: "",
-    order_advance: "",
-    order_comment: "",
-    order_area: "",
-    order_discount: "",
-    order_custom: "",
-    order_custom_price: "",
-    order_payment_amount:'',
-    order_payment_type:"",
-    order_transaction_details:"",
-  });
+  // const [formData, setFormData] = useState({
+  //   order_date: new Date().toISOString().split('T')[0],
+  //   order_year: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
+  //   order_refer_by: 'website',
+  //   order_customer: '',
+  //   order_customer_mobile: '',
+  //   order_customer_email: '',
+  //   order_service_date: '',
+  //   order_service: state?.service_id || '',
+  //   order_service_sub: state?.service_sub_id || '',
+  //   order_service_price_for: '',
+  //   order_service_price: '',
+  //   order_amount: '',
+  //   order_time: '',
+  //   branch_id: branch_id || '',
+  //   order_km: '0',
+  //   order_address: '',
+  //   order_url: "",
+  //   order_flat: '',
+  //   order_landmark: '',
+  //   order_remarks: '',
+  //   order_building: "",
+  //   order_advance: "",
+  //   order_comment: "",
+  //   order_area: "",
+  //   order_discount: "",
+  //   order_custom: "",
+  //   order_custom_price: "",
+  //   order_payment_amount:'',
+  //   order_payment_type:"",
+  //   order_transaction_details:"",
+  // });
 
 
 
@@ -101,46 +101,46 @@ const message = `We're not available in ${city} at the moment, but we're expandi
       return () => window.removeEventListener('resize', handleResize);
     }, []);
 /*---------------------------------vaildation----------------------- */
-const validateForm = () => {
-  const requiredFields = [
-    'order_customer',
-    'order_customer_mobile',
-    'order_customer_email',
-    'order_service_date',
-    'order_time',
-    'order_address'
-  ];
+// const validateForm = () => {
+//   const requiredFields = [
+//     'order_customer',
+//     'order_customer_mobile',
+//     'order_customer_email',
+//     'order_service_date',
+//     'order_time',
+//     'order_address'
+//   ];
 
-  // Check if all required fields are filled
-  for (const field of requiredFields) {
-    if (!formData[field as keyof typeof formData]) {
-      showNotification(`Please fill in the ${field.replace('order_', '').replace('_', ' ')} field`, 'error');
-      return false;
-    }
-  }
+//   // Check if all required fields are filled
+//   for (const field of requiredFields) {
+//     if (!formData[field as keyof typeof formData]) {
+//       showNotification(`Please fill in the ${field.replace('order_', '').replace('_', ' ')} field`, 'error');
+//       return false;
+//     }
+//   }
 
-  // Validate mobile number format (Indian mobile numbers)
-  const mobileRegex = /^[6-9]\d{9}$/;
-  if (!mobileRegex.test(formData.order_customer_mobile)) {
-    showNotification('Please enter a valid 10-digit Indian mobile number','error');
-    return false;
-  }
+//   // Validate mobile number format (Indian mobile numbers)
+//   const mobileRegex = /^[6-9]\d{9}$/;
+//   if (!mobileRegex.test(formData.order_customer_mobile)) {
+//     showNotification('Please enter a valid 10-digit Indian mobile number','error');
+//     return false;
+//   }
 
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(formData.order_customer_email)) {
-    showNotification('Please enter a valid email address' ,'error');
-    return false;
-  }
+//   // Validate email format
+//   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//   if (!emailRegex.test(formData.order_customer_email)) {
+//     showNotification('Please enter a valid email address' ,'error');
+//     return false;
+//   }
 
-  // Check if at least one service is selected
-  if (selectedPrices.length === 0) {
-    showNotification('Please select at least one service','error');
-    return false;
-  }
+//   // Check if at least one service is selected
+//   if (selectedPrices.length === 0) {
+//     showNotification('Please select at least one service','error');
+//     return false;
+//   }
 
-  return true;
-};
+//   return true;
+// };
 /*---------------------------------------validation-end----------- */
   const fetchServicePrices = async () => {
     try {
@@ -210,382 +210,382 @@ const validateForm = () => {
 
 
   // for google map 
-  const handleScriptLoad = (updateQuery: any, autoCompleteRef: any) => {
-    autoComplete = new (window as any).google.maps.places.Autocomplete(
-      autoCompleteRef.current,
-      {
-        componentRestrictions: { country: "IN" },
-      }
-    );
+  // const handleScriptLoad = (updateQuery: any, autoCompleteRef: any) => {
+  //   autoComplete = new (window as any).google.maps.places.Autocomplete(
+  //     autoCompleteRef.current,
+  //     {
+  //       componentRestrictions: { country: "IN" },
+  //     }
+  //   );
 
-    autoComplete.addListener("place_changed", () => {
-      handlePlaceSelect(updateQuery);
-    });
-  };
+  //   autoComplete.addListener("place_changed", () => {
+  //     handlePlaceSelect(updateQuery);
+  //   });
+  // };
 
-  const handlePlaceSelect = async (updateQuery: any) => {
-    const addressObject = await autoComplete.getPlace();
-    const query = addressObject.formatted_address;
-    const url = addressObject.url;
-    updateQuery(query);
+  // const handlePlaceSelect = async (updateQuery: any) => {
+  //   const addressObject = await autoComplete.getPlace();
+  //   const query = addressObject.formatted_address;
+  //   const url = addressObject.url;
+  //   updateQuery(query);
 
-    setFormData(prev => ({
-      ...prev,
-      order_address: query,
-      order_url: url
-    }));
-  };
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     order_address: query,
+  //     order_url: url
+  //   }));
+  // };
 
-  useEffect(() => {
-    const loadScript = (url: string, callback: () => void) => {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      if (script.readyState) {
-        script.onreadystatechange = function () {
-          if (script.readyState === "loaded" || script.readyState === "complete") {
-            script.onreadystatechange = null;
-            callback();
-          }
-        };
-      } else {
-        script.onload = () => callback();
-      }
-      script.src = url;
-      document.getElementsByTagName("head")[0].appendChild(script);
-    };
+  // useEffect(() => {
+  //   const loadScript = (url: string, callback: () => void) => {
+  //     const script = document.createElement("script");
+  //     script.type = "text/javascript";
+  //     if (script.readyState) {
+  //       script.onreadystatechange = function () {
+  //         if (script.readyState === "loaded" || script.readyState === "complete") {
+  //           script.onreadystatechange = null;
+  //           callback();
+  //         }
+  //       };
+  //     } else {
+  //       script.onload = () => callback();
+  //     }
+  //     script.src = url;
+  //     document.getElementsByTagName("head")[0].appendChild(script);
+  //   };
 
 
-    loadScript(
-      `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
-      () => handleScriptLoad(setQuery, autoCompleteRef)
-    );
-  }, []);
+  //   loadScript(
+  //     `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
+  //     () => handleScriptLoad(setQuery, autoCompleteRef)
+  //   );
+  // }, []);
 
   // google map end
   /*------------------------------------------------start----------------- */
-  const validateOnlyDigits = (inputtxt: string): boolean => {
-    const phoneno = /^\d+$/;
-    return phoneno.test(inputtxt) || inputtxt.length === 0;
-  };
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    if (
-      (name === "order_customer_mobile") 
+  // const validateOnlyDigits = (inputtxt: string): boolean => {
+  //   const phoneno = /^\d+$/;
+  //   return phoneno.test(inputtxt) || inputtxt.length === 0;
+  // };
+  // const handleInputChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  // ) => {
+  //   const { name, value } = e.target;
+  //   if (
+  //     (name === "order_customer_mobile") 
     
        
-       &&
-      !validateOnlyDigits(value)
-    ) {
-      return;
-    }
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  //      &&
+  //     !validateOnlyDigits(value)
+  //   ) {
+  //     return;
+  //   }
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
 
 
 
 
 
-const handleSubmitPayLater = async (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.preventDefault();
+// const handleSubmitPayLater = async (e: React.MouseEvent<HTMLButtonElement>) => {
+//   e.preventDefault();
  
- if (!validateForm()) {
-  return;
-}
-  try {
-    const bookingData = selectedPrices.map(price => ({
-      order_service_price_for: price.id,
-      order_service_price: price.service_price_rate,
-      order_amount: price.service_price_amount,
+//  if (!validateForm()) {
+//   return;
+// }
+//   try {
+//     const bookingData = selectedPrices.map(price => ({
+//       order_service_price_for: price.id,
+//       order_service_price: price.service_price_rate,
+//       order_amount: price.service_price_amount,
      
-      order_remarks: formData.order_remarks,
-      ...Object.fromEntries(
-        Object.entries(formData).filter(([key]) => !['order_service_price_for', 'order_service_price', 'order_amount'].includes(key))
-      )
-    }));
+//       order_remarks: formData.order_remarks,
+//       ...Object.fromEntries(
+//         Object.entries(formData).filter(([key]) => !['order_service_price_for', 'order_service_price', 'order_amount'].includes(key))
+//       )
+//     }));
 
-    const finalFormData = {
-      booking_data: bookingData,
-    };
+//     const finalFormData = {
+//       booking_data: bookingData,
+//     };
 
-    const response = await axios.post(
-      `${BASE_URL}/api/panel-create-web-booking-ouDt`,
-      finalFormData,
-    );
+//     const response = await axios.post(
+//       `${BASE_URL}/api/panel-create-web-booking-ouDt`,
+//       finalFormData,
+//     );
 
-    if (response.data.code == 200) {
+//     if (response.data.code == 200) {
    
-      showNotification(response.data.msg || "Payment successful", 'success');
-      navigate('/payment-success', {
-        state: {
-          amount: totalPrice,
-          service_name: state?.service_name,
-          service_sub_name: state?.service_sub_name,
-          payment_mode: 'pay_later',
-          payment_status: 'pending',
-          booking_status: 'confirmed',
-          booking_data: bookingData,
-          selected_prices: selectedPrices
-        }
-      });
-    } else {
-      console.error(response.data.message || 'Failed to create booking');
-      navigate('/booking-failed', {
-        state: {
-          error: response.data.message || 'Booking creation failed',
-          amount: totalPrice,
-          service_name: state?.service_name,
-          service_sub_name: state?.service_sub_name
-        }
-      });
-    }
-  } catch (error) {
-    console.error('Error creating booking:', error);
-    navigate('/booking-failed', {
-      state: {
-        error: error instanceof Error ? error.message : 'Booking failed',
-        amount: totalPrice,
-        service_name: state?.service_name,
-        service_sub_name: state?.service_sub_name
-      }
-    });
-  }
-};
+//       showNotification(response.data.msg || "Payment successful", 'success');
+//       navigate('/payment-success', {
+//         state: {
+//           amount: totalPrice,
+//           service_name: state?.service_name,
+//           service_sub_name: state?.service_sub_name,
+//           payment_mode: 'pay_later',
+//           payment_status: 'pending',
+//           booking_status: 'confirmed',
+//           booking_data: bookingData,
+//           selected_prices: selectedPrices
+//         }
+//       });
+//     } else {
+//       console.error(response.data.message || 'Failed to create booking');
+//       navigate('/booking-failed', {
+//         state: {
+//           error: response.data.message || 'Booking creation failed',
+//           amount: totalPrice,
+//           service_name: state?.service_name,
+//           service_sub_name: state?.service_sub_name
+//         }
+//       });
+//     }
+//   } catch (error) {
+//     console.error('Error creating booking:', error);
+//     navigate('/booking-failed', {
+//       state: {
+//         error: error instanceof Error ? error.message : 'Booking failed',
+//         amount: totalPrice,
+//         service_name: state?.service_name,
+//         service_sub_name: state?.service_sub_name
+//       }
+//     });
+//   }
+// };
 
 
-const loadScript = () =>
-    new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      document.body.appendChild(script);
-    });
+// const loadScript = () =>
+//     new Promise((resolve) => {
+//       const script = document.createElement("script");
+//       script.src = "https://checkout.razorpay.com/v1/checkout.js";
+//       script.onload = () => resolve(true);
+//       document.body.appendChild(script);
+//     });
    
 
   
-const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.preventDefault();
+// const handleSubmitPayNow = async (e: React.MouseEvent<HTMLButtonElement>) => {
+//   e.preventDefault();
 
-   if (!validateForm()) {
-    return;
-  }
-  const res = await loadScript();
-  if (!res) {
+//    if (!validateForm()) {
+//     return;
+//   }
+//   const res = await loadScript();
+//   if (!res) {
    
-    showNotification('Razorpay SDK failed to load', 'error');
-    return;
-  }
+//     showNotification('Razorpay SDK failed to load', 'error');
+//     return;
+//   }
 
-  try {
-    const bookingDataTemplate = selectedPrices.map(price => ({
-      order_service_price_for: price.id,
-      order_service_price: price.service_price_rate,
-      order_amount: price.service_price_amount,
-      order_payment_amount: price.service_price_amount,
-      order_remarks: formData.order_remarks,
-      ...Object.fromEntries(
-        Object.entries(formData).filter(([key]) => 
-          !['order_service_price_for', 'order_service_price', 'order_amount','order_payment_amount'].includes(key)
-        )
-      )
-    }));
+//   try {
+//     const bookingDataTemplate = selectedPrices.map(price => ({
+//       order_service_price_for: price.id,
+//       order_service_price: price.service_price_rate,
+//       order_amount: price.service_price_amount,
+//       order_payment_amount: price.service_price_amount,
+//       order_remarks: formData.order_remarks,
+//       ...Object.fromEntries(
+//         Object.entries(formData).filter(([key]) => 
+//           !['order_service_price_for', 'order_service_price', 'order_amount','order_payment_amount'].includes(key)
+//         )
+//       )
+//     }));
 
-    const bookingDataTemplateModalClose = selectedPrices.map(price => ({
-      order_service_price_for: price.id,
-      order_service_price: price.service_price_rate,
-      order_amount: price.service_price_amount,
-      order_remarks: formData.order_remarks,
-      ...Object.fromEntries(
-        Object.entries(formData).filter(([key]) => 
-          !['order_service_price_for', 'order_service_price', 'order_amount'].includes(key)
-        )
-      )
-    }));
+//     const bookingDataTemplateModalClose = selectedPrices.map(price => ({
+//       order_service_price_for: price.id,
+//       order_service_price: price.service_price_rate,
+//       order_amount: price.service_price_amount,
+//       order_remarks: formData.order_remarks,
+//       ...Object.fromEntries(
+//         Object.entries(formData).filter(([key]) => 
+//           !['order_service_price_for', 'order_service_price', 'order_amount'].includes(key)
+//         )
+//       )
+//     }));
    
-    // Calculate total price
-    const totalPrice = selectedPrices.reduce(
-      (sum, price) => sum + parseFloat(price.service_price_amount),
-      0
-    );
     
-    // Razorpay options
-    const options = {
-      key: REACT_APP_RAZARPAY_KEY,
-      amount: Math.round(totalPrice * 100),
-      currency: "INR",
-      name: formData.order_customer ||   "V3 Care",
-      description: `Payment for ${state?.service_name || 'Service'}`,
-      handler: async function(response: any) {
-        try {
+//     const totalPrice = selectedPrices.reduce(
+//       (sum, price) => sum + parseFloat(price.service_price_amount),
+//       0
+//     );
+    
+   
+//     const options = {
+//       key: REACT_APP_RAZARPAY_KEY,
+//       amount: Math.round(totalPrice * 100),
+//       currency: "INR",
+//       name: formData.order_customer ||   "V3 Care",
+//       description: `Payment for ${state?.service_name || 'Service'}`,
+//       handler: async function(response: any) {
+//         try {
          
-          const finalBookingData = bookingDataTemplate.map(data => ({
-            ...data,
-            order_transaction_details: response.razorpay_payment_id,
-            order_payment_type: response.razorpay_method || 'online' 
-          }));
+//           const finalBookingData = bookingDataTemplate.map(data => ({
+//             ...data,
+//             order_transaction_details: response.razorpay_payment_id,
+//             order_payment_type: response.razorpay_method || 'online' 
+//           }));
 
          
-          const bookingResponse = await axios.post(
-            `${BASE_URL}/api/panel-create-web-booking-out`,
-            { booking_data: finalBookingData }
-          );
+//           const bookingResponse = await axios.post(
+//             `${BASE_URL}/api/panel-create-web-booking-out`,
+//             { booking_data: finalBookingData }
+//           );
 
-          if (bookingResponse.data.code === 200) {
-            navigate('/payment-success', {
-              state: {
-                payment_id: response.razorpay_payment_id,
-                amount: totalPrice,
-                service_name: state?.service_name,
-                service_sub_name: state?.service_sub_name,
-                payment_mode: response.razorpay_method || 'online',
-                payment_status: 'success',
-                booking_status: 'confirmed',
-                booking_data: finalBookingData,
-                selected_prices: selectedPrices,
-                payment_details: {
-                  method: response.razorpay_method,
-                  transaction_id: response.razorpay_payment_id,
-                  order_id: response.razorpay_order_id
-                }
-              }
-            });
-          } else {
-            navigate('/payment-success', {
-              state: {
-                payment_id: response.razorpay_payment_id,
-                amount: totalPrice,
-                service_name: state?.service_name,
-                service_sub_name: state?.service_sub_name,
-                payment_mode: response.razorpay_method || 'online',
-                payment_status: 'success',
-                booking_status: 'failed',
-                payment_details: {
-                  method: response.razorpay_method,
-                  transaction_id: response.razorpay_payment_id
-                }
-              }
-            });
-          }
-        } catch (error) {
-          console.error("Booking creation failed after payment:", error);
-            navigate('/payment-success', {
-              state: {
-                payment_id: response.razorpay_payment_id,
-                amount: totalPrice,
-                service_name: state?.service_name,
-                service_sub_name: state?.service_sub_name,
-                payment_mode: response.razorpay_method || 'online',
-                payment_status: 'success',
-                booking_status: 'failed',
-                payment_details: {
-                  method: response.razorpay_method,
-                  transaction_id: response.razorpay_payment_id
-                }
-              }})
-        }
-      },
-      prefill: {
-        name: formData.order_customer || "",
-        email: formData.order_customer_email || "",
-        contact: formData.order_customer_mobile || "",
-      },
-      theme: {
-        color: "#4361ee"
-      },
-      modal: {
-        ondismiss: async function() {
+//           if (bookingResponse.data.code === 200) {
+//             navigate('/payment-success', {
+//               state: {
+//                 payment_id: response.razorpay_payment_id,
+//                 amount: totalPrice,
+//                 service_name: state?.service_name,
+//                 service_sub_name: state?.service_sub_name,
+//                 payment_mode: response.razorpay_method || 'online',
+//                 payment_status: 'success',
+//                 booking_status: 'confirmed',
+//                 booking_data: finalBookingData,
+//                 selected_prices: selectedPrices,
+//                 payment_details: {
+//                   method: response.razorpay_method,
+//                   transaction_id: response.razorpay_payment_id,
+//                   order_id: response.razorpay_order_id
+//                 }
+//               }
+//             });
+//           } else {
+//             navigate('/payment-success', {
+//               state: {
+//                 payment_id: response.razorpay_payment_id,
+//                 amount: totalPrice,
+//                 service_name: state?.service_name,
+//                 service_sub_name: state?.service_sub_name,
+//                 payment_mode: response.razorpay_method || 'online',
+//                 payment_status: 'success',
+//                 booking_status: 'failed',
+//                 payment_details: {
+//                   method: response.razorpay_method,
+//                   transaction_id: response.razorpay_payment_id
+//                 }
+//               }
+//             });
+//           }
+//         } catch (error) {
+//           console.error("Booking creation failed after payment:", error);
+//             navigate('/payment-success', {
+//               state: {
+//                 payment_id: response.razorpay_payment_id,
+//                 amount: totalPrice,
+//                 service_name: state?.service_name,
+//                 service_sub_name: state?.service_sub_name,
+//                 payment_mode: response.razorpay_method || 'online',
+//                 payment_status: 'success',
+//                 booking_status: 'failed',
+//                 payment_details: {
+//                   method: response.razorpay_method,
+//                   transaction_id: response.razorpay_payment_id
+//                 }
+//               }})
+//         }
+//       },
+//       prefill: {
+//         name: formData.order_customer || "",
+//         email: formData.order_customer_email || "",
+//         contact: formData.order_customer_mobile || "",
+//       },
+//       theme: {
+//         color: "#4361ee"
+//       },
+//       modal: {
+//         ondismiss: async function() {
          
-          console.log("Payment modal dismissed");
-          try {
-            const bookingResponse =  await axios.post(
-              `${BASE_URL}/api/panel-create-web-booking-out`,
-              { booking_data: bookingDataTemplateModalClose }
-            );
+//           console.log("Payment modal dismissed");
+//           try {
+//             const bookingResponse =  await axios.post(
+//               `${BASE_URL}/api/panel-create-web-booking-out`,
+//               { booking_data: bookingDataTemplateModalClose }
+//             );
             
-            if (bookingResponse.data.code === 200) {
-              navigate('/payment-success', {
-                state: {
-                  amount: totalPrice,
-                  service_name: state?.service_name,
-                  service_sub_name: state?.service_sub_name,
-                  payment_status: 'failed',
-                  booking_status: 'confirmed',
-                  selected_prices: selectedPrices,
-                  booking_data: bookingDataTemplateModalClose
-                }
-              });
-            } else {
+//             if (bookingResponse.data.code === 200) {
+//               navigate('/payment-success', {
+//                 state: {
+//                   amount: totalPrice,
+//                   service_name: state?.service_name,
+//                   service_sub_name: state?.service_sub_name,
+//                   payment_status: 'failed',
+//                   booking_status: 'confirmed',
+//                   selected_prices: selectedPrices,
+//                   booking_data: bookingDataTemplateModalClose
+//                 }
+//               });
+//             } else {
               
-              navigate('/booking-failed', {
-                state: {
-                  error: 'Payment was not completed and booking creation failed',
-                  amount: totalPrice,
-                  service_name: state?.service_name,
-                  service_sub_name: state?.service_sub_name
-                }
-              });
-            }
-          } catch (error) {
-            console.error("Failed to update booking status:", error);
-            navigate('/booking-failed', {
-              state: {
-                error: 'Payment was not completed and booking creation failed',
-                amount: totalPrice,
-                service_name: state?.service_name,
-                service_sub_name: state?.service_sub_name
-              }
-            });
-          }
-        }
-      }
-    };
+//               navigate('/booking-failed', {
+//                 state: {
+//                   error: 'Payment was not completed and booking creation failed',
+//                   amount: totalPrice,
+//                   service_name: state?.service_name,
+//                   service_sub_name: state?.service_sub_name
+//                 }
+//               });
+//             }
+//           } catch (error) {
+//             console.error("Failed to update booking status:", error);
+//             navigate('/booking-failed', {
+//               state: {
+//                 error: 'Payment was not completed and booking creation failed',
+//                 amount: totalPrice,
+//                 service_name: state?.service_name,
+//                 service_sub_name: state?.service_sub_name
+//               }
+//             });
+//           }
+//         }
+//       }
+//     };
 
-    const rzp = new (window as any).Razorpay(options);
+//     const rzp = new (window as any).Razorpay(options);
     
-    rzp.on('payment.failed', function(response: {
-      error: {
-        description: string;
-        code: string;
-        metadata: {
-          payment_id?: string;
-          order_id?: string;
-        };
-      };
-    }) {
-      let errorMessage = response.error.description;
-    const paymentMethod = '';
+//     rzp.on('payment.failed', function(response: {
+//       error: {
+//         description: string;
+//         code: string;
+//         metadata: {
+//           payment_id?: string;
+//           order_id?: string;
+//         };
+//       };
+//     }) {
+//       let errorMessage = response.error.description;
+//     const paymentMethod = '';
       
       
-      if (response.error.code === 'PAYMENT_CANCELLED') {
-        errorMessage = 'Payment was cancelled by user';
-      } else if (response.error.code === 'PAYMENT_FAILED') {
-        errorMessage = 'Payment failed. Please try again or use another method';
-      }
+//       if (response.error.code === 'PAYMENT_CANCELLED') {
+//         errorMessage = 'Payment was cancelled by user';
+//       } else if (response.error.code === 'PAYMENT_FAILED') {
+//         errorMessage = 'Payment failed. Please try again or use another method';
+//       }
 
-      navigate('/booking-failed', {
-        state: {
-          error: errorMessage,
-          payment_id: response.error.metadata?.payment_id,
-          payment_method: paymentMethod
-        }
-      });
-    });
+//       navigate('/booking-failed', {
+//         state: {
+//           error: errorMessage,
+//           payment_id: response.error.metadata?.payment_id,
+//           payment_method: paymentMethod
+//         }
+//       });
+//     });
     
-    rzp.open();
+//     rzp.open();
     
-  } catch (error) {
-    console.error('Payment initiation failed:', error);
-    navigate('/booking-failed', {
-      state: {
-        error: error instanceof Error ? error.message : 'Payment initialization failed'
-      }
-    });
-  }
-};
+//   } catch (error) {
+//     console.error('Payment initiation failed:', error);
+//     navigate('/booking-failed', {
+//       state: {
+//         error: error instanceof Error ? error.message : 'Payment initialization failed'
+//       }
+//     });
+//   }
+// };
 
 const totalPrice = selectedPrices.reduce(
   (sum, price) => sum + parseFloat(price.service_price_amount),
@@ -602,6 +602,7 @@ const totalOriginalPrice = selectedPrices.reduce(
   /*------------------------------------------------end----------------- */
 
   const togglePriceSelection = (price: any) => {
+    
     setSelectedPrices((prev) => {
       const isSelected = prev.some((p) => p.id === price.id);
       if (isSelected) {
@@ -612,21 +613,21 @@ const totalOriginalPrice = selectedPrices.reduce(
     });
   };
 
-  useEffect(() => {
-    if (selectedPrices.length > 0) {
-      // Find the price with the smallest index in servicePrices
-      const primary = selectedPrices.reduce((prev, current) => {
-        const prevIndex = servicePrices.findIndex((p) => p.id === prev.id);
-        const currentIndex = servicePrices.findIndex(
-          (p) => p.id === current.id,
-        );
-        return prevIndex < currentIndex ? prev : current;
-      });
-      setPrimaryPrice(primary);
-    } else {
-      setPrimaryPrice(null);
-    }
-  }, [selectedPrices, servicePrices]);
+  // useEffect(() => {
+  //   if (selectedPrices.length > 0) {
+  //     // Find the price with the smallest index in servicePrices
+  //     const primary = selectedPrices.reduce((prev, current) => {
+  //       const prevIndex = servicePrices.findIndex((p) => p.id === prev.id);
+  //       const currentIndex = servicePrices.findIndex(
+  //         (p) => p.id === current.id,
+  //       );
+  //       return prevIndex < currentIndex ? prev : current;
+  //     });
+  //     setPrimaryPrice(primary);
+  //   } else {
+  //     setPrimaryPrice(null);
+  //   }
+  // }, [selectedPrices, servicePrices]);
   // Calculate total price
 
 
@@ -787,128 +788,277 @@ style={{
                 <div className="card border-0">
                   <div className="card-body">
                     <div className="service-head mb-2">
-                      <div className="d-flex align-items-center justify-content-between flex-wrap">
-                        {/* <h3 className="mb-2">Lighting Servicesedit</h3> */}
-                        {/* <h3 className="mb-2">
+                      {/* <div className="d-flex align-items-center justify-content-between flex-wrap">
+                        <h3 className="mb-2">Lighting Servicesedit</h3>
+                        <h3 className="mb-2">
                           {state?.service_name || 'Service Name'}
                           {state?.service_id || 'Service Id'}---
                           {state?.service_sub_id || 'Service Sub id'}
                           {state?.service_sub_name || 'Service Sub'} ---
                           {city && ` (${city})`}
                           {branch_id && ` [Branch: ${branch_id}]`}
-                        </h3> */}
+                        </h3>
                         <h4 className="mb-2  text-primary"   >
                           <span> {state?.service_name || 'Service Name'}</span>
 
                           &nbsp;  <span>{state?.service_sub_name ? `-- ${state?.service_sub_name}` : ""}</span>
 
                         </h4>
+                        <span onClick={()=>navigate("/service")} className="mb-2  text-primary "  style={{
+                          cursor:"pointer"
+                        }} >
+                        Browse more services
 
-                      </div>
+                        </span>
 
+                      </div> */}
+<div className="d-flex align-items-center justify-content-between flex-wrap mb-3">
+  <div className="d-flex align-items-center flex-wrap">
+    <h4 className="mb-0 text-primary fw-bold">
+      {state?.service_name || 'Service Name'}
+      {state?.service_sub_name && (
+        <span style={{ color: 'gray', fontSize: '14px',  }}>( {state?.service_sub_name})</span>
+      )}
+    </h4>
+  </div>
+  <button 
+    onClick={() => navigate("/service")} 
+    className="btn btn-link text-decoration-none text-primary p-0"
+    style={{ whiteSpace: 'nowrap' }}
+  >
+    <i className="fas fa-arrow-left me-2"></i>Browse Services
+  </button>
+</div>
                     </div>
 
+
+
+
+             
+                 
+
+
                     <div className="accordion service-accordion">
-                      <div className="accordion-item mb-4">
-                        <h2 className="accordion-header">
-                          <button
-                            className="accordion-button p-0"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#overview"
-                            aria-expanded="false"
-                          >
-                            Service Offered
-                          </button>
-                        </h2>
-                        <div
-                          id="overview"
-                          className="accordion-collapse collapse show"
-                        >
-                          <div className="accordion-body border-0 p-0 pt-3">
-                           
-                            <div className="bg-light-200 p-3 offer-wrap">
-                             
+                    <div className="accordion-item mb-4">
+  <h2 className="accordion-header">
+    <button
+      className="accordion-button p-0"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#overview"
+      aria-expanded="false"
+    >
+      Service Offered
+    </button>
+  </h2>
+  <div id="overview" className="accordion-collapse collapse show">
+    <div className="accordion-body border-0 p-0 pt-2">
+      <div className="bg-light-200 p-2 offer-wrap">
+        {priceLoading ? (
+          <div className="text-center py-3">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <p className="mt-2">Loading prices...</p>
+          </div>
+        ) : priceError ? (
+          <div className="alert alert-danger d-flex align-items-center justify-content-between py-2">
+            <div className="fs-14">{priceError}</div>
+            <button
+              className="btn btn-sm btn-outline-danger"
+              onClick={fetchServicePrices}
+            >
+              Try Again
+            </button>
+          </div>
+        ) : servicePrices.length > 0 ? (
+          servicePrices.map((price) => (
+            <div
+              key={price.id}
+              className={`offer-item d-flex align-items-center justify-content-between mb-2 p-2 ${
+                selectedPrices.some((p) => p.id === price.id)
+                  ? 'bg-primary-light border-primary'
+                  : 'bg-white'
+              }`}
+              style={{
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                border: selectedPrices.some((p) => p.id === price.id)
+                  ? '1px solid #0d6efd'
+                  : '1px solid #dee2e6',
+                borderRadius: '6px',
+              }}
+              onClick={() => togglePriceSelection(price)}
+            >
+              <div className="d-flex align-items-center">
+                <span className="avatar avatar-sm flex-shrink-0 me-2">
+                  {selectedPrices.some((p) => p.id === price.id) ? (
+                    <i className="fas fa-check-circle text-primary fs-5"></i>
+                  ) : (
+                    <i className="far fa-circle text-muted fs-5"></i>
+                  )}
+                </span>
+                <h6 className="fs-14 fw-medium mb-0">
+                  {price.service_price_for}
+                </h6>
+              </div>
+              <div className="text-end">
+                <h6 className="fs-14 fw-medium text-primary mb-0">
+                  ₹{price.service_price_amount}
+             
+                </h6>
+                <p className="fs-12 text-muted mb-0 text-decoration-line-through">
+                  ₹{price.service_price_rate}
+                </p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="alert alert-info py-2 fs-14">{message}</div>
+        )}
+      </div>
+    </div>
+    <div id="include" className="accordion-collapse collapse show">
+      <div className="accordion-body border-0 p-0 pt-2">
+        <div className="bg-light-200 p-2 br-10">
+          <div className="d-flex gap-2">
+            <button
+              className="btn btn-primary flex-grow-1 py-2 fs-14"
+              onClick={() => {
+                if (selectedPrices.length === 0) {
+                  showNotification('Please select at least one service', 'error');
+                  return;
+                }
+                selectedPrices.forEach(price => {
+                  dispatch(addToCart({
+                    id: price.id,
+                    service_price_for: price.service_price_for,
+                    service_price_rate: price.service_price_rate,
+                    service_price_amount: price.service_price_amount,
+                    service_id: state?.service_id,
+                    service_name: state?.service_name,
+                    service_sub_id: state?.service_sub_id,
+                    service_sub_name: state?.service_sub_name,
+                    service_label:price?.status_label,
+                  }));
+                });
+                showNotification('Service added to cart', 'success');
+              }}
+            >
+              <i className="fas fa-cart-plus me-1"></i> Add to Cart
+            </button>
+            <button
+              className="btn btn-outline-primary flex-grow-1 py-2 fs-14"
+              onClick={() => {
+                if (selectedPrices.length === 0) {
+                  showNotification('Please select at least one service', 'error');
+                  return;
+                }
+                navigate('/cart');
+                selectedPrices.forEach(price => {
+                  dispatch(addToCart({
+                    id: price.id,
+                    service_price_for: price.service_price_for,
+                    service_price_rate: price.service_price_rate,
+                    service_price_amount: price.service_price_amount,
+                    service_id: state?.service_id,
+                    service_name: state?.service_name,
+                    service_sub_id: state?.service_sub_id,
+                    service_sub_name: state?.service_sub_name,
+                    service_label:price?.status_label,
+                  }));
+                });
+                showNotification('Service added to cart', 'success');
+              }}
+            >
+              <i className="fas fa-shopping-bag me-1"></i> Checkout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+                  
 
-                              {priceLoading ? (
-                                <div className="text-center py-4">
-                                  <div
-                                    className="spinner-border text-primary"
-                                    role="status"
-                                  >
-                                    <span className="visually-hidden">
-                                      Loading...
-                                    </span>
-                                  </div>
-                                  <p className="mt-2">Loading prices...</p>
-                                </div>
-                              ) : priceError ? (
-                                <div className="alert alert-danger d-flex align-items-center justify-content-between">
-                                  <div>{priceError}</div>
-                                  <button
-                                    className="btn btn-sm btn-outline-danger"
-                                    onClick={fetchServicePrices}
-                                  >
-                                    Try Again
-                                  </button>
-                                </div>
-                              ) : servicePrices.length > 0 ? (
-                                servicePrices.map((price) => (
-                                  <div
-                                    key={price.id}
-                                    className={`offer-item d-md-flex align-items-center justify-content-between mb-2 ${selectedPrices.some((p) => p.id === price.id) ? 'bg-primary-light border-primary' : 'bg-white'}`}
-                                    style={{
-                                      cursor: 'pointer',
-                                      transition: 'all 0.3s ease',
-                                      border: selectedPrices.some(
-                                        (p) => p.id === price.id,
-                                      )
-                                        ? '1px solid #0d6efd'
-                                        : '1px solid #dee2e6',
-                                      borderRadius: '8px',
-                                      padding: '12px',
-                                    }}
-                                    onClick={() => togglePriceSelection(price)}
-                                  >
-                                    <div className="d-sm-flex align-items-center mb-2">
-                                      <span className="avatar avatar-lg flex-shrink-0 me-2 mb-2">
-                                        {selectedPrices.some(
-                                          (p) => p.id === price.id,
-                                        ) ? (
-                                          <i className="fas fa-check-circle text-primary fs-4"></i>
-                                        ) : (
-                                          <i className="far fa-circle text-muted fs-4"></i>
-                                        )}
-                                      </span>
-                                      <div className="mb-2">
-                                        <h6 className="fs-16 fw-medium">
-                                          {price.service_price_for}
-                                        </h6>
-                                        <p className="fs-14 text-muted">
-                                          Original Price: &#8377;
-                                          {price.service_price_rate}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="pb-3">
-                                      <h6 className="fs-16 fw-medium text-primary mb-0">
-                                        &#8377;{price.service_price_amount}
-                                      </h6>
-                                    </div>
-                                  </div>
-                                ))
-                              ) : (
-                                <div className="alert alert-info">
-                                  {/* No pricing options available for this service */}
-                                 {message}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                 
 
-                  {/* <div className="accordion-item mb-4">
+
+{/* <div className="accordion-item mb-4">
+  <h2 className="accordion-header">
+    <button
+      className="accordion-button p-0"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#include"
+      aria-expanded="false"
+    >
+      Booking Options
+    </button>
+  </h2>
+  <div id="include" className="accordion-collapse collapse show">
+    <div className="accordion-body border-0 p-0 pt-3">
+      <div className="bg-light-200 p-3 br-10">
+        <div className="d-flex gap-3">
+          <button 
+            className="btn btn-primary flex-grow-1 py-3"
+            onClick={() => {
+              if (selectedPrices.length === 0) {
+                showNotification('Please select at least one service', 'error');
+                return;
+              }
+              selectedPrices.forEach(price => {
+                dispatch(addToCart({
+                  id: price.id,
+                  service_price_for: price.service_price_for,
+                  service_price_rate: price.service_price_rate,
+                  service_price_amount: price.service_price_amount,
+                  service_id: state?.service_id,
+                  service_name: state?.service_name,
+                  service_sub_id: state?.service_sub_id,
+                  service_sub_name: state?.service_sub_name
+                }));
+              });
+              showNotification('Service added to cart', 'success');
+            }}
+          >
+            <i className="fas fa-cart-plus me-2"></i> Add to Cart
+          </button>
+          <button 
+            className="btn btn-outline-primary flex-grow-1 py-3"
+         
+            onClick={() => {
+              if (selectedPrices.length === 0) {
+                showNotification('Please select at least one service', 'error');
+                return;
+              }
+              navigate('/cart')
+              selectedPrices.forEach(price => {
+                dispatch(addToCart({
+                  id: price.id,
+                  service_price_for: price.service_price_for,
+                  service_price_rate: price.service_price_rate,
+                  service_price_amount: price.service_price_amount,
+                  service_id: state?.service_id,
+                  service_name: state?.service_name,
+                  service_sub_id: state?.service_sub_id,
+                  service_sub_name: state?.service_sub_name
+                }));
+              });
+              showNotification('Service added to cart', 'success');
+            }}
+          >
+            <i className="fas fa-shopping-bag me-2"></i> Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> */}
+
+
+
+ {/* <div className="accordion-item mb-4">
                         <h2 className="accordion-header">
                           <button
                             className="accordion-button p-0"
@@ -1180,94 +1330,6 @@ style={{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div className="accordion-item mb-4">
-  <h2 className="accordion-header">
-    <button
-      className="accordion-button p-0"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#include"
-      aria-expanded="false"
-    >
-      Booking Options
-    </button>
-  </h2>
-  <div id="include" className="accordion-collapse collapse show">
-    <div className="accordion-body border-0 p-0 pt-3">
-      <div className="bg-light-200 p-3 br-10">
-        <div className="d-flex gap-3">
-          <button 
-            className="btn btn-primary flex-grow-1 py-3"
-            onClick={() => {
-              if (selectedPrices.length === 0) {
-                showNotification('Please select at least one service', 'error');
-                return;
-              }
-              selectedPrices.forEach(price => {
-                dispatch(addToCart({
-                  id: price.id,
-                  service_price_for: price.service_price_for,
-                  service_price_rate: price.service_price_rate,
-                  service_price_amount: price.service_price_amount,
-                  service_id: state?.service_id,
-                  service_name: state?.service_name,
-                  service_sub_id: state?.service_sub_id,
-                  service_sub_name: state?.service_sub_name
-                }));
-              });
-              showNotification('Service added to cart', 'success');
-            }}
-          >
-            <i className="fas fa-cart-plus me-2"></i> Add to Cart
-          </button>
-          <button 
-            className="btn btn-outline-primary flex-grow-1 py-3"
-         
-            onClick={() => {
-              if (selectedPrices.length === 0) {
-                showNotification('Please select at least one service', 'error');
-                return;
-              }
-              navigate('/cart')
-              selectedPrices.forEach(price => {
-                dispatch(addToCart({
-                  id: price.id,
-                  service_price_for: price.service_price_for,
-                  service_price_rate: price.service_price_rate,
-                  service_price_amount: price.service_price_amount,
-                  service_id: state?.service_id,
-                  service_name: state?.service_name,
-                  service_sub_id: state?.service_sub_id,
-                  service_sub_name: state?.service_sub_name
-                }));
-              });
-              showNotification('Service added to cart', 'success');
-            }}
-          >
-            <i className="fas fa-shopping-bag me-2"></i> Checkout
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
                       <div className="accordion-item mb-4">
                         <h2 className="accordion-header">
                           <button
@@ -1458,7 +1520,7 @@ style={{
                 <StickyBox>
                   <div className="card border-0 d-none d-lg-block ">
                     <div className="card-body">
-                      <div className="d-flex align-items-center justify-content-between border-bottom mb-3">
+                      <div className="d-flex align-items-center justify-content-between ">
                         <div className="d-flex align-items-center">
                           <div className="mb-3">
                             <p className="fs-14 mb-0">Starts From</p>
@@ -1478,7 +1540,7 @@ style={{
                         </div>
                         <span className="badge bg-success mb-3 d-inline-flex align-items-center fw-medium">
                           <i className="ti ti-circle-percentage me-1" />
-                          50% Offer
+                          {Math.round((1 - totalPrice / totalOriginalPrice) * 100)}% Offer
                         </span>
                       </div>
 

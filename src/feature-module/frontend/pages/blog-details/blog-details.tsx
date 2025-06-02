@@ -26,7 +26,7 @@ const BlogDetails = () => {
   if (!blog) {
     return (
       <>
-        <HomeHeader type={8} />
+        <HomeHeader  />
         <div className="page-wrapper">
         <div className="content">
           <div className="container">
@@ -104,7 +104,7 @@ const BlogDetails = () => {
 
   return (
     <>
-     <HomeHeader type={8} />
+     <HomeHeader  />
       {/* <BreadCrumb title='Blog Details' item1='Home' item2='Blog Details'/> */}
       <div className="page-wrapper">
         <div className="content">

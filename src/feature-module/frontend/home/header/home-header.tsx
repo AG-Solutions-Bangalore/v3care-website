@@ -4,6 +4,8 @@ import * as Icon from 'react-feather';
 import CityModal from '../../../components/CityModal';
 import logoNav from "../../../../logo/v3.png";
 import './home-header.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../core/redux/store';
 
 const HomeHeader = () => {
   const location = useLocation();
@@ -11,7 +13,7 @@ const HomeHeader = () => {
   const [scrollYPosition, setScrollYPosition] = useState(0);
   const [showCityModal, setShowCityModal] = useState(false);
   const [currentCity, setCurrentCity] = useState<string | null>(null);
-
+  const cartItems = useSelector((state: RootState) => state.cart.items);
   useEffect(() => {
     const storedCity = localStorage.getItem('city');
     setCurrentCity(storedCity);
@@ -111,7 +113,13 @@ const HomeHeader = () => {
                 <span>{currentCity || 'Select City'}</span>
               </button>
             </div>
-            
+            <Link to="/cart" className="cart-icon">
+  <Icon.ShoppingCart size={24} />
+  {cartItems.length > 0 && (
+    <span className="cart-count">{cartItems.length}</span>
+  )}
+</Link>
+
             <Link to="/become-vendor" className="vendor-btn">
               <Icon.User size={16} />
               <span>Become a Vendor</span>

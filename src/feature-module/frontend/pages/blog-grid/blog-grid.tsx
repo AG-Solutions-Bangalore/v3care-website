@@ -78,7 +78,7 @@ const BlogGrid = () => {
   
   return (
     <>
-     <HomeHeader type={8} />
+     <HomeHeader  />
       <BreadCrumb title="Blog" item1="Home" item2="Blog" />
       <div className="page-wrapper">
         <div className="content">

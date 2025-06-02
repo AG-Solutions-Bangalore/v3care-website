@@ -110,13 +110,18 @@ const publicRoutes = [
     route: Route,
   },
 
-  {
-    path: routes.serviceDetails1,
-    name: 'service-details-1',
+    {
+    path: '/service-details/:service_name',
+    name: 'service-details',
     element: <ServiceDetails1 />,
     route: Route,
   },
-
+  {
+    path: '/service-details/:service_name/:service_sub_name',
+    name: 'service-details-sub',
+    element: <ServiceDetails1 />,
+    route: Route,
+  },
   {
     path: '/blog-details/:id',
     name: 'blogDetails',
@@ -124,13 +129,19 @@ const publicRoutes = [
     route: Route,
   },
 
+  // {
+  //   path: '/categories/:id',
+  //   name: 'categories',
+  //   element: <Categories />,
+  //   route: Route,
+  // },
   {
-    path: '/categories/:id',
+    path: '/categories/:service_name/:id',
     name: 'categories',
     element: <Categories />,
     route: Route,
   },
-
+  
   {
     path: routes.comingSoon,
     name: 'coming-soon',

@@ -10,6 +10,7 @@ interface CartItem {
   service_name: string;
   service_sub_id?: string;
   service_sub_name?: string;
+  service_label?: string;
 }
 
 interface CartState {
@@ -30,6 +31,9 @@ const CartSlice = createSlice({
         state.items.push(action.payload);
       }
     },
+    updateCartItems: (state, action: PayloadAction<CartItem[]>) => {
+      state.items = action.payload;
+    },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(item => item.id !== action.payload);
     },
@@ -39,5 +43,6 @@ const CartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, clearCart } = CartSlice.actions;
+
+export const { addToCart, removeFromCart, clearCart ,updateCartItems} = CartSlice.actions;
 export default CartSlice.reducer;

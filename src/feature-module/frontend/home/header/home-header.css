@@ -368,6 +368,7 @@
 .cart-icon:hover {
   background: var(--primary-hover);
   transform: scale(1.05);
+  color: white;
 }
 
 .cart-count {
@@ -457,3 +458,5 @@
     height: 26px;
   }
 }
+
+/* sajid  */

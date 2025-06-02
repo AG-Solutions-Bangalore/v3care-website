@@ -21,7 +21,7 @@ interface ServiceSub {
 }
 
 const Categories = () => {
-  const { id } = useParams<{ id?: string }>();
+  const { id,service_name } = useParams<{ id?: string ,service_name?:string}>();
   const branchId = localStorage.getItem("branch_id")
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -61,7 +61,7 @@ const Categories = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate('/service-details', {
+        navigate(`/service-details/${encodeURIComponent(serviceName)}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -70,7 +70,7 @@ const Categories = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate('/service-details', {
+      navigate(`/service-details/${encodeURIComponent(serviceName)}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -104,7 +104,7 @@ const Categories = () => {
     return (
       <>
        <HomeHeader  />
-        <BreadCrumb title="Categories" item1="Categories" />
+        <BreadCrumb title="Categories" item1={service_name} />
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
             <div className="spinner-border text-primary" role="status">
@@ -121,7 +121,7 @@ const Categories = () => {
     return (
       <>
          <HomeHeader  />
-        <BreadCrumb title="Categories" item1="Categories" />
+        <BreadCrumb title="Categories" item1={service_name} />
         <div className="d-flex justify-content-center align-items-center vh-80">
           <div className="alert alert-danger d-flex align-items-center mt-4" role="alert">
             <i className="fas fa-exclamation-circle me-2"></i>
@@ -143,7 +143,7 @@ const Categories = () => {
     return (
       <>
        <HomeHeader  />
-        <BreadCrumb title="Categories" item1="Categories" />
+        <BreadCrumb title="Categories" item1={service_name} />
         <div className="d-flex justify-content-center align-items-center vh-50">
           <div className="text-center mb-4">
             <img
@@ -168,7 +168,7 @@ const Categories = () => {
   return (
     <>
      <HomeHeader />
-      <BreadCrumb title="Categories" item1="Categories" />
+      <BreadCrumb title="Categories" item1={service_name} />
       <div className="page-wrapper">
         <div className="content">
           <div className="container">
@@ -257,7 +257,7 @@ const Categories = () => {
                 <div key={subService.id} className="col-6 col-sm-4 col-md-3" >
                   <div 
                     className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                    onClick={() => navigate('/service-details', {
+                    onClick={() => navigate(`/service-details/${selectedService?.service}/${subService.service_sub}`, {
                       state: {
                         service_id: selectedService?.id,
                         service_name: selectedService?.service,

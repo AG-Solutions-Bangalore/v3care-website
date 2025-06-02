@@ -107,7 +107,7 @@ const ServiceGrid = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate('/service-details', {
+        navigate(`/service-details/${encodeURIComponent(serviceName)}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -116,7 +116,7 @@ const ServiceGrid = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate('/service-details', {
+      navigate(`/service-details/${encodeURIComponent(serviceName)}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -494,7 +494,7 @@ const ServiceGrid = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3">
                         <div 
                           className="card h-100 border-0 overflow-hidden position-relative"
-                          onClick={() => navigate('/service-details', {
+                          onClick={() => navigate(`/service-details/${selectedService?.service}/${subService.service_sub}`, {
                             state: {
                               service_id: selectedService?.id,
                               service_name: selectedService?.service,
@@ -536,21 +536,7 @@ const ServiceGrid = () => {
                               }}
                             />
 
-{/* <img
-                              src={"https://agscare.site/crmapi/storage/app/public/blog/blog9.jpg"}
-                              alt={subService.service_sub}
-                              className="img-fluid"
-                              style={{ 
-                                objectFit: 'cover',
-                                objectPosition: 'center',
-                                height: '100%',
-                                width: '100%'
-                              }}
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.src = `${NO_IMAGE_URL}`;
-                              }}
-                            /> */}
+
                           </div>
                           <div className="card-body p-2 text-center">
                             <h6 className="card-title mb-0" style={{

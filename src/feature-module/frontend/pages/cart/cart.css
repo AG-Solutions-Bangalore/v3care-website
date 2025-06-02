@@ -1,6 +1,6 @@
 /* cart.css */
 .cart-container {
-  padding: 20px 0;
+  padding: 10px 0;
   background-color: #f8f9fa;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .card-body {
-  padding: 20px;
+  padding: 10px;
 }
 
 /* Booking Summary Styles */
@@ -148,11 +148,14 @@
 
 .btn-pay-now:hover {
   background-color: #3a56d4;
+  color: white;
 }
 
 .btn-pay-now:disabled {
-  background-color: #6c757d;
+  background-color: #6894ba;
   opacity: 0.65;
+  color: black;
+  border-color: #4f8ec6;
 }
 
 .btn-pay-later {
@@ -166,8 +169,8 @@
 }
 
 .btn-pay-later:disabled {
-  color: #6c757d;
-  border-color: #6c757d;
+  color: black;
+  border-color: #4f8ec6;
   opacity: 0.65;
 }
 
@@ -224,7 +227,7 @@
 
 /* Cart Items */
 .cart-service-group {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   border: 1px solid #eee;
   border-radius: 8px;
   overflow: hidden;
@@ -257,36 +260,71 @@
 .cart-item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 12px 15px;
+  align-items: flex-start;
+  padding: 10px 15px;
   border-bottom: 1px solid #f1f1f1;
+  gap: 10px;
 }
 
 .cart-item:last-child {
   border-bottom: none;
 }
 
-.item-details h5 {
-  margin: 0 0 5px 0;
-  font-size: 0.95rem;
-  color: #495057;
+.item-details {
+  flex: 1;
+  min-width: 0;
 }
 
-.original-price {
-  font-size: 0.8rem;
+.item-details h5 {
+  margin: 0 0 3px 0;
+  font-size: 0.85rem;
+  color: #495057;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.service-sub-name {
+  margin: 0 0 5px 0;
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* .original-price {
+  margin: 0;
+  font-size: 0.75rem;
   color: #6c757d;
   text-decoration: line-through;
-}
+  position: relative;
+} */
 
-.item-actions {
+/* .item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  flex-shrink: 0;
+} */
+.item-actions .original-price {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #6c757d;
+  text-decoration: line-through;
+  position: relative;
+  text-align: right;
+}
+.price-remove-row {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
 }
 
 .item-price {
   font-weight: 600;
   color: #28a745;
+  font-size: 0.85rem;
+  position: relative;
 }
 
 .btn-remove-item {
@@ -294,13 +332,24 @@
   border: none;
   color: #dc3545;
   cursor: pointer;
-  font-size: 0.9rem;
-  padding: 5px;
+  font-size: 0.75rem;
+  padding: 3px 5px;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-remove-item:hover {
+  background: rgba(220, 53, 69, 0.1);
+}
+
+.btn-remove-item:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Order Summary */
 .order-summary {
-  margin-top: 25px;
+  margin-top: 10px;
   border: 1px solid #eee;
   border-radius: 8px;
   padding: 15px;
@@ -388,10 +437,43 @@
   color: #333;
 }
 
+/* Loading Spinner Styles */
+.price-placeholder {
+  display: inline-block;
+}
+
+.price-loading-spinner {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+}
+
+.original-price,
+.item-price {
+  position: relative;
+  min-height: 1em;
+}
+
+.spinner-border {
+  color: #4361ee;
+  width: 0.8em;
+  height: 0.8em;
+  border-width: 0.12em;
+}
+
+.spinner-border-sm {
+  width: 0.8em;
+  height: 0.8em;
+  border-width: 0.12em;
+}
+
 /* Responsive Styles */
 @media (max-width: 992px) {
   .cart-container {
-    padding: 15px;
+    padding: 5px;
   }
   
   .form-actions {
@@ -411,6 +493,31 @@
   .card-header h2 {
     font-size: 1.3rem;
   }
+  
+  .cart-item {
+    padding: 8px 12px;
+  }
+  
+  .item-details h5 {
+    font-size: 0.8rem;
+  }
+  
+  .service-sub-name {
+    font-size: 0.7rem;
+  }
+  
+  .original-price {
+    font-size: 0.7rem;
+  }
+  
+  .item-price {
+    font-size: 0.8rem;
+  }
+  
+  .btn-remove-item {
+    font-size: 0.7rem;
+    padding: 2px 4px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -425,13 +532,29 @@
   }
   
   .cart-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  
+  .item-details h5 {
+    font-size: 0.75rem;
+  }
+  
+  .service-sub-name {
+    font-size: 0.65rem;
+  }
+  
+  .original-price {
+    font-size: 0.65rem;
+  }
+  
+  .item-price {
+    font-size: 0.75rem;
   }
   
   .item-actions {
-    width: 100%;
-    justify-content: space-between;
+    gap: 3px;
   }
 }
+
+/* //sajid  */

@@ -4,7 +4,7 @@ const RefreshLoader = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Show loader immediately when component mounts during refresh
+   
     const wasRefreshed = performance.getEntriesByType('navigation')[0]?.type === 'reload';
     if (wasRefreshed) {
       setIsLoading(true);
@@ -12,13 +12,13 @@ const RefreshLoader = () => {
 
     const handleBeforeUnload = () => {
       setIsLoading(true);
-      // Also set it in DOM for immediate visual feedback
+
       const loader = document.getElementById('refresh-loader');
       if (loader) loader.style.display = 'flex';
     };
 
     const handleLoad = () => {
-      // Hide loader after a short delay to ensure smooth transition
+   
       setTimeout(() => {
         setIsLoading(false);
       }, 500);

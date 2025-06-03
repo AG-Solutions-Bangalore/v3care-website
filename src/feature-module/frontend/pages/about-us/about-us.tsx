@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
@@ -49,9 +48,7 @@ const AboutUs = () => {
   };
 
   useEffect(() => {
-    AOS.init({
-      duration: 1000,
-    });
+   
     fetchTestimonials();
   }, []);
   const clientSlider = {
@@ -79,7 +76,7 @@ const AboutUs = () => {
   };
   return (
     <>
-    <HomeHeader type={8} />
+    <HomeHeader />
       <BreadCrumb title='About Us' item1='Home' item2='About Us' />
       <>
   {/* Page Wrapper */}
@@ -522,212 +519,6 @@ const AboutUs = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-      {/* /Choose Us Section */}
-      {/* Providers Section */}
-      {/* <section className="providers-section abt-provider">
-        <div className="container">
-          <div className="section-heading">
-            <div className="row">
-              <div className="col-md-6">
-                <p className="mb-0 fs-16">Meet Our Experts</p>
-                <h2 className="fs-32">Top Providers</h2>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="card providerset p-0 flex-fill">
-                <div className="card-body">
-                  <div className="providerset-img">
-                    <Link to="/">
-                      <ImageWithBasePath
-                        src="assets/img/providers/provider-12.jpg"
-                        alt="img"
-                      />
-                    </Link>
-                  </div>
-                  <div className="providerset-content">
-                    <div className="providerset-price">
-                      <div className="d-flex justify-content-between align-items-center flex-fill">
-                        <div className="providerset-name">
-                          <h4 className="d-flex align-items-center">
-                            <Link
-                              to="/"
-                              className="me-1 text-truncate"
-                            >
-                              John Smith
-                            </Link>
-                            <i className="ti ti-circle-check-filled text-success" />
-                          </h4>
-                          <span>Electrician</span>
-                        </div>
-                        <div className="providerset-prices">
-                          <h6>
-                            $20.00<span>/hr</span>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="provider-rating">
-                      <div className="rating fs-13">
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-half-filled text-warning me-1" />
-                        <span className="fs-13">(320)</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="card providerset p-0">
-                <div className="card-body">
-                  <div className="providerset-img">
-                    <Link to="/">
-                      <ImageWithBasePath
-                        src="assets/img/providers/provider-01.jpg"
-                        alt="img"
-                      />
-                    </Link>
-                  </div>
-                  <div className="providerset-content">
-                    <div className="providerset-price">
-                      <div className="d-flex justify-content-between align-items-center flex-fill">
-                        <div className="providerset-name">
-                          <h4 className="d-flex align-items-center">
-                            <Link to="/" className="me-1">
-                              Michael
-                            </Link>
-                            <i className="ti ti-circle-check-filled text-success" />
-                          </h4>
-                          <span>Carpenter</span>
-                        </div>
-                        <div className="providerset-prices">
-                          <h6>
-                            $50.00<span>/hr</span>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="provider-rating">
-                      <div className="rating fs-13">
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-half-filled text-warning me-1" />
-                        <span className="fs-13">(228)</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="card providerset p-0">
-                <div className="card-body">
-                  <div className="providerset-img">
-                    <Link to="/">
-                      <ImageWithBasePath
-                        src="assets/img/providers/provider-02.jpg"
-                        alt="img"
-                      />
-                    </Link>
-                  </div>
-                  <div className="providerset-content">
-                    <div className="providerset-price">
-                      <div className="d-flex justify-content-between align-items-center flex-fill">
-                        <div className="providerset-name">
-                          <h4 className="d-flex align-items-center">
-                            <Link to="/" className="me-1">
-                              Antoinette
-                            </Link>
-                            <i className="ti ti-circle-check-filled text-success" />
-                          </h4>
-                          <span>Cleaner</span>
-                        </div>
-                        <div>
-                          <div className="providerset-prices">
-                            <h6>
-                              $25.00<span>/hr</span>
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="provider-rating">
-                      <div className="rating fs-13">
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-half-filled text-warning me-1" />
-                        <span className="fs-13">(130)</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-6">
-              <div className="card providerset p-0">
-                <div className="card-body">
-                  <div className="providerset-img">
-                    <Link to="/">
-                      <ImageWithBasePath
-                        src="assets/img/providers/provider-03.jpg"
-                        alt="img"
-                      />
-                    </Link>
-                  </div>
-                  <div className="providerset-content">
-                    <div className="providerset-price">
-                      <div className="d-flex justify-content-between align-items-center flex-fill">
-                        <div className="providerset-name">
-                          <h4 className="d-flex align-items-center">
-                            <Link to="/" className="me-1">
-                              Thompson
-                            </Link>
-                            <i className="ti ti-circle-check-filled text-success" />
-                          </h4>
-                          <span>Mechanic</span>
-                        </div>
-                        <div className="providerset-prices">
-                          <h6>
-                            $30.00<span>/hr</span>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="provider-rating">
-                      <div className="rating fs-13">
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-filled text-warning" />
-                        <i className="ti ti-star-half-filled text-warning me-1" />
-                        <span className="fs-13">(95)</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
       {/* /Providers Section */}
       {/* Client Section */}
       <section className="client-section client-section-about">
@@ -796,6 +587,8 @@ const AboutUs = () => {
                       <img
                             src={getTestimonialImageUrl(testimonial.testimonial_image)}
                             alt={testimonial.testimonial_user}
+                            loading="lazy"
+  decoding="async"
                             className="img-fluid rounded-circle"
                           />
                     </div>

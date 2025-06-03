@@ -487,7 +487,7 @@ style={{
     </div>
   ))}
 </div>
-<HomeHeader type={8} />
+<HomeHeader  />
       <div className="page-wrapper">
         <div className="content">
           <div className="container">

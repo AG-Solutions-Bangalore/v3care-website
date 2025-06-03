@@ -27,7 +27,7 @@ const AllRoutes = () => {
     setCurrentCity(city);
     setShowCityModal(false);
   
-    // Dispatch the city name as a string, not an object
+   
     window.dispatchEvent(new CustomEvent('cityChanged', { detail: city }));
   };
   
@@ -39,7 +39,7 @@ const AllRoutes = () => {
 
   return (
     <>
-    <RefreshLoader/>
+    {/* <RefreshLoader/> */}
     <JoinUs/>
     {/* <HomeHeader type={8} /> */}
     <ScrollToTop/>

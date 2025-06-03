@@ -49,7 +49,7 @@ const JoinUs: React.FC = () => {
           {/* Phone icon */}
           <a href="tel:+919880778585" style={{
             color: 'white',
-            backgroundColor: '#6366f1',
+            backgroundColor: '#000000',
             border: '1px solid white',
             borderRadius: '50%',
             padding: '8px',
@@ -66,7 +66,7 @@ const JoinUs: React.FC = () => {
           {/* WhatsApp icon */}
           <a href="https://wa.me/919880778585" style={{
             color: 'white',
-            backgroundColor: '#6366f1',
+            backgroundColor: '#000000',
             border: '1px solid white',
             borderRadius: '50%',
             padding: '8px',
@@ -83,7 +83,7 @@ const JoinUs: React.FC = () => {
           {/* Mail icon */}
           <a href="mailto:info@v3care.com" style={{
             color: 'white',
-            backgroundColor: '#6366f1',
+            backgroundColor: '#000000',
             border: '1px solid white',
             borderRadius: '50%',
             padding: '8px',
@@ -105,7 +105,7 @@ const JoinUs: React.FC = () => {
           right: '0',
           height: '50px',
           width: '50px',
-          backgroundColor: '#6366f1',
+          backgroundColor: '#000000',
           border: '1px solid white',
           borderRadius: '50%',
           cursor: 'pointer',

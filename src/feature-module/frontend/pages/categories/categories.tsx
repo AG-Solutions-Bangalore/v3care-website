@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import axios from 'axios';
 import * as Icon from 'react-feather';
@@ -21,7 +20,7 @@ interface ServiceSub {
 }
 
 const Categories = () => {
-  const { id,service_name } = useParams<{ id?: string ,service_name?:string}>();
+  const { id,category_name } = useParams<{ id?: string ,category_name?:string}>();
   const branchId = localStorage.getItem("branch_id")
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -61,7 +60,7 @@ const Categories = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate(`/service-details/${encodeURIComponent(serviceName)}`, {
+        navigate(`/service-details/${category_name}/${id}/${encodeURIComponent(serviceName)}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -70,7 +69,7 @@ const Categories = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate(`/service-details/${encodeURIComponent(serviceName)}`, {
+      navigate(`/service-details/${category_name}/${id}/${encodeURIComponent(serviceName)}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -96,7 +95,7 @@ const Categories = () => {
   };
 
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
+  
     fetchServices();
   }, [id]);
 
@@ -104,7 +103,7 @@ const Categories = () => {
     return (
       <>
        <HomeHeader  />
-        <BreadCrumb title="Categories" item1={service_name} />
+        <BreadCrumb title="Categories" item1={category_name} />
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
             <div className="spinner-border text-primary" role="status">
@@ -121,7 +120,7 @@ const Categories = () => {
     return (
       <>
          <HomeHeader  />
-        <BreadCrumb title="Categories" item1={service_name} />
+        <BreadCrumb title="Categories" item1={category_name} />
         <div className="d-flex justify-content-center align-items-center vh-80">
           <div className="alert alert-danger d-flex align-items-center mt-4" role="alert">
             <i className="fas fa-exclamation-circle me-2"></i>
@@ -143,12 +142,14 @@ const Categories = () => {
     return (
       <>
        <HomeHeader  />
-        <BreadCrumb title="Categories" item1={service_name} />
+        <BreadCrumb title="Categories" item1={category_name} />
         <div className="d-flex justify-content-center align-items-center vh-50">
           <div className="text-center mb-4">
             <img
               src={`${NO_IMAGE_URL}`}
               alt="No services found"
+              loading="lazy"
+  decoding="async"
               className="img-fluid mb-3"
               style={{ maxWidth: '300px' }}
             />
@@ -168,7 +169,7 @@ const Categories = () => {
   return (
     <>
      <HomeHeader />
-      <BreadCrumb title="Categories" item1={service_name} />
+      <BreadCrumb title="Categories" item1={category_name} />
       <div className="page-wrapper">
         <div className="content">
           <div className="container">
@@ -183,9 +184,12 @@ const Categories = () => {
                       >
                         <div className="mb-3 w-100" style={{ height: '150px', overflow: 'hidden' }}>
                           <img
+                         
                             src={getImageUrl(service.service_image)}
                             className="img-fluid w-100 h-100 object-fit-cover"
                             alt={service.service}
+                             loading="lazy"
+  decoding="async"
                             style={{ borderRadius: '8px' }}
                           />
                         
@@ -215,7 +219,7 @@ const Categories = () => {
       }}>
         {/* Modal Header - Pink Theme */}
         <div className="modal-header py-3 px-4" style={{
-            background: '#6366f1',
+            background: '#000000',
           borderBottom: 'none'
         }}>
           <h5 className="modal-title text-white" style={{
@@ -257,7 +261,7 @@ const Categories = () => {
                 <div key={subService.id} className="col-6 col-sm-4 col-md-3" >
                   <div 
                     className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                    onClick={() => navigate(`/service-details/${selectedService?.service}/${subService.service_sub}`, {
+                    onClick={() => navigate(`/service-details/${category_name}/${id}/${selectedService?.service}/${subService.service_sub}`, {
                       state: {
                         service_id: selectedService?.id,
                         service_name: selectedService?.service,
@@ -288,6 +292,8 @@ const Categories = () => {
                         src={getImageUrl(subService.service_sub_image, true)}
                         alt={subService.service_sub}
                         className="img-fluid object-fit-cover"
+                        loading="lazy"
+  decoding="async"
                         style={{ 
                           objectPosition: 'center',
                           height: '100%',
@@ -332,7 +338,7 @@ const Categories = () => {
             onClick={() => setShowSubServiceModal(false)}
             style={{
               fontSize: '0.8rem',
-              backgroundColor: '#6366f1',
+              backgroundColor: '#000000',
               color: 'white',
               border: 'none',
               borderRadius: '8px',

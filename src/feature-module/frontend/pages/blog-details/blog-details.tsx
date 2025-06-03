@@ -144,6 +144,8 @@ const BlogDetails = () => {
                       <img
                         className="img-fluid"
                         src={`${BLOG_IMAGE_URL}/${blog.img}`}
+                        loading="lazy"
+  decoding="async"
                         alt="Post Image"
                       />
                     </div>
@@ -169,6 +171,8 @@ const BlogDetails = () => {
                                   className="img-fluid"
                                   src={`${BLOG_IMAGE_URL}/${latestBlog.img}`}
                                   alt="Blog Image"
+                                  loading="lazy"
+  decoding="async"
                                 />
                               </Link>
                             </div>

@@ -121,7 +121,7 @@ const ContactUs = () => {
   
   return (
     <>
-     <HomeHeader type={8} />
+     <HomeHeader  />
      <BreadCrumb title='Contact Us' item1='Home' item2='Contact Us'/>
      <div className="page-wrapper">
   <div className="content">

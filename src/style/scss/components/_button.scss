@@ -64,8 +64,8 @@ button {
         &.focus,
         &:active,
         &.active {
-            background-color: darken($primary-900, 7%);
-            border: 1px solid darken($primary-900, 7%);
+            background-color: darken(#3a56d4, 7%);
+            border: 1px solid darken(#3a56d4, 7%);
             color: $white;
         }
     }

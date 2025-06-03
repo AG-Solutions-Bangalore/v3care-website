@@ -1,38 +1,59 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Navigate, Route } from 'react-router-dom';
 import { all_routes } from '../../core/data/routes/all_routes';
 import HomeSeven from '../frontend/home/home-seven/home-seven';
-import Booking1 from '../frontend/pages/booking/booking-1';
 
-import AboutUs from '../frontend/pages/about-us/about-us';
-import Client from '../frontend/pages/client/client';
-import ServiceGrid from '../frontend/pages/service-grid/service-grid';
-import BlogGrid from '../frontend/pages/blog-grid/blog-grid';
-import ContactUs from '../frontend/pages/contact-us/contact-us';
-import ServiceRequest from '../frontend/pages/service-request/serviceRequest';
-import ServiceDetails1 from '../frontend/pages/service-details/service-details1';
-import BlogDetails from '../frontend/pages/blog-details/blog-details';
-import Categories from '../frontend/pages/categories/categories';
-import CommingSoon from '../frontend/pages/comming-soon/comming-soon';
-import Faq from '../frontend/pages/faq/faq';
-import Howitworks from '../frontend/pages/how-it-works/how-it-works';
-import TermsCondition from '../frontend/pages/terms-condition/terms-condition';
-import Installer from '../frontend/pages/installer/installer';
-import Maintenance from '../frontend/pages/maintenance/maintenance';
-import Pricing from '../frontend/pages/pricing/pricing';
-import PrivacyPolicy from '../frontend/pages/privacy-policy/privacy-policy';
-import BookingWizard from '../frontend/pages/booking/booking-wizard';
-import BookingDetails from '../frontend/pages/booking/booking-details';
-import SessionExpired from '../frontend/pages/session-expired/session-expired';
+
+const AboutUs = lazy(() => import('../frontend/pages/about-us/about-us'));
+const Client = lazy(() => import('../frontend/pages/client/client'));
+const ServiceGrid = lazy(() => import('../frontend/pages/service-grid/service-grid'));
+const BlogGrid = lazy(() => import('../frontend/pages/blog-grid/blog-grid'));
+const ContactUs = lazy(() => import('../frontend/pages/contact-us/contact-us'));
+const ServiceRequest = lazy(() => import('../frontend/pages/service-request/serviceRequest'));
+const BlogDetails = lazy(() => import('../frontend/pages/blog-details/blog-details'));
+const Categories = lazy(() => import('../frontend/pages/categories/categories'));
+
+
 import PaymentSuccess from '../frontend/pages/payment-success/payment-success';
 import BookingFailed from '../frontend/pages/payment-success/booking-failed';
 import Cart from '../frontend/pages/cart/Cart';
+import ServiceDetails1 from '../frontend/pages/service-details/service-details1';
+import HomeHeader from '../frontend/home/header/home-header';
 
+
+
+const SuspenseLoader = () => (
+  <>
+  <HomeHeader/>
+  <div style={{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    backgroundColor: 'rgba(240, 248, 255, 0.8)'
+  }}>
+    <div style={{
+      width: '50px',
+      height: '50px',
+      border: '5px solid #e0f2fe',
+      borderTopColor: '#38bdf8',
+      borderRadius: '50%',
+      animation: 'spin 1s linear infinite',
+    }}></div>
+    <style>{`
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    `}</style>
+  </div>
+
+  </>
+);
 
 const routes = all_routes;
 
 const publicRoutes = [
- // we are working on this 
+
   {
     path: routes.index,
     name: 'Home',
@@ -54,20 +75,12 @@ const publicRoutes = [
   },
 
   // pages module's path
-  {
-    path: routes.booking1,
-    name: 'booking-1',
-    element: <Booking1 />,
-    route: Route,
-  },
- 
- 
+  
   // pages routes 
-
   {
     path: routes.client,
     name: 'client',
-    element: <Client />,
+    element: <Suspense fallback={<SuspenseLoader />}><Client /></Suspense>,
     route: Route,
   },
   {
@@ -80,37 +93,43 @@ const publicRoutes = [
   {
     path: routes.aboutUs,
     name: 'about-us',
-    element: <AboutUs />,
+    element: <Suspense fallback={<SuspenseLoader />}><AboutUs /></Suspense>,
     route: Route,
   },
   {
     path: routes.serviceGrid,
     name: 'ServiceGrid',
-    element: <ServiceGrid />,
+    element: <Suspense fallback={<SuspenseLoader />}><ServiceGrid /></Suspense>,
     route: Route,
   },
 
   {
     path: routes.blogGrid,
-    name: ' blogGrid',
-    element: <BlogGrid />,
+    name: 'blogGrid',
+    element: <Suspense fallback={<SuspenseLoader />}><BlogGrid /></Suspense>,
     route: Route,
   },
 
   {
     path: routes.contactUs,
     name: 'contact-us',
-    element: <ContactUs />,
+    element: <Suspense fallback={<SuspenseLoader />}><ContactUs /></Suspense>,
     route: Route,
   },
   {
     path: routes.serviceRequest,
     name: 'service-request',
-    element: <ServiceRequest />,
+    element: <Suspense fallback={<SuspenseLoader />}><ServiceRequest /></Suspense>,
     route: Route,
   },
 
-    {
+  {
+    path: '/service-details/:category_name/:id/:service_name',
+    name: 'service-details',
+    element: <ServiceDetails1 />,
+    route: Route,
+  },
+  {
     path: '/service-details/:service_name',
     name: 'service-details',
     element: <ServiceDetails1 />,
@@ -123,31 +142,25 @@ const publicRoutes = [
     route: Route,
   },
   {
+    path: '/service-details/:category_name/:id/:service_name/:service_sub_name',
+    name: 'service-details-sub',
+    element: <ServiceDetails1 />,
+    route: Route,
+  },
+  {
     path: '/blog-details/:id',
     name: 'blogDetails',
-    element: <BlogDetails />,
+    element: <Suspense fallback={<SuspenseLoader />}><BlogDetails /></Suspense>,
     route: Route,
   },
 
-  // {
-  //   path: '/categories/:id',
-  //   name: 'categories',
-  //   element: <Categories />,
-  //   route: Route,
-  // },
   {
-    path: '/categories/:service_name/:id',
+    path: '/categories/:category_name/:id',
     name: 'categories',
-    element: <Categories />,
+    element: <Suspense fallback={<SuspenseLoader />}><Categories /></Suspense>,
     route: Route,
   },
   
-  {
-    path: routes.comingSoon,
-    name: 'coming-soon',
-    element: <CommingSoon />,
-    route: Route,
-  },
   {
     path: routes.paymentSuccess,
     name: 'payment-success',
@@ -155,93 +168,12 @@ const publicRoutes = [
     route: Route,
   },
 
-
-
   {
     path: routes.bookingFailed,
     name: 'booking-failed',
     element: <BookingFailed />,
     route: Route,
   },
-
-
-  {
-    path: routes.faq,
-    name: 'faq',
-    element: <Faq />,
-    route: Route,
-  },
-  {
-    path: routes.howItWorks,
-    name: 'how-it-works',
-    element: <Howitworks />,
-    route: Route,
-  },
-
-
-  {
-    path: routes.termsCondition,
-    name: 'terms-condition',
-    element: <TermsCondition />,
-    route: Route,
-  },
-  {
-    path: routes.installer,
-    name: 'installer',
-    element: <Installer />,
-    route: Route,
-  },
-  
-  {
-    path: routes.maintenance,
-    name: 'maintenance',
-    element: <Maintenance />,
-    route: Route,
-  },
-  {
-    path: routes.pricingPlan,
-    name: 'pricing',
-    element: <Pricing />,
-    route: Route,
-  },
-  {
-    path: routes.privacyPolicy,
-    name: 'privacy-policy',
-    element: <PrivacyPolicy />,
-    route: Route,
-  },
-  {
-    path: routes.bookings,
-    name: 'booking',
-    element: <BookingWizard />,
-    route: Route,
-  },
-  {
-    path: routes.booking1,
-    name: 'booking-1 ',
-    element: <Booking1 />,
-    route: Route,
-  },
-  {
-    path: routes.bookingDetails,
-    name: 'booking-details',
-    element: <BookingDetails />,
-    route: Route,
-  },
-  {
-    path: routes.sessionExpired,
-    name: 'SessionExpired',
-    element: <SessionExpired />,
-    route: Route,
-  },
-
-  
-
-
-
-
-
-
 ];
 
 export { publicRoutes };

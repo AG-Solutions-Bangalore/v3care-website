@@ -1,0 +1,64 @@
+/* ServiceGridSkeleton.css */
+.service-grid-skeleton .card {
+    transition: all 0.2s;
+    cursor: wait !important; /* Show waiting cursor on skeleton cards */
+  }
+  
+  .service-grid-skeleton .card-img-top {
+    height: 160px;
+    background-color: #e9ecef;
+  }
+  
+  .service-grid-skeleton .card-title .placeholder,
+  .service-grid-skeleton .card-text .placeholder {
+    height: 1.2rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+  }
+  
+  .service-grid-skeleton .badge .placeholder {
+    width: 2rem;
+    height: 1rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+  }
+  
+  /* Animation for skeleton loading */
+  @keyframes service-skeleton-pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+  
+  .service-grid-skeleton .placeholder-glow .placeholder {
+    animation: service-skeleton-pulse 1.5s infinite ease-in-out;
+  }
+  
+  /* Sub-service modal skeleton specific styles */
+  .subservice-modal-skeleton .card {
+    border: 2px solid rgba(236, 72, 153, 0.1);
+    border-radius: 8px;
+    cursor: wait !important;
+  }
+  
+  .subservice-modal-skeleton .ratio {
+    background-color: #fdf2f8;
+  }
+  
+  .subservice-modal-skeleton .card-title .placeholder {
+    height: 1rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+    margin: 0.25rem 0;
+  }
+  
+  /* Specific animation for modal skeleton */
+  @keyframes subservice-skeleton-pulse {
+    0% { background-color: rgba(233, 236, 239, 0.6); }
+    50% { background-color: rgba(233, 236, 239, 0.9); }
+    100% { background-color: rgba(233, 236, 239, 0.6); }
+  }
+  
+  .subservice-modal-skeleton .placeholder-glow .placeholder {
+    animation: subservice-skeleton-pulse 1.5s infinite ease-in-out;
+  }

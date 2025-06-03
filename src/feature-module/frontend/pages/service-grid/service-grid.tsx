@@ -44,10 +44,7 @@ const ServiceGrid = () => {
   const [subServiceLoading, setSubServiceLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Initialize AOS
-  // useEffect(() => {
-  //   AOS.init({ duration: 1000, once: true });
-  // }, []);
+  
 
   // Filter services based on search query
   useEffect(() => {
@@ -98,7 +95,7 @@ const ServiceGrid = () => {
   };
 
   // Fetch sub-services
-  const fetchSubServices = async (serviceId: number, serviceName: string) => {
+  const fetchSubServices = async (serviceId: number, serviceName: string, superCategory: string, superCategoryId: number) => {
     try {
       setSubServiceLoading(true);
       const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceId}/${branchId}`);
@@ -107,7 +104,7 @@ const ServiceGrid = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate(`/service-details/${encodeURIComponent(serviceName)}`, {
+        navigate(`/service-details/${encodeURIComponent(superCategory)}/${superCategoryId}/${encodeURIComponent(serviceName)}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -116,7 +113,7 @@ const ServiceGrid = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate(`/service-details/${encodeURIComponent(serviceName)}`, {
+      navigate(`/service-details/${encodeURIComponent(superCategory)}/${superCategoryId}/${encodeURIComponent(serviceName)}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -128,8 +125,13 @@ const ServiceGrid = () => {
   };
 
   const handleServiceClick = (service: Service) => {
+    // setSelectedService(service);
+    // fetchSubServices(service.id, service.service);
     setSelectedService(service);
-    fetchSubServices(service.id, service.service);
+    const superCategory = serviceSupers.find(superCat => superCat.id === activeSuperCategory);
+    if (superCategory) {
+        fetchSubServices(service.id, service.service, superCategory.serviceSuper, superCategory.id);
+    }
   };
 
   const handleSuperCategoryClick = (superCategoryId: number) => {
@@ -331,6 +333,8 @@ const ServiceGrid = () => {
                     <img
                       src={`${NO_IMAGE_URL}`}
                       alt="No services found"
+                      loading="lazy"
+  decoding="async"
                       className="img-fluid mb-4"
                       style={{ maxWidth: '280px', opacity: 0.7 }}
                     />
@@ -358,8 +362,7 @@ const ServiceGrid = () => {
                     <div 
                       className="card h-100 border-0 overflow-hidden position-relative"
                       onClick={() => handleServiceClick(service)}
-                      // data-aos="fade-up"
-                      // data-aos-delay={index % 10 * 50}
+                  
                       style={{
                         transition: 'all 0.2s',
                         cursor: 'pointer'
@@ -377,6 +380,8 @@ const ServiceGrid = () => {
                         <img
                           src={getImageUrl(service.service_image)}
                           className="w-100 h-100"
+                          loading="lazy"
+  decoding="async"
                           alt={service.service}
                           style={{ objectFit: 'cover' }}
                           onError={(e) => {
@@ -453,7 +458,7 @@ const ServiceGrid = () => {
             }}>
               {/* Modal Header - Pink Theme */}
               <div className="modal-header py-3 px-4" style={{
-                background: '#6366f1',
+                background: '#000000',
                 borderBottom: 'none'
               }}>
                 <h5 className="modal-title text-white" style={{
@@ -494,14 +499,27 @@ const ServiceGrid = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3">
                         <div 
                           className="card h-100 border-0 overflow-hidden position-relative"
-                          onClick={() => navigate(`/service-details/${selectedService?.service}/${subService.service_sub}`, {
-                            state: {
-                              service_id: selectedService?.id,
-                              service_name: selectedService?.service,
-                              service_sub_id: subService.id,
-                              service_sub_name: subService.service_sub
+                          // onClick={() => navigate(`/service-details/${selectedService?.service}/${subService.service_sub}`, {
+                          //   state: {
+                          //     service_id: selectedService?.id,
+                          //     service_name: selectedService?.service,
+                          //     service_sub_id: subService.id,
+                          //     service_sub_name: subService.service_sub
+                          //   }
+                          // })}
+                          onClick={() => {
+                            const superCategory = serviceSupers.find(superCat => superCat.id === activeSuperCategory);
+                            if (superCategory) {
+                                navigate(`/service-details/${encodeURIComponent(superCategory.serviceSuper)}/${superCategory.id}/${selectedService?.service}/${encodeURIComponent(subService.service_sub)}`, {
+                                    state: {
+                                        service_id: selectedService?.id,
+                                        service_name: selectedService?.service,
+                                        service_sub_id: subService.id,
+                                        service_sub_name: subService.service_sub
+                                    }
+                                });
                             }
-                          })}
+                        }}
                           style={{
                             cursor: 'pointer',
                             transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -524,6 +542,8 @@ const ServiceGrid = () => {
                               src={getImageUrl(subService.service_sub_image, true)}
                               alt={subService.service_sub}
                               className="img-fluid"
+                              loading="lazy"
+  decoding="async"
                               style={{ 
                                 objectFit: 'cover',
                                 objectPosition: 'center',
@@ -570,7 +590,7 @@ const ServiceGrid = () => {
                   onClick={() => setShowSubServiceModal(false)}
                   style={{
                     fontSize: '0.8rem',
-                    backgroundColor: '#6366f1',
+                    backgroundColor: '#000000',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',

@@ -38,7 +38,7 @@
   .p-dropdown-items-wrapper
   .p-dropdown-items
   .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
-  background-color: #6366f1;
+  background-color: #000000;
   color: #fff;
 }
 
@@ -291,7 +291,7 @@ div.slick-slider.service-slider button:hover,
 .client-section .slick-slider button:hover,
 .slick-slider.catering-slider button:hover,
 .slick-slider.categories-slider-seven button:hover {
-  background-color: #6366f1;
+  background-color: #000000;
 }
 
 button.slick-prev:before,
@@ -303,7 +303,7 @@ div.slick-slider.service-slider button:focus,
 .popular-slider .slick-slider button:focus,
 .client-section .slick-slider button:focus,
 .slick-slider.catering-slider button:focus {
-  background-color: #6366f1;
+  background-color: #000000;
 }
 
 .service-section .slick-slider.service-slider div.slick-slide > div,
@@ -439,7 +439,7 @@ div.slick-slider.service-slider button:focus,
 }
 
 .home-four-wrapper .slick-slider .slick-dots li.slick-active button:before {
-  color: #6366f1;
+  color: #000000;
   border-radius: 50%;
   font-size: 10px;
   opacity: 1;
@@ -470,7 +470,7 @@ div.slick-slider.service-slider button:focus,
   left: 0;
 }
 .custom-slick .slick-dots li.slick-active {
-  background: #6366f1;
+  background: #000000;
   width: 20px;
 }
 .customer-review-slider.custom-slick .slick-dots {
@@ -491,7 +491,7 @@ div.slick-slider.service-slider button:focus,
 }
 
 .home-four-wrapper .slick-slider .slick-dots li.slick-active button {
-  border: 2px solid #6366f1;
+  border: 2px solid #000000;
   border-radius: 10px;
 }
 
@@ -562,13 +562,13 @@ div.slick-slider.service-slider button:focus,
 
 .home-seven-wrapper .slick-dots li.slick-active button:before {
   opacity: 1;
-  color: #6366f1;
+  color: #000000;
   font-size: 16px;
 }
 
 .home-two-wrapper .slick-dots li.slick-active button:before {
   opacity: 1;
-  color: #6366f1;
+  color: #000000;
   font-size: 16px;
 }
 
@@ -668,7 +668,7 @@ button.fc-prev-button.fc-button.fc-button-primary {
 }
 
 .search-input-new.line-two-six svg {
-  color: #6366f1;
+  color: #000000;
   right: 12px;
 }
 
@@ -690,7 +690,7 @@ button.fc-prev-button.fc-button.fc-button-primary {
 }
 
 .search-input-new.line-six svg {
-  color: #6366f1;
+  color: #000000;
   right: 12px;
 }
 
@@ -1346,7 +1346,7 @@ td.valid-data {
   
 }
 .otp-input .p-inputtext.p-filled {
-  border-color: #6366f1 !important;
+  border-color: #000000 !important;
 }
 .otp-input .p-inputtext:enabled:focus {
   box-shadow: none;
@@ -1379,27 +1379,27 @@ td.valid-data {
   z-index: 99 !important;
 } 
 .p-slider .p-slider-handle {
-  background: #6366f1;
-    border: 2px solid #6366f1;
+  background: #000000;
+    border: 2px solid #000000;
 }
 .p-slider .p-slider-range {
-  background: #6366f1;
+  background: #000000;
 }
 .ant-slider .ant-slider-track {
-  background-color: #6366f1;
+  background-color: #000000;
 }
 .ant-slider .ant-slider-handle::after {
   box-shadow: 0 0 0 2px #fff;
-  background-color: #6366f1;
+  background-color: #000000;
 }
 .ant-tooltip .ant-tooltip-inner {
-  background-color: #6366f1;
+  background-color: #000000;
 }
 .ant-tooltip .ant-tooltip-arrow:before {
-  background: #6366f1;
+  background: #000000;
 }
 .ant-slider:hover .ant-slider-track {
-  background-color: #6366f1;
+  background-color: #000000;
 }
 .reactslick .slick-slide > div {
   margin-right: 14px;
@@ -1429,7 +1429,7 @@ td.valid-data {
 } */
 div.slick-slider button.slick-arrow:hover, div.slick-slider button.slick-arrow:focus {
   color: transparent;
-  background-color: #6366f1;
+  background-color: #000000;
 }
 div.slick-slider button.slick-arrow:hover::before, div.slick-slider button.slick-arrow:focus::before {
   color: #fff;
@@ -1465,11 +1465,11 @@ div.slick-slider button.slick-arrow {
 }
 .dark .p-dropdown-panel .p-dropdown-items-wrapper .p-dropdown-items .p-dropdown-item.p-highlight {
   background: #0D0D0D;
-  color: #6366f1;
+  color: #000000;
 }
 .dark .p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled).p-focus {
   background: #0D0D0D;
-  color: #6366f1;
+  color: #000000;
 }
 .dark .react-datepicker {
   background: #0D0D0D;

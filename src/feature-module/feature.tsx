@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import '../style/scss/main.scss'
 
-
-
+// import("../style/scss/main.scss")
 import Cursor from './frontend/common/cursor/cursor';
 
 const Feature = () => {
@@ -38,11 +38,11 @@ const Feature = () => {
   //   getRoutes();
 
   // }, []);
-  useEffect(() => {
-    window.location.pathname.includes("/admin")
-    ? import("../style/admin/css/admin.css")
-    : import("../style/scss/main.scss");
-  }, [location.pathname])
+  // useEffect(() => {
+  //   window.location.pathname.includes("/admin")
+  //   ? import("../style/admin/css/admin.css")
+  //   : import("../style/scss/main.scss");
+  // }, [location.pathname])
   return (
     <div
     //   className={`${current_route.base == 'providers' ? 'provider-page' : ''} ${location.pathname == '/pages/booking' ? 'booking-page' : ''}

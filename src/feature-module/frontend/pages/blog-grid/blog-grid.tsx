@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import { blogCardData } from '../../../../core/data/json/blog_card';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
@@ -15,9 +14,7 @@ const BlogGrid = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
-  }, []);
+
 
   // Calculate current items
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -88,15 +85,18 @@ const BlogGrid = () => {
                 <div
                   className="col-xl-4 col-md-6"
                   key={blog.id}
-                  data-aos="fade-up"
+            
                 >
                   <div className="card p-0">
                     <div className="card-body p-0">
                       <div className="img-sec w-100">
                         <Link to={`${routes.blogDetails}/${blog.id}`}>
                           <img
+                          
                             src={`${BLOG_IMAGE_URL}/${blog.img}`}
                             className="img-fluid rounded-top w-100"
+                            loading="lazy"
+  decoding="async"
                             alt="img"
                           />
                         </Link>
@@ -108,6 +108,8 @@ const BlogGrid = () => {
                               <ImageWithBasePath
                                 src="assets/img/profiles/avatar-55.jpg"
                                 className="rounded-circle"
+                               
+
                                 alt="user"
                               />
                             </span>

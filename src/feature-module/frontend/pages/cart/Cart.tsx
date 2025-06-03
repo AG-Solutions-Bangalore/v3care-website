@@ -47,7 +47,7 @@ const Cart = () => {
     acc[key].originalTotal += parseFloat(item.service_price_rate);
     return acc;
   }, {});
-console.log("hlo",groupedItems)
+
   // Calculate overall totals
   const totalPrice = Object.values(groupedItems).reduce((sum: number, group: any) => sum + group.total, 0);
   const totalOriginalPrice = Object.values(groupedItems).reduce((sum: number, group: any) => sum + group.originalTotal, 0);
@@ -385,7 +385,8 @@ console.log("hlo",groupedItems)
         order_payment_amount: item.service_price_amount,
         order_remarks: formData.order_remarks,
         order_service: item.service_id, // Add this line
-        order_service_sub: item.service_sub_id, // Add this line
+
+        order_service_sub: item.service_sub_id || '',
         ...Object.fromEntries(
           Object.entries(formData).filter(([key]) =>
             !['order_service_price_for', 'order_service_price', 'order_amount', 'order_payment_amount', 'order_service', 'order_service_sub'].includes(key)
@@ -399,7 +400,7 @@ console.log("hlo",groupedItems)
         order_amount: item.service_price_amount,
         order_remarks: formData.order_remarks,
         order_service: item.service_id, // Add this line
-        order_service_sub: item.service_sub_id, // Add this line
+        order_service_sub: item.service_sub_id || '',
         ...Object.fromEntries(
           Object.entries(formData).filter(([key]) =>
             !['order_service_price_for', 'order_service_price', 'order_amount', 'order_service', 'order_service_sub'].includes(key)
@@ -827,6 +828,7 @@ console.log("hlo",groupedItems)
                   </div>
 
                   <div className="card-body">
+               
                     {cartItems.length === 0 ? (
                       <div className="empty-cart">
                         <div className="empty-cart-icon">
@@ -843,6 +845,10 @@ console.log("hlo",groupedItems)
                       </div>
                     ) : (
                       <div className="cart-items">
+                           <div className="summary-header">
+                            <h4>Order Summary</h4>
+
+                          </div>
                         {Object.entries(groupedItems).map(([key, group]: [string, any]) => (
                           <div className="cart-service-group" key={key}>
                             {/* <div className="group-header">
@@ -855,52 +861,7 @@ console.log("hlo",groupedItems)
 
                             <div className="group-items">
 
-                              {/* {group.items.map((item: any) => (
-  <div className="cart-item" key={item.id}>
-    <div className="item-details">
-      <h5>{item.service_price_for}</h5>
-      {isLoadingPrices ? (
-        <p className="original-price">
-          <span className="price-placeholder" style={{ visibility: 'hidden' }}>
-            Original Price: ₹{item.service_price_rate}   
-          </span>
-          <div className="price-loading-spinner">
-            <div className="spinner-border spinner-border-sm" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        </p>
-      ) : (
-        <p className="original-price">
-          Original Price: ₹{item.service_price_rate}
-        </p>
-      )}
-    </div>
-    <div className="item-actions">
-      {isLoadingPrices ? (
-        <span className="item-price">
-          <span className="price-placeholder" style={{ visibility: 'hidden' }}>
-            ₹{item.service_price_amount}
-          </span>
-          <div className="price-loading-spinner">
-            <div className="spinner-border spinner-border-sm" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        </span>
-      ) : (
-        <span className="item-price">₹{item.service_price_amount}</span>
-      )}
-      <button
-        className="btn-remove-item"
-        onClick={() => handleRemoveItem(item.id)}
-        disabled={isLoadingPrices}
-      >
-        <i className="fas fa-trash-alt"></i>
-      </button>
-    </div>
-  </div>
-))} */}
+                           
 
                               {group.items.map((item: any) => (
                                 <div className="cart-item" key={item.id}>
@@ -938,7 +899,7 @@ console.log("hlo",groupedItems)
                                       </p>
                                     ) : (
                                       <p className="original-price">
-                                        Original Price: ₹{item.service_price_rate}
+                                      ₹{item.service_price_rate}
                                       </p>
                                     )}
 
@@ -974,37 +935,32 @@ console.log("hlo",groupedItems)
                         ))}
 
                         <div className="order-summary">
-                          <div className="summary-header">
-                            <h4>Order Summary</h4>
-                            {totalOriginalPrice > 0 && (
-                              <span className="discount-badge">
-                                {Math.round((1 - (totalPrice / totalOriginalPrice)) * 100)}% Off
-                              </span>
-                            )}
-                          </div>
+                       
 
-                          <div className="summary-total">
-                            <span>Total Amount</span>
-                            <div className="total-amount">
-                              <span className="current-price">₹{totalPrice.toFixed(2) || '0'}</span>
-                              {totalOriginalPrice > 0 && (
-                                <span className="original-price">₹{totalOriginalPrice.toFixed(2)}</span>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* <div className="summary-items">
-                            {Object.entries(groupedItems).map(([key, group]: [string, any]) => (
-                              <div className="summary-item" key={key}>
-                                <div className="item-name">
-                                  {group.service_name}
-                                  {group.service_sub_name && ` (${group.service_sub_name})`}
-                                  <span className="item-count">{group.items.length} {group.items.length === 1 ? 'item' : 'items'}</span>
-                                </div>
-                                <span className="item-price">₹{group.total.toFixed(2)}</span>
-                              </div>
-                            ))}
-                          </div> */}
+<div className="price-summary">
+  <div className="price-row">
+    <span className="price-label">Total Amount</span>
+    <div className="price-values">
+      {totalOriginalPrice > 0 && (
+        <span className="original-price">₹{totalOriginalPrice.toFixed(2)}</span>
+      )}
+      <span className="current-price">₹{totalPrice.toFixed(2) || '0'}</span>
+    </div>
+  </div>
+  
+  {totalOriginalPrice > 0 && (
+    <div className="savings-row">
+      <div className="savings-content">
+        <span className="discount-badge">
+          {Math.round((1 - (totalPrice / totalOriginalPrice)) * 100)}% OFF
+        </span>
+        <span className="savings-message">
+        Congrats!  🎉 You Saved ₹{(totalOriginalPrice - totalPrice).toFixed(2)}
+        </span>
+      </div>
+    </div>
+  )}
+</div>
                            <div className="col-12 form-actions">
                           <button
                             type="button"

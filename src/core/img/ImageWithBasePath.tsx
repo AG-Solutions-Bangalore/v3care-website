@@ -18,6 +18,8 @@ const ImageWithBasePath = (props: Image) => {
     <img
       className={props.className}
       src={fullSrc}
+      loading="lazy"
+  decoding="async"
       height={props.height}
       alt={props.alt}
       width={props.width}

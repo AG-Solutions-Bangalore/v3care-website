@@ -138,7 +138,7 @@ const HomeHeader = () => {
               </button>
             </div>
             <Link to="/cart" className="cart-icon">
-              <Icon.ShoppingCart size={24} />
+              <Icon.ShoppingCart size={20} />
               {cartItems.length > 0 && (
                 <span className="cart-count">{cartItems.length}</span>
               )}
@@ -234,4 +234,3 @@ const HomeHeader = () => {
 };
 
 export default HomeHeader;
-//sajid 

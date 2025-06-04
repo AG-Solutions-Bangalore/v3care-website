@@ -13,6 +13,7 @@ interface ServiceSuper {
   id: number;
   serviceSuper: string;
   serviceSuper_image: string | null;
+  total: number;
 }
 
 interface Service {
@@ -63,7 +64,7 @@ const ServiceGrid = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-super-out`);
+      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-super-out/${branchId}`);
       setServiceSupers(response.data.serviceSuper || []);
       if (response.data.serviceSuper?.length > 0) {
         setActiveSuperCategory(response.data.serviceSuper[0].id);
@@ -137,7 +138,7 @@ const ServiceGrid = () => {
   const handleSuperCategoryClick = (superCategoryId: number) => {
     setActiveSuperCategory(superCategoryId);
     fetchServicesBySuperCategory(superCategoryId);
-    setSearchQuery(''); // Reset search when changing category
+    setSearchQuery(''); 
   };
 
   const getImageUrl = (imageName: string | null, isSubService = false) => {
@@ -162,7 +163,7 @@ const ServiceGrid = () => {
     fetchServiceSupers();
   }, []);
 
-  // Bootstrap color classes for super categories
+ 
   const categoryColors = [
     'bg-primary',
     'bg-info',
@@ -249,6 +250,17 @@ const ServiceGrid = () => {
             onClick={() => handleSuperCategoryClick(superCat.id)}
           >
             {superCat.serviceSuper}
+       
+          <span 
+            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info"
+            style={{
+              fontSize: '0.8rem',
+              padding: '0.3rem 0.3rem'
+            }}
+          >
+            {superCat.total}
+          </span>
+     
             {activeSuperCategory !== superCat.id && (
               <span 
                 className={`position-absolute bottom-0 start-0 ${categoryColors[index % categoryColors.length]}`}

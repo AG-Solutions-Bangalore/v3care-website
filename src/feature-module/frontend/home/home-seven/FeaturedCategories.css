@@ -1,0 +1,161 @@
+/* FeaturedCategories.css */
+.featured-categories-section {
+    background-color: #fff7f7d6;
+    padding: 60px 0;
+  }
+  
+  .categories-header h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+  
+  .categories-header p {
+    color: #6c757d;
+    margin-bottom: 30px;
+  }
+  
+ 
+  .row {
+    --bs-gutter-x: 1.5rem; 
+    --bs-gutter-y: 1.5rem; 
+    margin-top: calc(-1 * var(--bs-gutter-y));
+  }
+  
+  .row > * {
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-top: var(--bs-gutter-y);
+  }
+  
+  .category-card {
+    text-align: center;
+    padding: 20px;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0; 
+  }
+  
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .category-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    overflow: hidden;
+  }
+  
+  .category-icon-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .category-icon img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  .category-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: auto;
+    color: #343a40;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 992px) {
+    .categories-header h2 {
+      font-size: 30px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .category-icon {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .category-card h3 {
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .featured-categories-section {
+      padding: 40px 0;
+    }
+    
+    .categories-header h2 {
+      font-size: 26px;
+    }
+    
+    .category-card {
+      padding: 15px;
+    }
+    
+    
+    .row {
+      --bs-gutter-x: 1rem;
+      --bs-gutter-y: 1rem;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .category-icon {
+      width: 70px;
+      height: 70px;
+    }
+    
+    .category-card {
+      padding: 10px;
+    }
+    
+    .category-card h3 {
+      font-size: 14px;
+    }
+    
+   
+    .category-icon-inner {
+      padding: 5px;
+    }
+    
+    .category-icon img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+    
+    
+    .row {
+      --bs-gutter-x: 0.75rem;
+      --bs-gutter-y: 0.75rem;
+    }
+  }
+  
+  /* Skeleton loader animation */
+  @keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+  
+  .skeleton-image, .skeleton-text {
+    animation: pulse 1.5s ease-in-out infinite;
+  }

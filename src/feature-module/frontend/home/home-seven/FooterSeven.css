@@ -25,20 +25,20 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 20px; /* Reduced gap */
+    gap: 20px;
   }
   
   .footer-column {
     flex: 1;
     min-width: 250px;
-    margin-bottom: 20px; /* Reduced margin */
+    margin-bottom: 20px; 
   }
   
   /* Logo Section */
   .footer-logo img {
-    max-width: 160px; /* Slightly smaller logo */
+    max-width: 160px; 
     height: auto;
-    margin-bottom: 15px; /* Reduced margin */
+    margin-bottom: 15px; 
     transition: transform 0.3s ease;
   }
   
@@ -47,7 +47,7 @@
   }
   
   .footer-content p {
-    margin: 12px 0; /* Adjusted margin */
+    margin: 12px 0; 
     color: #b3b3b3;
     font-size: 14px;
     line-height: 1.7;
@@ -55,12 +55,12 @@
   
   /* About Links Section */
   .footer-title {
-    font-size: 17px; /* Slightly larger */
+    font-size: 17px; 
     font-weight: 600;
-    margin-bottom: 15px; /* Reduced margin */
+    margin-bottom: 15px; 
     color: #ffffff;
     position: relative;
-    padding-bottom: 8px; /* Reduced padding */
+    padding-bottom: 8px; 
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -82,7 +82,7 @@
   }
   
   .footer-menu ul li {
-    margin-bottom: 10px; /* Reduced margin */
+    margin-bottom: 10px; 
     position: relative;
     padding-left: 15px;
   }
@@ -111,12 +111,12 @@
   .contact-info {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Reduced gap */
+    gap: 15px; 
   }
   
   .contact-item {
     display: flex;
-    gap: 12px; /* Reduced gap */
+    gap: 12px;
     align-items: flex-start;
   }
   
@@ -126,7 +126,7 @@
   }
   
   .contact-icon img {
-    width: 18px; /* Slightly smaller icons */
+    width: 18px; 
     height: 18px;
     filter: brightness(0) saturate(100%) invert(65%) sepia(50%) saturate(500%) hue-rotate(80deg) brightness(90%) contrast(85%);
   }
@@ -216,7 +216,7 @@
     font-size: 16px;
     transition: all 0.3s ease;
     display: inline-block;
-    width: 34px; /* Slightly smaller */
+    width: 34px;
     height: 34px;
     line-height: 34px;
     text-align: center;
@@ -236,13 +236,13 @@
     }
     
     .footer-top {
-      padding: 30px 0 15px; /* Reduced padding */
+      padding: 30px 0 15px; 
     }
   }
   
   @media (max-width: 768px) {
     .footer-top {
-      padding: 25px 0 10px; /* Reduced padding */
+      padding: 25px 0 10px; 
     }
     
     .footer-column {

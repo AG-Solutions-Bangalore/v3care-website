@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { all_routes } from '../../../../core/data/routes/all_routes';
-import logoNav from "../../../../logo/v3.png";
+import logoNav from "../../../../logo/footer_logo.png";
 import './FooterSeven.css'; // Import the new CSS file
 
 const FooterSeven = () => {

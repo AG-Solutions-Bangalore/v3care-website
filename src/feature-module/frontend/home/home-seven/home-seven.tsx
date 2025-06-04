@@ -100,6 +100,7 @@ const HomeSeven: React.FC = () => {
             <div>
               <img
                 src="assets/img/services/22.png"
+              
                 alt="Promotional Banner"
 loading="lazy"
   decoding="async"

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import { blogCardData } from '../../../../core/data/json/blog_card';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
@@ -32,12 +34,14 @@ const BlogSection = () => {
         breakpoint: 776,
         settings: {
           slidesToShow: 2,
+          dots: false,
         },
       },
       {
         breakpoint: 567,
         settings: {
           slidesToShow: 1,
+          dots: false,
         },
       },
     ],

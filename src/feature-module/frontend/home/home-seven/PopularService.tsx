@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {  useNavigate } from 'react-router-dom';
 
 import * as Icon from 'react-feather';
+
+import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
-
 
 import axios from 'axios';
 import {BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL} from '../../../baseConfig/BaseUrl';
@@ -31,8 +31,14 @@ const PopularService = () => {
     
     
         const [services, setServices] = useState<Service[]>([]);
+        const [servicesTwo, setServicesTwo] = useState<Service[]>([]);
     const [isServicesLoading, setIsServicesLoading] = useState(true);
     const [servicesError, setServicesError] = useState<string | null>(null);
+
+
+
+
+
     const [selectedService, setSelectedService] = useState<Service | null>(null);
     const [subServices, setSubServices] = useState<ServiceSub[]>([]);
     const [showSubServiceModal, setShowSubServiceModal] = useState(false);
@@ -50,8 +56,12 @@ const PopularService = () => {
           const filteredServices = response.data.service.filter((service: Service) => 
             service.service_show_website.includes("1")
           );
+          const filteredServicesTwo = response.data.service.filter((service: Service) => 
+            service.service_show_website.includes("2")
+          );
         
           setServices(filteredServices);
+          setServicesTwo(filteredServicesTwo);
       
         } catch (error) {
           console.error('Failed to fetch services:', error);
@@ -149,7 +159,7 @@ const PopularService = () => {
       },
     ],
   };
-  
+
   return (
     <>
     <section className="popular-service-seven-section">
@@ -240,6 +250,97 @@ const PopularService = () => {
       )}
     </div>
   </section>
+
+  {servicesTwo.length >= 7 && (
+    <section className="popular-service-seven-section-featuredd">
+    <div className="container">
+      <div className="row">
+        <div className="col-md-12 text-start">
+          <div
+            className="section-heading section-heading-seven "
+            
+          >
+            <h2>Featured Services</h2>
+            <p>What do you need to find?</p>
+          </div>
+        </div>
+      </div>
+  
+      {/* Loading State */}
+      {isServicesLoading && (
+        <SkeletonPopularService/>
+      )}
+  
+      {/* Error State */}
+      {servicesError && !isServicesLoading && (
+        <div className="row justify-content-center mb-5">
+          <div className="col-12 col-md-8 col-lg-6 text-center">
+            <div className="alert alert-danger d-flex align-items-center justify-content-center">
+              <Icon.AlertCircle className="me-2" size={18} />
+              <span>{servicesError}</span>
+              <button
+                className="btn btn-sm btn-outline-danger ms-3"
+                onClick={fetchServices}
+              >
+                <Icon.RefreshCw className="me-1" size={14} />
+                Try Again
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+  
+      {/* Services Slider */}
+      {!isServicesLoading && !servicesError  && (
+        <div className="row">
+          <div className="col-md-12">
+            <Slider {...popularService}  className="owl-carousel categories-slider-seven">
+              {servicesTwo.map((service) => (
+                <div
+                  key={service.id}
+                  className="service-widget service-two service-seven  "
+                  
+                  onClick={() => handleServiceClick(service)}
+                
+                >
+                  <div className="service-img" >
+                    <img
+                      className="img-fluid serv-img"
+                      alt="Service Image"
+                      src={getImageUrlService(service.service_image)}
+                      loading="lazy"
+  decoding="async"
+                    />
+                    <div className="fav-item">
+                      <span className="item-cat">{service.service}</span>
+                    
+                    </div>
+                    {/* <div className="item-info">
+                      <span className="item-img">
+                        <img
+                          src="assets/img/profiles/avatar-01.jpg"
+                          className="avatar"
+                          alt="image"
+                        />
+                      </span>
+                    </div> */}
+                  </div>
+                  <div  style={{
+                    cursor:"pointer"
+                  }}  className="service-content service-content-seven">
+                    <h3 className="title">
+                      {service.service}
+                    </h3>
+                  </div>
+                </div>
+              ))}
+            </Slider>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+  )}
   {showSubServiceModal && (
     <div className="modal fade show d-block" style={{ 
       backgroundColor: 'rgba(0,0,0,0.5)',

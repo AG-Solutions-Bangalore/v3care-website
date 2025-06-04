@@ -144,7 +144,7 @@ const ContactUs = () => {
                       <i className="ti ti-phone text-primary" />
                     </span>
                     <div>
-                      <h6 className="fs-18 mb-1">Phone Number</h6>
+                      <h6 className="fs-18 mb-1 text-primary">Phone Number</h6>
                       <p className="fs-14">+91 98807 78585</p>
                     </div>
                   </div>
@@ -159,7 +159,7 @@ const ContactUs = () => {
                       <i className="ti ti-mail text-primary" />
                     </span>
                     <div>
-                      <h6 className="fs-18 mb-1">Email Address</h6>
+                      <h6 className="fs-18 mb-1 text-primary">Email Address</h6>
                       <p className="fs-14">info@v3care.in</p>
                     </div>
                   </div>

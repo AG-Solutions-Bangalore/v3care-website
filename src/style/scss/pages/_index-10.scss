@@ -244,6 +244,16 @@
 		padding: 40px 0;
 	}
 }
+.popular-service-seven-section-featuredd {
+	background: #fcfafa;
+	padding: 80px 0;
+	@include respond-below(lg) {
+		padding: 50px 0;
+	}
+	@include respond-below(md) {
+		padding: 40px 0;
+	}
+}
 .service-widget {
 	&.service-two {
 		&.service-seven {

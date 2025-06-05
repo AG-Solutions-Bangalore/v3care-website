@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import axios from 'axios';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -49,7 +49,7 @@ const Client = () => {
   return (
     <>
      <HomeHeader  />
-      <BreadCrumb title='Our Partners' item1='Home' item2='Client' />
+      <BreadCrumb title='Our Partners'  item1='Client' />
       
       {/* Page Wrapper */}
       <div className="page-wrapper">

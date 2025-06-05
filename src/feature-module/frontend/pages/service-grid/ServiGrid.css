@@ -1,0 +1,37 @@
+/* Base Styles */
+:root {
+    --primary-color: #000000;
+
+ 
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+ 
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+
+.book-now-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--primary-color);
+  
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    font-size: 0.8rem;
+    height: 32px;
+  }
+  
+  .book-now-btn:hover {
+    background: white;
+    border: 1px solid #000000;
+    transform: translateY(-1px);
+    color: black;
+  }

@@ -26,7 +26,7 @@ const BreadCrumb: React.FC<breadCrumbProps> = ({ title, item1, item2 }) => {
                   </li>
                   {item2 ? (
                     <>
-                      <li className="breadcrumb-item ">{item1}</li>
+                      <li className="breadcrumb-item "   aria-current="page">{item1}</li>
                       <li
                         className="breadcrumb-item active"
                         aria-current="page"

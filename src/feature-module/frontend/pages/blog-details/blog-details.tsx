@@ -6,7 +6,7 @@ import 'aos/dist/aos.css';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import { blogDetailsData } from '../../../../core/data/json/blog_details';
 import { blogCardData } from '../../../../core/data/json/blog_card';
-import BreadCrumb from '../../common/breadcrumb/breadCrumb';
+
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import HomeHeader from '../../home/header/home-header';
 import { BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
@@ -45,7 +45,7 @@ const BlogDetails = () => {
                         <div className="post-author">
                           <Link to="#">
                             <ImageWithBasePath
-                              src="assets/img/profiles/avatar-55.jpg"
+                              src="assets/img/services/v3logo.png"
                               alt="Post Author"
                             />
                             <span>V3 Care</span>
@@ -127,7 +127,7 @@ const BlogDetails = () => {
                         <div className="post-author">
                           <Link to="#">
                             <ImageWithBasePath
-                              src="assets/img/profiles/avatar-55.jpg"
+                                 src="assets/img/services/v3logo.png"
                               alt="Post Author"
                             />
                             <span>V3 Care</span>

@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as Icon from 'react-feather';
-import { all_routes } from '../../../../core/data/routes/all_routes';
+
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import { BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
-
+import './ServiGrid.css'
 
 
 interface ServiceSuper {
@@ -29,9 +30,10 @@ interface ServiceSub {
 }
 
 const ServiceGrid = () => {
-  const routes = all_routes;
+ 
   const navigate = useNavigate();
   const branchId = localStorage.getItem("branch_id")
+  const city = localStorage.getItem("city")
   const [serviceSupers, setServiceSupers] = useState<ServiceSuper[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [filteredServices, setFilteredServices] = useState<Service[]>([]);
@@ -251,7 +253,7 @@ const ServiceGrid = () => {
           >
             {superCat.serviceSuper}
        
-          <span 
+          {/* <span 
             className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info"
             style={{
               fontSize: '0.8rem',
@@ -259,7 +261,7 @@ const ServiceGrid = () => {
             }}
           >
             {superCat.total}
-          </span>
+          </span> */}
      
             {activeSuperCategory !== superCat.id && (
               <span 
@@ -342,15 +344,8 @@ const ServiceGrid = () => {
               <div className="row justify-content-center py-5">
                 <div className="col-12 text-center">
                   <div className="empty-state">
-                    <img
-                      src={`${NO_IMAGE_URL}`}
-                      alt="No services found"
-                      loading="lazy"
-  decoding="async"
-                      className="img-fluid mb-4"
-                      style={{ maxWidth: '280px', opacity: 0.7 }}
-                    />
-                    <h4 className="mb-2">No services found</h4>
+                  
+                
                     <p className="text-muted mb-4">
                       {searchQuery 
                         ? `No results for "${searchQuery}"`
@@ -401,17 +396,8 @@ const ServiceGrid = () => {
                             target.src = `${NO_IMAGE_URL}`;
                           }}
                         />
-                       {/* <img
-                          src={`https://agscare.site/crmapi/storage/app/public/blog/blog4.jpg`}
-                          className="w-100 h-100"
-                          alt={service.service}
-                          style={{ objectFit: 'cover' }}
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = `${NO_IMAGE_URL}`;
-                          }}
-                        />  */}
-                        <button
+                       
+                        {/* <button
                           type="button"
                           className={`btn position-absolute top-0 end-0 mt-2 me-2 ${
                             selectedItems[index] ? 'text-danger' : 'text-white'
@@ -432,19 +418,26 @@ const ServiceGrid = () => {
                             size={14} 
                             fill={selectedItems[index] ? 'currentColor' : 'none'} 
                           />
-                        </button>
+                        </button> */}
                       </div>
                       <div className="card-body p-3">
                         <h5 className="card-title mb-1 fs-15 fw-medium text-truncate">{service.service}</h5>
                         <div className="d-flex justify-content-between align-items-center mt-2">
                           <span className="small text-muted d-flex align-items-center">
                             <Icon.MapPin className="me-1" size={12} />
-                            <span>Location</span>
+                            <span>{city}</span>
                           </span>
-                          <span className="badge bg-primary bg-opacity-10 text-primary" style={{ fontSize: '0.75rem' }}>
+                          {/* <span className="badge bg-primary bg-opacity-10 text-primary" style={{ fontSize: '0.75rem' }}>
                             <Icon.Star className="me-1" size={10} fill="#fd7e14" />
                             4.5
-                          </span>
+                          </span> */}
+                          <button 
+ className='book-now-btn'
+  onClick={() => handleServiceClick(service)} 
+>
+  Book Now
+</button>
+
                         </div>
                       </div>
                     </div>

@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
-import { all_routes } from '../../../../core/data/routes/all_routes';
+
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import axios from 'axios';
 import * as Icon from 'react-feather';
@@ -18,7 +18,7 @@ interface Testimonial {
   testimonial_image: string;
 }
 const AboutUs = () => {
-  const routes = all_routes;
+
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isTestimonialsLoading, setIsTestimonialsLoading] = useState(true);
   const [testimonialsError, setTestimonialsError] = useState<string | null>(
@@ -77,7 +77,7 @@ const AboutUs = () => {
   return (
     <>
     <HomeHeader />
-      <BreadCrumb title='About Us' item1='Home' item2='About Us' />
+      <BreadCrumb title='About Us'  item1='About Us' />
       <>
   {/* Page Wrapper */}
   <div className="page-wrapper">
@@ -237,7 +237,7 @@ const AboutUs = () => {
                     The Customer fulfills the order by either providing the
                     service to the buyer.
                   </p>
-                  <h4>03</h4>
+                  <h4>04</h4>
                 </div>
               </div>
             </div>
@@ -594,8 +594,7 @@ const AboutUs = () => {
                     </div>
                     <div className="client-content">
                     <p>{testimonial.testimonial_description}</p>
-                      {/* <h5>John Doe</h5>
-                      <h6>Director</h6> */}
+                 
                     </div>
                   </div>
                 </div>
@@ -606,45 +605,7 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-      {/* /Client Section */}
-      {/* Service Section */}
-      {/* <div className="service-offer about-service-offer">
-        <div className="container">
-          <div className="card">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-7">
-                  <div className="service-content">
-                    <h6 className="display-6">
-                      Looking for the Best Service Finder &amp; Bookings
-                    </h6>
-                    <p>
-                      We offer a comprehensive directory of top-rated service
-                      providers, detailed profiles, and customer reviews to help
-                      you make informed choices.
-                    </p>
-                    <div className="d-flex">
-                      <Link
-                        to="#"
-                        className="btn btn-white d-flex align-items-center"
-                      >
-                        Get Started{" "}
-                        <i className="ms-1 ti ti-circle-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-5">
-                  <div className="service-img">
-                    <ImageWithBasePath src="assets/img/services/repair-img.png" alt="img" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-      {/* /Service Section */}
+     
     </div>
   </div>
   {/* /Page Wrapper */}

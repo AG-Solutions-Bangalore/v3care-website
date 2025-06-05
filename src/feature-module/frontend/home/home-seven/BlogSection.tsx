@@ -7,7 +7,7 @@ import { all_routes } from '../../../../core/data/routes/all_routes';
 import { blogCardData } from '../../../../core/data/json/blog_card';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
-
+// import logoNav from "../../../../logo/v3.png";
 const BlogSection = () => {
   const routes = all_routes;
 
@@ -85,7 +85,7 @@ const BlogSection = () => {
                           <div className="d-flex align-items-center border-end pe-2">
                             <span className="avatar avatar-sm me-2">
                               <ImageWithBasePath
-                                src="assets/img/profiles/avatar-55.jpg"
+                                src="assets/img/services/v3logo.png"
                                 className="rounded-circle"
                                 alt="user"
                                 

@@ -23,6 +23,9 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
   const [branches, setBranches] = useState<Branch[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [alreadySelected, setAlreadySelected] = useState(false);
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
@@ -108,7 +111,7 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
     progressBar.style.width = "0%";
     progressBar.style.height = "100%";
     progressBar.style.borderRadius = "10px";
-    progressBar.style.background = "linear-gradient(to right, #3182ce, #63b3ed)";
+    progressBar.style.background = "linear-gradient(to right, #000000, #63b3ed)";
     progressBar.style.transition = "width 0.3s ease-in-out";
 
     progressBarContainer.appendChild(progressBar);
@@ -134,26 +137,42 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
     }, 150);
   };
 
-  const handleCitySelect = (city: string, branchId: number) => {
+  const handleCitySelect = (branch: Branch) => {
+    if (branch.branch_name === selectedCity) {
+      setAlreadySelected(true);
+      setTimeout(() => setAlreadySelected(false), 2000);
+      return;
+    }
+    
+    setSelectedBranch(branch);
+    setAlreadySelected(false);
+    
     if (cartItems.length > 0) {
-      const shouldProceed = window.confirm(
-        `You have ${cartItems.length} item(s) in your cart. Changing city will clear your cart. Do you want to proceed?`
-      );
-      
-      if (!shouldProceed) return;
-      
+      setShowConfirmation(true);
+    } else {
+      proceedWithCityChange(branch);
+    }
+  };
+
+  const proceedWithCityChange = (branch: Branch) => {
+    if (cartItems.length > 0) {
       dispatch(clearCart());
     }
     
-    onSelectCity(city, branchId);
-    showLoadingOverlay(city);
+    onSelectCity(branch.branch_name, branch.id);
+    showLoadingOverlay(branch.branch_name);
+  };
+
+  const cancelCityChange = () => {
+    setSelectedBranch(null);
+    setShowConfirmation(false);
   };
 
   const getButtonStyle = (city: string) => {
     const baseStyle = {
       padding: '8px 12px',
-      borderRadius: '16px',
-      border: 'none',
+      borderRadius: '8px',
+      border: "1px solid #000000",
       background: '#ffffff',
       color: '#2d3748',
       fontWeight: 500,
@@ -174,13 +193,29 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
     if (hoveredCity === city || selectedCity === city) {
       return {
         ...baseStyle,
-        background: '#3182ce',
+        background: '#000000',
         color: 'white',
         transform: 'translateY(-1px)',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
       };
     }
     return baseStyle;
+  };
+
+  const getConfirmationButtonStyle = (isPrimary: boolean) => {
+    return {
+      padding: '8px 16px',
+      borderRadius: '8px',
+      border: isPrimary ? 'none' : '1px solid #000000',
+      background: isPrimary ? '#000000' : '#ffffff',
+      color: isPrimary ? 'white' : '#2d3748',
+      fontWeight: 500,
+      cursor: 'pointer',
+      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+      transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+      fontSize: '0.85rem',
+      minWidth: '120px'
+    };
   };
 
   return (
@@ -203,7 +238,7 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
         transform: isVisible ? 'translateY(0)' : 'translateY(-50px)',
         transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         background: 'white',
-        borderRadius: '12px',
+        borderRadius: '8px',
         boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
         width: '90%',
         maxWidth: '500px',
@@ -255,14 +290,22 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
             justifyContent: 'center'
           }}>
             <span style={{ marginRight: '8px' }}>📍</span>
-            Select Your City
+            {showConfirmation 
+              ? 'Confirm City Change' 
+              : alreadySelected 
+                ? 'Already Selected' 
+                : 'Select Your City'}
           </h3>
           <p style={{
             color: '#718096',
             fontSize: '0.875rem',
             margin: '0 0 20px 0'
           }}>
-            Choose your location to see local services
+            {showConfirmation 
+              ? `You have ${cartItems.length} item(s) in your cart. Changing city will clear your cart.`
+              : alreadySelected
+                ? `${selectedCity} is already your selected city.`
+                : 'Choose your location to see local services'}
           </p>
         </div>
 
@@ -292,6 +335,44 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
                 Try Again
               </button>
             </div>
+          ) : showConfirmation ? (
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '16px'
+            }}>
+              <div style={{
+                padding: '16px',
+                background: '#fff7ed',
+                borderRadius: '8px',
+                width: '100%',
+                textAlign: 'center'
+              }}>
+                <p style={{ margin: '0', color: '#9a3412' }}>
+                  Are you sure you want to switch to {selectedBranch?.branch_name}?
+                </p>
+              </div>
+              <div style={{
+                display: 'flex',
+                gap: '12px',
+                width: '100%',
+                justifyContent: 'center'
+              }}>
+                <button
+                  onClick={cancelCityChange}
+                  style={getConfirmationButtonStyle(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => selectedBranch && proceedWithCityChange(selectedBranch)}
+                  style={getConfirmationButtonStyle(true)}
+                >
+                  Confirm Change
+                </button>
+              </div>
+            </div>
           ) : (
             <div style={{
               display: 'flex',
@@ -302,7 +383,7 @@ const CityModal: React.FC<CityModalProps> = ({ onSelectCity, onClose, selectedCi
               {branches.map(branch => (
                 <button
                   key={branch.id}
-                  onClick={() => handleCitySelect(branch.branch_name, branch.id)}
+                  onClick={() => handleCitySelect(branch)}
                   style={getButtonStyle(branch.branch_name)}
                   onMouseEnter={() => setHoveredCity(branch.branch_name)}
                   onMouseLeave={() => setHoveredCity(null)}

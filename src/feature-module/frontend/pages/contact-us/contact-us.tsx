@@ -122,7 +122,7 @@ const ContactUs = () => {
   return (
     <>
      <HomeHeader  />
-     <BreadCrumb title='Contact Us' item1='Home' item2='Contact Us'/>
+     <BreadCrumb title='Contact Us'  item1='Contact Us'/>
      <div className="page-wrapper">
   <div className="content">
     <div className="container">
@@ -134,107 +134,216 @@ const ContactUs = () => {
           <ImageWithBasePath src="assets/img/bg/bg-08.png" alt="img" className="img-fluid" />
         </div>
         {/* Contact Details */}
+      
         <div className="contact-details">
-          <div className="row justify-content-center">
-            <div className="col-md-6 col-lg-6 d-flex">
-              <div className="card flex-fill">
-                <div className="card-body">
-                  <div className="d-flex align-items-center">
-                    <span className="rounded-circle">
-                      <i className="ti ti-phone text-primary" />
-                    </span>
-                    <div>
-                      <h6 className="fs-18 mb-1 text-primary">Phone Number</h6>
-                      <p className="fs-14">+91 98807 78585</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-6 d-flex">
-              <div className="card flex-fill">
-                <div className="card-body">
-                  <div className="d-flex align-items-center">
-                    <span className="rounded-circle">
-                      <i className="ti ti-mail text-primary" />
-                    </span>
-                    <div>
-                      <h6 className="fs-18 mb-1 text-primary">Email Address</h6>
-                      <p className="fs-14">info@v3care.in</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  <div className="row justify-content-center">
+    {/* Phone Card */}
+    <div className="col-md-6 col-lg-6 d-flex">
+      <a href="tel:+919880778585" className="card flex-fill text-decoration-none text-reset">
+        <div className="card-body">
+          <div className="d-flex align-items-center">
+            <span className="rounded-circle me-3">
+              <i className="ti ti-phone text-white" />
+            </span>
+            <div>
+              <h6 className="fs-18 mb-1 text-primary">Phone Number</h6>
+              <p className="fs-14">+91 98807 78585</p>
             </div>
           </div>
         </div>
+      </a>
+    </div>
+
+    {/* Email Card */}
+    <div className="col-md-6 col-lg-6 d-flex">
+      <a href="mailto:info@v3care.in" className="card flex-fill text-decoration-none text-reset">
+        <div className="card-body">
+          <div className="d-flex align-items-center">
+            <span className="rounded-circle me-3">
+              <i className="ti ti-mail text-white" />
+            </span>
+            <div>
+              <h6 className="fs-18 mb-1 text-primary">Email Address</h6>
+              <p className="fs-14">info@v3care.in</p>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
         {/* /Contact Details */}
         {/* Get In Touch */}
         <div className="row">
           <div className="col-md-6 d-flex align-items-center">
-            <div className="contact-img flex-fill">
-            <div className="card flex-fill">
-                <div className="card-body">
-                  <div className="d-flex align-items-center">
-                    <span className="rounded-circle">
-                      <i className="ti ti-map-pin text-primary" />
-                    </span>
-                    <div>
-                      <h6 className="fs-18 mb-1">Bangalore Address</h6>
-                      <p className="fs-14">
-                      V3 CARE # 2296, 24th Main Road, 16th Cross, HSR Layout, Sector 1, Bangalore – 560 102 Land Mark : Opposite Bangalore One
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div className="card flex-fill">
-                <div className="card-body">
-                  <div className="d-flex align-items-center">
-                    <span className="rounded-circle">
-                      <i className="ti ti-map-pin text-primary" />
-                    </span>
-                    <div>
-                      <h6 className="fs-18 mb-1">Hyderabad Address</h6>
-                      <p className="fs-14">
-                      V3 CARE H. No. 1-101, 1st Floor, Old Hapeezpet, Miyapur, Hyderabad, Telengana- 500 049
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div className="card flex-fill">
-                <div className="card-body">
-                  <div className="d-flex align-items-center">
-                    <span className="rounded-circle">
-                      <i className="ti ti-map-pin text-primary" />
-                    </span>
-                    <div>
-                      <h6 className="fs-18 mb-1">Gurugram Address</h6>
-                      <p className="fs-14">
-                      V3 CARE Opposite Raj Bhawan Main Market H no 384, near End of Fly over, Sukhrali, Sector 17, Gurugram, Haryana 122001
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div className="card flex-fill">
-                <div className="card-body">
-                  <div className="d-flex align-items-center">
-                    <span className="rounded-circle">
-                      <i className="ti ti-map-pin text-primary" />
-                    </span>
-                    <div>
-                      <h6 className="fs-18 mb-1">Pune Address</h6>
-                      <p className="fs-14">
-                      V3 CARE Thite Nagar, Chandan Nagar, Pune, Maharashtra 411014, India
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+
+
+
+
+          <div className="row g-1">
+  {/* Address Card */}
+  <div className="col-md-12">
+    <div className="card h-100 shadow-sm">
+      <div className="card-body d-flex align-items-start gap-3">
+      <div className="bg-dark rounded-circle d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px', flex: '0 0 auto' }}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18px"
+    height="18px"
+    viewBox="0 0 24 24"
+    fill="white"
+    style={{ minWidth: '18px', minHeight: '18px' }}
+  >
+    <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
+  </svg>
+</div>
+        <div>
+          <h6 className="mb-1">Bangalore Address</h6>
+          <p className="mb-0 small text-muted">
+            V3 CARE # 2296, 24th Main Road, 16th Cross, HSR Layout, Sector 1, Bangalore – 560102<br />
+            Landmark: Opposite Bangalore One
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div className="col-md-12">
+    <div className="card h-100 shadow-sm">
+      <div className="card-body d-flex align-items-start gap-3">
+      <div className="bg-dark rounded-circle d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px', flex: '0 0 auto' }}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18px"
+    height="18px"
+    viewBox="0 0 24 24"
+    fill="white"
+    style={{ minWidth: '18px', minHeight: '18px' }}
+  >
+    <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
+  </svg>
+</div>
+        <div>
+          <h6 className="mb-1">Hyderabad Address</h6>
+          <p className="mb-0 small text-muted">
+            V3 CARE H. No. 1-101, 1st Floor, Old Hapeezpet, Miyapur, Hyderabad, Telangana - 500049
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-md-12">
+    <div className="card h-100 shadow-sm">
+      <div className="card-body d-flex align-items-start gap-3">
+      <div className="bg-dark rounded-circle d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px', flex: '0 0 auto' }}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18px"
+    height="18px"
+    viewBox="0 0 24 24"
+    fill="white"
+    style={{ minWidth: '18px', minHeight: '18px' }}
+  >
+    <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
+  </svg>
+</div>
+        <div>
+          <h6 className="mb-1">Gurugram Address</h6>
+          <p className="mb-0 small text-muted">
+            V3 CARE Opposite Raj Bhawan Main Market H no 384, near End of Flyover, Sukhrali, Sector 17, Gurugram, Haryana 122001
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-md-12">
+    <div className="card h-100 shadow-sm">
+      <div className="card-body d-flex align-items-start gap-3">
+      <div className="bg-dark rounded-circle d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px', flex: '0 0 auto' }}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18px"
+    height="18px"
+    viewBox="0 0 24 24"
+    fill="white"
+    style={{ minWidth: '18px', minHeight: '18px' }}
+  >
+    <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
+  </svg>
+</div>
+        <div>
+          <h6 className="mb-1">Pune Address</h6>
+          <p className="mb-0 small text-muted">
+            V3 CARE Thite Nagar, Chandan Nagar, Pune, Maharashtra 411014, India
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
           <div className="col-md-6 d-flex align-items-center justify-content-center">
             <div className="contact-queries flex-fill">
               <h2>Get In Touch</h2>

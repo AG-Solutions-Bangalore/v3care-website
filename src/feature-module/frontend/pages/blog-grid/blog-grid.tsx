@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { all_routes } from '../../../../core/data/routes/all_routes';
@@ -76,7 +76,7 @@ const BlogGrid = () => {
   return (
     <>
      <HomeHeader  />
-      <BreadCrumb title="Blog" item1="Home" item2="Blog" />
+      <BreadCrumb title="Blog"  item1="Blog" />
       <div className="page-wrapper">
         <div className="content">
           <div className="container">
@@ -106,7 +106,7 @@ const BlogGrid = () => {
                           <div className="d-flex align-items-center border-end pe-2">
                             <span className="avatar avatar-sm me-2">
                               <ImageWithBasePath
-                                src="assets/img/profiles/avatar-55.jpg"
+                                src="assets/img/services/v3logo.png"
                                 className="rounded-circle"
                                
 

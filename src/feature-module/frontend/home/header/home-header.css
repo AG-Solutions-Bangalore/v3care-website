@@ -173,7 +173,7 @@
   gap: 0.4rem;
   background: var(--bg-light);
   border: none;
-  border-radius: 20px;
+  border-radius: 8px;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
   transition: var(--transition);
@@ -182,7 +182,9 @@
 }
 
 .city-selector:hover {
-  background: #e2e8f0;
+  background: white;
+  border: 1px solid #000000;
+  color: #000000;
   transform: translateY(-1px);
 }
 
@@ -196,9 +198,10 @@
   align-items: center;
   gap: 0.4rem;
   background: var(--primary-color);
+
   color: white;
   border: none;
-  border-radius: 20px;
+  border-radius: 8px;
   padding: 0.4rem 0.8rem;
   text-decoration: none;
   font-weight: 500;
@@ -208,9 +211,10 @@
 }
 
 .vendor-btn:hover {
-  background: var(--primary-hover);
+  background: white;
+  border: 1px solid #000000;
   transform: translateY(-1px);
-  color: white;
+  color: black;
 }
 
 .menu-toggle {
@@ -393,7 +397,10 @@
 }
 
 .sidebar-city-selector:hover {
-  background: #e2e8f0;
+  background: white;
+  border: 1px solid #000000;
+  color: #000000;
+  transform: translateY(-1px);
 }
 
 .sidebar-vendor-btn {

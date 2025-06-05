@@ -193,7 +193,7 @@
             h4 {
                 font-weight: 600;
                 font-size: 60px;
-                color: $primary-transparent;
+                color: #9f9f9f2b;
                 margin-bottom: 0;
                 position: absolute;
                 top: -30px;
@@ -662,7 +662,7 @@
                     width: 70px;
                     height: 70px;
                     flex-shrink: 0;
-                    background-color: $primary-transparent;
+                    background-color: #000000;
                     margin-right: 15px;
                     display: flex;
                     align-items: center;
@@ -896,7 +896,7 @@
 }
 
 .client-section.client-section-about {
-	padding-bottom: 250px;
+	padding-bottom: 20px;
     background-color: #F6F7F7;
     background-size: cover;
 }

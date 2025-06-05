@@ -384,7 +384,7 @@ const Cart = () => {
         order_amount: item.service_price_amount,
         order_payment_amount: item.service_price_amount,
         order_remarks: formData.order_remarks,
-        order_service: item.service_id, // Add this line
+        order_service: item.service_id, 
 
         order_service_sub: item.service_sub_id || '',
         ...Object.fromEntries(
@@ -394,19 +394,19 @@ const Cart = () => {
         )
       }));
 
-      const bookingDataTemplateModalClose = cartItems.map(item => ({
-        order_service_price_for: item.id,
-        order_service_price: item.service_price_rate,
-        order_amount: item.service_price_amount,
-        order_remarks: formData.order_remarks,
-        order_service: item.service_id, // Add this line
-        order_service_sub: item.service_sub_id || '',
-        ...Object.fromEntries(
-          Object.entries(formData).filter(([key]) =>
-            !['order_service_price_for', 'order_service_price', 'order_amount', 'order_service', 'order_service_sub'].includes(key)
-          )
-        )
-      }));
+      // const bookingDataTemplateModalClose = cartItems.map(item => ({
+      //   order_service_price_for: item.id,
+      //   order_service_price: item.service_price_rate,
+      //   order_amount: item.service_price_amount,
+      //   order_remarks: formData.order_remarks,
+      //   order_service: item.service_id, 
+      //   order_service_sub: item.service_sub_id || '',
+      //   ...Object.fromEntries(
+      //     Object.entries(formData).filter(([key]) =>
+      //       !['order_service_price_for', 'order_service_price', 'order_amount', 'order_service', 'order_service_sub'].includes(key)
+      //     )
+      //   )
+      // }));
 
       // Razorpay options
       const options = {
@@ -420,7 +420,7 @@ const Cart = () => {
             const finalBookingData = bookingDataTemplate.map(data => ({
               ...data,
               order_transaction_details: response.razorpay_payment_id,
-              order_payment_type: response.razorpay_method || 'online'
+              order_payment_type: response.razorpay_method || 'Online'
             }));
 
             const bookingResponse = await axios.post(
@@ -436,7 +436,7 @@ const Cart = () => {
                   amount: totalPrice,
                   service_name: cartItems[0]?.service_name,
                   service_sub_name: cartItems[0]?.service_sub_name,
-                  payment_mode: response.razorpay_method || 'online',
+                  payment_mode: response.razorpay_method || 'Online',
                   payment_status: 'success',
                   booking_status: 'confirmed',
                   booking_data: finalBookingData,
@@ -455,7 +455,7 @@ const Cart = () => {
                   amount: totalPrice,
                   service_name: cartItems[0]?.service_name,
                   service_sub_name: cartItems[0]?.service_sub_name,
-                  payment_mode: response.razorpay_method || 'online',
+                  payment_mode: response.razorpay_method || 'Online',
                   payment_status: 'success',
                   booking_status: 'failed',
                   payment_details: {
@@ -473,7 +473,7 @@ const Cart = () => {
                 amount: totalPrice,
                 service_name: cartItems[0]?.service_name,
                 service_sub_name: cartItems[0]?.service_sub_name,
-                payment_mode: response.razorpay_method || 'online',
+                payment_mode: response.razorpay_method || 'Online',
                 payment_status: 'success',
                 booking_status: 'failed',
                 payment_details: {
@@ -494,46 +494,47 @@ const Cart = () => {
         },
         modal: {
           ondismiss: async function () {
-            try {
-              const bookingResponse = await axios.post(
-                `${BASE_URL}/api/panel-create-web-booking-out`,
-                { booking_data: bookingDataTemplateModalClose }
-              );
+            showNotification('Payment modal was closed. No payment was made.', 'error');
+            // try {
+            //   const bookingResponse = await axios.post(
+            //     `${BASE_URL}/api/panel-create-web-booking-out`,
+            //     { booking_data: bookingDataTemplateModalClose }
+            //   );
 
-              if (bookingResponse.data.code === 200) {
-                navigate('/payment-success', {
-                  state: {
-                    amount: totalPrice,
-                    service_name: cartItems[0]?.service_name,
-                    service_sub_name: cartItems[0]?.service_sub_name,
-                    payment_status: 'failed',
-                    booking_status: 'confirmed',
-                    selected_prices: cartItems,
-                    booking_data: bookingDataTemplateModalClose
-                  }
-                });
-                dispatch(clearCart());
-              } else {
-                navigate('/booking-failed', {
-                  state: {
-                    error: 'Payment was not completed and booking creation failed',
-                    amount: totalPrice,
-                    service_name: cartItems[0]?.service_name,
-                    service_sub_name: cartItems[0]?.service_sub_name
-                  }
-                });
-              }
-            } catch (error) {
-              console.error("Failed to update booking status:", error);
-              navigate('/booking-failed', {
-                state: {
-                  error: 'Payment was not completed and booking creation failed',
-                  amount: totalPrice,
-                  service_name: cartItems[0]?.service_name,
-                  service_sub_name: cartItems[0]?.service_sub_name
-                }
-              });
-            }
+            //   if (bookingResponse.data.code === 200) {
+            //     navigate('/payment-success', {
+            //       state: {
+            //         amount: totalPrice,
+            //         service_name: cartItems[0]?.service_name,
+            //         service_sub_name: cartItems[0]?.service_sub_name,
+            //         payment_status: 'failed',
+            //         booking_status: 'confirmed',
+            //         selected_prices: cartItems,
+            //         booking_data: bookingDataTemplateModalClose
+            //       }
+            //     });
+            //     dispatch(clearCart());
+            //   } else {
+            //     navigate('/booking-failed', {
+            //       state: {
+            //         error: 'Payment was not completed and booking creation failed',
+            //         amount: totalPrice,
+            //         service_name: cartItems[0]?.service_name,
+            //         service_sub_name: cartItems[0]?.service_sub_name
+            //       }
+            //     });
+            //   }
+            // } catch (error) {
+            //   console.error("Failed to update booking status:", error);
+            //   navigate('/booking-failed', {
+            //     state: {
+            //       error: 'Payment was not completed and booking creation failed',
+            //       amount: totalPrice,
+            //       service_name: cartItems[0]?.service_name,
+            //       service_sub_name: cartItems[0]?.service_sub_name
+            //     }
+            //   });
+            // }
           }
         }
       };

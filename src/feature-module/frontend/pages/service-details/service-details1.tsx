@@ -9,7 +9,7 @@ import { BASE_URL, SERVICE_DETAILS_IMAGE_URL } from '../../../baseConfig/BaseUrl
 import HomeHeader from '../../home/header/home-header';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../../core/redux/slices/CartSlice';
-
+import './ServiceDetails.css'
 
 
 
@@ -445,60 +445,61 @@ const ServiceDetails1 = () => {
                           </div>
                           <div id="include" className="accordion-collapse collapse show">
                             <div className="accordion-body border-0 p-0 pt-2">
-                              <div className="bg-light-200 p-2 br-10">
-                                <div className="d-flex gap-2">
-                                  <button
-                                    className="btn btn-primary  flex-grow-1 py-2 fs-14"
-                                    onClick={() => {
-                                      if (selectedPrices.length === 0) {
-                                        showNotification('Please select at least one service', 'error');
-                                        return;
-                                      }
-                                      selectedPrices.forEach(price => {
-                                        dispatch(addToCart({
-                                          id: price.id,
-                                          service_price_for: price.service_price_for,
-                                          service_price_rate: price.service_price_rate,
-                                          service_price_amount: price.service_price_amount,
-                                          service_id: state?.service_id,
-                                          service_name: state?.service_name,
-                                          service_sub_id: state?.service_sub_id,
-                                          service_sub_name: state?.service_sub_name,
-                                          service_label: price?.status_label,
-                                        }));
-                                      });
-                                      showNotification('Service added to cart', 'success');
-                                    }}
-                                  >
-                                    <i className="fas fa-cart-plus me-1"></i> Add to Cart
-                                  </button>
-                                  <button
-                                    className="btn btn-outline-primary flex-grow-1 py-2 fs-14"
-                                    onClick={() => {
-                                      if (selectedPrices.length === 0) {
-                                        showNotification('Please select at least one service', 'error');
-                                        return;
-                                      }
-                                      navigate('/cart');
-                                      selectedPrices.forEach(price => {
-                                        dispatch(addToCart({
-                                          id: price.id,
-                                          service_price_for: price.service_price_for,
-                                          service_price_rate: price.service_price_rate,
-                                          service_price_amount: price.service_price_amount,
-                                          service_id: state?.service_id,
-                                          service_name: state?.service_name,
-                                          service_sub_id: state?.service_sub_id,
-                                          service_sub_name: state?.service_sub_name,
-                                          service_label: price?.status_label,
-                                        }));
-                                      });
-                                      showNotification('Service added to cart', 'success');
-                                    }}
-                                  >
-                                    <i className="fas fa-shopping-bag me-1"></i> Checkout
-                                  </button>
-                                </div>
+                              <div className="bg-light-200  p-2 br-10">
+                            
+                                <div className="button-group-container">
+  <button
+    className="add-to-cart-btn"
+    onClick={() => {
+      if (selectedPrices.length === 0) {
+        showNotification('Please select at least one service', 'error');
+        return;
+      }
+      selectedPrices.forEach(price => {
+        dispatch(addToCart({
+          id: price.id,
+          service_price_for: price.service_price_for,
+          service_price_rate: price.service_price_rate,
+          service_price_amount: price.service_price_amount,
+          service_id: state?.service_id,
+          service_name: state?.service_name,
+          service_sub_id: state?.service_sub_id,
+          service_sub_name: state?.service_sub_name,
+          service_label: price?.status_label,
+        }));
+      });
+      showNotification('Service added to cart', 'success');
+    }}
+  >
+    <i className="fas fa-cart-plus"></i> Add to Cart
+  </button>
+  
+  <button
+    className=" checkout-btn" 
+    onClick={() => {
+      if (selectedPrices.length === 0) {
+        showNotification('Please select at least one service', 'error');
+        return;
+      }
+      navigate('/cart');
+      selectedPrices.forEach(price => {
+        dispatch(addToCart({
+          id: price.id,
+          service_price_for: price.service_price_for,
+          service_price_rate: price.service_price_rate,
+          service_price_amount: price.service_price_amount,
+          service_id: state?.service_id,
+          service_name: state?.service_name,
+          service_sub_id: state?.service_sub_id,
+          service_sub_name: state?.service_sub_name,
+          service_label: price?.status_label,
+        }));
+      });
+    }}
+  >
+    <i className="fas fa-shopping-bag"></i> Checkout
+  </button>
+</div>
                               </div>
                             </div>
                           </div>
@@ -533,23 +534,23 @@ const ServiceDetails1 = () => {
                             <div className="bg-light-200 p-3 pb-2 br-10">
                               <p className="d-inline-flex align-items-center mb-2 me-4">
                                 <i className="feather icon-check-circle text-success me-2" />
-                                Haircut &amp; Hair Styles
+                                Verified Professionals
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
                                 <i className="feather icon-check-circle text-success me-2" />
-                                Shampoo &amp; Conditioning
+                                Safe Chemicals 
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
                                 <i className="feather icon-check-circle text-success me-2" />
-                                Beard Trim/Shave
+                                Superior Stain Removal
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
                                 <i className="feather icon-check-circle text-success me-2" />
-                                Neck Shave
+                                Hassle Free Booking
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
                                 <i className="feather icon-check-circle text-success me-2" />
-                                Hot Towel Treatment
+                                Transparent Pricing
                               </p>
                             </div>
                           </div>
@@ -586,7 +587,7 @@ const ServiceDetails1 = () => {
                                     data-bs-target="#faq1"
                                     aria-expanded="false"
                                   >
-                                    What is included in a Classic Cut?
+                                 What types of cleaning services do you offer?
                                   </button>
                                 </h2>
                                 <div
@@ -596,11 +597,7 @@ const ServiceDetails1 = () => {
                                 >
                                   <div className="accordion-body border-0 pt-0">
                                     <p>
-                                      The Classic Cut includes a consultation
-                                      with your barber, a haircut tailored to
-                                      your style, and final styling with
-                                      product. It does not include a hair wash
-                                      or beard trim.
+                                    We provide a wide range of services including home deep cleaning, kitchen cleaning, bathroom cleaning, sofa and carpet shampooing, window cleaning, pest control, and much more. Whether it’s a one-time job or regular maintenance, we’ve got you covered.
                                     </p>
                                   </div>
                                 </div>
@@ -614,7 +611,7 @@ const ServiceDetails1 = () => {
                                     data-bs-target="#faq2"
                                     aria-expanded="false"
                                   >
-                                    Do you offer services for children?
+                                Do I need to provide any cleaning materials or equipment?
                                   </button>
                                 </h2>
                                 <div
@@ -624,11 +621,7 @@ const ServiceDetails1 = () => {
                                 >
                                   <div className="accordion-body border-0 pt-0">
                                     <p>
-                                      The Classic Cut includes a consultation
-                                      with your barber, a haircut tailored to
-                                      your style, and final styling with
-                                      product. It does not include a hair wash
-                                      or beard trim.
+                                    No, our professionals come fully equipped with all the necessary tools and high-quality cleaning products to get the job done effectively.
                                     </p>
                                   </div>
                                 </div>
@@ -642,8 +635,7 @@ const ServiceDetails1 = () => {
                                     data-bs-target="#faq3"
                                     aria-expanded="false"
                                   >
-                                    What is the difference between a Hot Towel
-                                    Shave and a regular shave?
+                                    How do I book a service and what is the process?
                                   </button>
                                 </h2>
                                 <div
@@ -653,11 +645,7 @@ const ServiceDetails1 = () => {
                                 >
                                   <div className="accordion-body border-0 pt-0">
                                     <p>
-                                      The Classic Cut includes a consultation
-                                      with your barber, a haircut tailored to
-                                      your style, and final styling with
-                                      product. It does not include a hair wash
-                                      or beard trim.
+                                    Booking is simple! Just select the service you need, choose your preferred date and time, and confirm your booking. Our team will then arrive at your location and complete the service as scheduled.
                                     </p>
                                   </div>
                                 </div>
@@ -671,7 +659,7 @@ const ServiceDetails1 = () => {
                                     data-bs-target="#faq4"
                                     aria-expanded="false"
                                   >
-                                    Can I get a haircut and beard trim together?
+                                    Are your services safe for pets and children?
                                   </button>
                                 </h2>
                                 <div
@@ -681,11 +669,7 @@ const ServiceDetails1 = () => {
                                 >
                                   <div className="accordion-body border-0 pt-0">
                                     <p>
-                                      The Classic Cut includes a consultation
-                                      with your barber, a haircut tailored to
-                                      your style, and final styling with
-                                      product. It does not include a hair wash
-                                      or beard trim.
+                                    Yes, we use eco-friendly and non-toxic products wherever possible to ensure the safety of your entire household, including kids and pets.
                                     </p>
                                   </div>
                                 </div>
@@ -723,7 +707,7 @@ const ServiceDetails1 = () => {
                         </div>
                         <span className="badge bg-success mb-3 d-inline-flex align-items-center fw-medium">
                           <i className="ti ti-circle-percentage me-1" />
-                          {Math.round((1 - totalPrice / totalOriginalPrice) * 100)}% Offer
+                          {Math.round((1 - totalPrice / totalOriginalPrice) * 100) || 0}% Offer
                         </span>
                       </div>
 
@@ -751,7 +735,7 @@ const ServiceDetails1 = () => {
                         Try Again
                       </button>
                     </div>
-                  ) : serviceCards.length > 0 ? (
+                  ) : serviceCards.length > 0 && (
                     serviceCards.map((card) => (
                       <>
                         <div key={card.id} className="card p-0 border-0">
@@ -800,11 +784,7 @@ const ServiceDetails1 = () => {
                         </div>
                       </>
                     ))
-                  ) : (
-                    <div className="alert alert-info">
-                      No pricing options available for this service
-                    </div>
-                  )}
+                  ) }
 
                   {/* recommendation card end */}
                 </StickyBox>

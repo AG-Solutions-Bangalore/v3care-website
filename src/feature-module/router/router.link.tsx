@@ -25,7 +25,7 @@ import HomeHeader from '../frontend/home/header/home-header';
 const SuspenseLoader = () => (
   <>
   <HomeHeader/>
-  <div style={{
+  {/* <div style={{
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -45,8 +45,15 @@ const SuspenseLoader = () => (
         to { transform: rotate(360deg); }
       }
     `}</style>
-  </div>
-
+  </div> */}
+<div className="d-flex justify-content-center align-items-center vh-100">
+          <div className="text-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            
+          </div>
+        </div>
   </>
 );
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Select from 'react-select';
@@ -671,6 +672,8 @@ style={{
                                         name="vendor_gst_no"
                                         value={vendor.vendor_gst_no}
                                         onChange={onInputChange}
+                                        minLength={15}
+                                        maxLength={15}
                                       />
                                       <label className="fs-14">
                                         GST No
@@ -694,7 +697,7 @@ style={{
                               <div className='col-md-6'>
                                 <div className="mb-3">
                                   <label className="form-label d-block">
-                                    Please add Pictures
+                                    Please add Pictures <span className='text-danger'>*</span>
                                   </label>
                                   <div className="d-flex align-items-center justify-content-center upload-field flex-column">
                                     {selectedFile1 ? (
@@ -722,8 +725,7 @@ style={{
                                           />
                                         </div>
                                         <p className="text-center fs-14">
-                                          Only .jpg .png file types allowed and file <br />
-                                          size must be less than 10 MB
+                                          Only .jpg .png file types allowed and file 
                                         </p>
                                       </>
                                     )}
@@ -734,7 +736,7 @@ style={{
                               <div className='col-md-6'>
                                 <div className="mb-3">
                                   <label className="form-label d-block">
-                                    Please add Aadhar Card Front Side
+                                    Please add Aadhar Card Front Side <span className='text-danger'>*</span>
                                   </label>
                                   <div className="d-flex align-items-center justify-content-center upload-field flex-column">
                                     {selectedFile2 ? (
@@ -762,8 +764,7 @@ style={{
                                           />
                                         </div>
                                         <p className="text-center fs-14">
-                                          Only .jpg .png file types allowed and file <br />
-                                          size must be less than 10 MB
+                                          Only .jpg .png file types allowed and file 
                                         </p>
                                       </>
                                     )}
@@ -774,7 +775,7 @@ style={{
                               <div className='col-md-6'>
                                 <div className="mb-3">
                                   <label className="form-label d-block">
-                                    Please add Aadhar Card Back Side
+                                    Please add Aadhar Card Back Side <span className='text-danger'>*</span>
                                   </label>
                                   <div className="d-flex align-items-center justify-content-center upload-field flex-column">
                                     {selectedFile3 ? (
@@ -802,8 +803,7 @@ style={{
                                           />
                                         </div>
                                         <p className="text-center fs-14">
-                                          Only .jpg .png file types allowed and file <br />
-                                          size must be less than 10 MB
+                                          Only .jpg .png file types allowed and file 
                                         </p>
                                       </>
                                     )}
@@ -841,8 +841,7 @@ style={{
                                           />
                                         </div>
                                         <p className="text-center fs-14">
-                                          Only .jpg .png file types allowed and file <br />
-                                          size must be less than 10 MB
+                                          Only .jpg .png file types allowed and file 
                                         </p>
                                       </>
                                     )}
@@ -1147,7 +1146,7 @@ style={{
                         <button
                           type="button"
                           onClick={handlePrev}
-                          className="btn btn-light d-inline-flex align-items-center prev_btn me-2"
+                               className="btn btn-sm btn-outline-primary me-2"
                         >
                           Back
                         </button>
@@ -1156,14 +1155,14 @@ style={{
                         <button
                           type="button"
                           onClick={handleNext}
-                          className="btn btn-linear-primary next_btn"
+                           className="btn btn-sm btn-outline-primary"
                         >
                           Next Step
                         </button>
                       ) : (
                         <button
                           type="submit"
-                          className="btn btn-linear-primary next_btn"
+                      className="btn btn-sm btn-outline-primary "
                           disabled={loading}
                         >
                           {loading ? "Submitting..." : "Submit"}

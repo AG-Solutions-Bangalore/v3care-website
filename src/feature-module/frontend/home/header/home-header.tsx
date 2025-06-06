@@ -116,7 +116,7 @@ const HomeHeader = () => {
                 <span>Become a Vendor</span>
               </Link>
               
-              <Link to="/cart" className="cart-icon">
+              {/* <Link to="/cart" className="cart-icon">
                 <Icon.ShoppingCart size={20} />
                 {cartItems.length > 0 && (
                   <span className="cart-count">{cartItems.length}</span>
@@ -126,7 +126,7 @@ const HomeHeader = () => {
               <Link to="/service" className="header-book-now-btn">
               <Icon.ShoppingBag size={16} />
                 <span>Book Now</span>
-              </Link>
+              </Link> */}
 
               <button 
                 className="menu-toggle" 
@@ -165,7 +165,19 @@ const HomeHeader = () => {
                 </li>
               </ul>
             </nav>
+           
           </div>
+          <Link to="/cart" className="cart-icon">
+                <Icon.ShoppingCart size={20} />
+                {cartItems.length > 0 && (
+                  <span className="cart-count">{cartItems.length}</span>
+                )}
+              </Link>
+              
+              <Link to="/service" className="header-book-now-btn">
+           
+                <span>Book Now</span>
+              </Link>
         </div>
 
         {/* Mobile Sidebar */}

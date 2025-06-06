@@ -30,7 +30,7 @@ interface ServiceSub {
 }
 
 const ServiceGrid = () => {
- 
+    
   const navigate = useNavigate();
   const branchId = localStorage.getItem("branch_id")
   const city = localStorage.getItem("city")
@@ -107,7 +107,7 @@ const ServiceGrid = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate(`/service-details/${encodeURIComponent(superCategory)}/${superCategoryId}/${encodeURIComponent(serviceName)}`, {
+        navigate(`/service-details/${encodeURIComponent(superCategory)}/${superCategoryId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -116,7 +116,7 @@ const ServiceGrid = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate(`/service-details/${encodeURIComponent(superCategory)}/${superCategoryId}/${encodeURIComponent(serviceName)}`, {
+      navigate(`/service-details/${encodeURIComponent(superCategory)}/${superCategoryId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -515,7 +515,7 @@ const ServiceGrid = () => {
                           onClick={() => {
                             const superCategory = serviceSupers.find(superCat => superCat.id === activeSuperCategory);
                             if (superCategory) {
-                                navigate(`/service-details/${encodeURIComponent(superCategory.serviceSuper)}/${superCategory.id}/${selectedService?.service}/${encodeURIComponent(subService.service_sub)}`, {
+                                navigate(`/service-details/${encodeURIComponent(superCategory.serviceSuper)}/${superCategory.id}/${selectedService?.service}/${selectedService?.id}/${encodeURIComponent(subService.service_sub)}/${subService?.id}`, {
                                     state: {
                                         service_id: selectedService?.id,
                                         service_name: selectedService?.service,

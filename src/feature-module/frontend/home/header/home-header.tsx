@@ -84,79 +84,87 @@ const HomeHeader = () => {
       )}
 
       <header className={`header ${scrollYPosition > 200 ? 'fixed' : ''}`}>
-        <div className="header-container">
-          <div className="header-brand">
-            <Link to="/" className="logo-link">
-              <img src={logoNav} className="logo-img" alt="Company Logo" />
-            </Link>
-          </div>
+        {/* First Row */}
+        <div className="header-top-row">
+          <div className="header-container">
+            <div className="header-brand">
+              <Link to="/" className="logo-link">
+                <img src={logoNav} className="logo-img" alt="Company Logo" />
+              </Link>
+            </div>
 
-          {/* Desktop Navigation (lg screens) */}
-          <nav className="desktop-nav">
-            <ul className="nav-links">
-              <li className={isRouteActive('/') ? 'active' : ''}>
-                <Link to="/">Home</Link>
-              </li>
-              <li className={isRouteActive('/about-us') ? 'active' : ''}>
-                <Link to="/about-us">About Us</Link>
-              </li>
-              <li className={isRouteActive('/service') ? 'active' : ''}>
-                <Link to="/service">Services</Link>
-              </li>
-              <li className={isRouteActive('/client') ? 'active' : ''}>
-                <Link to="/client">Clients</Link>
-              </li>
-              <li className={isRouteActive('/blog') ? 'active' : ''}>
-                <Link to="/blog">Blog</Link>
-              </li>
-              <li className={isRouteActive('/contact-us') ? 'active' : ''}>
-                <Link to="/contact-us">Contact</Link>
-              </li>
-            </ul>
-          </nav>
-
-          {/* Medium Screen Navigation (md screens) */}
-          <nav className="medium-nav">
-            <ul className="nav-links">
-              <li className={isRouteActive('/') ? 'active' : ''}>
-                <Link to="/">Home</Link>
-              </li>
-              <li className={isRouteActive('/service') ? 'active' : ''}>
-                <Link to="/service">Services</Link>
-              </li>
-              <li className={isRouteActive('/contact-us') ? 'active' : ''}>
-                <Link to="/contact-us">Contact</Link>
-              </li>
-            </ul>
-          </nav>
-
-          <div className="header-actions">
-            <div className="city-selector-container">
+            <div className="header-contact-info">
               <button className="city-selector" onClick={handleCityClick}>
                 <Icon.MapPin size={16} />
                 <span>{currentCity || 'Select City'}</span>
               </button>
+              
+              <div className="contact-item">
+                <Icon.Phone size={16} />
+                <a href="tel:+919880778585">+91 9880778585</a>
+              </div>
+              
+              <div className="contact-item">
+                <Icon.Mail size={16} />
+                <a href="mailto:info@v3care.in">info@v3care.in</a>
+              </div>
             </div>
-            <Link to="/cart" className="cart-icon">
-              <Icon.ShoppingCart size={20} />
-              {cartItems.length > 0 && (
-                <span className="cart-count">{cartItems.length}</span>
-              )}
-            </Link>
 
-            <Link to="/become-vendor" className="vendor-btn">
-              <Icon.User size={16} />
-              <span>Become a Vendor</span>
-            </Link>
+            <div className="header-top-actions">
+              <Link to="/become-vendor" className="vendor-btn">
+                <Icon.User size={16} />
+                <span>Become a Vendor</span>
+              </Link>
+              
+              <Link to="/cart" className="cart-icon">
+                <Icon.ShoppingCart size={20} />
+                {cartItems.length > 0 && (
+                  <span className="cart-count">{cartItems.length}</span>
+                )}
+              </Link>
+              
+              <Link to="/service" className="header-book-now-btn">
+              <Icon.ShoppingBag size={16} />
+                <span>Book Now</span>
+              </Link>
 
-            <button 
-              className="menu-toggle" 
-              onClick={toggleMenu} 
-              aria-label="Toggle menu" 
-              ref={toggleButtonRef}
-            >
-              <Icon.Menu size={24} />
-            </button>
+              <button 
+                className="menu-toggle" 
+                onClick={toggleMenu} 
+                aria-label="Toggle menu" 
+                ref={toggleButtonRef}
+              >
+                <Icon.Menu size={24} />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Second Row - Navigation */}
+        <div className="header-bottom-row">
+          <div className="header-container">
+            <nav className="main-nav">
+              <ul className="nav-links">
+                <li className={isRouteActive('/') ? 'active' : ''}>
+                  <Link to="/">Home</Link>
+                </li>
+                <li className={isRouteActive('/about-us') ? 'active' : ''}>
+                  <Link to="/about-us">About Us</Link>
+                </li>
+                <li className={isRouteActive('/service') ? 'active' : ''}>
+                  <Link to="/service">Services</Link>
+                </li>
+                <li className={isRouteActive('/client') ? 'active' : ''}>
+                  <Link to="/client">Clients</Link>
+                </li>
+                <li className={isRouteActive('/blog') ? 'active' : ''}>
+                  <Link to="/blog">Blog</Link>
+                </li>
+                <li className={isRouteActive('/contact-us') ? 'active' : ''}>
+                  <Link to="/contact-us">Contact</Link>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
 
@@ -173,6 +181,11 @@ const HomeHeader = () => {
           </div>
 
           <div className="sidebar-content">
+            <div className="sidebar-city-selector" onClick={() => { handleCityClick(); closeMenu(); }}>
+              <Icon.MapPin size={18} />
+              <span>{currentCity || 'Select Your City'}</span>
+            </div>
+
             <ul className="sidebar-links">
               <li className={isRouteActive('/') ? 'active' : ''}>
                 <Link to="/" onClick={closeMenu}>
@@ -213,17 +226,14 @@ const HomeHeader = () => {
             </ul>
 
             <div className="sidebar-actions">
-              <button 
-                className="sidebar-city-selector" 
-                onClick={() => { handleCityClick(); closeMenu(); }}
-              >
-                <Icon.MapPin size={18} />
-                <span>{currentCity || 'Select Your City'}</span>
-              </button>
-              
               <Link to="/become-vendor" className="sidebar-vendor-btn" onClick={closeMenu}>
                 <Icon.User size={18} />
                 <span>Become a Vendor</span>
+              </Link>
+              
+              <Link to="/service" className="sidebar-header-book-now-btn" onClick={closeMenu}>
+                <Icon.ShoppingBag size={18} />
+                <span>Book Now</span>
               </Link>
             </div>
           </div>

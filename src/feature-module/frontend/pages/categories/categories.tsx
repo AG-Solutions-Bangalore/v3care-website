@@ -60,7 +60,7 @@ const Categories = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate(`/service-details/${category_name}/${id}/${encodeURIComponent(serviceName)}`, {
+        navigate(`/service-details/${category_name}/${id}/${encodeURIComponent(serviceName)}/${serviceId}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -69,7 +69,7 @@ const Categories = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate(`/service-details/${category_name}/${id}/${encodeURIComponent(serviceName)}`, {
+      navigate(`/service-details/${category_name}/${id}/${encodeURIComponent(serviceName)}/${serviceId}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -261,7 +261,7 @@ const Categories = () => {
                 <div key={subService.id} className="col-6 col-sm-4 col-md-3" >
                   <div 
                     className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                    onClick={() => navigate(`/service-details/${category_name}/${id}/${selectedService?.service}/${subService.service_sub}`, {
+                    onClick={() => navigate(`/service-details/${category_name}/${id}/${selectedService?.service}/${selectedService?.id}/${subService.service_sub}/${subService?.id}`, {
                       state: {
                         service_id: selectedService?.id,
                         service_name: selectedService?.service,

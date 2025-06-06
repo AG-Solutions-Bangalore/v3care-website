@@ -494,47 +494,8 @@ const Cart = () => {
         },
         modal: {
           ondismiss: async function () {
-            showNotification('Payment modal was closed. No payment was made.', 'error');
-            // try {
-            //   const bookingResponse = await axios.post(
-            //     `${BASE_URL}/api/panel-create-web-booking-out`,
-            //     { booking_data: bookingDataTemplateModalClose }
-            //   );
-
-            //   if (bookingResponse.data.code === 200) {
-            //     navigate('/payment-success', {
-            //       state: {
-            //         amount: totalPrice,
-            //         service_name: cartItems[0]?.service_name,
-            //         service_sub_name: cartItems[0]?.service_sub_name,
-            //         payment_status: 'failed',
-            //         booking_status: 'confirmed',
-            //         selected_prices: cartItems,
-            //         booking_data: bookingDataTemplateModalClose
-            //       }
-            //     });
-            //     dispatch(clearCart());
-            //   } else {
-            //     navigate('/booking-failed', {
-            //       state: {
-            //         error: 'Payment was not completed and booking creation failed',
-            //         amount: totalPrice,
-            //         service_name: cartItems[0]?.service_name,
-            //         service_sub_name: cartItems[0]?.service_sub_name
-            //       }
-            //     });
-            //   }
-            // } catch (error) {
-            //   console.error("Failed to update booking status:", error);
-            //   navigate('/booking-failed', {
-            //     state: {
-            //       error: 'Payment was not completed and booking creation failed',
-            //       amount: totalPrice,
-            //       service_name: cartItems[0]?.service_name,
-            //       service_sub_name: cartItems[0]?.service_sub_name
-            //     }
-            //   });
-            // }
+            console.log('Payment modal was closed. No payment was made.');
+           
           }
         }
       };
@@ -545,6 +506,7 @@ const Cart = () => {
         error: {
           description: string;
           code: string;
+          source: string;
           metadata: {
             payment_id?: string;
             order_id?: string;
@@ -552,12 +514,18 @@ const Cart = () => {
         };
       }) {
         let errorMessage = response.error.description;
-        const paymentMethod = '';
-
-        if (response.error.code === 'PAYMENT_CANCELLED') {
+        // const errorResponse = response.error
+        // const errorResponseOnly = response
+        const paymentMethod = response.error.source;
+        // console.log("res",errorResponse)
+        // console.log("response only",errorResponseOnly)
+        // console.log(errorMessage)
+        if (response.error.code === 'BAD_REQUEST_ERROR') {
           errorMessage = 'Payment was cancelled by user';
+          console.log(errorMessage)
         } else if (response.error.code === 'PAYMENT_FAILED') {
           errorMessage = 'Payment failed. Please try again or use another method';
+              console.log(errorMessage)
         }
 
         navigate('/booking-failed', {

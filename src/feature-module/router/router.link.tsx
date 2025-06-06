@@ -129,31 +129,39 @@ const publicRoutes = [
     element: <Suspense fallback={<SuspenseLoader />}><ServiceRequest /></Suspense>,
     route: Route,
   },
+    // service_id : state?.service_id 
+    // service_sub_id : state?.service_sub_id
+  {
+    path: '/service-details/:category_name/:id/:service_name/:service_id',
+    name: 'service-details',
+    element: <ServiceDetails1 />,
+    route: Route,
+  },
+  
+  {
+    path: '/service-details/:category_name/:id/:service_name/:service_id/:service_sub_name/:service_sub_id',
+    name: 'service-details-sub',
+    element: <ServiceDetails1 />,
+    route: Route,
+  },
+
+
+  // homepage go to service details 
 
   {
-    path: '/service-details/:category_name/:id/:service_name',
+    path: '/service-details/:service_name/:service_id',
     name: 'service-details',
     element: <ServiceDetails1 />,
     route: Route,
   },
   {
-    path: '/service-details/:service_name',
-    name: 'service-details',
-    element: <ServiceDetails1 />,
-    route: Route,
-  },
-  {
-    path: '/service-details/:service_name/:service_sub_name',
+    path: '/service-details/:service_name/:service_id/:service_sub_name/:service_sub_id',
     name: 'service-details-sub',
     element: <ServiceDetails1 />,
     route: Route,
   },
-  {
-    path: '/service-details/:category_name/:id/:service_name/:service_sub_name',
-    name: 'service-details-sub',
-    element: <ServiceDetails1 />,
-    route: Route,
-  },
+
+
   {
     path: '/blog-details/:id',
     name: 'blogDetails',

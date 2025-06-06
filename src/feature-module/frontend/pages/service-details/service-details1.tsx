@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'yet-another-react-lightbox/styles.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import StickyBox from 'react-sticky-box';
 import axios from 'axios';
 import { BASE_URL, SERVICE_DETAILS_IMAGE_URL } from '../../../baseConfig/BaseUrl';
@@ -16,6 +16,40 @@ import './ServiceDetails.css'
 const ServiceDetails1 = () => {
 
   const dispatch = useDispatch();
+
+
+   
+
+     const params = useParams<{
+      id?: string;
+      category_name?: string;
+      service_name?: string;
+      service_sub_name?: string;
+      service_id?: string;
+      service_sub_id?: string;
+    }>();
+    
+    const {
+      id = "",
+      category_name = "",
+      service_name = "",
+      service_sub_name = "",
+      service_id = "",
+      service_sub_id = "",
+    } = params;
+ 
+
+    // id : supercategory id 
+
+    // category_name : supecategory name
+
+    // service_name :  state?.service_name
+
+    // service_sub_name : state?.service_sub_name 
+
+    // service_id : state?.service_id 
+
+    // service_sub_id : state?.service_sub_id
 
   const location = useLocation();
   const { state } = location;
@@ -74,8 +108,8 @@ const ServiceDetails1 = () => {
         `${BASE_URL}/api/panel-fetch-web-service-price-out`,
         {
           branch_id: branch_id,
-          order_service: state?.service_id,
-          order_service_sub: state?.service_sub_id,
+          order_service: service_id,
+          order_service_sub: service_sub_id,
         },
       );
 
@@ -96,8 +130,8 @@ const ServiceDetails1 = () => {
       const response = await axios.post(
         `${BASE_URL}/api/panel-fetch-web-service-details-out`,
         {
-          service_id: state?.service_id,
-          service_sub_id: state?.service_sub_id,
+          service_id: service_id,
+          service_sub_id: service_sub_id,
         },
       );
 
@@ -111,16 +145,16 @@ const ServiceDetails1 = () => {
   };
 
   useEffect(() => {
-    if (state?.service_id && branch_id) {
+    if (service_id && branch_id) {
       fetchServicePrices();
     }
-  }, [state?.service_id, state?.service_sub_id, branch_id]);
+  }, [service_id, service_sub_id, branch_id]);
 
   useEffect(() => {
-    if (state?.service_id) {
+    if (service_id) {
       fetchServiceCard();
     }
-  }, [state?.service_id, state?.service_sub_id]);
+  }, [service_id, service_sub_id]);
 
   useEffect(() => {
     if (servicePrices.length > 0) {
@@ -314,7 +348,7 @@ const ServiceDetails1 = () => {
                 <div className="card border-0">
                   <div className="card-body">
                     <div className="service-head mb-2">
-                      {/* <div className="d-flex align-items-center justify-content-between flex-wrap">
+                {/* <div className="d-flex align-items-center justify-content-between flex-wrap">
                         <h3 className="mb-2">Lighting Servicesedit</h3>
                         <h3 className="mb-2">
                           {state?.service_name || 'Service Name'}
@@ -337,13 +371,13 @@ const ServiceDetails1 = () => {
 
                         </span>
 
-                      </div> */}
+                      </div>  */}
                       <div className="d-flex align-items-center justify-content-between flex-wrap mb-3">
                         <div className="d-flex align-items-center flex-wrap">
                           <h4 className="mb-0 text-primary fw-bold">
-                            {state?.service_name || 'Service Name'}
-                            {state?.service_sub_name && (
-                              <span style={{ color: 'gray', fontSize: '14px', }}>( {state?.service_sub_name})</span>
+                            {service_name || 'Service Name'}
+                            { service_sub_name && (
+                              <span style={{ color: 'gray', fontSize: '14px', }}>( {service_sub_name})</span>
                             )}
                           </h4>
                         </div>
@@ -461,10 +495,10 @@ const ServiceDetails1 = () => {
           service_price_for: price.service_price_for,
           service_price_rate: price.service_price_rate,
           service_price_amount: price.service_price_amount,
-          service_id: state?.service_id,
-          service_name: state?.service_name,
-          service_sub_id: state?.service_sub_id,
-          service_sub_name: state?.service_sub_name,
+          service_id: service_id,
+          service_name: service_name,
+          service_sub_id: service_sub_id,
+          service_sub_name: service_sub_name,
           service_label: price?.status_label,
         }));
       });
@@ -488,10 +522,10 @@ const ServiceDetails1 = () => {
           service_price_for: price.service_price_for,
           service_price_rate: price.service_price_rate,
           service_price_amount: price.service_price_amount,
-          service_id: state?.service_id,
-          service_name: state?.service_name,
-          service_sub_id: state?.service_sub_id,
-          service_sub_name: state?.service_sub_name,
+          service_id: service_id,
+          service_name: service_name,
+          service_sub_id: service_sub_id,
+          service_sub_name: service_sub_name,
           service_label: price?.status_label,
         }));
       });

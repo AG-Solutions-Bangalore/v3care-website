@@ -217,7 +217,7 @@ const ServiceDetails1 = () => {
       <div
         style={{
           position: 'fixed',
-          top: isSmallScreen ? '70px' : '90px',
+          top: isSmallScreen ? '105px' : '110px',
           right: '20px',
           zIndex: 1000,
           maxWidth: '300px',

@@ -165,16 +165,14 @@ const Cart = () => {
     const loadScript = (url: string, callback: () => void) => {
       const script = document.createElement("script");
       script.type = "text/javascript";
-      if (script.readyState) {
-        script.onreadystatechange = function () {
-          if (script.readyState === "loaded" || script.readyState === "complete") {
-            script.onreadystatechange = null;
-            callback();
-          }
-        };
-      } else {
-        script.onload = () => callback();
+
+      script.onload = () => callback();
+
+       (script as any).onreadystatechange = function() {
+      if ((script as any).readyState === "loaded" || (script as any).readyState === "complete") {
+        callback();
       }
+    };
       script.src = url;
       document.getElementsByTagName("head")[0].appendChild(script);
     };
@@ -571,7 +569,7 @@ const Cart = () => {
       <div
         style={{
           position: 'fixed',
-          top: isSmallScreen ? '70px' : '90px',
+        top: isSmallScreen ? '105px' : '110px',
           right: '20px',
           zIndex: 1000,
           maxWidth: '300px',
@@ -687,6 +685,7 @@ const Cart = () => {
                                 onChange={handleInputChange}
                                 required
                                 disabled={isLoadingPrices}
+                                // onClick={(e) => e.currentTarget.showPicker()}
                               />
                               {isLoadingPrices && (
                                 <div style={{
@@ -713,6 +712,7 @@ const Cart = () => {
                               value={formData.order_time}
                               onChange={(e) => setFormData({ ...formData, order_time: e.target.value })}
                               required
+                              // onClick={(e) => e.currentTarget.showPicker()}
                             />
                           </div>
                         </div>

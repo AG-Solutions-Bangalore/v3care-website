@@ -91,6 +91,9 @@
         color: $gray-600;
     }
 }
+
+
+
 .form-floating > .form-control:not(:placeholder-shown) ~ label,.form-control:focus~label {
     top: -10px;
     color: $gray-900;

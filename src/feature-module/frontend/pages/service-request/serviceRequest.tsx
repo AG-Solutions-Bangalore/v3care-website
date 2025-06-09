@@ -30,6 +30,7 @@ interface VendorState {
   vendor_email: string;
   vendor_aadhar_no: string;
   vendor_gst_no: string;
+  vendor_job_skills: string;
   vendor_images: string;
   vendor_aadhar_front: string;
   vendor_aadhar_back: string;
@@ -69,6 +70,7 @@ const ServiceRequest = () => {
     vendor_email: "",
     vendor_aadhar_no: "",
     vendor_gst_no: "",
+    vendor_job_skills:"",
     vendor_images: "",
     vendor_aadhar_front: "",
     vendor_aadhar_back: "",
@@ -219,7 +221,7 @@ const showNotification = (message: string, type: 'success' | 'error') => {
     return phoneno.test(inputtxt) || inputtxt.length === 0;
   };
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (
       (name === "vendor_mobile" ||
@@ -305,6 +307,7 @@ const showNotification = (message: string, type: 'success' | 'error') => {
     data.append("branch_id", vendor.branch_id);
     data.append("vendor_aadhar_no", vendor.vendor_aadhar_no);
     data.append("vendor_gst_no", vendor.vendor_gst_no);
+    data.append("vendor_job_skills", vendor.vendor_job_skills);
     data.append("vendor_ref_name_1", vendor.vendor_ref_name_1);
     data.append("vendor_ref_mobile_1", vendor.vendor_ref_mobile_1);
     data.append("vendor_ref_name_2", vendor.vendor_ref_name_2);
@@ -356,6 +359,7 @@ const showNotification = (message: string, type: 'success' | 'error') => {
           vendor_email: "",
           vendor_aadhar_no: "",
           vendor_gst_no: "",
+          vendor_job_skills: "",
           vendor_images: "",
           vendor_aadhar_front: "",
           vendor_aadhar_back: "",
@@ -453,7 +457,7 @@ const showNotification = (message: string, type: 'success' | 'error') => {
      <div
 style={{
   position: 'fixed',
-  top: isSmallScreen ? '70px' : '90px',
+  top: isSmallScreen ? '105px' : '110px',
   right: '20px',
   zIndex: 1000,
   maxWidth: '300px',
@@ -677,6 +681,31 @@ style={{
                                       />
                                       <label className="fs-14">
                                         GST No
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+
+                                <div className="col-md-12">
+                                  <div className="mb-4">
+                                    <div className="form-floating">
+                                      <textarea
+                                      style={{
+                                      minHeight:"80px",
+                                      height:"80px"
+                                      }}
+                                        className="form-control"
+                                        placeholder=""
+                                        name="vendor_job_skills"
+                                        value={vendor.vendor_job_skills}
+                                        onChange={onInputChange}
+                                       rows={5}
+                                     
+                                      />
+                                      <label className="fs-14">
+                                        Vendor Job Skills
                                       </label>
                                     </div>
                                   </div>

@@ -54,7 +54,6 @@ const HomeHeader = () => {
 
   const isRouteActive = (path: string) => location.pathname === path;
 
-  // Close sidebar when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -84,100 +83,129 @@ const HomeHeader = () => {
       )}
 
       <header className={`header ${scrollYPosition > 200 ? 'fixed' : ''}`}>
-        {/* First Row */}
-        <div className="header-top-row">
-          <div className="header-container">
-            <div className="header-brand">
-              <Link to="/" className="logo-link">
-                <img src={logoNav} className="logo-img" alt="Company Logo" />
-              </Link>
-            </div>
+        <div className="header-container">
+          {/* Logo - Spans both rows */}
+          <div className="header-brand">
+            <Link to="/" className="logo-link">
+              <img src={logoNav} className="logo-img" alt="Company Logo" />
+            </Link>
+          </div>
 
+          {/* First Row Content */}
+          <div className="header-top-content">
+            {/* Contact Info - Center on large, hidden on small */}
             <div className="header-contact-info">
               <button className="city-selector" onClick={handleCityClick}>
                 <Icon.MapPin size={16} />
-                <span>{currentCity || 'Select City'}</span>
+                <span className="contact-text">{currentCity || 'Select City'}</span>
               </button>
               
               <div className="contact-item">
                 <Icon.Phone size={16} />
-                <a href="tel:+919880778585">+91 9880778585</a>
+                <a href="tel:+919880778585" className="contact-text">+91 9880778585</a>
               </div>
               
               <div className="contact-item">
                 <Icon.Mail size={16} />
-                <a href="mailto:info@v3care.in">info@v3care.in</a>
+                <a href="mailto:info@v3care.in" className="contact-text">info@v3care.in</a>
               </div>
             </div>
 
+            {/* Small screen contact icons - Only visible on mobile */}
+            <div className="header-contact-icons">
+              <button className="city-selector" onClick={handleCityClick}>
+                <Icon.MapPin size={16} />
+              </button>
+              <a href="tel:+919880778585" className="contact-icon-btn">
+                <Icon.Phone size={18} />
+              </a>
+              <a href="mailto:info@v3care.in" className="contact-icon-btn">
+                <Icon.Mail size={18} />
+              </a>
+            </div>
+
+            {/* Top Actions - Right side */}
             <div className="header-top-actions">
               <Link to="/become-vendor" className="vendor-btn">
                 <Icon.User size={16} />
-                <span>Become a Vendor</span>
+                <span className="btn-text">Become a Vendor</span>
               </Link>
-              
-              {/* <Link to="/cart" className="cart-icon">
-                <Icon.ShoppingCart size={20} />
-                {cartItems.length > 0 && (
-                  <span className="cart-count">{cartItems.length}</span>
-                )}
-              </Link>
-              
-              <Link to="/service" className="header-book-now-btn">
-              <Icon.ShoppingBag size={16} />
-                <span>Book Now</span>
-              </Link> */}
-
-              <button 
-                className="menu-toggle" 
-                onClick={toggleMenu} 
-                aria-label="Toggle menu" 
-                ref={toggleButtonRef}
-              >
-                <Icon.Menu size={24} />
-              </button>
             </div>
           </div>
-        </div>
 
-        {/* Second Row - Navigation */}
-        <div className="header-bottom-row">
-          <div className="header-container">
-            <nav className="main-nav">
-              <ul className="nav-links">
-                <li className={isRouteActive('/') ? 'active' : ''}>
-                  <Link to="/">Home</Link>
-                </li>
-                <li className={isRouteActive('/about-us') ? 'active' : ''}>
-                  <Link to="/about-us">About Us</Link>
-                </li>
-                <li className={isRouteActive('/service') ? 'active' : ''}>
-                  <Link to="/service">Services</Link>
-                </li>
-                <li className={isRouteActive('/client') ? 'active' : ''}>
-                  <Link to="/client">Clients</Link>
-                </li>
-                <li className={isRouteActive('/blog') ? 'active' : ''}>
-                  <Link to="/blog">Blog</Link>
-                </li>
-                <li className={isRouteActive('/contact-us') ? 'active' : ''}>
-                  <Link to="/contact-us">Contact</Link>
-                </li>
-              </ul>
-            </nav>
-           
+          {/* Second Row - Navigation */}
+          <div className="header-bottom-content">
+            {/* Desktop Navigation - Full menu for large screens */}
+            <div className="nav-actions-container">
+    {/* Desktop Navigation - Full menu for large screens */}
+    <nav className="desktop-nav">
+      <ul className="nav-links">
+        <li className={isRouteActive('/') ? 'active' : ''}>
+          <Link to="/">Home</Link>
+        </li>
+        <li className={isRouteActive('/about-us') ? 'active' : ''}>
+          <Link to="/about-us">About Us</Link>
+        </li>
+        <li className={isRouteActive('/service') ? 'active' : ''}>
+          <Link to="/service">Services</Link>
+        </li>
+        <li className={isRouteActive('/client') ? 'active' : ''}>
+          <Link to="/client">Clients</Link>
+        </li>
+        <li className={isRouteActive('/blog') ? 'active' : ''}>
+          <Link to="/blog">Blog</Link>
+        </li>
+        <li className={isRouteActive('/contact-us') ? 'active' : ''}>
+          <Link to="/contact-us">Contact</Link>
+        </li>
+      </ul>
+    </nav>
+
+    {/* Medium Screen Navigation - Reduced menu */}
+    <nav className="medium-nav">
+      <ul className="nav-links">
+        <li className={isRouteActive('/') ? 'active' : ''}>
+          <Link to="/">Home</Link>
+        </li>
+        <li className={isRouteActive('/service') ? 'active' : ''}>
+          <Link to="/service">Services</Link>
+        </li>
+        <li className={isRouteActive('/contact-us') ? 'active' : ''}>
+          <Link to="/contact-us">Contact</Link>
+        </li>
+      </ul>
+    </nav>
+
+    {/* Action Buttons - Now part of the centered container */}
+    <div className="header-bottom-actions">
+      <Link to="/cart" className="cart-icon">
+        <Icon.ShoppingCart size={20} />
+        {cartItems.length > 0 && (
+          <span className="cart-count">{cartItems.length}</span>
+        )}
+      </Link>
+      
+      <Link to="/service" className="header-book-now-btn">
+        <Icon.Plus size={16} className="book-now-icon" />
+        <span className="btn-text">Book</span>
+      </Link>
+
+      {/* Become Vendor for small screens */}
+      <Link to="/become-vendor" className="vendor-btn-mobile">
+        <Icon.User size={16} />
+      </Link>
+
+      <button 
+        className="menu-toggle" 
+        onClick={toggleMenu} 
+        aria-label="Toggle menu" 
+        ref={toggleButtonRef}
+      >
+        <Icon.Menu size={24} />
+      </button>
+    </div>
+  </div>
           </div>
-          <Link to="/cart" className="cart-icon">
-                <Icon.ShoppingCart size={20} />
-                {cartItems.length > 0 && (
-                  <span className="cart-count">{cartItems.length}</span>
-                )}
-              </Link>
-              
-              <Link to="/service" className="header-book-now-btn">
-           
-                <span>Book Now</span>
-              </Link>
         </div>
 
         {/* Mobile Sidebar */}
@@ -244,7 +272,7 @@ const HomeHeader = () => {
               </Link>
               
               <Link to="/service" className="sidebar-header-book-now-btn" onClick={closeMenu}>
-                <Icon.ShoppingBag size={18} />
+                <Icon.Plus size={18} />
                 <span>Book Now</span>
               </Link>
             </div>
@@ -256,3 +284,6 @@ const HomeHeader = () => {
 };
 
 export default HomeHeader;
+
+
+//sajid 

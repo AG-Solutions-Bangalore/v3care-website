@@ -43,6 +43,7 @@
   width: 100%;
   margin: 0 auto;
   padding: 0 1.5rem;
+  gap: 1rem;
 }
 
 /* Header Rows */
@@ -56,7 +57,6 @@
 .header-bottom-row {
   display: flex;
   align-items: center;
-
   height: 40px;
   background: white;
 }
@@ -81,7 +81,7 @@
   transition: var(--transition);
 }
 
-/* Contact Info */
+/* Contact Info - Large Screens */
 .header-contact-info {
   display: flex;
   align-items: center;
@@ -89,6 +89,35 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.header-contact-icons {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.contact-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-light);
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-color);
+  width: 36px;
+  height: 36px;
+  text-decoration: none;
+}
+
+.contact-icon-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: scale(1.05);
 }
 
 .city-selector {
@@ -122,11 +151,23 @@
   color: var(--text-color);
 }
 
+.contact-item a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
 /* Header Actions */
 .header-top-actions {
   display: flex;
   align-items: center;
   gap: 0.8rem;
+}
+
+.header-bottom-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-left: auto;
 }
 
 .vendor-btn {
@@ -151,28 +192,48 @@
   transform: translateY(-1px);
 }
 
+.vendor-btn-mobile {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 50%;
+  padding: 0.5rem;
+  text-decoration: none;
+  transition: var(--transition);
+  width: 36px;
+  height: 36px;
+}
+
+.vendor-btn-mobile:hover {
+  background: black;
+  color: white;
+  transform: scale(1.05);
+}
+
 .header-book-now-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  width: 105px;
+  gap: 0.4rem;
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid black;
   border-radius: var(--border-radius);
   padding: 0.5rem 1rem;
-  margin-left: 1rem;
   text-decoration: none;
   font-weight: 500;
   transition: var(--transition);
   font-size: 0.85rem;
+  min-width: 105px;
 }
 
 .header-book-now-btn:hover {
-  background: white;
-  width: 125px;
+  background: #ffffff;
   border: 1px solid var(--primary-color);
-  color: var(--primary-color);
+  color: #000000;
   transform: translateY(-1px);
 }
 
@@ -188,6 +249,7 @@
   color: var(--text-color);
   width: 36px;
   height: 36px;
+  text-decoration: none;
 }
 
 .cart-icon:hover {
@@ -227,14 +289,18 @@
 }
 
 /* Navigation */
-.main-nav {
-  width: 100%;
+.desktop-nav {
+  flex: 1;
+  display: flex;
+}
+
+.medium-nav {
+  flex: 1;
+  display: none;
 }
 
 .nav-links {
   display: flex;
-  justify-content: center;
-  width:100%;
   gap: 3rem;
   list-style: none;
   margin: 0;
@@ -373,7 +439,7 @@
 }
 
 .sidebar-city-selector {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 1rem;
   width: 100%;
@@ -440,9 +506,9 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
-  background: var(--primary-color);
-  color: white;
-  border: none;
+  background: white;
+  color: black;
+  border: 1px solid black;
   border-radius: var(--border-radius);
   padding: 0.75rem 1rem;
   text-decoration: none;
@@ -453,9 +519,9 @@
 }
 
 .sidebar-vendor-btn:hover {
-  background: white;
+  background: black;
   border: 1px solid var(--primary-color);
-  color: var(--primary-color);
+  color: white;
 }
 
 .sidebar-header-book-now-btn {
@@ -464,9 +530,9 @@
   justify-content: center;
   gap: 1rem;
   width: 100%;
-  background: var(--primary-color);
-  color: white;
-  border: none;
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid black;
   border-radius: var(--border-radius);
   padding: 0.75rem 1rem;
   text-decoration: none;
@@ -475,9 +541,9 @@
 }
 
 .sidebar-header-book-now-btn:hover {
-  background: white;
+  background: black;
   border: 1px solid var(--primary-color);
-  color: var(--primary-color);
+  color: white;
 }
 
 /* Responsive Styles */
@@ -487,7 +553,7 @@
   }
   
   .nav-links {
-    gap: 1.5rem;
+    gap: 2rem;
   }
 }
 
@@ -496,17 +562,35 @@
     gap: 1rem;
   }
   
-  .contact-item span,
-  .city-selector span {
+  .contact-text {
     font-size: 0.85rem;
   }
   
   .nav-links {
-    gap: 1rem;
+    gap: 1.5rem;
+  }
+  
+  
+  .desktop-nav {
+    display: none;
+  }
+  
+  .medium-nav {
+    display: flex;
   }
   
   .menu-toggle {
     display: block;
+  }
+  
+
+  
+  .vendor-btn-mobile {
+    display: none;
+  }
+
+  .header-bottom-actions {
+    margin-left: 0;
   }
 }
 
@@ -515,47 +599,235 @@
     display: none;
   }
   
-  .header-top-actions {
+  .header-contact-icons {
+    display: flex;
     margin-left: auto;
   }
   
-  .vendor-btn span,
-  .header-book-now-btn span {
+  .header-top-actions {
+    margin-left: auto;
+    margin-right: 0;
+  }
+  
+  .vendor-btn {
+    display: flex;
+  }
+  
+  .vendor-btn-mobile {
     display: none;
   }
   
-  .vendor-btn,
+  .medium-nav {
+    display: flex;
+  }
+  .desktop-nav {
+    display: none;
+  }
+  .header-bottom-actions {
+
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+
   .header-book-now-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    justify-content: center;
-    border-radius: 50%;
-  }
-  
-  .nav-links {
-    gap: 0.8rem;
-  }
-  
-  .nav-links li a {
-    font-size: 0.85rem;
+    min-width: auto;
+    margin-right: auto;
   }
 }
 
-@media (max-width: 575px) {
+
+@media (max-width: 574px) {
   .header-container {
     padding: 0 1rem;
+  
+  }
+  
+  .header-bottom-actions {
+    justify-content: flex-end; 
+    padding: 0;
+    margin-left: auto; 
+  }
+  .mobile-sidebar {
+    width: 280px;
+  }
+  .vendor-btn {
+    display: flex;
+  }
+  .header-contact-icons {
+    gap: 0.5rem;
+  }
+  
+  .contact-icon-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0.4rem;
+  }
+  
+  .contact-icon-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  .medium-nav {
+    display: flex;
+  }
+  .logo-img {
+    height: 50px;
+  }
+
+  .header-bottom-actions {
+    gap: 0.5rem;
+  }
+  .vendor-btn-mobile {
+    display: none;
+  }
+  .header-book-now-btn {
+    padding: 0.5rem;
+    min-width: auto;
+  }
+
+  .header-book-now-btn .btn-text {
+    display: flex;
+  }
+}
+
+
+
+@media (max-width: 496px) {
+  .header-container {
+    padding: 0 1rem;
+  }
+  
+  .header-bottom-actions {
+    justify-content: flex-end; 
+    padding: 0;
+    margin-left: auto; 
   }
   
   .mobile-sidebar {
     width: 280px;
   }
   
-  .nav-links {
+  .vendor-btn {
+    display: flex;
+   
+    justify-content: center;
+    padding: 0.5rem;
+  }
+  
+  .vendor-btn .btn-text {
+    display: none; 
+  }
+  
+  .header-contact-icons {
     gap: 0.5rem;
   }
   
-  .nav-links li a {
-    font-size: 0.8rem;
+  .contact-icon-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0.4rem;
+  }
+  
+  .contact-icon-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .medium-nav {
+    display: none;
+  }
+  
+  .logo-img {
+    height: 50px;
+  }
+
+  .header-bottom-actions {
+    gap: 0.5rem;
+  }
+  
+  .vendor-btn-mobile {
+    display: none;
+  }
+  
+  .header-book-now-btn {
+    padding: 0.5rem;
+    min-width: auto;
+  }
+
+  .header-book-now-btn .btn-text {
+    display: flex;
+  }
+}
+
+
+
+@media (max-width: 317px) {
+  .header-container {
+    padding: 0 1rem;
+  }
+  
+  .header-bottom-actions {
+    justify-content: flex-end; 
+    padding: 0;
+    margin-left: auto; 
+  }
+  
+  .mobile-sidebar {
+    width: 280px;
+  }
+  
+  .vendor-btn {
+    display: flex;
+  
+    justify-content: center;
+    padding: 0.5rem;
+  }
+  
+  .vendor-btn .btn-text {
+    display: none; 
+  }
+  
+  .header-contact-icons {
+    gap: 0.5rem;
+  }
+  .header-contact-icons .city-selector {
+    display: none;
+  }
+  .contact-icon-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0.4rem;
+  }
+  
+  .contact-icon-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .medium-nav {
+    display: none;
+  }
+  
+  .logo-img {
+    height: 50px;
+  }
+  .sidebar-city-selector {
+    display: flex;
+  }
+  .header-bottom-actions {
+    gap: 0.5rem;
+  }
+  
+  .vendor-btn-mobile {
+    display: none;
+  }
+  
+  .header-book-now-btn {
+    padding: 0.5rem;
+    min-width: auto;
+  }
+
+  .header-book-now-btn .btn-text {
+    display: flex;
   }
 }

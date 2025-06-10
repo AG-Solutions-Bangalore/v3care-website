@@ -14,6 +14,7 @@ import AllRoutes from './feature-module/router/router';
 import { Provider } from "react-redux";
 import Store, { persistor } from './core/redux/store';
 const rootElement = document.getElementById('root');
+
 // const location = window.location.pathname;
 
 // useEffect(() => {
@@ -29,13 +30,17 @@ if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
+       
         <Provider store={Store}>
         <PersistGate loading={null} persistor={persistor}>
+       
         <BrowserRouter basename={base_path}>
           <AllRoutes />
         </BrowserRouter>
+     
         </PersistGate>
         </Provider>
+      
     </React.StrictMode>,
   );
 } else {

@@ -15,7 +15,12 @@ const Cart = () => {
   const [isSmallScreen, setIsSmallScreen] = React.useState(window.innerWidth < 600);
   // const [showBreakdown, setShowBreakdown] = React.useState(false);
   const [isLoadingPrices, setIsLoadingPrices] = React.useState(false);
-  const [notifications, setNotifications] = React.useState<{ id: string, message: string, type: 'success' | 'error' }[]>([]);
+  const [notifications, setNotifications] = React.useState<{ 
+    id: string, 
+    message: string, 
+    type: 'success' | 'error',
+    persistent?: boolean 
+  }[]>([]);
   const [query, setQuery] = React.useState('');
   const branch_id = localStorage.getItem('branch_id');
   const autoCompleteRef = React.useRef<HTMLInputElement>(null);
@@ -85,15 +90,17 @@ const Cart = () => {
     order_transaction_details: "",
   });
 
-  const showNotification = (message: string, type: 'success' | 'error') => {
+  const showNotification = (message: string, type: 'success' | 'error', persistent = false) => {
     const id = Date.now().toString();
-    setNotifications((prev) => [...prev, { id, message, type }]);
-
-    setTimeout(() => {
-      removeNotification(id);
-    }, 5000);
+    setNotifications((prev) => [...prev, { id, message, type, persistent }]);
+  
+    // Only set auto-remove timeout for non-persistent notifications
+    if (!persistent) {
+      setTimeout(() => {
+        removeNotification(id);
+      }, 5000);
+    }
   };
-
   const removeNotification = (id: string) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
@@ -289,21 +296,21 @@ const Cart = () => {
     if (!validateForm()) {
       return;
     }
-
-    try {
-      const bookingData = cartItems.map(item => ({
-        order_service_price_for: item.id,
-        order_service_price: item.service_price_rate,
-        order_amount: item.service_price_amount,
-        order_remarks: formData.order_remarks,
-        order_service: item.service_id || '', 
-        order_service_sub: item.service_sub_id || '', 
-        ...Object.fromEntries(
-          Object.entries(formData).filter(([key]) =>
-            !['order_service_price_for', 'order_service_price', 'order_amount', 'order_service', 'order_service_sub'].includes(key)
-          )
+    const bookingData = cartItems.map(item => ({
+      order_service_price_for: item.id,
+      order_service_price: item.service_price_rate,
+      order_amount: item.service_price_amount,
+      order_remarks: formData.order_remarks,
+      order_service: item.service_id || '', 
+      order_service_sub: item.service_sub_id || '', 
+      ...Object.fromEntries(
+        Object.entries(formData).filter(([key]) =>
+          !['order_service_price_for', 'order_service_price', 'order_amount', 'order_service', 'order_service_sub'].includes(key)
         )
-      }));
+      )
+    }));
+    try {
+    
 
       const finalFormData = {
         booking_data: bookingData,
@@ -341,24 +348,44 @@ const Cart = () => {
           }
         });
       } else {
-        console.error(response.data.message || 'Failed to create booking');
+        console.error(response.data.msg || 'Failed to create booking');
         navigate('/booking-failed', {
+          // state: {
+          //   error: response.data.msg || 'Booking creation failedSS',
+          //   amount: totalPrice,
+          //   service_name: cartItems[0]?.service_name,
+          //   service_sub_name: cartItems[0]?.service_sub_name
+          // }
           state: {
-            error: response.data.message || 'Booking creation failed',
+            error: response.data.msg || 'Booking creation failed',
             amount: totalPrice,
+            originalAmount: totalOriginalPrice,
             service_name: cartItems[0]?.service_name,
-            service_sub_name: cartItems[0]?.service_sub_name
+            service_sub_name: cartItems[0]?.service_sub_name,
+            booking_data: bookingData,
+            selected_prices: cartItems,
+            groupedItems: groupedItems,
+            customer_details: formData
           }
         });
       }
     } catch (error) {
       console.error('Error creating booking:', error);
       navigate('/booking-failed', {
+        // state: {
+        //   error: error instanceof Error ? error.message : 'Booking failed',
+        //   amount: totalPrice,
+        //   service_name: cartItems[0]?.service_name,
+        //   service_sub_name: cartItems[0]?.service_sub_name
+        // }
         state: {
           error: error instanceof Error ? error.message : 'Booking failed',
           amount: totalPrice,
-          service_name: cartItems[0]?.service_name,
-          service_sub_name: cartItems[0]?.service_sub_name
+         
+          booking_data: bookingData,
+          selected_prices: cartItems,
+          groupedItems: groupedItems,
+          customer_details: formData
         }
       });
     }
@@ -411,12 +438,13 @@ const Cart = () => {
           }
         },
         handler: async function (response: any) {
+          const finalBookingData = bookingDataTemplate.map(data => ({
+            ...data,
+            order_transaction_details: response.razorpay_payment_id,
+            order_payment_type: response.razorpay_method || 'Online'
+          }));
           try {
-            const finalBookingData = bookingDataTemplate.map(data => ({
-              ...data,
-              order_transaction_details: response.razorpay_payment_id,
-              order_payment_type: response.razorpay_method || 'Online'
-            }));
+          
 
             const bookingResponse = await axios.post(
               `${BASE_URL}/api/panel-create-web-booking-out`,
@@ -467,32 +495,46 @@ const Cart = () => {
                 state: {
                   payment_id: response.razorpay_payment_id,
                   amount: totalPrice,
+                  originalAmount: totalOriginalPrice, 
                   service_name: cartItems[0]?.service_name,
                   service_sub_name: cartItems[0]?.service_sub_name,
                   payment_mode: response.razorpay_method || 'Online',
                   payment_status: 'success',
                   booking_status: 'failed',
+                  booking_data: finalBookingData,
+                  selected_prices: cartItems,
+                  groupedItems: groupedItems, 
+                  customer_details: formData, 
                   payment_details: {
                     method: response.razorpay_method,
-                    transaction_id: response.razorpay_payment_id
+                    transaction_id: response.razorpay_payment_id,
+                    order_id: response.razorpay_order_id
                   }
                 }
               });
             }
           } catch (error) {
             console.error("Booking creation failed after payment:", error);
+
+            //its not use -- figure out later 
             navigate('/payment-success', {
               state: {
                 payment_id: response.razorpay_payment_id,
                 amount: totalPrice,
+                originalAmount: totalOriginalPrice, 
                 service_name: cartItems[0]?.service_name,
                 service_sub_name: cartItems[0]?.service_sub_name,
                 payment_mode: response.razorpay_method || 'Online',
                 payment_status: 'success',
                 booking_status: 'failed',
+                booking_data: finalBookingData,
+                selected_prices: cartItems,
+                groupedItems: groupedItems, 
+                customer_details: formData, 
                 payment_details: {
                   method: response.razorpay_method,
-                  transaction_id: response.razorpay_payment_id
+                  transaction_id: response.razorpay_payment_id,
+                  order_id: response.razorpay_order_id
                 }
               }
             })
@@ -532,31 +574,40 @@ const Cart = () => {
         const paymentMethod = response.error.source;
        
         if (response.error.code === 'BAD_REQUEST_ERROR') {
-          errorMessage = 'Payment was cancelled by user';
+          errorMessage = 'Payment failed. Payment could not be completed';
           console.log(errorMessage)
         } else if (response.error.code === 'PAYMENT_FAILED') {
           errorMessage = 'Payment failed. Please try again or use another method';
               console.log(errorMessage)
         }
-
-        navigate('/booking-failed', {
-          state: {
-            error: errorMessage,
-            payment_id: response.error.metadata?.payment_id,
-            payment_method: paymentMethod
-          }
-        });
-      });
+        showNotification(`Error:${errorMessage} , PaymentId:${response.error.metadata?.payment_id} , Payment_method: ${paymentMethod}`, 'error',true);
+        // navigate('/booking-failed', {
+        //   state: {
+        //     error: errorMessage,
+        //     payment_id: response.error.metadata?.payment_id,
+        //     payment_method: paymentMethod
+        //   }
+          
+        // });
+      }); // handle this 
 
       rzp.open();
 
     } catch (error) {
       console.error('Payment initiation failed:', error);
-      navigate('/booking-failed', {
-        state: {
-          error: error instanceof Error ? error.message : 'Payment initialization failed'
-        }
-      });
+      // navigate('/booking-failed', {
+      //   state: {
+      //     error: error instanceof Error ? error.message : 'Payment initialization failed',
+      //     amount: totalPrice,
+      //     originalAmount: totalOriginalPrice,
+      //     service_name: cartItems[0]?.service_name,
+      //     service_sub_name: cartItems[0]?.service_sub_name,
+      //     selected_prices: cartItems,
+      //     groupedItems: groupedItems,
+      //     customer_details: formData
+      //   }
+      // });
+      showNotification(`Error:${error instanceof Error ? error.message :'Payment initialization failed' }` , 'error',true);
     }
   };
 

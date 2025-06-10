@@ -430,7 +430,7 @@ const ServiceDetails1 = () => {
                           <h4 className="mb-0 text-primary fw-bold">
                             {service_name || 'Service Name'}
                             { service_sub_name && (
-                              <span style={{ color: 'gray', fontSize: '14px', }}>( {service_sub_name})</span>
+                              <span style={{ color: 'gray', fontSize: '14px', }}>&nbsp;( {service_sub_name})</span>
                             )}
                           </h4>
                         </div>

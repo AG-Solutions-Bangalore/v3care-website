@@ -13,6 +13,7 @@ import './ServiceDetails.css'
 
 
 
+
 const ServiceDetails1 = () => {
 
   const dispatch = useDispatch();
@@ -66,7 +67,7 @@ const ServiceDetails1 = () => {
   const [cardLoading, setCardLoading] = useState(false);
   const [cardError, setCardError] = useState<string | null>(null);
   const [selectedPrices, setSelectedPrices] = useState<any[]>([]);
-
+  const [serviceMeta, setServiceMeta] = useState<any>(null);
   const [showFullText, setShowFullText] = useState<Record<string | number, boolean>>({});
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [notifications, setNotifications] = useState<{
@@ -78,6 +79,53 @@ const ServiceDetails1 = () => {
 
 
 
+  const updateMetaTags = (title: string, metaTitle: string, metaDescription: string) => {
+ 
+    document.title = title;
+
+   
+    let titleMeta = document.querySelector('meta[name="title"]');
+    if (titleMeta) {
+      titleMeta.setAttribute('content', metaTitle);
+    } else {
+      titleMeta = document.createElement('meta');
+      titleMeta.setAttribute('name', 'title');
+      titleMeta.setAttribute('content', metaTitle);
+      document.head.appendChild(titleMeta);
+    }
+
+   
+    let descriptionMeta = document.querySelector('meta[name="description"]');
+    if (descriptionMeta) {
+      descriptionMeta.setAttribute('content', metaDescription);
+    } else {
+      descriptionMeta = document.createElement('meta');
+      descriptionMeta.setAttribute('name', 'description');
+      descriptionMeta.setAttribute('content', metaDescription);
+      document.head.appendChild(descriptionMeta);
+    }
+  };
+
+
+  useEffect(() => {
+    if (serviceMeta?.service && serviceMeta?.service_meta_title && serviceMeta?.service_meta_description) {
+      updateMetaTags(
+        serviceMeta.service,
+        serviceMeta.service_meta_title,
+        serviceMeta.service_meta_description
+      );
+    }
+
+  
+    return () => {
+   
+     updateMetaTags(
+         "Best house cleaning service | V3 Care",
+       "Best house cleaning service | Affordable cleaning services.",
+       "Get professional high quality cleaning services at affordable prices, Book house cleaning, office cleaning, deep cleaning & bathroom cleaning services."
+       );
+    };
+  }, [serviceMeta]);
 
 
   const showNotification = (message: string, type: 'success' | 'error') => {
@@ -114,6 +162,10 @@ const ServiceDetails1 = () => {
       );
 
       setServicePrices(response.data.serviceprice || []);
+       // Set the service meta data
+       if (response.data.service) {
+        setServiceMeta(response.data.service);
+      }
     } catch (error) {
       console.error('Error fetching service prices:', error);
       setPriceError('Failed to load service prices. Please try again.');
@@ -196,6 +248,7 @@ const ServiceDetails1 = () => {
 
   return (
     <>
+    
       <HomeHeader />
       <style>
         {`
@@ -833,3 +886,4 @@ const ServiceDetails1 = () => {
 };
 
 export default ServiceDetails1;
+//sajid 

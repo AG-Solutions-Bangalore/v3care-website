@@ -251,20 +251,7 @@ const Cart = () => {
     return phoneno.test(inputtxt) || inputtxt.length === 0;
   };
 
-  // const handleInputChange = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  // ) => {
-  //   const { name, value } = e.target;
-  //   if (
-  //     (name === "order_customer_mobile") && !validateOnlyDigits(value)
-  //   ) {
-  //     return;
-  //   }
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // };
+ 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -284,14 +271,18 @@ const Cart = () => {
       [name]: value,
     }));
   };
+  
   const loadRazorpayScript = () =>
     new Promise((resolve) => {
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
       script.onload = () => resolve(true);
+      script.onerror = () => {
+        console.error("Razorpay SDK failed to load");
+        resolve(false);
+      };
       document.body.appendChild(script);
     });
-
   const handleSubmitPayLater = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -305,8 +296,8 @@ const Cart = () => {
         order_service_price: item.service_price_rate,
         order_amount: item.service_price_amount,
         order_remarks: formData.order_remarks,
-        order_service: item.service_id || '', // Add this line
-        order_service_sub: item.service_sub_id || '', // Add this line
+        order_service: item.service_id || '', 
+        order_service_sub: item.service_sub_id || '', 
         ...Object.fromEntries(
           Object.entries(formData).filter(([key]) =>
             !['order_service_price_for', 'order_service_price', 'order_amount', 'order_service', 'order_service_sub'].includes(key)
@@ -327,15 +318,26 @@ const Cart = () => {
         showNotification(response.data.msg || "Booking successful", 'success');
         dispatch(clearCart());
         navigate('/payment-success', {
+          // state: {
+          //   amount: totalPrice,
+          //   service_name: cartItems[0]?.service_name,
+          //   service_sub_name: cartItems[0]?.service_sub_name,
+          //   payment_mode: 'pay_later',
+          //   payment_status: 'pending',
+          //   booking_status: 'confirmed',
+          //   booking_data: bookingData,
+          //   selected_prices: cartItems
+          // }
           state: {
             amount: totalPrice,
-            service_name: cartItems[0]?.service_name,
-            service_sub_name: cartItems[0]?.service_sub_name,
+            originalAmount: totalOriginalPrice,
             payment_mode: 'pay_later',
             payment_status: 'pending',
             booking_status: 'confirmed',
             booking_data: bookingData,
-            selected_prices: cartItems
+            selected_prices: cartItems,
+            groupedItems: groupedItems, 
+            customer_details: formData 
           }
         });
       } else {
@@ -392,19 +394,7 @@ const Cart = () => {
         )
       }));
 
-      // const bookingDataTemplateModalClose = cartItems.map(item => ({
-      //   order_service_price_for: item.id,
-      //   order_service_price: item.service_price_rate,
-      //   order_amount: item.service_price_amount,
-      //   order_remarks: formData.order_remarks,
-      //   order_service: item.service_id, 
-      //   order_service_sub: item.service_sub_id || '',
-      //   ...Object.fromEntries(
-      //     Object.entries(formData).filter(([key]) =>
-      //       !['order_service_price_for', 'order_service_price', 'order_amount', 'order_service', 'order_service_sub'].includes(key)
-      //     )
-      //   )
-      // }));
+    
 
       // Razorpay options
       const options = {
@@ -413,6 +403,13 @@ const Cart = () => {
         currency: "INR",
         name: formData.order_customer || "V3 Care",
         description: `Payment for ${cartItems[0]?.service_name || 'Service'}`,
+        config: {
+          display: {
+            preferences: {
+              show_default_blocks: true 
+            }
+          }
+        },
         handler: async function (response: any) {
           try {
             const finalBookingData = bookingDataTemplate.map(data => ({
@@ -429,9 +426,26 @@ const Cart = () => {
             if (bookingResponse.data.code === 200) {
               dispatch(clearCart());
               navigate('/payment-success', {
+                // state: {
+                //   payment_id: response.razorpay_payment_id,
+                //   amount: totalPrice,
+                //   service_name: cartItems[0]?.service_name,
+                //   service_sub_name: cartItems[0]?.service_sub_name,
+                //   payment_mode: response.razorpay_method || 'Online',
+                //   payment_status: 'success',
+                //   booking_status: 'confirmed',
+                //   booking_data: finalBookingData,
+                //   selected_prices: cartItems,
+                //   payment_details: {
+                //     method: response.razorpay_method,
+                //     transaction_id: response.razorpay_payment_id,
+                //     order_id: response.razorpay_order_id
+                //   }
+                // }
                 state: {
                   payment_id: response.razorpay_payment_id,
                   amount: totalPrice,
+                  originalAmount: totalOriginalPrice, 
                   service_name: cartItems[0]?.service_name,
                   service_sub_name: cartItems[0]?.service_sub_name,
                   payment_mode: response.razorpay_method || 'Online',
@@ -439,6 +453,8 @@ const Cart = () => {
                   booking_status: 'confirmed',
                   booking_data: finalBookingData,
                   selected_prices: cartItems,
+                  groupedItems: groupedItems, 
+                  customer_details: formData, 
                   payment_details: {
                     method: response.razorpay_method,
                     transaction_id: response.razorpay_payment_id,
@@ -512,12 +528,9 @@ const Cart = () => {
         };
       }) {
         let errorMessage = response.error.description;
-        // const errorResponse = response.error
-        // const errorResponseOnly = response
+       
         const paymentMethod = response.error.source;
-        // console.log("res",errorResponse)
-        // console.log("response only",errorResponseOnly)
-        // console.log(errorMessage)
+       
         if (response.error.code === 'BAD_REQUEST_ERROR') {
           errorMessage = 'Payment was cancelled by user';
           console.log(errorMessage)

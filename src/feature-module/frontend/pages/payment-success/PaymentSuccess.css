@@ -1,0 +1,235 @@
+.payment-success-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+  }
+  
+  .payment-success-status-card {
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .payment-success-status-card.payment-success-success {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .payment-success-status-card.payment-success-warning {
+    background-color: #FFC107;
+    color: #333;
+  }
+  
+  .payment-success-status-card.payment-success-danger {
+    background-color: #F44336;
+    color: white;
+  }
+  
+  .payment-success-status-card.payment-success-primary {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .payment-success-status-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .payment-success-receipt {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  .payment-success-receipt-header {
+    background-color: #eee;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .payment-success-receipt-title {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .payment-success-receipt-subtitle {
+    margin: 5px 0 0;
+    opacity: 0.9;
+    color:#000000;
+    font-size: 0.9rem;
+  }
+  
+  .payment-success-receipt-section {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .payment-success-receipt-section-title {
+    color: #2C3E50;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .payment-success-receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .payment-success-receipt-table thead {
+    background-color: #f5f5f5;
+  }
+  
+  .payment-success-receipt-table th {
+    text-align: left;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  
+  .payment-success-receipt-table td {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .payment-success-receipt-table .payment-success-group-header {
+    background-color: #f5f5f5;
+    font-weight: bold;
+  }
+  
+  .payment-success-receipt-badge {
+    display: inline-block;
+    padding: 0px 4px;
+    border-radius: 4px;
+    font-size: 0.6rem;
+    font-weight: bold;
+  }
+  
+  .payment-success-badge-success {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .payment-success-badge-warning {
+    background-color: #FFC107;
+    color: #333;
+  }
+  
+  .payment-success-badge-danger {
+    background-color: #F44336;
+    color: white;
+  }
+  
+  .payment-success-badge-primary {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .payment-success-amount-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .payment-success-amount-total {
+    font-weight: bold;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+    margin-top: 8px;
+  }
+  
+  .payment-success-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .payment-success-btn {
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .payment-success-btn-primary {
+    background-color: #2C3E50;
+    color: white;
+    border: none;
+  }
+  
+  .payment-success-btn-outline {
+    background-color: white;
+    color: #2C3E50;
+    border: 1px solid #2C3E50;
+  }
+  
+  .payment-success-btn-danger {
+    background-color: #F44336;
+    color: white;
+    border: none;
+  }
+  
+  .payment-success-btn-icon {
+    margin-right: 8px;
+  }
+  
+  .payment-success-customer-remarks {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+  }
+
+  /* New styles for no services view */
+  .payment-success-no-services-content {
+    text-align: center;
+    padding: 30px 20px;
+  }
+
+  .payment-success-no-services-icon {
+    font-size: 3rem;
+    color: #FFC107;
+    margin-bottom: 15px;
+  }
+
+  .payment-success-no-services-content h3 {
+    margin-bottom: 10px;
+    color: #2C3E50;
+  }
+
+  .payment-success-no-services-content p {
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .payment-success-receipt-section {
+      padding: 10px;
+    }
+    
+    .payment-success-receipt-table th, 
+    .payment-success-receipt-table td {
+      padding: 6px 8px;
+    }
+    
+    .payment-success-actions {
+      flex-direction: column;
+    }
+    
+    .payment-success-btn {
+      width: 100%;
+    }
+  }

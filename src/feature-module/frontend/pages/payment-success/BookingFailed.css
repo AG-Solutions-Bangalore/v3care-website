@@ -1,0 +1,241 @@
+.booking-failed-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+  }
+  
+  .booking-failed-status-card {
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .booking-failed-status-card.booking-failed-danger {
+    background-color: #F44336;
+    color: white;
+  }
+  
+  .booking-failed-status-card.booking-failed-warning {
+    background-color: #FFC107;
+    color: #333;
+  }
+  
+  .booking-failed-status-card.booking-failed-info {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .booking-failed-status-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .booking-failed-error-detail {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+  
+  .booking-failed-receipt {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  .booking-failed-receipt-header {
+    background-color: #eee;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .booking-failed-receipt-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #000000;
+  }
+  
+  .booking-failed-receipt-subtitle {
+    margin: 5px 0 0;
+    opacity: 0.9;
+    color: #000000;
+    font-size: 0.9rem;
+  }
+  
+  .booking-failed-receipt-section {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .booking-failed-receipt-section-title {
+    color: #2C3E50;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .booking-failed-receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .booking-failed-receipt-table thead {
+    background-color: #f5f5f5;
+  }
+  
+  .booking-failed-receipt-table th {
+    text-align: left;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  
+  .booking-failed-receipt-table td {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .booking-failed-receipt-table .booking-failed-group-header {
+    background-color: #f5f5f5;
+    font-weight: bold;
+  }
+  
+  .booking-failed-receipt-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+  }
+  
+  .booking-failed-badge-success {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .booking-failed-badge-warning {
+    background-color: #FFC107;
+    color: #333;
+  }
+  
+  .booking-failed-badge-danger {
+    background-color: #F44336;
+    color: white;
+  }
+  
+  .booking-failed-badge-info {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .booking-failed-amount-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .booking-failed-amount-total {
+    font-weight: bold;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+    margin-top: 8px;
+  }
+  
+  .booking-failed-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .booking-failed-btn {
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .booking-failed-btn-primary {
+    background-color: #2C3E50;
+    color: white;
+  }
+  
+  .booking-failed-btn-outline {
+    background-color: white;
+    color: #2C3E50;
+    border: 1px solid #2C3E50;
+  }
+  
+  .booking-failed-btn-danger {
+    background-color: #F44336;
+    color: white;
+  }
+  
+  .booking-failed-btn-icon {
+    margin-right: 8px;
+  }
+  
+  .booking-failed-customer-remarks {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+  }
+  
+  .booking-failed-support-info {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+  
+  .booking-failed-support-info h4 {
+    margin-bottom: 15px;
+    color: #2C3E50;
+  }
+  
+  .booking-failed-support-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  @media (max-width: 768px) {
+    .booking-failed-receipt-section {
+      padding: 10px;
+    }
+    
+    .booking-failed-receipt-table th, 
+    .booking-failed-receipt-table td {
+      padding: 6px 8px;
+    }
+    
+    .booking-failed-actions {
+      flex-direction: column;
+    }
+    
+    .booking-failed-btn {
+      width: 100%;
+    }
+  
+    .booking-failed-support-buttons {
+      flex-direction: column;
+    }
+  
+    .booking-failed-support-buttons .booking-failed-btn {
+      width: 100%;
+    }
+  }

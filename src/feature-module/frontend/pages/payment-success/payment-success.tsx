@@ -72,6 +72,9 @@ const PaymentSuccess = () => {
   // Check if there are no services
   const hasNoServices = !groupedItems || Object.keys(groupedItems).length === 0;
 
+
+
+  
   return (
     <>
       <HomeHeader />

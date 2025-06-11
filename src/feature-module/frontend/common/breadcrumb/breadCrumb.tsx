@@ -21,7 +21,10 @@ const BreadCrumb: React.FC<breadCrumbProps> = ({ title, item1, item2 }) => {
                 <ol className="breadcrumb justify-content-center mb-0">
                   <li className="breadcrumb-item">
                     <Link to={routes.index}>
-                      <i className="ti ti-home-2" />
+                 {/* changed  */}
+                      <i className="ri-home-8-line"></i>
+                  
+
                     </Link>
                   </li>
                   {item2 ? (

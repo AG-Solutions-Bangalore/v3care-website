@@ -112,27 +112,30 @@ const FooterSeven = () => {
         <ul>
           <li>
             <Link target="_blank" rel="noreferrer" to="https://www.facebook.com/v3care">
-              <i className="fa-brands fa-facebook" />
+
+              {/* changed  */}
+              <i className="ri-facebook-circle-line fs-4"></i>
             </Link>
           </li>
           <li>
             <Link target="_blank" rel="noreferrer" to="https://x.com/care_v3">
-              <i className="fab fa-twitter" />
+            
+            <i className="ri-twitter-line fs-4"></i>
             </Link>
           </li>
           <li>
             <Link target="_blank" rel="noreferrer" to="https://www.instagram.com/v3care/">
-              <i className="fa-brands fa-instagram" />
+            <i className="ri-instagram-line fs-4"></i>
             </Link>
           </li>
           <li>
             <Link target="_blank" rel="noreferrer" to="https://www.linkedin.com/in/v3-care-15135119b/">
-              <i className="fa-brands fa-linkedin" />
+            <i className="ri-linkedin-box-line fs-4"></i>
             </Link>
           </li>
           <li>
             <Link target="_blank" rel="noreferrer" to="https://www.youtube.com/channel/UC3eZ5BXlhuQk_OZ6zXXgW2w">
-              <i className="fa-brands fa-youtube" />
+            <i className="ri-youtube-line fs-4"></i>
             </Link>
           </li>
         </ul>

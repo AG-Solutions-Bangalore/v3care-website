@@ -865,7 +865,8 @@ const Cart = () => {
                     {cartItems.length === 0 ? (
                       <div className="empty-cart">
                         <div className="empty-cart-icon">
-                          <i className="fas fa-shopping-cart"></i>
+              
+                          <i className="ri-shopping-cart-2-line"></i>
                         </div>
                         <h3>Your cart is empty</h3>
                         <p>Looks like you haven&apos;t added any services to your cart yet.</p>
@@ -957,7 +958,9 @@ const Cart = () => {
                                         onClick={() => handleRemoveItem(item.id)}
                                         disabled={isLoadingPrices}
                                       >
-                                        <i className="fas fa-trash-alt"></i>
+                                    
+                                        
+                                        <i className="ri-delete-bin-6-line " style={{fontSize:"14px"}}></i>
                                       </button>
                                     </div>
                                   </div>

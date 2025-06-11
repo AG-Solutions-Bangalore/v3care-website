@@ -87,7 +87,7 @@ const BookingFailed = () => {
 
   const status = getStatusDetails();
 
- 
+
 
   return (
     <>

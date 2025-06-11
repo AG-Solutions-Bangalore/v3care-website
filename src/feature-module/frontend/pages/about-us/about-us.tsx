@@ -119,11 +119,12 @@ const AboutUs = () => {
                   <div className="col-md-6">
                     <ul>
                       <li className="text-truncate">
-                        <i className="ti ti-circle-check-filled text-dark me-1" />
+      
+                        <i className="ri-checkbox-circle-line text-dark me-1 fs-4"></i>
                         We prioritize quality and reliability
                       </li>
                       <li className="text-truncate">
-                        <i className="ti ti-circle-check-filled text-dark me-1" />
+                      <i className="ri-checkbox-circle-line text-dark me-1 fs-4"></i>
                         WeSaving your time and effort.
                       </li>
                     </ul>
@@ -131,11 +132,11 @@ const AboutUs = () => {
                   <div className="col-md-6">
                     <ul>
                       <li className="text-truncate">
-                        <i className="ti ti-circle-check-filled text-dark me-1" />
+                      <i className="ri-checkbox-circle-line text-dark me-1 fs-4"></i>
                         Clear, detailed service listings &amp; reviews
                       </li>
                       <li className="text-truncate">
-                        <i className="ti ti-circle-check-filled text-dark me-1" />{" "}
+                      <i className="ri-checkbox-circle-line text-dark me-1 fs-4"></i>
                         Smooth and satisfactory experience.
                       </li>
                     </ul>
@@ -468,11 +469,11 @@ const AboutUs = () => {
                   <div className="col-md-6">
                     <ul>
                       <li className="text-truncate">
-                        <i className="ti ti-circle-check-filled text-dark me-1" />
+                      <i className="ri-checkbox-circle-line text-dark me-1 fs-4"></i>
                         We prioritize quality and reliability
                       </li>
                       <li className="text-truncate">
-                        <i className="ti ti-circle-check-filled text-dark me-1" />
+                      <i className="ri-checkbox-circle-line text-dark me-1 fs-4"></i>
                         WeSaving your time and effort.
                       </li>
                     </ul>
@@ -480,11 +481,11 @@ const AboutUs = () => {
                   <div className="col-md-6">
                     <ul>
                       <li className="text-truncate">
-                        <i className="ti ti-circle-check-filled text-dark me-1" />
+                      <i className="ri-checkbox-circle-line text-dark me-1 fs-4"></i>
                         Clear, detailed service listings &amp; reviews
                       </li>
                       <li className="text-truncate">
-                        <i className="ti ti-circle-check-filled text-dark me-1" />{" "}
+                      <i className="ri-checkbox-circle-line text-dark me-1 fs-4"></i>
                         Smooth and satisfactory experience.
                       </li>
                     </ul>

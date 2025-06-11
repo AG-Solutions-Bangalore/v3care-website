@@ -95,7 +95,8 @@ const BlogSection = () => {
                           </div>
                           <div className="d-flex align-items-center ps-2">
                             <span>
-                              <i className="ti ti-calendar me-2" />
+                              {/* changed */}
+                              <i className="ri-calendar-line me-2"></i>
                             </span>
                             <span className="fs-14">{blog.date}</span>
                           </div>

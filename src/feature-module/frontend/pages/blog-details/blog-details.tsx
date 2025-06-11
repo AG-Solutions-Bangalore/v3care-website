@@ -120,7 +120,9 @@ const BlogDetails = () => {
                         </span>
                       </li>
                       <li>
-                        <i className="feather icon-calendar me-1" />
+                        {/* <i className="feather icon-calendar me-1" /> */}
+                        changed 
+                        <i className="ri-calendar-line me-2"></i>
                         {blog.date}
                       </li>
                       <li>

@@ -143,7 +143,8 @@ const ContactUs = () => {
         <div className="card-body">
           <div className="d-flex align-items-center">
             <span className="rounded-circle me-3">
-              <i className="ti ti-phone text-white" />
+             
+              <i className="ri-phone-fill text-white"></i>
             </span>
             <div>
               <h6 className="fs-18 mb-1 text-primary">Phone Number</h6>
@@ -160,7 +161,7 @@ const ContactUs = () => {
         <div className="card-body">
           <div className="d-flex align-items-center">
             <span className="rounded-circle me-3">
-              <i className="ti ti-mail text-white" />
+            <i className="ri-mail-fill text-white"></i>
             </span>
             <div>
               <h6 className="fs-18 mb-1 text-primary">Email Address</h6>
@@ -427,7 +428,8 @@ const ContactUs = () => {
                             ) : (
                               <>
                                 Send Message
-                                <i className="feather icon-arrow-right-circle ms-2" />
+                 
+                                <i className="ri-arrow-right-circle-line fs-4 ms-2"></i>
                               </>
                             )}
                           </button>

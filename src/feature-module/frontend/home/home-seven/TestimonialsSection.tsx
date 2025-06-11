@@ -144,11 +144,13 @@ const TestimonialsSection = () => {
                         <div className="testimonials-img-content">
                           <h6>{testimonial.testimonial_user}</h6>
                           <div className="rating">
-                            <i className="fas fa-star filled" />
-                            <i className="fas fa-star filled" />
-                            <i className="fas fa-star filled" />
-                            <i className="fas fa-star filled" />
-                            <i className="fas fa-star filled" />
+                      
+                            <i className="ri-star-fill filled "></i>
+                            <i className="ri-star-fill filled "></i>
+                            <i className="ri-star-fill filled "></i>
+                            <i className="ri-star-fill filled "></i>
+                            <i className="ri-star-fill filled "></i>
+                           
                           </div>
                         </div>
                       </div>

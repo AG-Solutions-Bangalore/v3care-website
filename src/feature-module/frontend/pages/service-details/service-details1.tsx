@@ -373,10 +373,10 @@ const ServiceDetails1 = () => {
                 </div>
               </div>
               <div className="col-auto">
-                <i className={`fas fa-chevron-${showBreakdown ? 'down' : 'up'} text-white`}></i>
+                <i className={` ri-arrow-${showBreakdown ? 'down' : 'up'}-s-line text-white `} style={{fontSize:"18px"}}></i>
               </div>
             </div>
-
+       
             {showBreakdown && (
               <div className="mt-3 pt-2 border-top">
                 {selectedPrices.map((price, index) => (
@@ -439,7 +439,9 @@ const ServiceDetails1 = () => {
                           className="btn btn-link text-decoration-none text-primary p-0"
                           style={{ whiteSpace: 'nowrap' }}
                         >
-                          <i className="fas fa-arrow-left me-2"></i>Browse Services
+                   
+                          <i className="ri-arrow-left-line me-2"></i>
+                          Browse Services
                         </button>
                       </div>
                     </div>
@@ -505,9 +507,9 @@ const ServiceDetails1 = () => {
                                     <div className="d-flex align-items-center">
                                       <span className="avatar avatar-sm flex-shrink-0 me-2">
                                         {selectedPrices.some((p) => p.id === price.id) ? (
-                                          <i className="fas fa-check-circle text-primary fs-5"></i>
+                                          <i className="ri-checkbox-circle-fill text-black fs-5"></i>
                                         ) : (
-                                          <i className="far fa-circle text-muted fs-5"></i>
+                                          <i className="ri-checkbox-blank-circle-line text-muted fs-5"></i>
                                         )}
                                       </span>
                                       <h6 className="fs-14 fw-medium mb-0">
@@ -558,7 +560,7 @@ const ServiceDetails1 = () => {
       showNotification('Service added to cart', 'success');
     }}
   >
-    <i className="fas fa-cart-plus"></i> Add to Cart
+    <i className="ri-shopping-cart-2-line"></i> Add to Cart
   </button>
   
   <button
@@ -584,7 +586,7 @@ const ServiceDetails1 = () => {
       });
     }}
   >
-    <i className="fas fa-shopping-bag"></i> Checkout
+   <i className="ri-shopping-bag-3-line"></i>Checkout
   </button>
 </div>
                               </div>
@@ -620,23 +622,24 @@ const ServiceDetails1 = () => {
                           <div className="accordion-body border-0 p-0 pt-3">
                             <div className="bg-light-200 p-3 pb-2 br-10">
                               <p className="d-inline-flex align-items-center mb-2 me-4">
-                                <i className="feather icon-check-circle text-success me-2" />
+                       
+                                <i className="ri-checkbox-circle-line text-success me-2"></i>
                                 Verified Professionals
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
-                                <i className="feather icon-check-circle text-success me-2" />
+                              <i className="ri-checkbox-circle-line text-success me-2"></i>
                                 Safe Chemicals 
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
-                                <i className="feather icon-check-circle text-success me-2" />
+                              <i className="ri-checkbox-circle-line text-success me-2"></i>
                                 Superior Stain Removal
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
-                                <i className="feather icon-check-circle text-success me-2" />
+                              <i className="ri-checkbox-circle-line text-success me-2"></i>
                                 Hassle Free Booking
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
-                                <i className="feather icon-check-circle text-success me-2" />
+                              <i className="ri-checkbox-circle-line text-success me-2"></i>
                                 Transparent Pricing
                               </p>
                             </div>

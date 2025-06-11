@@ -73,13 +73,13 @@ const Client = () => {
             <div className="row justify-content-center mb-5" >
               <div className="col-12 col-md-8 col-lg-6 text-center">
                 <div className="alert alert-danger d-flex align-items-center justify-content-center">
-                  <i className="fas fa-exclamation-circle me-2"></i>
+                <i className="ri-error-warning-line me-2 fs-4"></i>
                   <span>{error}</span>
                   <button 
                     className="btn btn-sm btn-outline-danger ms-3"
                     onClick={fetchClients}
                   >
-                    <i className="fas fa-sync-alt me-1"></i>
+                     <i className="ri-loop-right-line me-1"></i>
                     Try Again
                   </button>
                 </div>

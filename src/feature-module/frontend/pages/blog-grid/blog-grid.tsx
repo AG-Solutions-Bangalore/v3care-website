@@ -119,7 +119,7 @@ const BlogGrid = () => {
                           </div>
                           <div className="d-flex align-items-center ps-2">
                             <span>
-                              <i className="ti ti-calendar me-2" />
+                            <i className="ri-calendar-line me-2"></i>
                             </span>
                             <span className="fs-14">{blog.date}</span>
                           </div>
@@ -157,7 +157,8 @@ const BlogGrid = () => {
                         to="#"
                         onClick={prevPage}
                       >
-                        <i className="ti ti-arrow-left me-2" />
+                 
+                        <i className="ri-arrow-left-line me-2 "></i>
                         Prev
                       </Link>
                     </li>
@@ -186,7 +187,7 @@ const BlogGrid = () => {
                         to="#"
                         onClick={nextPage}
                       >
-                        Next <i className="ti ti-arrow-right ms-2" />
+                        Next <i className="ri-arrow-right-fill ms-2"></i>
                       </Link>
                     </li>
                   </ul>

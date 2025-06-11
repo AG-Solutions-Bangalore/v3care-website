@@ -123,13 +123,15 @@ const Categories = () => {
         <BreadCrumb title="Categories" item1={category_name} />
         <div className="d-flex justify-content-center align-items-center vh-80">
           <div className="alert alert-danger d-flex align-items-center mt-4" role="alert">
-            <i className="fas fa-exclamation-circle me-2"></i>
+        
+            <i className="ri-error-warning-line me-2 fs-4"></i>
             <div>{error}</div>
             <button 
               className="btn btn-sm btn-outline-danger ms-3"
               onClick={fetchServices}
             >
-              <i className="fas fa-sync-alt me-1"></i>
+   
+              <i className="ri-loop-right-line me-1"></i>
               Try Again
             </button>
           </div>

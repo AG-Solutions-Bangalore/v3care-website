@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import HomeHeader from '../../home/header/home-header';
 import './PaymentSuccess.css';
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import html2pdf from "html2pdf.js";
 const PaymentSuccess = () => {
   const { state } = useLocation();
+  const receiptRef = useRef<HTMLDivElement>(null);
   const {
     payment_id,
     amount,
@@ -72,7 +75,86 @@ const PaymentSuccess = () => {
   // Check if there are no services
   const hasNoServices = !groupedItems || Object.keys(groupedItems).length === 0;
 
-
+ const downloadReceipt = () => {
+        const element = receiptRef.current;
+        if (!element) return;
+      
+        const customerName = customer?.order_customer || "Customer";
+        const filename = `${customerName}_Receipt_${payment_id || Date.now()}.pdf`;
+      
+        const style = document.createElement("style");
+        style.textContent = `
+          @page {
+            size: A4 portrait;
+            margin: 5mm;
+          }
+          body {
+            font-size: 12px !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+          .payment-success-actions, .print-hide {
+            display: none !important;
+          }
+          .payment-success-receipt {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-shadow: none !important;
+          }
+          .payment-success-receipt-table {
+            width: 100% !important;
+          }
+          .payment-success-receipt-section {
+            page-break-inside: avoid;
+          }
+        `;
+        document.head.appendChild(style);
+      
+        const options = {
+          margin: [5, 5, 5, 5],
+          filename: filename,
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            letterRendering: true,
+            logging: false,
+          },
+          jsPDF: {
+            unit: "mm",
+            format: "a4",
+            orientation: "portrait",
+            compress: true,
+          },
+          pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+        };
+      
+        html2pdf()
+          .set(options)
+          .from(element)
+          .toPdf()
+          .get("pdf")
+          .then((pdf: { internal: { getNumberOfPages: () => any; pageSize: { getWidth: () => number; getHeight: () => number; }; }; setPage: (arg0: number) => void; setFontSize: (arg0: number) => void; setTextColor: (arg0: number) => void; text: (arg0: string, arg1: number, arg2: number) => void; save: (arg0: string) => void; }) => {
+            const totalPages = pdf.internal.getNumberOfPages();
+      
+            // Add page numbers to each page
+            for (let i = 1; i <= totalPages; i++) {
+              pdf.setPage(i);
+              pdf.setFontSize(10);
+              pdf.setTextColor(150);
+              pdf.text(
+                `Page ${i} of ${totalPages}`,
+                pdf.internal.pageSize.getWidth() - 20,
+                pdf.internal.pageSize.getHeight() - 10
+              );
+            }
+      
+            pdf.save(filename);
+            document.head.removeChild(style);
+          });
+      };
 
   
   return (
@@ -111,9 +193,9 @@ const PaymentSuccess = () => {
           <p>{status.subtitle}</p>
         </div>
 
-          <div className="payment-success-receipt">
+          <div className="payment-success-receipt" ref={receiptRef}>
             {/* Company Header */}
-            <div className="payment-success-receipt-header">
+            <div className="payment-success-receipt-header" >
               <h2 className="payment-success-receipt-title">V3 CARE</h2>
               <p className="payment-success-receipt-subtitle">Professional Cleaning & Facility Services</p>
               <p className="payment-success-receipt-subtitle">H. No. 2296, 24th Main Road, HSR Layout, Bangalore - 560102</p>
@@ -274,16 +356,16 @@ const PaymentSuccess = () => {
       
             <button 
               className="payment-success-btn payment-success-btn-outline"
-              onClick={() => window.print()}
+              onClick={downloadReceipt}
             >
-              <i className="fas fa-print payment-success-btn-icon"></i>Print Receipt
+              <i className="fas fa-print payment-success-btn-icon"></i>Download Receipt
             </button>
             </>
           )}
           {(payment_status === 'failed' || booking_status === 'failed') && (
-            <Link to="/contact" className="payment-success-btn payment-success-btn-danger">
+            <a  href="tel:+919880778585" className="payment-success-btn payment-success-btn-danger">
               <i className="fas fa-headset payment-success-btn-icon"></i>Contact Support
-            </Link>
+            </a>
           )}
         </div>
       </div>

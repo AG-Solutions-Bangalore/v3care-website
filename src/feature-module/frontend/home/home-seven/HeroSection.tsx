@@ -1,101 +1,150 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
-
+import './HeroSection.css';
 
 const HeroSection = () => {
+  // const services = [
+  //   {
+  //     icon: "👩‍💄",
+  //     title: "Home Deep Cleaning"
+  //   },
+  //   {
+  //     icon: "👨‍💼",
+  //     title: "Home Painting"
+  //   },
+  //   {
+  //     icon: "❄️",
+  //     title: "Water Proofing"
+  //   },
+  //   {
+  //     icon: "🧹",
+  //     title: "House Civil Renovation Work"
+  //   },
+  //   {
+  //     icon: "🔧",
+  //     title: "Marble/Floor Polishing"
+  //   },
+  //   {
+  //     icon: "💧",
+  //     title: "Pest Control"
+  //   },
+  //   {
+  //     icon: "🎨",
+  //     title: "Disinfection Services"
+  //   },
+   
+  // ];
+  const services = [
+    {
+      icon: "🧽", 
+      title: "Home Deep Cleaning"
+    },
+    {
+      icon: "🖌️", 
+      title: "Home Painting"
+    },
+    {
+      icon: "💧", 
+      title: "Water Proofing"
+    },
+    {
+      icon: "🏚️", 
+      title: "House Civil Renovation Work"
+    },
+    {
+      icon: "🪛", 
+      title: "Marble/Floor Polishing"
+    },
+    {
+      icon: "🐜", 
+      title: "Pest Control"
+    },
+    {
+      icon: "🧴", 
+      title: "Disinfection Services"
+    },
+    {
+      icon: "🏢",
+      title: "Corporate Services"
+    }
+  ];
+  
   return (
-    <section className="hero-section-seven">
-      <div className="hero-sectionseven-top pt-5 pt-lg-0 pb-5 pb-lg-0">
-        <div className="container">
-          <div className="home-banner homer-banner-seven">
-            <div className="row align-items-center w-100">
-              <div className="col-lg-6 col-12">
-                <div className="section-search">
-                  <p>Search From 150 Awesome Verified Ads!</p>
-                  <h1>
-                    Best Solution for Every
-                    <span>House Problems</span>
-                  </h1>
-                  <div className="solution-seven">
-                    <h6>2M+ Professionals registered</h6>
-                    <ul className="total-client-avatar total-client-avatar-seven d-flex align-items-center mt-2">
-                      <li>
-                        <Link to="#">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="12" fill="#FF6B6B" />
-                            <path fill="#fff" d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                          </svg>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="#">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="12" fill="#4CAF50" />
-                            <path fill="#fff" d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                          </svg>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="#">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="12" fill="#2196F3" />
-                            <path fill="#fff" d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                          </svg>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="#">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="12" fill="#FFC107" />
-                            <path fill="#fff" d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                          </svg>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="#">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="12" fill="#9C27B0" />
-                            <path fill="#fff" d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                          </svg>
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-6 col-12">
-                <div className="hero-banner-ryt">
-                  <ImageWithBasePath
-                    src="assets/img/hero-section-seven-ryt.png"
-                    alt="image"
-                    className="img-fluid"
-                  />
-                  <div className="hero-banner-ryt-content">
-                    <div className="hero-banner-ryt-top">
-                      <h5>+21 k</h5>
-                      <p>Services Completed</p>
+    <section className="hero-section">
+      <div className="hero-section-container">
+        <div className="hero-section-left">
+          <div className="hero-section-content">
+            <h1 className="hero-section-title">
+               Services at your <br />
+              <span className="hero-section-highlight">doorstep</span>
+            </h1>
+            
+            <div className="hero-section-search">
+              <h3 className="hero-section-search-title">What are you looking for?</h3>
+              {/* <div className="hero-section-services">
+                {services.map((service, index) => (
+                  <div key={index} className="hero-section-service-item">
+                    <div className="hero-section-service-icon">
+                      {service.icon}
                     </div>
-                    <span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="40"
-                        height="40"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fill="#9370DB"
-                          d="M6 7V6a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h2a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h2zm2 0h8V6a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v1z"
-                        />
-                        <path
-                          fill="#FFFFFF"
-                          d="M5 9h14v1H5V9zm0 3h14v1H5v-1zm0 3h14v1H5v-1z"
-                        />
-                      </svg>
-                    </span>
+                    <span className="hero-section-service-title">{service.title}</span>
                   </div>
+                ))}
+              </div> */}
+           <div className="hero-section-services">
+  {services.map((service, index) => (
+    <>
+    <div 
+      key={index} 
+      className={`hero-section-service-item ${index >= 6 ? 'last-row' : ''}`}
+    >
+      <div className="hero-section-service-icon">
+        {service.icon}
+      </div>
+      <span className="hero-section-service-title">{service.title}</span>
+    </div>
+   
+     </>
+  ))}
+</div>
+            </div>
+            
+            <div className="hero-section-stats">
+              <div className="hero-section-stat">
+                <div className="hero-section-stat-icon">⭐</div>
+                <div className="hero-section-stat-content">
+                  <span className="hero-section-stat-number">4.8</span>
+                  <span className="hero-section-stat-text">Service Rating*</span>
                 </div>
               </div>
+              <div className="hero-section-stat">
+                <div className="hero-section-stat-icon">
+
+
+                <i className="ri-group-line"></i>
+
+                </div>
+                <div className="hero-section-stat-content">
+                  <span className="hero-section-stat-number">12M+</span>
+                  <span className="hero-section-stat-text">Customers Globally*</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="hero-section-right">
+          <div className="hero-section-images">
+            <div className="hero-section-image hero-section-image-1">
+              <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop" alt="Salon Service" />
+            </div>
+            <div className="hero-section-image hero-section-image-2">
+              <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&h=300&fit=crop" alt="Massage Service" />
+            </div>
+            <div className="hero-section-image hero-section-image-3">
+              <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop" alt="Home Repair" />
+            </div>
+            <div className="hero-section-image hero-section-image-4">
+              <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop" alt="AC Repair" />
             </div>
           </div>
         </div>
@@ -105,3 +154,5 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
+//sajid 2 -- change to urban clap layout

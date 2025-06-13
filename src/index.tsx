@@ -12,7 +12,7 @@ import AllRoutes from './feature-module/router/router';
 import { Provider } from "react-redux";
 import Store, { persistor } from './core/redux/store';
 const rootElement = document.getElementById('root');
-
+import {  HelmetProvider } from 'react-helmet-async';
 // const location = window.location.pathname;
 
 // useEffect(() => {
@@ -33,7 +33,9 @@ if (rootElement) {
         <PersistGate loading={null} persistor={persistor}>
        
         <BrowserRouter basename={base_path}>
+        <HelmetProvider>
           <AllRoutes />
+          </HelmetProvider>
         </BrowserRouter>
      
         </PersistGate>

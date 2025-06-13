@@ -54,10 +54,10 @@ const PopularService = () => {
           const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-all-out`);
          
           const filteredServices = response.data.service.filter((service: Service) => 
-            service.service_show_website.includes("1")
+            service.service_show_website && service.service_show_website.includes("1")
           );
           const filteredServicesTwo = response.data.service.filter((service: Service) => 
-            service.service_show_website.includes("2")
+            service.service_show_website && service.service_show_website.includes("2")
           );
         
           setServices(filteredServices);

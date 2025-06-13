@@ -4,6 +4,7 @@ import './HomeSeven.css'
 
 
 import HeroSection from './HeroSection';
+import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 
 
 const FeaturedCategories = lazy(() => import('./FeaturedCategories'));
@@ -71,17 +72,18 @@ const HomeSeven: React.FC = () => {
 
   return (
     <>
+    <DefaultHelmet/>
       <HomeHeader />
       <div className="home-seven-wrapper">
         <HeroSection />
 
         {/* Featured Categories */}
-        <section>
+        {/* <section>
           <div id="trigger-featuredCategories" className="trigger-point" />
           <Suspense fallback={<div className="skeleton-loader skeleton-categories" />}>
             {loadedComponents.featuredCategories && <FeaturedCategories />}
           </Suspense>
-        </section>
+        </section> */}
 
         {/* Popular Service */}
         <section>

@@ -170,7 +170,7 @@ const publicRoutes = [
   },
 
   {
-    path: '/categories/:category_name/:id',
+    path: '/:category_name/:id',
     name: 'categories',
     element: <Suspense fallback={<SuspenseLoader />}><Categories /></Suspense>,
     route: Route,

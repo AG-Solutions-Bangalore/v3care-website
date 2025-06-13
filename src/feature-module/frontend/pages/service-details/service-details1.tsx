@@ -67,7 +67,9 @@ const ServiceDetails1 = () => {
   const [cardLoading, setCardLoading] = useState(false);
   const [cardError, setCardError] = useState<string | null>(null);
   const [selectedPrices, setSelectedPrices] = useState<any[]>([]);
+  
   const [serviceMeta, setServiceMeta] = useState<any>(null);
+
   const [showFullText, setShowFullText] = useState<Record<string | number, boolean>>({});
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [notifications, setNotifications] = useState<{

@@ -9,10 +9,10 @@
 // }
 section {
 	@include respond-below(lg) {
-		padding: 1px 0;
+		padding: 0px 0;
 	}
 	@include respond-below(md) {
-		padding: 1px 0;
+		padding: 0px 0;
 	}
 }
 .banner {

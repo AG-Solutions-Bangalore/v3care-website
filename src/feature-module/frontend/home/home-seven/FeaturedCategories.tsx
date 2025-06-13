@@ -10,6 +10,7 @@ interface Category {
   name: string;
   total: number;
   image: string | null;
+  url: string ;
 }
 
 const FeaturedCategories = () => {
@@ -26,7 +27,8 @@ const FeaturedCategories = () => {
         id: item.id,
         name: item.serviceSuper,
         image: item.serviceSuper_image,
-        total: item.total
+        total: item.total,
+        url: item.serviceSuper_url
       })) || []);
     } catch (error) {
       console.error('Failed to fetch categories:', error);
@@ -123,7 +125,7 @@ const FeaturedCategories = () => {
             {categories.map((category) => (
               <div key={category.id} className="col-lg-3 col-md-4 col-sm-6 col-6">
                 <Link
-                  to={`/categories/${encodeURIComponent(category.name)}/${category.id}`}
+                  to={`/${encodeURIComponent(category.url)}/${category.id}`}
                   className="category-card"
                 >
                   <div className="category-icon">

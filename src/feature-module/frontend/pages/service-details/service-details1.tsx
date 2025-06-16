@@ -5,59 +5,54 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import StickyBox from 'react-sticky-box';
 import axios from 'axios';
-import { BASE_URL, SERVICE_DETAILS_IMAGE_URL } from '../../../baseConfig/BaseUrl';
+import {
+  BASE_URL,
+  SERVICE_DETAILS_IMAGE_URL,
+} from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../../core/redux/slices/CartSlice';
-import './ServiceDetails.css'
-
-
-
+import './ServiceDetails.css';
 
 const ServiceDetails1 = () => {
-
   const dispatch = useDispatch();
 
+  const params = useParams<{
+    id?: string;
+    category_name?: string;
+    service_name?: string;
+    service_sub_name?: string;
+    service_id?: string;
+    service_sub_id?: string;
+  }>();
 
-   
+  const {
+    id = '',
+    category_name = '',
+    service_name = '',
+    service_sub_name = '',
+    service_id = '',
+    service_sub_id = '',
+  } = params;
 
-     const params = useParams<{
-      id?: string;
-      category_name?: string;
-      service_name?: string;
-      service_sub_name?: string;
-      service_id?: string;
-      service_sub_id?: string;
-    }>();
-    
-    const {
-      id = "",
-      category_name = "",
-      service_name = "",
-      service_sub_name = "",
-      service_id = "",
-      service_sub_id = "",
-    } = params;
- 
+  // id : supercategory id
 
-    // id : supercategory id 
+  // category_name : supecategory name
 
-    // category_name : supecategory name
+  // service_name :  state?.service_name
 
-    // service_name :  state?.service_name
+  // service_sub_name : state?.service_sub_name
 
-    // service_sub_name : state?.service_sub_name 
+  // service_id : state?.service_id
 
-    // service_id : state?.service_id 
-
-    // service_sub_id : state?.service_sub_id
+  // service_sub_id : state?.service_sub_id
 
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
   const branch_id = localStorage.getItem('branch_id');
 
-  const city = localStorage.getItem("city") || "your area";
+  const city = localStorage.getItem('city') || 'your area';
   const message = `We're not available in ${city} at the moment, but we're expanding and will be there soon!`;
 
   const [servicePrices, setServicePrices] = useState<any[]>([]);
@@ -67,25 +62,29 @@ const ServiceDetails1 = () => {
   const [cardLoading, setCardLoading] = useState(false);
   const [cardError, setCardError] = useState<string | null>(null);
   const [selectedPrices, setSelectedPrices] = useState<any[]>([]);
-  
+  const [serviceFAQ, setServiceFAQ] = useState<any[]>([]);
   const [serviceMeta, setServiceMeta] = useState<any>(null);
 
-  const [showFullText, setShowFullText] = useState<Record<string | number, boolean>>({});
+  const [showFullText, setShowFullText] = useState<
+    Record<string | number, boolean>
+  >({});
   const [showBreakdown, setShowBreakdown] = useState(false);
-  const [notifications, setNotifications] = useState<{
-    id: string;
-    message: string;
-    type: 'success' | 'error';
-  }[]>([]);
+  const [notifications, setNotifications] = useState<
+    {
+      id: string;
+      message: string;
+      type: 'success' | 'error';
+    }[]
+  >([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
-
-
-  const updateMetaTags = (title: string, metaTitle: string, metaDescription: string) => {
- 
+  const updateMetaTags = (
+    title: string,
+    metaTitle: string,
+    metaDescription: string,
+  ) => {
     document.title = title;
 
-   
     let titleMeta = document.querySelector('meta[name="title"]');
     if (titleMeta) {
       titleMeta.setAttribute('content', metaTitle);
@@ -96,7 +95,6 @@ const ServiceDetails1 = () => {
       document.head.appendChild(titleMeta);
     }
 
-   
     let descriptionMeta = document.querySelector('meta[name="description"]');
     if (descriptionMeta) {
       descriptionMeta.setAttribute('content', metaDescription);
@@ -108,27 +106,27 @@ const ServiceDetails1 = () => {
     }
   };
 
-
   useEffect(() => {
-    if (serviceMeta?.service && serviceMeta?.service_meta_title && serviceMeta?.service_meta_description) {
+    if (
+      serviceMeta?.service &&
+      serviceMeta?.service_meta_title &&
+      serviceMeta?.service_meta_description
+    ) {
       updateMetaTags(
         serviceMeta.service,
         serviceMeta.service_meta_title,
-        serviceMeta.service_meta_description
+        serviceMeta.service_meta_description,
       );
     }
 
-  
     return () => {
-   
-     updateMetaTags(
-         "Best house cleaning service | V3 Care",
-       "Best house cleaning service | Affordable cleaning services.",
-       "Get professional high quality cleaning services at affordable prices, Book house cleaning, office cleaning, deep cleaning & bathroom cleaning services."
-       );
+      updateMetaTags(
+        'Best house cleaning service | V3 Care',
+        'Best house cleaning service | Affordable cleaning services.',
+        'Get professional high quality cleaning services at affordable prices, Book house cleaning, office cleaning, deep cleaning & bathroom cleaning services.',
+      );
     };
   }, [serviceMeta]);
-
 
   const showNotification = (message: string, type: 'success' | 'error') => {
     const id = Date.now().toString();
@@ -164,8 +162,8 @@ const ServiceDetails1 = () => {
       );
 
       setServicePrices(response.data.serviceprice || []);
-       // Set the service meta data
-       if (response.data.service) {
+      // Set the service meta data
+      if (response.data.service) {
         setServiceMeta(response.data.service);
       }
     } catch (error) {
@@ -190,6 +188,7 @@ const ServiceDetails1 = () => {
       );
 
       setServiceCards(response.data.serviceDetails || []);
+      setServiceFAQ(response.data.serviceFAQ || []);
     } catch (error) {
       console.error('Error fetching service card :', error);
       setCardError('Failed to load service card. Please try again.');
@@ -216,10 +215,6 @@ const ServiceDetails1 = () => {
     }
   }, [servicePrices]);
 
-
-
-
-
   const totalPrice = selectedPrices.reduce(
     (sum, price) => sum + parseFloat(price.service_price_amount),
     0,
@@ -229,13 +224,9 @@ const ServiceDetails1 = () => {
     0,
   );
 
-
-
-
   /*------------------------------------------------end----------------- */
 
   const togglePriceSelection = (price: any) => {
-
     setSelectedPrices((prev) => {
       const isSelected = prev.some((p) => p.id === price.id);
       if (isSelected) {
@@ -246,11 +237,8 @@ const ServiceDetails1 = () => {
     });
   };
 
-
-
   return (
     <>
-    
       <HomeHeader />
       <style>
         {`
@@ -293,7 +281,7 @@ const ServiceDetails1 = () => {
               justifyContent: 'space-between',
               alignItems: 'center',
               animation: 'slideDown 0.3s ease-out',
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+              boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
             }}
           >
             <span style={{ flex: 1 }}>{notification.message}</span>
@@ -308,10 +296,7 @@ const ServiceDetails1 = () => {
         ))}
       </div>
 
-
       <div className="page-wrapper">
-
-
         <div
           className="d-lg-none"
           style={{
@@ -327,7 +312,7 @@ const ServiceDetails1 = () => {
             borderTopRightRadius: showBreakdown ? '0' : '12px',
             boxShadow: '0 -3px 10px rgba(0, 0, 0, 0.2)',
             overflow: 'hidden',
-            transition: 'border-radius 0.3s ease'
+            transition: 'border-radius 0.3s ease',
           }}
         >
           {/* Shine effect overlay */}
@@ -338,14 +323,18 @@ const ServiceDetails1 = () => {
               left: 0,
               width: '100%',
               height: '100%',
-              background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)',
-              animation: 'shine 3s infinite'
+              background:
+                'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)',
+              animation: 'shine 3s infinite',
             }}
           ></div>
 
           {/* Content container */}
           <div className="container-fluid py-2 px-3">
-            <div className="row align-items-center" onClick={() => setShowBreakdown(!showBreakdown)}>
+            <div
+              className="row align-items-center"
+              onClick={() => setShowBreakdown(!showBreakdown)}
+            >
               <div className="col">
                 <div className="d-flex align-items-center">
                   <span
@@ -353,7 +342,7 @@ const ServiceDetails1 = () => {
                     style={{
                       backgroundColor: '#ffe600',
                       color: '#7209b7',
-                      fontWeight: 'bold'
+                      fontWeight: 'bold',
                     }}
                   >
                     {selectedPrices.length}
@@ -365,7 +354,7 @@ const ServiceDetails1 = () => {
                         className="ms-2"
                         style={{
                           textDecoration: 'line-through',
-                          opacity: 0.75
+                          opacity: 0.75,
                         }}
                       >
                         ₹{totalOriginalPrice.toFixed(2)}
@@ -375,35 +364,37 @@ const ServiceDetails1 = () => {
                 </div>
               </div>
               <div className="col-auto">
-                <i className={` ri-arrow-${showBreakdown ? 'down' : 'up'}-s-line text-white `} style={{fontSize:"18px"}}></i>
+                <i
+                  className={` ri-arrow-${showBreakdown ? 'down' : 'up'}-s-line text-white `}
+                  style={{ fontSize: '18px' }}
+                ></i>
               </div>
             </div>
-       
+
             {showBreakdown && (
               <div className="mt-3 pt-2 border-top">
                 {selectedPrices.map((price, index) => (
-                  <div key={index} className="d-flex justify-content-between mb-2">
+                  <div
+                    key={index}
+                    className="d-flex justify-content-between mb-2"
+                  >
                     <span>{price.service_price_for}</span>
                     <span>₹{price.service_price_amount}</span>
                   </div>
                 ))}
               </div>
             )}
-
-
           </div>
         </div>
 
-
         <div className="content">
-
           <div className="container">
             <div className="row">
               <div className="col-xl-8">
                 <div className="card border-0">
                   <div className="card-body">
                     <div className="service-head mb-2">
-                {/* <div className="d-flex align-items-center justify-content-between flex-wrap">
+                      {/* <div className="d-flex align-items-center justify-content-between flex-wrap">
                         <h3 className="mb-2">Lighting Servicesedit</h3>
                         <h3 className="mb-2">
                           {state?.service_name || 'Service Name'}
@@ -431,29 +422,23 @@ const ServiceDetails1 = () => {
                         <div className="d-flex align-items-center flex-wrap">
                           <h4 className="mb-0 text-primary fw-bold">
                             {service_name || 'Service Name'}
-                            { service_sub_name && (
-                              <span style={{ color: 'gray', fontSize: '14px', }}>&nbsp;( {service_sub_name})</span>
+                            {service_sub_name && (
+                              <span style={{ color: 'gray', fontSize: '14px' }}>
+                                &nbsp;( {service_sub_name})
+                              </span>
                             )}
                           </h4>
                         </div>
                         <button
-                          onClick={() => navigate("/service")}
+                          onClick={() => navigate('/service')}
                           className="btn btn-link text-decoration-none text-primary p-0"
                           style={{ whiteSpace: 'nowrap' }}
                         >
-                   
                           <i className="ri-arrow-left-line me-2"></i>
                           Browse Services
                         </button>
                       </div>
                     </div>
-
-
-
-
-
-
-
 
                     <div className="accordion service-accordion">
                       <div className="accordion-item mb-4">
@@ -468,13 +453,21 @@ const ServiceDetails1 = () => {
                             Service Offered
                           </button>
                         </h2>
-                        <div id="overview" className="accordion-collapse collapse show">
+                        <div
+                          id="overview"
+                          className="accordion-collapse collapse show"
+                        >
                           <div className="accordion-body border-0 p-0 pt-2">
                             <div className="bg-light-200 p-2 offer-wrap">
                               {priceLoading ? (
                                 <div className="text-center py-3">
-                                  <div className="spinner-border text-primary" role="status">
-                                    <span className="visually-hidden">Loading...</span>
+                                  <div
+                                    className="spinner-border text-primary"
+                                    role="status"
+                                  >
+                                    <span className="visually-hidden">
+                                      Loading...
+                                    </span>
                                   </div>
                                   <p className="mt-2">Loading prices...</p>
                                 </div>
@@ -492,23 +485,33 @@ const ServiceDetails1 = () => {
                                 servicePrices.map((price) => (
                                   <div
                                     key={price.id}
-                                    className={`offer-item d-flex align-items-center justify-content-between mb-2 p-2 ${selectedPrices.some((p) => p.id === price.id)
-                                        ? 'bg-primary-light border-primary'
+                                    className={`offer-item d-flex align-items-center justify-content-between mb-2 p-2 ${
+                                      selectedPrices.some(
+                                        (p) => p.id === price.id,
+                                      )
+                                        ? ' border-primary'
                                         : 'bg-white'
-                                      }`}
+                                    }`}
                                     style={{
                                       cursor: 'pointer',
                                       transition: 'all 0.3s ease',
-                                      border: selectedPrices.some((p) => p.id === price.id)
-                                        ? '1px solid #0d6efd'
+                                      border: selectedPrices.some(
+                                        (p) => p.id === price.id,
+                                      )
+                                        ? '1px solid #0d6efd '
                                         : '1px solid #dee2e6',
                                       borderRadius: '6px',
+                                      backgroundColor: selectedPrices.some((p) => p.id === price.id)
+      ? '#f0f8ff' 
+      : '',
                                     }}
                                     onClick={() => togglePriceSelection(price)}
                                   >
                                     <div className="d-flex align-items-center">
                                       <span className="avatar avatar-sm flex-shrink-0 me-2">
-                                        {selectedPrices.some((p) => p.id === price.id) ? (
+                                        {selectedPrices.some(
+                                          (p) => p.id === price.id,
+                                        ) ? (
                                           <i className="ri-checkbox-circle-fill text-black fs-5"></i>
                                         ) : (
                                           <i className="ri-checkbox-blank-circle-line text-muted fs-5"></i>
@@ -521,7 +524,6 @@ const ServiceDetails1 = () => {
                                     <div className="text-end">
                                       <h6 className="fs-14 fw-medium text-primary mb-0">
                                         ₹{price.service_price_amount}
-
                                       </h6>
                                       <p className="fs-12 text-muted mb-0 text-decoration-line-through">
                                         ₹{price.service_price_rate}
@@ -530,80 +532,97 @@ const ServiceDetails1 = () => {
                                   </div>
                                 ))
                               ) : (
-                                <div className="alert alert-info py-2 fs-14">{message}</div>
+                                <div className="alert alert-info py-2 fs-14">
+                                  {message}
+                                </div>
                               )}
                             </div>
                           </div>
-                          <div id="include" className="accordion-collapse collapse show">
+                          <div
+                            id="include"
+                            className="accordion-collapse collapse show"
+                          >
                             <div className="accordion-body border-0 p-0 pt-2">
                               <div className="bg-light-200  p-2 br-10">
-                            
                                 <div className="button-group-container">
-  <button
-    className="add-to-cart-btn"
-    onClick={() => {
-      if (selectedPrices.length === 0) {
-        showNotification('Please select at least one service', 'error');
-        return;
-      }
-      selectedPrices.forEach(price => {
-        dispatch(addToCart({
-          id: price.id,
-          service_price_for: price.service_price_for,
-          service_price_rate: price.service_price_rate,
-          service_price_amount: price.service_price_amount,
-          service_id: service_id,
-          service_name: service_name,
-          service_sub_id: service_sub_id,
-          service_sub_name: service_sub_name,
-          service_label: price?.status_label,
-        }));
-      });
-      showNotification('Service added to cart', 'success');
-    }}
-  >
-    <i className="ri-shopping-cart-2-line"></i> Add to Cart
-  </button>
-  
-  <button
-    className=" checkout-btn" 
-    onClick={() => {
-      if (selectedPrices.length === 0) {
-        showNotification('Please select at least one service', 'error');
-        return;
-      }
-      navigate('/cart');
-      selectedPrices.forEach(price => {
-        dispatch(addToCart({
-          id: price.id,
-          service_price_for: price.service_price_for,
-          service_price_rate: price.service_price_rate,
-          service_price_amount: price.service_price_amount,
-          service_id: service_id,
-          service_name: service_name,
-          service_sub_id: service_sub_id,
-          service_sub_name: service_sub_name,
-          service_label: price?.status_label,
-        }));
-      });
-    }}
-  >
-   <i className="ri-shopping-bag-3-line"></i>Checkout
-  </button>
-</div>
+                                  <button
+                                    className="add-to-cart-btn"
+                                    onClick={() => {
+                                      if (selectedPrices.length === 0) {
+                                        showNotification(
+                                          'Please select at least one service',
+                                          'error',
+                                        );
+                                        return;
+                                      }
+                                      selectedPrices.forEach((price) => {
+                                        dispatch(
+                                          addToCart({
+                                            id: price.id,
+                                            service_price_for:
+                                              price.service_price_for,
+                                            service_price_rate:
+                                              price.service_price_rate,
+                                            service_price_amount:
+                                              price.service_price_amount,
+                                            service_id: service_id,
+                                            service_name: service_name,
+                                            service_sub_id: service_sub_id,
+                                            service_sub_name: service_sub_name,
+                                            service_label: price?.status_label,
+                                          }),
+                                        );
+                                      });
+                                      showNotification(
+                                        'Service added to cart',
+                                        'success',
+                                      );
+                                    }}
+                                  >
+                                    <i className="ri-shopping-cart-2-line"></i>{' '}
+                                    Add to Cart
+                                  </button>
+
+                                  <button
+                                    className=" checkout-btn"
+                                    onClick={() => {
+                                      if (selectedPrices.length === 0) {
+                                        showNotification(
+                                          'Please select at least one service',
+                                          'error',
+                                        );
+                                        return;
+                                      }
+                                      navigate('/cart');
+                                      selectedPrices.forEach((price) => {
+                                        dispatch(
+                                          addToCart({
+                                            id: price.id,
+                                            service_price_for:
+                                              price.service_price_for,
+                                            service_price_rate:
+                                              price.service_price_rate,
+                                            service_price_amount:
+                                              price.service_price_amount,
+                                            service_id: service_id,
+                                            service_name: service_name,
+                                            service_sub_id: service_sub_id,
+                                            service_sub_name: service_sub_name,
+                                            service_label: price?.status_label,
+                                          }),
+                                        );
+                                      });
+                                    }}
+                                  >
+                                    <i className="ri-shopping-bag-3-line"></i>
+                                    Checkout
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-
-
-
-
-
-
-
-
 
                       <div className="accordion-item mb-4">
                         <h2 className="accordion-header">
@@ -624,31 +643,30 @@ const ServiceDetails1 = () => {
                           <div className="accordion-body border-0 p-0 pt-3">
                             <div className="bg-light-200 p-3 pb-2 br-10">
                               <p className="d-inline-flex align-items-center mb-2 me-4">
-                       
                                 <i className="ri-checkbox-circle-line text-success me-2"></i>
                                 Verified Professionals
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
-                              <i className="ri-checkbox-circle-line text-success me-2"></i>
-                                Safe Chemicals 
+                                <i className="ri-checkbox-circle-line text-success me-2"></i>
+                                Safe Chemicals
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
-                              <i className="ri-checkbox-circle-line text-success me-2"></i>
+                                <i className="ri-checkbox-circle-line text-success me-2"></i>
                                 Superior Stain Removal
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
-                              <i className="ri-checkbox-circle-line text-success me-2"></i>
+                                <i className="ri-checkbox-circle-line text-success me-2"></i>
                                 Hassle Free Booking
                               </p>
                               <p className="d-inline-flex align-items-center mb-2 me-4">
-                              <i className="ri-checkbox-circle-line text-success me-2"></i>
+                                <i className="ri-checkbox-circle-line text-success me-2"></i>
                                 Transparent Pricing
                               </p>
                             </div>
                           </div>
                         </div>
                       </div>
-
+                      {serviceFAQ?.length > 0 && (
                       <div className="accordion-item mb-0">
                         <h2 className="accordion-header">
                           <button
@@ -670,106 +688,44 @@ const ServiceDetails1 = () => {
                               className="accordion accordion-customicon1 faq-accordion"
                               id="accordionfaq"
                             >
-                              <div className="accordion-item bg-light-200 mb-3">
-                                <h2 className="accordion-header">
-                                  <button
-                                    className="accordion-button bg-light-200 br-10 fs-16 fw-medium"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#faq1"
-                                    aria-expanded="false"
-                                  >
-                                 What types of cleaning services do you offer?
-                                  </button>
-                                </h2>
-                                <div
-                                  id="faq1"
-                                  className="accordion-collapse collapse show"
-                                  data-bs-parent="#accordionfaq"
-                                >
-                                  <div className="accordion-body border-0 pt-0">
-                                    <p>
-                                    We provide a wide range of services including home deep cleaning, kitchen cleaning, bathroom cleaning, sofa and carpet shampooing, window cleaning, pest control, and much more. Whether it’s a one-time job or regular maintenance, we’ve got you covered.
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="accordion-item bg-light-200 mb-3">
-                                <h2 className="accordion-header">
-                                  <button
-                                    className="accordion-button bg-light-200 br-10 fs-16 fw-medium collapsed"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#faq2"
-                                    aria-expanded="false"
-                                  >
-                                Do I need to provide any cleaning materials or equipment?
-                                  </button>
-                                </h2>
-                                <div
-                                  id="faq2"
-                                  className="accordion-collapse collapse"
-                                  data-bs-parent="#accordionfaq"
-                                >
-                                  <div className="accordion-body border-0 pt-0">
-                                    <p>
-                                    No, our professionals come fully equipped with all the necessary tools and high-quality cleaning products to get the job done effectively.
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="accordion-item bg-light-200 mb-3">
-                                <h2 className="accordion-header">
-                                  <button
-                                    className="accordion-button bg-light-200 br-10 fs-16 fw-medium collapsed"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#faq3"
-                                    aria-expanded="false"
-                                  >
-                                    How do I book a service and what is the process?
-                                  </button>
-                                </h2>
-                                <div
-                                  id="faq3"
-                                  className="accordion-collapse collapse"
-                                  data-bs-parent="#accordionfaq"
-                                >
-                                  <div className="accordion-body border-0 pt-0">
-                                    <p>
-                                    Booking is simple! Just select the service you need, choose your preferred date and time, and confirm your booking. Our team will then arrive at your location and complete the service as scheduled.
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="accordion-item bg-light-200">
-                                <h2 className="accordion-header">
-                                  <button
-                                    className="accordion-button bg-light-200 br-10 fs-16 fw-medium collapsed"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#faq4"
-                                    aria-expanded="false"
-                                  >
-                                    Are your services safe for pets and children?
-                                  </button>
-                                </h2>
-                                <div
-                                  id="faq4"
-                                  className="accordion-collapse collapse"
-                                  data-bs-parent="#accordionfaq"
-                                >
-                                  <div className="accordion-body border-0 pt-0">
-                                    <p>
-                                    Yes, we use eco-friendly and non-toxic products wherever possible to ensure the safety of your entire household, including kids and pets.
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
+                             
+                                { serviceFAQ.map((faq, index) => (
+                                    <div
+                                      className="accordion-item bg-light-200 mb-3"
+                                      key={index}
+                                    >
+                                      <h2 className="accordion-header">
+                                        <button
+                                          className={`accordion-button bg-light-200 br-10 fs-16 fw-medium ${index === 0 ? '' : 'collapsed'}`}
+                                          type="button"
+                                          data-bs-toggle="collapse"
+                                          data-bs-target={`#faq${index}`}
+                                          aria-expanded={
+                                            index === 0 ? 'true' : 'false'
+                                          }
+                                        >
+                                          {faq.service_faq_heading}
+                                        </button>
+                                      </h2>
+                                      <div
+                                        id={`faq${index}`}
+                                        className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`}
+                                        data-bs-parent="#accordionfaq"
+                                      >
+                                        <div className="accordion-body border-0 pt-0">
+                                          <p>{faq.service_faq_description}</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
+                           
                             </div>
                           </div>
                         </div>
                       </div>
+
+)}
+
 
                     </div>
                   </div>
@@ -799,10 +755,12 @@ const ServiceDetails1 = () => {
                         </div>
                         <span className="badge bg-success mb-3 d-inline-flex align-items-center fw-medium">
                           <i className="ti ti-circle-percentage me-1" />
-                          {Math.round((1 - totalPrice / totalOriginalPrice) * 100) || 0}% Offer
+                          {Math.round(
+                            (1 - totalPrice / totalOriginalPrice) * 100,
+                          ) || 0}
+                          % Offer
                         </span>
                       </div>
-
                     </div>
                   </div>
 
@@ -827,7 +785,8 @@ const ServiceDetails1 = () => {
                         Try Again
                       </button>
                     </div>
-                  ) : serviceCards.length > 0 && (
+                  ) : (
+                    serviceCards.length > 0 &&
                     serviceCards.map((card) => (
                       <>
                         <div key={card.id} className="card p-0 border-0">
@@ -845,25 +804,39 @@ const ServiceDetails1 = () => {
                                   {card?.serviceDetails_name}
                                 </h5>
 
-
-                                <p className="fs-12" style={{ textAlign: 'justify' }}>
+                                <p
+                                  className="fs-12"
+                                  style={{ textAlign: 'justify' }}
+                                >
                                   {card?.serviceDetails && (
                                     <>
                                       {showFullText?.[card.id] ? (
                                         card.serviceDetails
                                       ) : (
                                         <>
-                                          {card.serviceDetails.split(' ').slice(0, 25).join(' ')}
-                                          {card.serviceDetails.split(' ').length > 25 && '...'}
+                                          {card.serviceDetails
+                                            .split(' ')
+                                            .slice(0, 25)
+                                            .join(' ')}
+                                          {card.serviceDetails.split(' ')
+                                            .length > 25 && '...'}
                                         </>
                                       )}
-                                      {card.serviceDetails.split(' ').length > 25 && (
+                                      {card.serviceDetails.split(' ').length >
+                                        25 && (
                                         <span
                                           className="link-primary text-decoration-underline ms-1"
                                           style={{ cursor: 'pointer' }}
-                                          onClick={() => setShowFullText(prev => ({ ...prev, [card.id]: !prev?.[card.id] }))}
+                                          onClick={() =>
+                                            setShowFullText((prev) => ({
+                                              ...prev,
+                                              [card.id]: !prev?.[card.id],
+                                            }))
+                                          }
                                         >
-                                          {showFullText?.[card.id] ? 'Read less' : 'Read more'}
+                                          {showFullText?.[card.id]
+                                            ? 'Read less'
+                                            : 'Read more'}
                                         </span>
                                       )}
                                     </>
@@ -871,17 +844,15 @@ const ServiceDetails1 = () => {
                                 </p>
                               </div>
                             </div>
-
                           </div>
                         </div>
                       </>
                     ))
-                  ) }
+                  )}
 
                   {/* recommendation card end */}
                 </StickyBox>
               </div>
-
             </div>
           </div>
         </div>
@@ -891,4 +862,4 @@ const ServiceDetails1 = () => {
 };
 
 export default ServiceDetails1;
-//sajid 
+//sajid

@@ -7,6 +7,7 @@ import {BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL, SERVIC
 import HomeHeader from '../../home/header/home-header';
 import { Helmet } from 'react-helmet-async';
 import './Categories.css';
+import '../../home/home-seven/PopularService.css'
 import { decryptId, encryptId } from '../../../../core/encyrption/Encyrption';
 
 interface Service {
@@ -99,7 +100,7 @@ const Categories = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate(`/service-details/${category_name}/${id}/${encodeURIComponent(serviceName)}/${serviceId}`, {
+        navigate(`/pricing/${category_name}/${decryptedId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -108,7 +109,7 @@ const Categories = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate(`/service-details/${category_name}/${id}/${encodeURIComponent(serviceName)}/${serviceId}`, {
+      navigate(`/pricing/${category_name}/${decryptedId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -348,6 +349,7 @@ const Categories = () => {
               }}
             />
             <span className="category-name">{category.name}</span>
+            
           </div>
         </Link>
       ))}
@@ -362,25 +364,22 @@ const Categories = () => {
               {services.map((service: Service) => (
                 <div 
                   key={service.id} 
-                  className="categories-card"
+               className="popular-service-home-card featured-card"
                   onClick={() => handleServiceClick(service)}
                 >
-                  <div className="categories-card-image-container">
+                  <div className="popular-service-home-card-image">
                     <img
                       src={getImageUrl(service.service_image)}
-                      className="categories-card-image"
+                     
                       alt={service.service}
                       loading="lazy"
                       decoding="async"
                     />
                   </div>
-                  <div className="categories-card-content">
-                    <h3 className="categories-card-title">{service.service}</h3>
-                    <div className="categories-card-hover">
-                      <span>View Details</span>
-                      <Icon.ArrowRight className="categories-card-icon" />
+                  <div className="popular-service-home-card-overlay"></div>
+                    <div className="popular-service-home-card-badge">
+                      {service.service}
                     </div>
-                  </div>
                 </div>
               ))}
             </div>
@@ -441,7 +440,7 @@ const Categories = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3" >
                         <div 
                           className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                          onClick={() => navigate(`/service-details/${category_name}/${id}/${selectedService?.service}/${selectedService?.id}/${subService.service_sub}/${subService?.id}`, {
+                          onClick={() => navigate(`/pricing/${category_name}/${decryptedId}/${selectedService?.service}/${selectedService?.id}/${subService.service_sub}/${subService?.id}`, {
                             state: {
                               service_id: selectedService?.id,
                               service_name: selectedService?.service,
@@ -451,7 +450,7 @@ const Categories = () => {
                           })}
                           // onClick={() => {
                           //   if (selectedService) {
-                          //     navigate(`/service-details/${category_name}/${id}/${selectedService.service}/${encryptId(selectedService.id)}/${subService.service_sub}/${encryptId(subService.id)}`, {
+                          //     navigate(`/pricing/${category_name}/${id}/${selectedService.service}/${encryptId(selectedService.id)}/${subService.service_sub}/${encryptId(subService.id)}`, {
                           //       state: {
                           //         service_id: selectedService.id,
                           //         service_name: selectedService.service,

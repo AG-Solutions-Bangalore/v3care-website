@@ -4,6 +4,7 @@ import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import HomeHeader from '../../home/header/home-header';
 import { BASE_URL } from '../../../baseConfig/BaseUrl';
 import axios from 'axios';
+import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     fullname: '',
@@ -121,6 +122,7 @@ const ContactUs = () => {
   
   return (
     <>
+      <DefaultHelmet/>
      <HomeHeader  />
      <BreadCrumb title='Contact Us'  item1='Contact Us'/>
      <div className="page-wrapper">

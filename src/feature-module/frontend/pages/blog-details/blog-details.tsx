@@ -10,6 +10,7 @@ import { blogCardData } from '../../../../core/data/json/blog_card';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import HomeHeader from '../../home/header/home-header';
 import { BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
+import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 
 
 
@@ -26,6 +27,7 @@ const BlogDetails = () => {
   if (!blog) {
     return (
       <>
+        <DefaultHelmet/>
         <HomeHeader  />
         <div className="page-wrapper">
         <div className="content">
@@ -104,6 +106,7 @@ const BlogDetails = () => {
 
   return (
     <>
+      <DefaultHelmet/>
      <HomeHeader  />
       {/* <BreadCrumb title='Blog Details' item1='Home' item2='Blog Details'/> */}
       <div className="page-wrapper">

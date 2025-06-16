@@ -11,6 +11,7 @@ import axios from 'axios';
 import * as Icon from 'react-feather';
 import { BASE_URL, NO_IMAGE_URL, TESTIMONIAL_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
+import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 
 interface Testimonial {
   testimonial_description: string;
@@ -76,6 +77,7 @@ const AboutUs = () => {
   };
   return (
     <>
+      <DefaultHelmet/>
     <HomeHeader />
       <BreadCrumb title='About Us'  item1='About Us' />
       <>

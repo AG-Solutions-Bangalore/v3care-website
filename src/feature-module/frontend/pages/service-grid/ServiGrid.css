@@ -1,37 +1,181 @@
 /* Base Styles */
 :root {
-    --primary-color: #000000;
+  --primary-color: #000000;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 
- 
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
- 
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
-  
+* {
+  box-sizing: border-box;
+}
+
+
+.flex-nowrap::-webkit-scrollbar {
+  height: 4px;
+}
+
+.flex-nowrap::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.flex-nowrap::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.flex-nowrap::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
 
 .book-now-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: var(--primary-color);
-  
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.4rem 0.8rem;
-    text-decoration: none;
-    font-weight: 500;
-    transition: var(--transition);
-    font-size: 0.8rem;
-    height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  height: 28px;
+  transition: var(--transition);
+}
+
+.book-now-btn:hover {
+  background: white;
+  border: 1px solid #000000;
+  transform: translateY(-1px);
+  color: black;
+}
+
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  box-shadow: 0 5px 30px rgba(138, 141, 242, 0.2);
+  border-radius: 14px;
+  overflow: hidden;
+  border: none;
+}
+
+.modal-header {
+  background: #000000;
+  border-bottom: none;
+  padding: 0.75rem 1rem;
+}
+
+.modal-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: white;
+}
+
+.modal-body {
+  max-height: 65vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 0.75rem;
+}
+
+
+.card {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.subservice-card {
+  cursor: pointer;
+  border-radius: 8px;
+  border: 2px solid rgba(236, 72, 153, 0.1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.subservice-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(236, 72, 153, 0.1);
+  border-color: rgba(236, 72, 153, 0.2);
+}
+
+
+@media (max-width: 767.98px) {
+  .flex-grow-1 {
+    width: 100%;
   }
   
-  .book-now-btn:hover {
-    background: white;
-    border: 1px solid #000000;
-    transform: translateY(-1px);
-    color: black;
+  .flex-shrink-0 {
+    width: 100%;
+    max-width: 100% !important;
   }
+
+  .modal-dialog {
+    margin: 0.5rem auto;
+  }
+
+  .modal-body {
+    max-height: 60vh;
+  }
+
+  .book-now-btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+    height: 26px;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-width: 680px;
+  }
+}
+
+
+img {
+  object-fit: cover;
+}
+
+
+.alert-danger {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-color: rgba(220, 53, 69, 0.2);
+}
+
+
+.spinner-border {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 0.2em;
+}
+
+
+.empty-state {
+  padding: 2rem 0;
+  text-align: center;
+}
+
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.rounded {
+  border-radius: 0.375rem !important;
+}
+
+
+.bg-primary { background-color: #000000 !important; }
+.bg-info { background-color: #0dcaf0 !important; }
+.bg-purple { background-color: #6f42c1 !important; }
+.bg-success { background-color: #198754 !important; }
+.bg-danger { background-color: #dc3545 !important; }
+.bg-warning { background-color: #ffc107 !important; }

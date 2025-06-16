@@ -5,6 +5,7 @@ import './HomeSeven.css'
 
 import HeroSection from './HeroSection';
 import DefaultHelmet from '../../common/helmet/DefaultHelmet';
+import HomeBanner from './HomeBanner';
 
 
 const FeaturedCategories = lazy(() => import('./FeaturedCategories'));
@@ -94,30 +95,9 @@ const HomeSeven: React.FC = () => {
         </section>
 
         {/* Banner Section */}
-        <section
-          className="popular-service-seven-section "
 
-        >
-          <div className="container">
-            <div>
-              <img
-                src="assets/img/services/22.png"
-              
-                alt="Promotional Banner"
-loading="lazy"
-  decoding="async"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  display: 'block',
-                  objectFit: 'fill',
-                  objectPosition: 'center',
-                  borderRadius: '0.5rem',
-                }}
-              />
-            </div>
-          </div>
-        </section>
+       {/* <HomeBanner/> */}
+       
         {/* Testimonials */}
         <section>
           <div id="trigger-testimonials" className="trigger-point" />

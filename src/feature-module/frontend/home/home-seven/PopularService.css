@@ -1,0 +1,343 @@
+.popular-service-home-section {
+    padding: 80px 0 60px;
+    background-color: #ffffff;
+    position: relative;
+  }
+  
+  .popular-service-home-featured-section {
+    padding: 60px 0 80px;
+    background-color: #f8f8f8;
+    position: relative;
+  }
+  
+  .popular-service-home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+  }
+  
+  .popular-service-home-header {
+    margin-bottom: 40px;
+  }
+  
+  .popular-service-home-header.text-center {
+    text-align: center;
+  }
+  
+  .popular-service-home-header.text-left {
+    text-align: left;
+  }
+  
+  .popular-service-home-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .popular-service-home-header.text-left .popular-service-home-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #3b82f6, #1d4ed8);
+    border-radius: 2px;
+  }
+  
+  .popular-service-home-subtitle {
+    font-size: 1rem;
+    color: #666666;
+    margin: 0;
+    font-weight: 400;
+  }
+  
+  .popular-service-home-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    background-color: #ffebee;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    color: #d32f2f;
+  }
+  
+  .popular-service-home-error-icon {
+    margin-right: 10px;
+  }
+  
+  .popular-service-home-retry-btn {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    padding: 5px 12px;
+    background-color: transparent;
+    border: 1px solid #d32f2f;
+    border-radius: 4px;
+    color: #d32f2f;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .popular-service-home-retry-btn:hover {
+    background-color: #d32f2f;
+    color: white;
+  }
+  
+  .popular-service-home-retry-icon {
+    margin-right: 5px;
+  }
+  
+  .popular-service-home-slider-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .popular-service-home-slider-container {
+    position: relative;
+    padding: 0 40px;
+  }
+  
+  .popular-service-home-slider {
+    padding: 20px 0;
+    overflow: visible;
+  }
+  
+  .popular-service-slide {
+    width: 280px !important;
+    height: auto;
+  }
+  
+  .popular-service-home-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .popular-service-home-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .popular-service-home-card.featured-card {
+    border: 1px solid rgba(59, 130, 246, 0.1);
+  }
+  
+  .popular-service-home-card.featured-card:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+  
+  .popular-service-home-card-image {
+    position: relative;
+    padding-top: 70%;
+    overflow: hidden;
+  }
+  
+  .popular-service-home-card-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .popular-service-home-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.4));
+    z-index: 1;
+  }
+  
+  .popular-service-home-card:hover .popular-service-home-card-image img {
+    transform: scale(1.05);
+  }
+  
+  .popular-service-home-card-badge {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    color: #000000;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 2;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .popular-service-home-card:hover .popular-service-home-card-badge {
+    background: #000000;
+    color: white;
+  }
+  
+  .popular-service-home-card-content {
+    padding: 15px;
+    position: relative;
+    z-index: 2;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .service-title {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333333;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 40px;
+  }
+  
+  .popular-service-home-card-cta {
+    display: flex;
+    align-items: center;
+    color: #3b82f6;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-top: auto;
+  }
+  
+  .popular-service-home-card:hover .popular-service-home-card-cta {
+    color: #000000;
+    transform: translateX(3px);
+  }
+  
+  .popular-service-home-card-cta svg {
+    margin-left: 6px;
+    transition: transform 0.3s ease;
+  }
+  
+  .popular-service-home-card:hover .popular-service-home-card-cta svg {
+    transform: translateX(2px);
+  }
+  
+  /* Swiper navigation styles */
+  .popular-service-home-slider-container .swiper-button-prev,
+  .popular-service-home-slider-container .swiper-button-next {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    color: #000000;
+    transition: all 0.3s ease;
+    opacity: 0.9;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .popular-service-home-slider-container .swiper-button-prev:hover,
+  .popular-service-home-slider-container .swiper-button-next:hover {
+    background: #000000;
+    color: white;
+    opacity: 1;
+    transform: translateY(-50%) scale(1.05);
+  }
+  
+  .popular-service-home-slider-container .swiper-button-prev::after,
+  .popular-service-home-slider-container .swiper-button-next::after {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .popular-service-home-slider-container .swiper-button-prev {
+    left: 0;
+  }
+  
+  .popular-service-home-slider-container .swiper-button-next {
+    right: 0;
+  }
+  
+  .popular-service-home-slider-container .swiper-button-disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 992px) {
+    .popular-service-home-section,
+    .popular-service-home-featured-section {
+      padding: 50px 0;
+    }
+    
+    .popular-service-home-title {
+      font-size: 1.8rem;
+    }
+    
+    .popular-service-slide {
+      width: 240px !important;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .popular-service-home-container {
+      padding: 0 15px;
+    }
+    
+    .popular-service-home-title {
+      font-size: 1.6rem;
+    }
+    
+    .popular-service-home-subtitle {
+      font-size: 0.95rem;
+    }
+    
+    .popular-service-home-header {
+      margin-bottom: 30px;
+    }
+    
+    .popular-service-slide {
+      width: 220px !important;
+    }
+  
+    .popular-service-home-slider-container {
+      padding: 0 30px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .popular-service-home-section,
+    .popular-service-home-featured-section {
+      padding: 40px 0;
+    }
+    
+    .popular-service-home-title {
+      font-size: 1.4rem;
+    }
+    
+    .popular-service-slide {
+      width: 200px !important;
+    }
+  
+    .popular-service-home-slider-container {
+      padding: 0 20px;
+    }
+  }

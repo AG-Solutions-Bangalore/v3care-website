@@ -58,34 +58,33 @@ const HomeHeader = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       sidebarRef.current && 
-  //       toggleButtonRef.current && 
-  //       !sidebarRef.current.contains(event.target as Node) && 
-  //       !toggleButtonRef.current.contains(event.target as Node)
-  //     ) {
-  //       closeMenu();
-  //     }
-
-  //     if (
-  //       searchResultsRef.current && 
-  //       searchInputRef.current &&
-  //       !searchResultsRef.current.contains(event.target as Node) &&
-  //       !searchInputRef.current.contains(event.target as Node)
-  //     ) {
-  //       setShowSearchResults(false);
-  //     }
-  //   };
-
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, []);
-
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarRef.current && 
+        toggleButtonRef.current && 
+        !sidebarRef.current.contains(event.target as Node) && 
+        !toggleButtonRef.current.contains(event.target as Node)
+      ) {
+        closeMenu();
+      }
+
+      if (
+        searchResultsRef.current && 
+        searchInputRef.current &&
+        !searchResultsRef.current.contains(event.target as Node) &&
+        !searchInputRef.current.contains(event.target as Node)
+      ) {
+        setShowSearchResults(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+useEffect(() => {
     if (showMobileSearchModal) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -96,7 +95,6 @@ const HomeHeader = () => {
       document.body.style.overflow = '';
     };
   }, [showMobileSearchModal]);
-
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -131,8 +129,9 @@ const HomeHeader = () => {
     }
   };
 
-  // FIXED: Removed preventDefault and stopPropagation
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // e.preventDefault()
+    // e.stopPropagation()
     const query = e.target.value;
     setSearchQuery(query);
     
@@ -163,21 +162,14 @@ const HomeHeader = () => {
     return `${SERVICE_IMAGE_URL}/${imageName}`;
   };
 
-  
-  const handleServiceClick = (service: Service, event?: React.MouseEvent) => {
-   console.log("hit")
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    
+  const handleServiceClick = (service: Service) => {
+    console.log("hit")
     navigate(`/pricing/${encodeURIComponent(service.service)}/${service.id}`, {
       state: {
         service_id: service.id,
         service_name: service.service
       }
     });
-    
     setShowSearchResults(false);
     setShowMobileSearchModal(false);
     setSearchQuery('');
@@ -199,7 +191,6 @@ const HomeHeader = () => {
     }
   };
 
- 
   const renderSearchResults = () => (
     <>
       {isSearching ? (
@@ -218,15 +209,15 @@ const HomeHeader = () => {
             <div 
               key={service.id} 
               className="home-header-nav-search-result-item"
-              onClick={(e) => handleServiceClick(service, e)}
+              onClick={() => handleServiceClick(service)}
               role="button" 
-              tabIndex={0}
+              tabIndex={0} 
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
                   handleServiceClick(service);
                 }
               }}
+            
             >
               <div className="home-header-nav-search-result-image">
                 <img
@@ -325,7 +316,7 @@ const HomeHeader = () => {
                         type="text"
                         placeholder="Search services..."
                         value={searchQuery}
-                        onChange={handleSearchChange}
+                        onChange={(e)=>handleSearchChange(e)}
                         onFocus={handleSearchFocus}
                         className="home-header-nav-search-input"
                         ref={searchInputRef}
@@ -528,3 +519,6 @@ const HomeHeader = () => {
 };
 
 export default HomeHeader;
+
+
+// original code 

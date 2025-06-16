@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import {BASE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL} from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
+import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 
 interface Client {
   client_name: string;
@@ -48,6 +49,7 @@ const Client = () => {
 
   return (
     <>
+      <DefaultHelmet/>
      <HomeHeader  />
       <BreadCrumb title='Our Partners'  item1='Client' />
       

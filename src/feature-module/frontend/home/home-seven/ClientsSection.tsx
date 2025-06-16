@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import axios from 'axios';
 import { BASE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import SkeletonClients from '../../../skeletonLoader/SkeletonClients';
+import { Link } from 'react-router-dom';
 
 interface Client {
   client_name: string;
@@ -78,12 +79,21 @@ const ClientsSection = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-12 text-center">
-            <div className="section-heading section-heading-seven">
-              <h2>Our Clients</h2>
-              <p>
-                We are proud to partner with industry leaders and trusted brands
-              </p>
-            </div>
+          <div className="section-heading section-heading-seven">
+  <h2>Our Clients</h2>
+  <p>
+    We are proud to partner with industry leaders and trusted brands
+  </p>
+  <Link
+  to="/client"
+  className="d-inline-flex align-items-center gap-1 text-primary small mt-2"
+  style={{ textDecoration: 'none', fontWeight: 500 }}
+>
+  See all Clients <Icon.ArrowRight size={14} />
+</Link>
+
+</div>
+
           </div>
 
           {isLoading && <SkeletonClients />}

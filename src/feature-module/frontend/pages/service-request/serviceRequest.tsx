@@ -5,6 +5,7 @@ import Select from 'react-select';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { BASE_URL, BASE_URL_PINCODE } from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
+import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 
 
 interface BranchType {
@@ -445,6 +446,7 @@ const showNotification = (message: string, type: 'success' | 'error') => {
 
   return (
     <>
+      <DefaultHelmet/>
     <style>
   {`
     @keyframes slideDown {

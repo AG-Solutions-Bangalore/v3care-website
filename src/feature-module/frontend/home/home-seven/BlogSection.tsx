@@ -53,11 +53,10 @@ const BlogSection = () => {
         <div className="row">
           <div className="col-md-12 text-center">
             <div className="section-heading section-heading-seven">
-              <h2>Our Recent Blog</h2>
+              <h2>Cleaning Tips, Trends & Service Guides from Our Experts</h2>
               <p>
-                Here&apos;s a compelling blog description designed to attract
-                readers and provide a clear idea of what they can expect
-                from your blog:
+               
+                Stay informed with expert insights, practical cleaning tips, and the latest updates from the home and office cleaning industry in India. Whether you&apos;re looking for deep cleaning guides, seasonal maintenance tips, or hygiene best practices for apartments, villas, or workspaces — our blog brings you valuable content that helps you make cleaner, healthier living choices.
               </p>
             </div>
           </div>

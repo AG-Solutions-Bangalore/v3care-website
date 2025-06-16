@@ -8,6 +8,7 @@ import { clearCart, removeFromCart, updateCartItems } from '../../../../core/red
 import axios from 'axios';
 import './cart.css';
 import { BASE_URL } from '../../../baseConfig/BaseUrl';
+import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -621,6 +622,7 @@ const Cart = () => {
 
   return (
     <>
+      <DefaultHelmet/>
       <HomeHeader />
       <style>
         {`

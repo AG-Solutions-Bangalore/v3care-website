@@ -8,6 +8,7 @@ import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import { BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import HomeHeader from '../../home/header/home-header';
 import './ServiGrid.css'
+import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 
 
 interface ServiceSuper {
@@ -15,6 +16,7 @@ interface ServiceSuper {
   serviceSuper: string;
   serviceSuper_image: string | null;
   total: number;
+  serviceSuper_url:string;
 }
 
 interface Service {
@@ -107,7 +109,8 @@ const ServiceGrid = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate(`/service-details/${encodeURIComponent(superCategory)}/${superCategoryId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
+        const superCategoryUrl = serviceSupers.find(cat => cat.id === superCategoryId)?.serviceSuper_url;
+        navigate(`/pricing/${superCategoryUrl}/${superCategoryId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -116,7 +119,8 @@ const ServiceGrid = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate(`/service-details/${encodeURIComponent(superCategory)}/${superCategoryId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
+      const superCategoryUrl = serviceSupers.find(cat => cat.id === superCategoryId)?.serviceSuper_url;
+      navigate(`/pricing/${superCategoryUrl}/${superCategoryId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -133,7 +137,7 @@ const ServiceGrid = () => {
     setSelectedService(service);
     const superCategory = serviceSupers.find(superCat => superCat.id === activeSuperCategory);
     if (superCategory) {
-        fetchSubServices(service.id, service.service, superCategory.serviceSuper, superCategory.id);
+        fetchSubServices(service.id, service.service, superCategory.serviceSuper, superCategory.id );
     }
   };
 
@@ -173,15 +177,14 @@ const ServiceGrid = () => {
     'bg-success',
     'bg-danger',
     'bg-warning',
-    'bg-indigo',
-    'bg-teal',
-    'bg-orange',
-    'bg-secondary'
+    'bg-primary',
+    'bg-info',
   ];
 
   if (loading && serviceSupers.length === 0) {
     return (
       <>
+        <DefaultHelmet/>
       <HomeHeader  />
         <BreadCrumb title="Services" item1="Services" />
         <div className="d-flex justify-content-center align-items-center vh-100">
@@ -199,6 +202,7 @@ const ServiceGrid = () => {
   if (error) {
     return (
       <>
+        <DefaultHelmet/>
            <HomeHeader  />
         <BreadCrumb title="Services" item1="Services" />
         <div className="d-flex justify-content-center align-items-center vh-50">
@@ -220,6 +224,7 @@ const ServiceGrid = () => {
 
   return (
     <>
+      <DefaultHelmet/>
      <HomeHeader  />
       <BreadCrumb title="Services" item1="Services" />
       
@@ -229,78 +234,82 @@ const ServiceGrid = () => {
 
 
             {/* Super Categories Tabs + Search Bar in same row */}
-<div className="row mt-0">
+            <div className="row mt-0">
   <div className="col-12">
-    <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-3 bg-white rounded shadow-sm p-2 mb-4">
-      {/* Super Categories */}
-      <div className="d-flex flex-wrap justify-content-center align-items-center gap-1">
-        {serviceSupers.map((superCat, index) => (
-          <button
-            key={superCat.id}
-            className={`position-relative btn m-1 ${
-              activeSuperCategory === superCat.id 
-                ? `${categoryColors[index % categoryColors.length]} text-white shadow`
-                : `btn-light text-dark`
-            }`}
-            style={{
-              fontSize: '0.875rem',
-              fontWeight: 500,
-              padding: '0.375rem 0.75rem',
-              borderRadius: '0.5rem',
-              transition: 'all 0.2s'
-            }}
-            onClick={() => handleSuperCategoryClick(superCat.id)}
-          >
-            {superCat.serviceSuper}
-       
-          {/* <span 
-            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info"
-            style={{
-              fontSize: '0.8rem',
-              padding: '0.3rem 0.3rem'
-            }}
-          >
-            {superCat.total}
-          </span> */}
-     
-            {activeSuperCategory !== superCat.id && (
-              <span 
-                className={`position-absolute bottom-0 start-0 ${categoryColors[index % categoryColors.length]}`}
-                style={{
-                  height: '2px',
-                  width: '0',
-                  transition: 'width 0.3s'
-                }}
-              ></span>
-            )}
-          </button>
-        ))}
+    <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2 bg-white rounded shadow-sm p-2 mb-3">
+      {/* Super Categories - Scrollable Container */}
+      <div className="flex-grow-1 overflow-auto mb-2 mb-lg-0 pe-2">
+        <div className="d-flex flex-nowrap align-items-center gap-1" style={{ minHeight: '42px' }}>
+          {serviceSupers.map((superCat, index) => (
+            <button
+              key={superCat.id}
+              className={`position-relative btn btn-sm m-0 ${
+                activeSuperCategory === superCat.id 
+                  ? `${categoryColors[index % categoryColors.length]} text-white shadow-sm`
+                  : `btn-outline-light text-dark`
+              }`}
+              style={{
+                fontSize: '0.8125rem',
+                fontWeight: 500,
+                padding: '0.25rem 0.6rem',
+                borderRadius: '0.375rem',
+                transition: 'all 0.2s',
+                whiteSpace: 'nowrap',
+                border: activeSuperCategory === superCat.id ? 'none' : '1px solid #dee2e6'
+              }}
+              onClick={() => handleSuperCategoryClick(superCat.id)}
+            >
+              {superCat.serviceSuper}
+              {activeSuperCategory === superCat.id && (
+                <span 
+                  className="position-absolute bottom-0 start-0 w-100 bg-white"
+                  style={{
+                    height: '2px',
+                    opacity: 0.7,
+                    borderRadius: '0 0 0.375rem 0.375rem'
+                  }}
+                ></span>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
       
-      {/* Search Bar */}
-      <div className="position-relative" style={{ minWidth: '250px', maxWidth: '350px', width: '100%' }}>
-        <div className="position-absolute top-50 start-0 translate-middle-y ps-3">
-          <Icon.Search className="text-secondary" size={18} />
+      {/* Search Bar - Compact Version */}
+      <div className="flex-shrink-0" style={{ minWidth: '200px', maxWidth: '280px', width: '100%' }}>
+        <div className="input-group input-group-sm">
+          <span className="input-group-text bg-transparent border-end-0">
+            <Icon.Search className="text-secondary" size={16} />
+          </span>
+          <input
+            type="text"
+            className="form-control border-start-0"
+            placeholder="Search services..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              borderRadius: '0.375rem',
+              boxShadow: 'none',
+              paddingLeft: '0.25rem'
+            }}
+          />
+          {searchQuery && (
+            <button
+              className="btn btn-sm btn-outline-secondary border-start-0"
+              onClick={() => setSearchQuery('')}
+              style={{
+                position: 'absolute',
+                right: '1px',
+                top: '1px',
+                bottom: '1px',
+                zIndex: 3,
+                borderRadius: '0 0.375rem 0.375rem 0'
+              }}
+            >
+              <Icon.X size={14} />
+            </button>
+          )}
         </div>
-        <input
-          type="text"
-          className="form-control ps-5"
-          placeholder="Search services..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={{
-            borderRadius: '0.5rem',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.05)'
-          }}
-        />
-        {searchQuery && (
-          <button
-            className="btn position-absolute top-50 end-0 translate-middle-y pe-3 border-0 bg-transparent"
-            onClick={() => setSearchQuery('')}
-          >
-            <Icon.X className="text-secondary" size={18} />
-          </button>
-        )}
       </div>
     </div>
   </div>
@@ -504,7 +513,7 @@ const ServiceGrid = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3">
                         <div 
                           className="card h-100 border-0 overflow-hidden position-relative"
-                          // onClick={() => navigate(`/service-details/${selectedService?.service}/${subService.service_sub}`, {
+                          // onClick={() => navigate(`/pricing/${selectedService?.service}/${subService.service_sub}`, {
                           //   state: {
                           //     service_id: selectedService?.id,
                           //     service_name: selectedService?.service,
@@ -515,7 +524,7 @@ const ServiceGrid = () => {
                           onClick={() => {
                             const superCategory = serviceSupers.find(superCat => superCat.id === activeSuperCategory);
                             if (superCategory) {
-                                navigate(`/service-details/${encodeURIComponent(superCategory.serviceSuper)}/${superCategory.id}/${selectedService?.service}/${selectedService?.id}/${encodeURIComponent(subService.service_sub)}/${subService?.id}`, {
+                                navigate(`/pricing/${superCategory.serviceSuper_url}/${superCategory.id}/${selectedService?.service}/${selectedService?.id}/${encodeURIComponent(subService.service_sub)}/${subService?.id}`, {
                                     state: {
                                         service_id: selectedService?.id,
                                         service_name: selectedService?.service,

@@ -68,6 +68,7 @@
     "slick-carousel": "^1.8.1",
     "smoothscroll-polyfill": "^0.4.4",
     "sonner": "^2.0.3",
+    "swiper": "^11.2.8",
     "web-vitals": "^2.1.4",
     "yet-another-react-lightbox": "^3.21.7"
   },

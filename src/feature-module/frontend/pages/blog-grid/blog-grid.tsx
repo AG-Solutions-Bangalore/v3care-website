@@ -7,6 +7,7 @@ import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import HomeHeader from '../../home/header/home-header';
 import { BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
+import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 
 
 const BlogGrid = () => {
@@ -75,6 +76,7 @@ const BlogGrid = () => {
   
   return (
     <>
+      <DefaultHelmet/>
      <HomeHeader  />
       <BreadCrumb title="Blog"  item1="Blog" />
       <div className="page-wrapper">

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { BASE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import SkeletonClients from '../../../skeletonLoader/SkeletonClients';
 import { Link } from 'react-router-dom';
+import './ClientSection.css';
 
 interface Client {
   client_name: string;
@@ -75,39 +76,36 @@ const ClientsSection = () => {
   };
 
   return (
-    <section className="our-partners-seven">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12 text-center">
-          <div className="section-heading section-heading-seven">
-  <h2>Our Clients</h2>
-  <p>
-    We are proud to partner with industry leaders and trusted brands
-  </p>
-  <Link
-  to="/client"
-  className="d-inline-flex align-items-center gap-1 text-primary small mt-2"
-  style={{ textDecoration: 'none', fontWeight: 500 }}
->
-  See all Clients <Icon.ArrowRight size={14} />
-</Link>
-
-</div>
-
+    <section className="home-client-section">
+      <div className="home-client-container">
+        <div className="home-client-row">
+          <div className="home-client-header-col">
+            <div className="home-client-header">
+              <h2 className="home-client-title">Our Clients</h2>
+              <p className="home-client-subtitle">
+                We are proud to partner with industry leaders and trusted brands
+              </p>
+              <Link
+                to="/client"
+                className="home-client-view-all"
+              >
+                See all Clients <Icon.ArrowRight size={14} />
+              </Link>
+            </div>
           </div>
 
           {isLoading && <SkeletonClients />}
 
           {error && !isLoading && (
-            <div className="col-12 text-center mb-5">
-              <div className="alert alert-danger d-flex align-items-center justify-content-center">
-                <Icon.AlertCircle className="me-2" size={18} />
+            <div className="home-client-error-col">
+              <div className="home-client-error">
+                <Icon.AlertCircle className="home-client-error-icon" size={18} />
                 <span>{error}</span>
                 <button
-                  className="btn btn-sm btn-outline-danger ms-3"
+                  className="home-client-retry-btn"
                   onClick={fetchClients}
                 >
-                  <Icon.RefreshCw className="me-1" size={14} />
+                  <Icon.RefreshCw className="home-client-retry-icon" size={14} />
                   Try Again
                 </button>
               </div>
@@ -115,16 +113,15 @@ const ClientsSection = () => {
           )}
 
           {!isLoading && !error && clients.length > 0 && (
-            <Slider {...partnersSlider} className="partners-slider-seven">
+            <Slider {...partnersSlider} className="home-client-slider">
               {clients.map((client, index) => (
-                <div key={index}>
+                <div className="home-client-slide" key={index}>
                   <img
                     src={getClientImageUrl(client.client_image)}
                     alt={client.client_name}
-                    className="img-fluid"
-                    style={{ maxHeight: '100px', objectFit: 'contain' }}
+                    className="home-client-img"
                     loading="lazy"
-  decoding="async"
+                    decoding="async"
                   />
                 </div>
               ))}

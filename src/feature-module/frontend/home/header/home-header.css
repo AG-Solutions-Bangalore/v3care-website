@@ -926,7 +926,7 @@
   }
 
   .home-header-nav-book-now-btn .home-header-nav-btn-text {
-    display: none;
+    display: flex;
   }
 
   .home-header-nav-book-now-btn .home-header-nav-book-now-icon {

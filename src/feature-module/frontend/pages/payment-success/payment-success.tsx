@@ -28,6 +28,14 @@ const PaymentSuccess = () => {
   const customer = customer_details || booking;
 
   const getStatusDetails = () => {
+    if (amount === 0) {
+      return {
+        icon: 'fa-search',
+        title: 'On Inspection',
+        subtitle: 'You will be given the price after inspection.',
+        className: 'payment-success-badge-warning'
+      };
+    }
     if (payment_status === 'success' && booking_status === 'confirmed') {
       return {
         icon: 'fa-check-circle',
@@ -60,7 +68,35 @@ const PaymentSuccess = () => {
   };
 
   const status = getStatusDetails();
+  const getBookingStatusBadge = () => {
+    if (amount === 0) {
+      return {
+        text: 'ON INSPECTION',
+        className: 'payment-success-badge-warning', // You can define a special style for this
+      };
+    }
 
+    if (booking_status === 'confirmed') {
+      return {
+        text: 'CONFIRMED',
+        className: 'payment-success-badge-success',
+      };
+    }
+
+    if (booking_status === 'failed') {
+      return {
+        text: 'FAILED',
+        className: 'payment-success-badge-danger',
+      };
+    }
+
+    // fallback or other statuses
+    return {
+      text: booking_status.toUpperCase() || 'UNKNOWN',
+      className: '',
+    };
+  };
+  const statusBadge = getBookingStatusBadge();
   const formatDate = (dateString: string) => {
     if (!dateString) return '';
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -208,11 +244,9 @@ const PaymentSuccess = () => {
                   {payment_id && <p>Transaction ID: {payment_id}</p>}
                 </div>
                 <div>
-                  <span className={`payment-success-receipt-badge ${
-                    booking_status === 'confirmed' ? 'payment-success-badge-success' : 'payment-success-badge-danger'
-                  }`}>
-                    {booking_status === 'confirmed' ? 'CONFIRMED' : 'FAILED'}
-                  </span>
+                <span className={`payment-success-receipt-badge ${statusBadge.className}`}>
+        {statusBadge.text}
+      </span>
                 </div>
               </div>
             </div>

@@ -975,31 +975,42 @@ const Cart = () => {
                         <div className="order-summary">
                        
 
-<div className="price-summary">
-  <div className="price-row">
-    <span className="price-label">Total Amount</span>
-    <div className="price-values">
-      {totalOriginalPrice > 0 && (
-        <span className="original-price">₹{totalOriginalPrice.toFixed(2)}</span>
-      )}
-      <span className="current-price">₹{totalPrice.toFixed(2) || '0'}</span>
+                        <div className="price-summary">
+  {totalOriginalPrice === 0 ? (
+    <div className="no-price-message" style={{ padding: '16px', backgroundColor: '#d1fae5', borderRadius: '8px' }}>
+      <span className="savings-message" style={{ color: '#065f46', fontWeight: '600', fontSize: '1rem', display: 'inline-block' }}>
+        Your final price will be provided after the inspection.
+      </span>
     </div>
-  </div>
-  
-  {totalOriginalPrice > 0 && (
-    <div className="savings-row">
-      <div className="savings-content">
-        <span className="discount-badge">
-          {Math.round((1 - (totalPrice / totalOriginalPrice)) * 100)}% OFF
-        </span>
-        <span className="savings-message">
-        Congrats!  🎉 You Saved ₹{(totalOriginalPrice - totalPrice).toFixed(2)}
-        </span>
+  ) : (
+    <>
+      <div className="price-row">
+        <span className="price-label">Total Amount</span>
+        <div className="price-values">
+          {totalOriginalPrice > 0 && (
+            <span className="original-price">₹{totalOriginalPrice.toFixed(2)}</span>
+          )}
+          <span className="current-price">₹{totalPrice.toFixed(2) || '0'}</span>
+        </div>
       </div>
-    </div>
+
+      {totalOriginalPrice > 0 && (
+        <div className="savings-row">
+          <div className="savings-content">
+            <span className="discount-badge">
+              {Math.round((1 - (totalPrice / totalOriginalPrice)) * 100)}% OFF
+            </span>
+            <span className="savings-message">
+              Congrats! 🎉 You Saved ₹{(totalOriginalPrice - totalPrice).toFixed(2)}
+            </span>
+          </div>
+        </div>
+      )}
+    </>
   )}
 </div>
                            <div className="col-12 form-actions">
+                           {totalOriginalPrice > 0 && (
                           <button
                             type="button"
                             className="btn btn-pay-now"
@@ -1008,13 +1019,14 @@ const Cart = () => {
                           >
                             Pay Now
                           </button>
+                             )}
                           <button
                             type="button"
                             className="btn btn-pay-later"
                             onClick={handleSubmitPayLater}
                             disabled={cartItems.length === 0 || isLoadingPrices} 
                           >
-                            Pay Later
+                                  {totalOriginalPrice === 0 ? 'Book Inspection' : 'Pay Later'}
                           </button>
                         </div>
                         </div>

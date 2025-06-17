@@ -7,7 +7,7 @@ import axios from 'axios';
 import { BASE_URL, TESTIMONIAL_IMAGE_URL, NO_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import SkeletonTestimonials from '../../../skeletonLoader/SkeletonTestimonials';
-
+import './TestimonialSection.css';
 interface Testimonial {
   testimonial_description: string;
   testimonial_user: string;
@@ -86,20 +86,15 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="testimonals-seven-section pt-5">
-      <div className="container">
-        <div className="section-heading section-heading-seven">
-          <div className="row">
-            <div className="col-md-6">
-              <h2>Top Testimonials</h2>
-              <p>
-                Description highlights the value of client feedback,
-                showcases real testimonials
-              </p>
-            </div>
-            <div className="col-md-6 text-md-end">
-              <div className="owl-nav mynav-test" />
-            </div>
+    <section className="top-testimonial-section">
+      <div className="top-testimonial-container">
+      <div className="top-testimonial-header">
+          <div className="top-testimonial-header-content">
+            <h2 className="top-testimonial-title">Top Testimonials</h2>
+            <p className="top-testimonial-subtitle">
+              Description highlights the value of client feedback,
+              showcases real testimonials
+            </p>
           </div>
         </div>
         <div className="row align-items-center">
@@ -174,3 +169,5 @@ const TestimonialsSection = () => {
 };
 
 export default TestimonialsSection;
+
+// sajid 

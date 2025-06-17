@@ -16,6 +16,8 @@ interface Service {
   service: string;
   service_image: string | null;
   service_show_website: string;
+  serviceSuper_url: string;
+  super_service_id: number;
 }
 
 interface ServiceSub {
@@ -65,7 +67,7 @@ const PopularService = () => {
     }
   };
   
-  const fetchSubServices = async (serviceId: number, serviceName: string) => {
+  const fetchSubServices = async (serviceId: number, serviceName: string,serviceSuperUrl: string, superServiceId: number) => {
     try {
       setSubServiceLoading(true);
       const response = await axios.get(
@@ -76,7 +78,7 @@ const PopularService = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate(`/pricing/${encodeURIComponent(serviceName)}/${serviceId}`, {
+        navigate(`/pricing/${serviceSuperUrl}/${superServiceId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -85,7 +87,7 @@ const PopularService = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate(`/pricing/${encodeURIComponent(serviceName)}/${serviceId}`, {
+      navigate(`/pricing/${serviceSuperUrl}/${superServiceId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -111,7 +113,7 @@ const PopularService = () => {
 
   const handleServiceClick = (service: Service) => {
     setSelectedService(service);
-    fetchSubServices(service.id, service.service);
+    fetchSubServices(service.id, service.service, service.serviceSuper_url, service.super_service_id);
   };
 
   const sliderSettings = {
@@ -335,7 +337,7 @@ const PopularService = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3">
                         <div 
                           className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                          onClick={() => navigate(`/pricing/${selectedService?.service}/${selectedService?.id}/${subService.service_sub}/${subService.id}`, {
+                          onClick={() => navigate(`/pricing/${selectedService?.serviceSuper_url}/${selectedService?.super_service_id}/${selectedService?.service}/${selectedService?.id}/${subService.service_sub}/${subService.id}`, {
                             state: {
                               service_id: selectedService?.id,
                               service_name: selectedService?.service,

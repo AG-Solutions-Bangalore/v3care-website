@@ -58,33 +58,34 @@ const HomeHeader = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (
+  //       sidebarRef.current && 
+  //       toggleButtonRef.current && 
+  //       !sidebarRef.current.contains(event.target as Node) && 
+  //       !toggleButtonRef.current.contains(event.target as Node)
+  //     ) {
+  //       closeMenu();
+  //     }
+
+  //     if (
+  //       searchResultsRef.current && 
+  //       searchInputRef.current &&
+  //       !searchResultsRef.current.contains(event.target as Node) &&
+  //       !searchInputRef.current.contains(event.target as Node)
+  //     ) {
+  //       setShowSearchResults(false);
+  //     }
+  //   };
+
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        sidebarRef.current && 
-        toggleButtonRef.current && 
-        !sidebarRef.current.contains(event.target as Node) && 
-        !toggleButtonRef.current.contains(event.target as Node)
-      ) {
-        closeMenu();
-      }
-
-      if (
-        searchResultsRef.current && 
-        searchInputRef.current &&
-        !searchResultsRef.current.contains(event.target as Node) &&
-        !searchInputRef.current.contains(event.target as Node)
-      ) {
-        setShowSearchResults(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-useEffect(() => {
     if (showMobileSearchModal) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -95,6 +96,7 @@ useEffect(() => {
       document.body.style.overflow = '';
     };
   }, [showMobileSearchModal]);
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -129,9 +131,8 @@ useEffect(() => {
     }
   };
 
+  // FIXED: Removed preventDefault and stopPropagation
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // e.preventDefault()
-    // e.stopPropagation()
     const query = e.target.value;
     setSearchQuery(query);
     
@@ -162,14 +163,21 @@ useEffect(() => {
     return `${SERVICE_IMAGE_URL}/${imageName}`;
   };
 
-  const handleServiceClick = (service: Service) => {
-    console.log("hit")
+  
+  const handleServiceClick = (service: Service, event?: React.MouseEvent) => {
+   console.log("hit")
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    
     navigate(`/pricing/${encodeURIComponent(service.service)}/${service.id}`, {
       state: {
         service_id: service.id,
         service_name: service.service
       }
     });
+    
     setShowSearchResults(false);
     setShowMobileSearchModal(false);
     setSearchQuery('');
@@ -191,6 +199,7 @@ useEffect(() => {
     }
   };
 
+ 
   const renderSearchResults = () => (
     <>
       {isSearching ? (
@@ -209,15 +218,15 @@ useEffect(() => {
             <div 
               key={service.id} 
               className="home-header-nav-search-result-item"
-              onClick={() => handleServiceClick(service)}
+              onClick={(e) => handleServiceClick(service, e)}
               role="button" 
-              tabIndex={0} 
+              tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
                   handleServiceClick(service);
                 }
               }}
-            
             >
               <div className="home-header-nav-search-result-image">
                 <img
@@ -307,16 +316,16 @@ useEffect(() => {
                   <li className={isRouteActive('/service') ? 'active' : ''}>
                     <Link to="/service">Services</Link>
                   </li>
-                  <li className={isRouteActive('/contact-us') ? 'active' : ''}>
+                  {/* <li className={isRouteActive('/contact-us') ? 'active' : ''}>
                     <Link to="/contact-us">Contact</Link>
-                  </li>
+                  </li> */}
                   <li className="home-header-nav-search-nav-item">
                     <div className="home-header-nav-search-container">
                       <input
                         type="text"
                         placeholder="Search services..."
                         value={searchQuery}
-                        onChange={(e)=>handleSearchChange(e)}
+                        onChange={handleSearchChange}
                         onFocus={handleSearchFocus}
                         className="home-header-nav-search-input"
                         ref={searchInputRef}
@@ -340,9 +349,9 @@ useEffect(() => {
                   <li className={isRouteActive('/service') ? 'active' : ''}>
                     <Link to="/service">Services</Link>
                   </li>
-                  <li className={isRouteActive('/contact-us') ? 'active' : ''}>
+                  {/* <li className={isRouteActive('/contact-us') ? 'active' : ''}>
                     <Link to="/contact-us">Contact</Link>
-                  </li>
+                  </li> */}
                   <li className="home-header-nav-search-nav-item">
                     <div className="home-header-nav-search-container">
                       <input
@@ -373,9 +382,9 @@ useEffect(() => {
                   <li className={isRouteActive('/service') ? 'active' : ''}>
                     <Link to="/service">Services</Link>
                   </li>
-                  <li className={isRouteActive('/contact-us') ? 'active' : ''}>
+                  {/* <li className={isRouteActive('/contact-us') ? 'active' : ''}>
                     <Link to="/contact-us">Contact</Link>
-                  </li>
+                  </li> */}
                 </ul>
               </nav>
 
@@ -395,7 +404,7 @@ useEffect(() => {
                 </Link>
                 
                 <Link to="/service" className="home-header-nav-book-now-btn">
-                  <Icon.Plus size={16} className="home-header-nav-book-now-icon" />
+                  {/* <Icon.Plus size={16} className="home-header-nav-book-now-icon" /> */}
                   <span className="home-header-nav-btn-text">Book Now</span>
                 </Link>
 
@@ -521,4 +530,4 @@ useEffect(() => {
 export default HomeHeader;
 
 
-// original code 
+// second original code 

@@ -149,13 +149,13 @@ const publicRoutes = [
   // homepage go to service details 
 
   {
-    path: '/pricing/:service_name/:service_id',
+    path: '/pricing/:category_name/:id/:service_name/:service_id',
     name: 'service-details',
     element: <ServiceDetails1 />,
     route: Route,
   },
   {
-    path: '/pricing/:service_name/:service_id/:service_sub_name/:service_sub_id',
+    path: '/pricing/:category_name/:id/:service_name/:service_id/:service_sub_name/:service_sub_id',
     name: 'service-details-sub',
     element: <ServiceDetails1 />,
     route: Route,

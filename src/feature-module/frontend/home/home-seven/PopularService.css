@@ -1,11 +1,11 @@
 .popular-service-home-section {
-    padding: 80px 0 60px;
+    padding: 30px 0 20px;
     background-color: #ffffff;
     position: relative;
   }
   
   .popular-service-home-featured-section {
-    padding: 60px 0 80px;
+    padding: 30px 0 20px;
     background-color: #f8f8f8;
     position: relative;
   }
@@ -105,7 +105,7 @@
   }
   
   .popular-service-home-slider {
-    padding: 20px 0;
+    padding: 0;  
     overflow: visible;
   }
   
@@ -285,7 +285,7 @@
   @media (max-width: 992px) {
     .popular-service-home-section,
     .popular-service-home-featured-section {
-      padding: 50px 0;
+      padding: 25px 0;
     }
     
     .popular-service-home-title {
@@ -326,7 +326,7 @@
   @media (max-width: 576px) {
     .popular-service-home-section,
     .popular-service-home-featured-section {
-      padding: 40px 0;
+      padding: 25px 0;
     }
     
     .popular-service-home-title {

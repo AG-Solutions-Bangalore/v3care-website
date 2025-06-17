@@ -1,0 +1,224 @@
+.home-client-section {
+    padding: 20px 0;
+    background-color: #ffffff;
+    position: relative;
+  }
+  
+  .home-client-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+  }
+  
+  .home-client-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .home-client-header-col {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .home-client-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .home-client-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  
+  .home-client-subtitle {
+    font-size: 1rem;
+    color: #666666;
+    margin: 0 0 15px 0;
+    font-weight: 400;
+    max-width: 600px;
+  }
+  
+  .home-client-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #3b82f6;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .home-client-view-all:hover {
+    color: #1d4ed8;
+    transform: translateX(3px);
+  }
+  
+  .home-client-view-all svg {
+    transition: transform 0.3s ease;
+  }
+  
+  .home-client-view-all:hover svg {
+    transform: translateX(2px);
+  }
+  
+  .home-client-error-col {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .home-client-error {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #ffebee;
+    border-radius: 8px;
+    color: #d32f2f;
+    font-size: 0.9rem;
+  }
+  
+  .home-client-error-icon {
+    margin-right: 10px;
+  }
+  
+  .home-client-retry-btn {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 15px;
+    padding: 5px 12px;
+    background-color: transparent;
+    border: 1px solid #d32f2f;
+    border-radius: 4px;
+    color: #d32f2f;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+  }
+  
+  .home-client-retry-btn:hover {
+    background-color: #d32f2f;
+    color: white;
+  }
+  
+  .home-client-retry-icon {
+    margin-right: 5px;
+  }
+  
+  .home-client-slider {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding: 20px 0;
+  }
+  
+  .home-client-slide {
+    padding: 0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    transition: transform 0.3s ease;
+  }
+  
+  .home-client-slide:hover {
+    transform: translateY(-5px);
+  }
+  
+  .home-client-img {
+    max-height: 100px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+  
+  .home-client-slide:hover .home-client-img {
+    transform: scale(1.05);
+  }
+  
+  /* Slick slider adjustments */
+  .home-client-slider .slick-list {
+    margin: 0 -15px;
+  }
+  
+  .home-client-slider .slick-slide {
+    padding: 0 15px;
+  }
+  
+  .home-client-slider .slick-dots {
+    bottom: -30px;
+  }
+  
+  .home-client-slider .slick-dots li button:before {
+    font-size: 10px;
+    color: #666;
+  }
+  
+  .home-client-slider .slick-dots li.slick-active button:before {
+    color: #3b82f6;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 992px) {
+    .home-client-section {
+      padding: 15px 0;
+    }
+    
+    .home-client-title {
+      font-size: 1.8rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .home-client-container {
+      padding: 0 15px;
+    }
+    
+    .home-client-title {
+      font-size: 1.6rem;
+    }
+    
+    .home-client-subtitle {
+      font-size: 0.95rem;
+    }
+    
+    .home-client-header-col {
+      margin-bottom: 30px;
+    }
+    
+    .home-client-slide {
+      height: 100px;
+    }
+    
+    .home-client-img {
+      max-height: 80px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .home-client-section {
+      padding: 15px 0;
+    }
+    
+    .home-client-title {
+      font-size: 1.4rem;
+    }
+    
+    .home-client-slide {
+      padding: 0 10px;
+      height: 80px;
+    }
+    
+    .home-client-img {
+      max-height: 60px;
+    }
+  }

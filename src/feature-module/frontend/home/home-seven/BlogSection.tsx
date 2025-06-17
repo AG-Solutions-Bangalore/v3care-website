@@ -7,7 +7,8 @@ import { all_routes } from '../../../../core/data/routes/all_routes';
 import { blogCardData } from '../../../../core/data/json/blog_card';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
-// import logoNav from "../../../../logo/v3.png";
+import './BlogSection.css';
+
 const BlogSection = () => {
   const routes = all_routes;
 
@@ -48,69 +49,57 @@ const BlogSection = () => {
   };
 
   return (
-    <section className="price-sections-seven blog-sec-seven">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12 text-center">
-            <div className="section-heading section-heading-seven">
-              <h2>Cleaning Tips, Trends & Service Guides from Our Experts</h2>
-              <p>
-               
-                Stay informed with expert insights, practical cleaning tips, and the latest updates from the home and office cleaning industry in India. Whether you&apos;re looking for deep cleaning guides, seasonal maintenance tips, or hygiene best practices for apartments, villas, or workspaces — our blog brings you valuable content that helps you make cleaner, healthier living choices.
+    <section className="home-blog-section">
+      <div className="home-blog-container">
+        <div className="home-blog-row">
+          <div className="home-blog-header-col">
+            <div className="home-blog-header">
+              <h2 className="home-blog-title">Cleaning Tips, Trends & Service Guides from Our Experts</h2>
+              <p className="home-blog-subtitle">
+                Stay informed with expert insights, practical cleaning tips, and the latest updates from the home and office cleaning industry in India. Whether you are looking for deep cleaning guides, seasonal maintenance tips, or hygiene best practices for apartments, villas, or workspaces — our blog brings you valuable content that helps you make cleaner, healthier living choices.
               </p>
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-12">
-            <Slider {...recentBlog} className="our-recent-blog">
+        <div className="home-blog-row">
+          <div className="home-blog-slider-col">
+            <Slider {...recentBlog} className="home-blog-slider">
               {blogCardData.slice(0, 6).map((blog) => (
-                <div className="col-xl-4 col-md-6" key={blog.id}>
-                  <div className="card p-0">
-                    <div className="card-body p-0">
-                      <div className="img-sec w-100">
+                <div className="home-blog-slide" key={blog.id}>
+                  <div className="home-blog-card">
+                    <div className="home-blog-card-body">
+                      <div className="home-blog-img-container">
                         <Link to={`${routes.blogDetails}/${blog.id}`}>
                           <img
                             src={`${BLOG_IMAGE_URL}/${blog.img}`}
-                            className="img-fluid rounded-top w-100"
+                            className="home-blog-img"
                             alt="img"
                             loading="lazy"
-  decoding="async"
+                            decoding="async"
                           />
                         </Link>
                       </div>
-                      <div className="p-3">
-                        <div className="d-flex align-items-center mb-3">
-                          <div className="d-flex align-items-center border-end pe-2">
-                            <span className="avatar avatar-sm me-2">
+                      <div className="home-blog-content">
+                        <div className="home-blog-meta">
+                          <div className="home-blog-author">
+                            <span className="home-blog-avatar">
                               <ImageWithBasePath
                                 src="assets/img/services/v3logo.png"
-                                className="rounded-circle"
+                                className="home-blog-avatar-img"
                                 alt="user"
-                                
                               />
                             </span>
-                            <h6 className="fs-14 text-gray-6">V3 Care</h6>
+                            <h6 className="home-blog-author-name">V3 Care</h6>
                           </div>
-                          <div className="d-flex align-items-center ps-2">
+                          <div className="home-blog-date">
                             <span>
-                              {/* changed */}
-                              <i className="ri-calendar-line me-2"></i>
+                              <i className="ri-calendar-line home-blog-date-icon"></i>
                             </span>
-                            <span className="fs-14">{blog.date}</span>
+                            <span className="home-blog-date-text">{blog.date}</span>
                           </div>
                         </div>
                         <div>
-                          <h5
-                            className="fs-16 mb-1 text-wrap"
-                            style={{
-                              display: '-webkit-box',
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: 'vertical',
-                              overflow: 'hidden',
-                              minHeight: '3em',
-                            }}
-                          >
+                          <h5 className="home-blog-post-title">
                             <Link to={`${routes.blogDetails}/${blog.id}`}>
                               {blog.title}
                             </Link>

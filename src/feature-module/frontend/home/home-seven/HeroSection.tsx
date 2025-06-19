@@ -128,16 +128,16 @@ const HeroSection = () => {
           <div className="hero-section-right">
             <div className="hero-section-images">
               <div className="hero-section-image hero-section-image-1">
-                <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop" alt="Salon Service" loading="lazy" decoding="async" />
+                <img src="assets/img/services/h1.jpeg" alt="Salon Service" loading="lazy" decoding="async" />
               </div>
               <div className="hero-section-image hero-section-image-2">
-                <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&h=300&fit=crop" alt="Massage Service" loading="lazy" decoding="async" />
+                <img src="assets/img/services/h2.jpeg" alt="Massage Service" loading="lazy" decoding="async" />
               </div>
               <div className="hero-section-image hero-section-image-3">
-                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop" alt="Home Repair" loading="lazy" decoding="async" />
+                <img src="assets/img/services/h3.jpeg" alt="Home Repair" loading="lazy" decoding="async" />
               </div>
               <div className="hero-section-image hero-section-image-4">
-                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop" alt="AC Repair" loading="lazy" decoding="async" />
+                <img src="assets/img/services/h4.jpeg" alt="AC Repair" loading="lazy" decoding="async" />
               </div>
             </div>
           </div>

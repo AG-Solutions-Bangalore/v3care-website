@@ -13,6 +13,7 @@ import HomeHeader from '../../home/header/home-header';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../../core/redux/slices/CartSlice';
 import './ServiceDetails.css';
+import { Helmet } from 'react-helmet-async';
 
 const ServiceDetails1 = () => {
   const dispatch = useDispatch();
@@ -64,6 +65,7 @@ const ServiceDetails1 = () => {
   const [selectedPrices, setSelectedPrices] = useState<any[]>([]);
   const [serviceFAQ, setServiceFAQ] = useState<any[]>([]);
   const [serviceMeta, setServiceMeta] = useState<any>(null);
+  const [serviceIncludes, setServiceIncludes] = useState<string[]>([]);
 
   const [showFullText, setShowFullText] = useState<
     Record<string | number, boolean>
@@ -78,55 +80,7 @@ const ServiceDetails1 = () => {
   >([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
-  const updateMetaTags = (
-    title: string,
-    metaTitle: string,
-    metaDescription: string,
-  ) => {
-    document.title = title;
-
-    let titleMeta = document.querySelector('meta[name="title"]');
-    if (titleMeta) {
-      titleMeta.setAttribute('content', metaTitle);
-    } else {
-      titleMeta = document.createElement('meta');
-      titleMeta.setAttribute('name', 'title');
-      titleMeta.setAttribute('content', metaTitle);
-      document.head.appendChild(titleMeta);
-    }
-
-    let descriptionMeta = document.querySelector('meta[name="description"]');
-    if (descriptionMeta) {
-      descriptionMeta.setAttribute('content', metaDescription);
-    } else {
-      descriptionMeta = document.createElement('meta');
-      descriptionMeta.setAttribute('name', 'description');
-      descriptionMeta.setAttribute('content', metaDescription);
-      document.head.appendChild(descriptionMeta);
-    }
-  };
-
-  useEffect(() => {
-    if (
-      serviceMeta?.service &&
-      serviceMeta?.service_meta_title &&
-      serviceMeta?.service_meta_description
-    ) {
-      updateMetaTags(
-        serviceMeta.service,
-        serviceMeta.service_meta_title,
-        serviceMeta.service_meta_description,
-      );
-    }
-
-    return () => {
-      updateMetaTags(
-        'Best house cleaning service | V3 Care',
-        'Best house cleaning service | Affordable cleaning services.',
-        'Get professional high quality cleaning services at affordable prices, Book house cleaning, office cleaning, deep cleaning & bathroom cleaning services.',
-      );
-    };
-  }, [serviceMeta]);
+ 
 
   const showNotification = (message: string, type: 'success' | 'error') => {
     const id = Date.now().toString();
@@ -189,6 +143,9 @@ const ServiceDetails1 = () => {
 
       setServiceCards(response.data.serviceDetails || []);
       setServiceFAQ(response.data.serviceFAQ || []);
+      if (response.data.serviceIncludes?.service_includes) {
+        setServiceIncludes(response.data.serviceIncludes.service_includes.split(','));
+      }
     } catch (error) {
       console.error('Error fetching service card :', error);
       setCardError('Failed to load service card. Please try again.');
@@ -239,6 +196,25 @@ const ServiceDetails1 = () => {
 
   return (
     <>
+       <Helmet>
+              <title>
+                {serviceMeta?.service && serviceMeta.service !== "null"
+                  ? serviceMeta.service
+                  : "Best house cleaning service | V3 Care"}
+              </title>
+              {serviceMeta?.service_meta_title && serviceMeta.service_meta_title !== "null" && (
+                <meta name="title" content={serviceMeta.service_meta_title} />
+              )}
+              {serviceMeta?.service_meta_description && serviceMeta.service_meta_description !== "null" && (
+                <meta name="description" content={serviceMeta.service_meta_description} />
+              )}
+               {serviceMeta?.service_slug && (
+    <meta name="slug" content={serviceMeta.service_slug} />
+  )}
+  {serviceMeta?.service_meta_full_length && (
+    <meta name="full_length" content={serviceMeta.service_meta_full_length} />
+  )}
+            </Helmet>
       <HomeHeader />
       <style>
         {`
@@ -642,26 +618,12 @@ const ServiceDetails1 = () => {
                         >
                           <div className="accordion-body border-0 p-0 pt-3">
                             <div className="bg-light-200 p-3 pb-2 br-10">
-                              <p className="d-inline-flex align-items-center mb-2 me-4">
-                                <i className="ri-checkbox-circle-line text-success me-2"></i>
-                                Verified Professionals
-                              </p>
-                              <p className="d-inline-flex align-items-center mb-2 me-4">
-                                <i className="ri-checkbox-circle-line text-success me-2"></i>
-                                Safe Chemicals
-                              </p>
-                              <p className="d-inline-flex align-items-center mb-2 me-4">
-                                <i className="ri-checkbox-circle-line text-success me-2"></i>
-                                Superior Stain Removal
-                              </p>
-                              <p className="d-inline-flex align-items-center mb-2 me-4">
-                                <i className="ri-checkbox-circle-line text-success me-2"></i>
-                                Hassle Free Booking
-                              </p>
-                              <p className="d-inline-flex align-items-center mb-2 me-4">
-                                <i className="ri-checkbox-circle-line text-success me-2"></i>
-                                Transparent Pricing
-                              </p>
+                            {serviceIncludes.map((include, index) => (
+          <p className="d-inline-flex align-items-center mb-2 me-4" key={index}>
+            <i className="ri-checkbox-circle-line text-success me-2"></i>
+            {include.trim()} 
+          </p>
+        ))}
                             </div>
                           </div>
                         </div>

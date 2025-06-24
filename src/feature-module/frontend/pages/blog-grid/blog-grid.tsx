@@ -1,31 +1,50 @@
-import React, {  useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import * as Icon from 'react-feather';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 import { blogCardData } from '../../../../core/data/json/blog_card';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import HomeHeader from '../../home/header/home-header';
-import { BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
+import { BASE_URL, BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import DefaultHelmet from '../../common/helmet/DefaultHelmet';
+import axios from 'axios';
 
 
 const BlogGrid = () => {
   const routes = all_routes;
+
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
 
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-blogs-out`);
+        setBlogs(response.data.blogs || []);
+      } catch (err) {
+        console.error('Error fetching blogs:', err);
+        setError('Failed to load blogs');
+      } finally {
+        setLoading(false);
+      }
+    };
+    useEffect(() => {
+    fetchBlogs();
+  }, []);
+ 
 
-  // Calculate current items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = blogCardData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = blogs.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Change page
-  const paginate = (pageNumber: any) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const nextPage = () => {
-    if (currentPage < Math.ceil(blogCardData.length / itemsPerPage)) {
+    if (currentPage < Math.ceil(blogs.length / itemsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -35,15 +54,13 @@ const BlogGrid = () => {
     }
   };
 
-  // Calculate page numbers
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(blogCardData.length / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(blogs.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 
-  // Display only a subset of page numbers
   const maxPageNumbers = 4;
-  let displayPageNumbers = [];
+  let displayPageNumbers: (number | string)[] = [];
 
   if (pageNumbers.length <= maxPageNumbers) {
     displayPageNumbers = pageNumbers;
@@ -65,14 +82,63 @@ const BlogGrid = () => {
         currentPage - 1,
         currentPage,
         currentPage + 1,
-        currentPage + 2 < pageNumbers.length - 1
-          ? '...'
-          : pageNumbers.length - 1,
+        currentPage + 2 < pageNumbers.length - 1 ? '...' : pageNumbers.length - 1,
         pageNumbers.length,
       ].filter((value, index, self) => self.indexOf(value) === index);
     }
   }
 
+  const slugify = (text: string): string => {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')           
+      .replace(/[^\w-]+/g, '')       
+      .replace(/--+/g, '-')           
+      .replace(/^-+|-+$/g, '');      
+  };
+  
+  
+  if (loading && blogs.length === 0) {
+    return (
+      <>
+        <DefaultHelmet/>
+      <HomeHeader  />
+        <BreadCrumb title="Services" item1="Services" />
+        <div className="d-flex justify-content-center align-items-center vh-100">
+          <div className="text-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <p className="mt-3 text-muted">Loading services...</p>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <DefaultHelmet/>
+           <HomeHeader  />
+        <BreadCrumb title="Services" item1="Services" />
+        <div className="d-flex justify-content-center align-items-center vh-50">
+          <div className="alert alert-danger d-flex align-items-center mt-4" role="alert">
+            <Icon.AlertCircle className="me-2" size={18} />
+            <div>{error}</div>
+            <button 
+              className="btn btn-sm btn-outline-danger ms-3"
+              onClick={fetchBlogs}
+            >
+              <Icon.RefreshCw className="me-1" size={14} />
+              Try Again
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
   
   return (
     <>
@@ -83,7 +149,7 @@ const BlogGrid = () => {
         <div className="content">
           <div className="container">
             <div className="row justify-content-center align-items-center">
-              {currentItems.map((blog) => (
+              {currentItems.map((blog:any) => (
                 <div
                   className="col-xl-4 col-md-6"
                   key={blog.id}
@@ -92,10 +158,10 @@ const BlogGrid = () => {
                   <div className="card p-0">
                     <div className="card-body p-0">
                       <div className="img-sec w-100">
-                        <Link to={`${routes.blogDetails}/${blog.id}`}>
+                      <Link to={`${routes.blogDetails}/${slugify(blog.blogs_heading)}/${blog.id}`}>
                           <img
                           
-                            src={`${BLOG_IMAGE_URL}/${blog.img}`}
+                            src={`${BLOG_IMAGE_URL}/${blog.blogs_image}`}
                             className="img-fluid rounded-top w-100"
                             loading="lazy"
   decoding="async"
@@ -123,7 +189,7 @@ const BlogGrid = () => {
                             <span>
                             <i className="ri-calendar-line me-2"></i>
                             </span>
-                            <span className="fs-14">{blog.date}</span>
+                            <span className="fs-14">{blog.blogs_created_date}</span>
                           </div>
                         </div>
                         <div>
@@ -137,8 +203,9 @@ const BlogGrid = () => {
                               minHeight: '3em',
                             }}
                           >
-                            <Link to={`${routes.blogDetails}/${blog.id}`}>
-                              {blog.title}
+<Link to={`${routes.blogDetails}/${slugify(blog.blogs_heading)}/${blog.id}`}>
+
+                            {blog.blogs_heading}
                             </Link>
                           </h5>
                         
@@ -176,7 +243,7 @@ const BlogGrid = () => {
                               currentPage === number ? 'active' : ''
                             }`}
                             to="#"
-                            onClick={() => paginate(number)}
+                            onClick={() => paginate(Number(number))}
                           >
                             {number}
                           </Link>

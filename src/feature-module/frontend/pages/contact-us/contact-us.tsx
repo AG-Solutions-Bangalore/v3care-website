@@ -205,8 +205,7 @@ const ContactUs = () => {
         <div>
           <h6 className="mb-1">Bangalore Address</h6>
           <p className="mb-0 small text-muted">
-            V3 CARE # 2296, 24th Main Road, 16th Cross, HSR Layout, Sector 1, Bangalore – 560102<br />
-            Landmark: Opposite Bangalore One
+          286 15th A Cross, 7th Main Rd, Sector 6, HSR Layout, Bengaluru, Karnataka 560102
           </p>
         </div>
       </div>

@@ -165,14 +165,13 @@
 .footer-bottom-footer-bottom-seven {
   background-color: #000000;
   padding: 20px 0;
-  /* margin-top: 20px; */
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-bottom-footer-bottom-content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center; /* Changed to center */
   align-items: center;
   gap: 15px;
   padding: 10px 0;
@@ -182,6 +181,7 @@
   margin: 0;
   color: #ffffff;
   font-size: 14px;
+  text-align: center; /* Added for better centering */
 }
 
 .footer-bottom-copyright a {
@@ -196,12 +196,18 @@
   font-size: 16px;
 }
 
+/* Social Links Section - Moved under logo */
+.footer-bottom-social-links {
+  margin-top: 20px;
+}
+
 .footer-bottom-social-links ul {
   display: flex;
   list-style: none;
   padding: 0;
   margin: 0;
   gap: 12px;
+  justify-content: flex-start; /* Align left under logo */
 }
 
 .footer-bottom-social-links ul li {
@@ -262,7 +268,6 @@
   
   .footer-bottom-footer-bottom-seven {
       padding: 15px 0;
-      /* margin-top: 15px; */
   }
 }
 

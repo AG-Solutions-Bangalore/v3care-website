@@ -233,49 +233,34 @@ const ServiceGrid = () => {
           <div className="container-fluid px-lg-4 px-xl-5">
 
 
-            {/* Super Categories Tabs + Search Bar in same row */}
-            <div className="row mt-0">
+           
+           {/* Super Categories Tabs + Search Bar in same row */}
+<div className="row mt-0">
   <div className="col-12">
     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2 bg-white rounded shadow-sm p-2 mb-3">
       {/* Super Categories - Scrollable Container */}
-      <div className="flex-grow-1 overflow-auto mb-2 mb-lg-0 pe-2">
-        <div className="d-flex flex-nowrap align-items-center gap-1" style={{ minHeight: '42px' }}>
+      <div className="flex-grow-1 super-categories-container overflow-auto mb-2 mb-lg-0 pe-2">
+        <div className="d-flex flex-nowrap super-categories-wrapper align-items-center gap-1">
           {serviceSupers.map((superCat, index) => (
             <button
               key={superCat.id}
-              className={`position-relative btn btn-sm m-0 ${
+              className={`position-relative btn btn-sm m-0 super-category-btn ${
                 activeSuperCategory === superCat.id 
-                  ? `${categoryColors[index % categoryColors.length]} text-white shadow-sm`
+                  ? `${categoryColors[index % categoryColors.length]} text-white shadow-sm active`
                   : `btn-outline-light text-dark`
               }`}
-              style={{
-                fontSize: '0.8125rem',
-                fontWeight: 500,
-                padding: '0.25rem 0.6rem',
-                borderRadius: '0.375rem',
-                transition: 'all 0.2s',
-                whiteSpace: 'nowrap',
-                border: activeSuperCategory === superCat.id ? 'none' : '1px solid #dee2e6'
-              }}
               onClick={() => handleSuperCategoryClick(superCat.id)}
             >
               {superCat.serviceSuper}
               {activeSuperCategory === superCat.id && (
-                <span 
-                  className="position-absolute bottom-0 start-0 w-100 bg-white"
-                  style={{
-                    height: '2px',
-                    opacity: 0.7,
-                    borderRadius: '0 0 0.375rem 0.375rem'
-                  }}
-                ></span>
+                <span className="active-indicator"></span>
               )}
             </button>
           ))}
         </div>
       </div>
       
-      {/* Search Bar - Compact Version */}
+      {/* Search Bar - Compact Version (unchanged) */}
       <div className="flex-shrink-0" style={{ minWidth: '200px', maxWidth: '280px', width: '100%' }}>
         <div className="input-group input-group-sm">
           <span className="input-group-text bg-transparent border-end-0">
@@ -287,24 +272,11 @@ const ServiceGrid = () => {
             placeholder="Search services..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              borderRadius: '0.375rem',
-              boxShadow: 'none',
-              paddingLeft: '0.25rem'
-            }}
           />
           {searchQuery && (
             <button
               className="btn btn-sm btn-outline-secondary border-start-0"
               onClick={() => setSearchQuery('')}
-              style={{
-                position: 'absolute',
-                right: '1px',
-                top: '1px',
-                bottom: '1px',
-                zIndex: 3,
-                borderRadius: '0 0.375rem 0.375rem 0'
-              }}
             >
               <Icon.X size={14} />
             </button>

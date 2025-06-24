@@ -8,7 +8,7 @@ export const all_routes = {
   serviceGrid: '/service',
   blogGrid: '/blog',
   contactUs: '/contact-us',
-  serviceRequest: '/become-vendor',
+  serviceRequest: '/become-partner',
   serviceDetails1: '/pricing',
   blogDetails: '/blog-details',
   categories: '/categories',

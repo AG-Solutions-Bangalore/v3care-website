@@ -26,6 +26,36 @@ const FooterSeven = () => {
                     We are an organisation that cares about our people and our clients – To be the most admired cleaning and facility services partner in our chosen segments in India
                   </p>
                 </div>
+              
+                <div className="footer-bottom-social-links">
+                  <ul>
+                    <li>
+                      <Link target="_blank" rel="noreferrer" to="https://www.facebook.com/v3care">
+                        <i className="ri-facebook-circle-line footer-bottom-fs-4"></i>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link target="_blank" rel="noreferrer" to="https://x.com/care_v3">
+                        <i className="ri-twitter-line footer-bottom-fs-4"></i>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link target="_blank" rel="noreferrer" to="https://www.instagram.com/v3care/">
+                        <i className="ri-instagram-line footer-bottom-fs-4"></i>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link target="_blank" rel="noreferrer" to="https://www.linkedin.com/in/v3-care-15135119b/">
+                        <i className="ri-linkedin-box-line footer-bottom-fs-4"></i>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link target="_blank" rel="noreferrer" to="https://www.youtube.com/channel/UC3eZ5BXlhuQk_OZ6zXXgW2w">
+                        <i className="ri-youtube-line footer-bottom-fs-4"></i>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
 
@@ -82,9 +112,7 @@ const FooterSeven = () => {
                     </span>
                     <div className="footer-bottom-contact-details">
                       <span>Bangalore Address</span>
-                      <h6>V3 CARE, H. No. 2296, 24th Main Road, 16th Cross, HSR Layout, Sector 1, Bangalore – 560 102</h6>
-                      <h6>Land Mark: Opposite Bangalore One</h6>
-                      <h6>Also we are in: Hyderabad, Pune & Gurgaon</h6>
+                      <h6>286 15th A Cross, 7th Main Rd, Sector 6, HSR Layout, Bengaluru, Karnataka 560102</h6>
                     </div>
                   </div>
                 </div>
@@ -98,39 +126,10 @@ const FooterSeven = () => {
       <div className="footer-bottom-footer-bottom footer-bottom-footer-bottom-seven">
         <div className="footer-bottom-container">
           <div className="footer-bottom-footer-bottom-content">
-            <div className="footer-bottom-copyright">
+            <div className="footer-bottom-copyright footer-bottom-copyright-centered">
               <p style={{color:"#ffffff"}}>
                 Copyright 2025 © <a href="https://ag-solutions.in/" target="_blank" rel="noreferrer" className="footer-bottom-text-white">AGSolutions</a>. All right reserved.
               </p>
-            </div>
-            <div className="footer-bottom-social-links">
-              <ul>
-                <li>
-                  <Link target="_blank" rel="noreferrer" to="https://www.facebook.com/v3care">
-                    <i className="ri-facebook-circle-line footer-bottom-fs-4"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link target="_blank" rel="noreferrer" to="https://x.com/care_v3">
-                    <i className="ri-twitter-line footer-bottom-fs-4"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link target="_blank" rel="noreferrer" to="https://www.instagram.com/v3care/">
-                    <i className="ri-instagram-line footer-bottom-fs-4"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link target="_blank" rel="noreferrer" to="https://www.linkedin.com/in/v3-care-15135119b/">
-                    <i className="ri-linkedin-box-line footer-bottom-fs-4"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link target="_blank" rel="noreferrer" to="https://www.youtube.com/channel/UC3eZ5BXlhuQk_OZ6zXXgW2w">
-                    <i className="ri-youtube-line footer-bottom-fs-4"></i>
-                  </Link>
-                </li>
-              </ul>
             </div>
           </div>
         </div>

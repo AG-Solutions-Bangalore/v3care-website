@@ -482,9 +482,9 @@ const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             </div>
 
             <div className="home-header-nav-top-actions">
-              <Link to="/become-vendor" className="home-header-nav-vendor-btn">
+              <Link to="/become-partner" className="home-header-nav-vendor-btn">
                 <Icon.User size={16} />
-                <span className="home-header-nav-btn-text">Become a Vendor</span>
+                <span className="home-header-nav-btn-text">Become Partner</span>
               </Link>
             </div>
           </div>
@@ -581,7 +581,7 @@ const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                   <span className="home-header-nav-btn-text">Book Now</span>
                 </Link>
 
-                <Link to="/become-vendor" className="home-header-nav-vendor-btn-mobile">
+                <Link to="/become-partner" className="home-header-nav-vendor-btn-mobile">
                   <Icon.User size={16} />
                 </Link>
 
@@ -684,9 +684,9 @@ const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             </ul>
     
             <div className="home-header-nav-sidebar-actions">
-              <Link to="/become-vendor" className="home-header-nav-sidebar-vendor-btn" onClick={closeMenu}>
+              <Link to="/become-partner" className="home-header-nav-sidebar-vendor-btn" onClick={closeMenu}>
                 <Icon.User size={18} />
-                <span>Become a Vendor</span>
+                <span>Become Partner</span>
               </Link>
               
               <Link to="/service" className="home-header-nav-sidebar-header-book-now-btn" onClick={closeMenu}>

@@ -183,17 +183,26 @@ const ServiceDetails1 = () => {
 
   /*------------------------------------------------end----------------- */
 
+  // const togglePriceSelection = (price: any) => {
+  //   setSelectedPrices((prev) => {
+  //     const isSelected = prev.some((p) => p.id === price.id);
+  //     if (isSelected) {
+  //       return prev.filter((p) => p.id !== price.id);
+  //     } else {
+  //       return [...prev, price];
+  //     }
+  //   });
+  // };
   const togglePriceSelection = (price: any) => {
     setSelectedPrices((prev) => {
-      const isSelected = prev.some((p) => p.id === price.id);
-      if (isSelected) {
-        return prev.filter((p) => p.id !== price.id);
-      } else {
-        return [...prev, price];
-      }
+    
+      if (prev.some((p) => p.id === price.id)) {
+        return [];
+      } 
+    
+      return [price];
     });
   };
-
   return (
     <>
        <Helmet>
@@ -366,7 +375,7 @@ const ServiceDetails1 = () => {
         <div className="content">
           <div className="container">
             <div className="row">
-              <div className="col-xl-8">
+              <div className="col-xl-6">
                 <div className="card border-0">
                   <div className="card-body">
                     <div className="service-head mb-2">
@@ -693,7 +702,7 @@ const ServiceDetails1 = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-xl-4 theiaStickySidebar">
+              <div className="col-xl-6 theiaStickySidebar">
                 <StickyBox>
                   <div className="card border-0 d-none d-lg-block ">
                     <div className="card-body">

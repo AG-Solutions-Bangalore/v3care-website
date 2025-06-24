@@ -512,7 +512,7 @@ style={{
                           />
                         </span>
                         <div>
-                          <h5 className="mb-1">Vendor Request</h5>
+                          <h5 className="mb-1">Partner Request</h5>
                           {/* <p className="fs-14">35 Providers Available</p> */}
                         </div>
                       </div>

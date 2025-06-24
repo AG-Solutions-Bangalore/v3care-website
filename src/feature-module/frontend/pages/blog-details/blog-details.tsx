@@ -1,30 +1,71 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import StickyBox from 'react-sticky-box';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { all_routes } from '../../../../core/data/routes/all_routes';
-import { blogDetailsData } from '../../../../core/data/json/blog_details';
-import { blogCardData } from '../../../../core/data/json/blog_card';
+
 
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import HomeHeader from '../../home/header/home-header';
-import { BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
+import { BASE_URL, BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import DefaultHelmet from '../../common/helmet/DefaultHelmet';
+import axios from 'axios';
 
+interface Blog {
+  id: number;
+  blogs_heading: string;
+  blogs_description: string;
+  blogs_image: string;
+  blogs_created_date: string;
+}
 
+interface BlogApiResponse {
+  blogs: Blog | null;
+  otherblogs: Blog[];
+}
 
 const BlogDetails = () => {
-  const routes = all_routes;
-  const { id } = useParams();
-  const blog = blogDetailsData.find(item => item.id === id);
-  const latestBlogs = blogCardData.slice(0, 5); 
+ const routes = all_routes;
+  const { id } = useParams<{ id: string }>();
+
+  const [blog, setBlog] = useState<Blog | null>(null);
+  const [otherBlogs, setOtherBlogs] = useState<Blog[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
+ useEffect(() => {
+    const fetchBlogDetails = async () => {
+      try {
+        const response = await axios.get<BlogApiResponse>(
+          `${BASE_URL}/api/panel-fetch-web-blogs-out-by-id/${id}`
+        );
+        setBlog(response.data.blogs || null);
+        setOtherBlogs(response.data.otherblogs || []);
+      } catch (err) {
+        console.error('Error fetching blog:', err);
+        setError('Blog not found');
+      }
+    };
 
-  if (!blog) {
+    if (id) fetchBlogDetails();
+  }, [id]);
+
+
+  const slugify = (text: string): string => {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')           
+      .replace(/[^\w-]+/g, '')       
+      .replace(/--+/g, '-')           
+      .replace(/^-+|-+$/g, '');      
+  };
+
+
+  if (error || !blog) {
     return (
       <>
         <DefaultHelmet/>
@@ -70,23 +111,23 @@ const BlogDetails = () => {
                     <div className="card-body">
                       <h4 className="side-title">Latest News</h4>
                       <ul className="latest-posts">
-                        {latestBlogs.map((latestBlog) => (
-                          <li key={latestBlog.id}>
+                        {otherBlogs.map((item) => (
+                          <li key={item.id}>
                             <div className="post-thumb">
-                              <Link to={`${routes.blogDetails}/${latestBlog.id}`}>
+                             <Link to={`${routes.blogDetails}/${slugify(item.blogs_heading)}/${item.id}`}>
                                 <img
                                   className="img-fluid"
-                                  src={`${BLOG_IMAGE_URL}/${latestBlog.img}`}
+                                  src={`${BLOG_IMAGE_URL}/${item.blogs_image}`}
                                   alt="Blog Image"
                                 />
                               </Link>
                             </div>
                             <div className="post-info">
-                              <p>{latestBlog.date}</p>
+                            <p>{item.blogs_created_date}</p>
                               <h4>
-                                <Link to={`${routes.blogDetails}/${latestBlog.id}`}>
-                                  {latestBlog.title}
-                                </Link>
+                              <Link to={`${routes.blogDetails}/${slugify(item.blogs_heading)}/${item.id}`}>
+                                                                    {item.blogs_heading}
+                                                                  </Link>
                               </h4>
                             </div>
                           </li>
@@ -124,9 +165,9 @@ const BlogDetails = () => {
                       </li>
                       <li>
                         {/* <i className="feather icon-calendar me-1" /> */}
-                        changed 
+                        {/* changed  */}
                         <i className="ri-calendar-line me-2"></i>
-                        {blog.date}
+                        {blog.blogs_created_date}
                       </li>
                       <li>
                         <div className="post-author">
@@ -141,23 +182,25 @@ const BlogDetails = () => {
                       </li>
                     </ul>
                   </div>
-                  <h4 className="mb-3">{blog.title}</h4>
+                  <h4 className="mb-3">{blog.blogs_heading}</h4>
                 </div>
                 <div className="card blog-list shadow-none">
                   <div className="card-body">
                     <div className="blog-image">
                       <img
                         className="img-fluid"
-                        src={`${BLOG_IMAGE_URL}/${blog.img}`}
+                        src={`${BLOG_IMAGE_URL}/${blog.blogs_image}`}
                         loading="lazy"
   decoding="async"
                         alt="Post Image"
                       />
                     </div>
                     <div className="blog-content">
-                      {blog.description.map((paragraph, index) => (
-                        <p key={index}>{paragraph}</p>
-                      ))}
+                    {blog.blogs_description
+                        .split('\n\n')
+                        .map((paragraph, index) => (
+                          <p key={index}>{paragraph}</p>
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -168,13 +211,13 @@ const BlogDetails = () => {
                     <div className="card-body">
                       <h4 className="side-title">Latest News</h4>
                       <ul className="latest-posts">
-                        {latestBlogs.map((latestBlog) => (
-                          <li key={latestBlog.id}>
+                        {otherBlogs.map((item) => (
+                          <li key={item.id}>
                             <div className="post-thumb">
-                              <Link to={`${routes.blogDetails}/${latestBlog.id}`}>
+                            <Link to={`${routes.blogDetails}/${slugify(item.blogs_heading)}/${item.id}`}>
                                 <img
                                   className="img-fluid"
-                                  src={`${BLOG_IMAGE_URL}/${latestBlog.img}`}
+                                  src={`${BLOG_IMAGE_URL}/${item.blogs_image}`}
                                   alt="Blog Image"
                                   loading="lazy"
   decoding="async"
@@ -182,11 +225,11 @@ const BlogDetails = () => {
                               </Link>
                             </div>
                             <div className="post-info">
-                              <p>{latestBlog.date}</p>
+                            <p>{item.blogs_created_date}</p>
                               <h4>
-                                <Link to={`${routes.blogDetails}/${latestBlog.id}`}>
-                                  {latestBlog.title}
-                                </Link>
+                              <Link to={`${routes.blogDetails}/${slugify(item.blogs_heading)}/${item.id}`}>
+                                                                {item.blogs_heading}
+                                                              </Link>
                               </h4>
                             </div>
                           </li>

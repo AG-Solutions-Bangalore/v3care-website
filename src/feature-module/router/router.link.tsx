@@ -163,7 +163,7 @@ const publicRoutes = [
 
 
   {
-    path: '/blog-details/:id',
+    path: '/blog-details/:blog-heading/:id',
     name: 'blogDetails',
     element: <Suspense fallback={<SuspenseLoader />}><BlogDetails /></Suspense>,
     route: Route,

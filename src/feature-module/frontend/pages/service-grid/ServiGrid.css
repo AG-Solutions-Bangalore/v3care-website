@@ -8,60 +8,13 @@
   box-sizing: border-box;
 }
 
-/* Scrollbar Styles */
-.flex-nowrap::-webkit-scrollbar {
-  height: 4px;
-}
-
-.flex-nowrap::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-.flex-nowrap::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 10px;
-}
-
-.flex-nowrap::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-
 /* Super Categories Styles */
-.super-categories-container {
-  background-color: #f8f9fa;
-  border-radius: 0.375rem;
-  scrollbar-width: thin;
-  scrollbar-color: #adb5bd #f8f9fa;
-}
-
-.super-categories-container::-webkit-scrollbar {
-  height: 4px;
-}
-
-.super-categories-container::-webkit-scrollbar-track {
-  background: #f8f9fa;
-}
-
-.super-categories-container::-webkit-scrollbar-thumb {
-  background-color: #adb5bd;
-  border-radius: 2px;
-}
-
-.super-categories-wrapper {
-  min-height: 42px;
-  padding: 2px 0;
-}
-
 .super-category-btn {
   font-size: 0.8125rem;
   font-weight: 500;
-  padding: 0.25rem 0.6rem;
-  border-radius: 0.375rem;
   transition: all 0.2s;
-  white-space: nowrap;
-  flex-shrink: 0;
   border: 1px solid #dee2e6;
+  position: relative;
 }
 
 .super-category-btn.active {
@@ -160,28 +113,26 @@
 }
 
 /* Responsive Styles */
-@media (max-width: 767.98px) {
-  .flex-grow-1 {
-    width: 100%;
+@media (max-width: 575.98px) {
+  .super-category-btn {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
   }
   
-  .flex-shrink-0 {
-    width: 100%;
-    max-width: 100% !important;
+  .book-now-btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+    height: 26px;
   }
+}
 
+@media (max-width: 767.98px) {
   .modal-dialog {
     margin: 0.5rem auto;
   }
 
   .modal-body {
     max-height: 60vh;
-  }
-
-  .book-now-btn {
-    padding: 0.2rem 0.5rem;
-    font-size: 0.7rem;
-    height: 26px;
   }
 }
 

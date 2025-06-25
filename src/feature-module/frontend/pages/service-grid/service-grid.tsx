@@ -234,33 +234,42 @@ const ServiceGrid = () => {
 
 
            
-           {/* Super Categories Tabs + Search Bar in same row */}
+     {/* Super Categories Tabs + Search Bar */}
 <div className="row mt-0">
   <div className="col-12">
     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2 bg-white rounded shadow-sm p-2 mb-3">
-      {/* Super Categories - Scrollable Container */}
-      <div className="flex-grow-1 super-categories-container overflow-auto mb-2 mb-lg-0 pe-2">
-        <div className="d-flex flex-nowrap super-categories-wrapper align-items-center gap-1">
+      {/* Super Categories - Responsive Grid */}
+      <div className="w-100 w-lg-auto flex-grow-1 mb-2 mb-lg-0">
+        <div className="row g-1 row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-8">
           {serviceSupers.map((superCat, index) => (
-            <button
-              key={superCat.id}
-              className={`position-relative btn btn-sm m-0 super-category-btn ${
-                activeSuperCategory === superCat.id 
-                  ? `${categoryColors[index % categoryColors.length]} text-white shadow-sm active`
-                  : `btn-outline-light text-dark`
-              }`}
-              onClick={() => handleSuperCategoryClick(superCat.id)}
-            >
-              {superCat.serviceSuper}
-              {activeSuperCategory === superCat.id && (
-                <span className="active-indicator"></span>
-              )}
-            </button>
+            <div key={superCat.id} className="col">
+              <button
+                className={`position-relative btn btn-sm w-100 super-category-btn ${
+                  activeSuperCategory === superCat.id 
+                    ? `${categoryColors[index % categoryColors.length]} text-white shadow-sm active`
+                    : `btn-outline-light text-dark`
+                }`}
+                onClick={() => handleSuperCategoryClick(superCat.id)}
+                style={{
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  padding: '0.25rem 0.5rem'
+                }}
+              >
+                <span className="d-inline-block text-truncate" style={{ maxWidth: '100%' }}>
+                  {superCat.serviceSuper}
+                </span>
+                {activeSuperCategory === superCat.id && (
+                  <span className="active-indicator"></span>
+                )}
+              </button>
+            </div>
           ))}
         </div>
       </div>
       
-      {/* Search Bar - Compact Version (unchanged) */}
+      {/* Search Bar */}
       <div className="flex-shrink-0" style={{ minWidth: '200px', maxWidth: '280px', width: '100%' }}>
         <div className="input-group input-group-sm">
           <span className="input-group-text bg-transparent border-end-0">
@@ -286,6 +295,7 @@ const ServiceGrid = () => {
     </div>
   </div>
 </div>
+           
            
 
             {/* Services Count */}

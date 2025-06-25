@@ -31,27 +31,27 @@ const FooterSeven = () => {
                   <ul>
                     <li>
                       <Link target="_blank" rel="noreferrer" to="https://www.facebook.com/v3care">
-                        <i className="ri-facebook-circle-line footer-bottom-fs-4"></i>
+                        <i className="ri-facebook-circle-line fs-3"></i>
                       </Link>
                     </li>
                     <li>
                       <Link target="_blank" rel="noreferrer" to="https://x.com/care_v3">
-                        <i className="ri-twitter-line footer-bottom-fs-4"></i>
+                        <i className="ri-twitter-line fs-3"></i>
                       </Link>
                     </li>
                     <li>
                       <Link target="_blank" rel="noreferrer" to="https://www.instagram.com/v3care/">
-                        <i className="ri-instagram-line footer-bottom-fs-4"></i>
+                        <i className="ri-instagram-line fs-3"></i>
                       </Link>
                     </li>
                     <li>
                       <Link target="_blank" rel="noreferrer" to="https://www.linkedin.com/in/v3-care-15135119b/">
-                        <i className="ri-linkedin-box-line footer-bottom-fs-4"></i>
+                        <i className="ri-linkedin-box-line fs-3"></i>
                       </Link>
                     </li>
                     <li>
                       <Link target="_blank" rel="noreferrer" to="https://www.youtube.com/channel/UC3eZ5BXlhuQk_OZ6zXXgW2w">
-                        <i className="ri-youtube-line footer-bottom-fs-4"></i>
+                        <i className="ri-youtube-line fs-3"></i>
                       </Link>
                     </li>
                   </ul>

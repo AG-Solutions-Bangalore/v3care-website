@@ -506,7 +506,7 @@ style={{
                       <div className="service-info bg-white d-flex align-items-center mb-3">
                         <span className="avatar avatar-xl me-2 flex-shrink-0">
                           <ImageWithBasePath
-                            src="assets/img/service-request.jpg"
+                            src="assets/img/partner-request.png"
                             className="border-0"
                             alt="img"
                           />

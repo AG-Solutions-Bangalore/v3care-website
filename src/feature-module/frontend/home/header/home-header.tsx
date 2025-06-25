@@ -580,6 +580,9 @@ const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                 <Link to="/service" className="home-header-nav-book-now-btn">
                   <span className="home-header-nav-btn-text">Book Now</span>
                 </Link>
+                {/* <Link to="/apply-job" className="home-header-nav-book-now-btn">
+                  <span className="home-header-nav-btn-text">Apply for Job</span>
+                </Link> */}
 
                 <Link to="/become-partner" className="home-header-nav-vendor-btn-mobile">
                   <Icon.User size={16} />

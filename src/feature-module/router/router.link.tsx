@@ -20,6 +20,8 @@ import Cart from '../frontend/pages/cart/Cart';
 import ServiceDetails1 from '../frontend/pages/service-details/service-details1';
 import HomeHeader from '../frontend/home/header/home-header';
 
+import ApplyJob from '../frontend/pages/apply-job/apply-job';
+
 
 
 const SuspenseLoader = () => (
@@ -127,6 +129,12 @@ const publicRoutes = [
     path: routes.serviceRequest,
     name: 'service-request',
     element: <Suspense fallback={<SuspenseLoader />}><ServiceRequest /></Suspense>,
+    route: Route,
+  },
+  {
+    path: routes.jobRequest,
+    name: 'job-request',
+    element: <Suspense fallback={<SuspenseLoader />}><ApplyJob /></Suspense>,
     route: Route,
   },
     // service_id : state?.service_id 

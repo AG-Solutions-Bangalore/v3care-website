@@ -482,10 +482,15 @@ const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             </div>
 
             <div className="home-header-nav-top-actions">
+            <Link to="/apply-job" className="home-header-nav-vendor-btn">
+                <Icon.Briefcase size={16} />
+                <span className="home-header-nav-btn-text">Apply For Job</span>
+              </Link>
               <Link to="/become-partner" className="home-header-nav-vendor-btn">
                 <Icon.User size={16} />
                 <span className="home-header-nav-btn-text">Become Partner</span>
               </Link>
+              
             </div>
           </div>
 

@@ -263,6 +263,7 @@ style={{
                             name="fullname"
                             value={applyJob.fullname}
                             onChange={onInputChange}
+                            placeholder='Enter Full Name'
                             required
                           />
                         </div>
@@ -280,6 +281,7 @@ style={{
                             name="mobile_no"
                             value={applyJob.mobile_no}
                             onChange={onInputChange}
+                            placeholder='9876543210'
                             required
                           />
                         </div>
@@ -295,6 +297,7 @@ style={{
                             name="email_id"
                             value={applyJob.email_id}
                             onChange={onInputChange}
+                            placeholder='abc@gmail.com'
                             required
                           />
                         </div>
@@ -310,6 +313,7 @@ style={{
                             name="branch_city"
                             value={applyJob.branch_city}
                             onChange={onInputChange}
+                            placeholder='eg. Bengaluru'
                             required
                           />
                         </div>
@@ -325,6 +329,7 @@ style={{
                             name="job_experience"
                             value={applyJob.job_experience}
                             onChange={onInputChange}
+                            placeholder='Enter your experience'
                             required
                           />
                         </div>
@@ -340,6 +345,7 @@ style={{
                             value={applyJob.job_skills}
                             onChange={onInputChange}
                             rows={5}
+                            placeholder='Enter Job Skills'
                             required
                           />
                         </div>

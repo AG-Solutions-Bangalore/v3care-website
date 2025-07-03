@@ -1,33 +1,33 @@
 // Base API URLs
-const BASE_URL = "https://agscare.site/crmapi/public";
+const BASE_URL = "https://v3care.com/crmapi/public";
 const BASE_URL_PINCODE = "https://api.v3care.in";
 
 // Image URL paths
-const NO_IMAGE_URL = "https://agscare.site/crmapi/storage/app/public/no_image.jpg"
+const NO_IMAGE_URL = "https://v3care.com/crmapi/storage/app/public/no_image.jpg"
 
 
-const CLIENT_IMAGE_URL = "https://agscare.site/crmapi/storage/app/public/clients";
-
-
-
+const CLIENT_IMAGE_URL = "https://v3care.com/crmapi/storage/app/public/clients";
 
 
 
-const SERVICE_IMAGE_URL = "https://agscare.site/crmapi/storage/app/public/service";
 
 
-const SERVICE_DETAILS_IMAGE_URL = "https://agscare.site/crmapi/storage/app/public/service_details";
+
+const SERVICE_IMAGE_URL = "https://v3care.com/crmapi/storage/app/public/service";
 
 
-const SERVICE_SUB_IMAGE_URL = "https://agscare.site/crmapi/storage/app/public/service_sub";
+const SERVICE_DETAILS_IMAGE_URL = "https://v3care.com/crmapi/storage/app/public/service_details";
 
 
-const SERVICE_SUPER_IMAGE_URL = "https://agscare.site/crmapi/storage/app/public/service_super";
+const SERVICE_SUB_IMAGE_URL = "https://v3care.com/crmapi/storage/app/public/service_sub";
 
 
-const TESTIMONIAL_IMAGE_URL = "https://agscare.site/crmapi/storage/app/public/testimonial";
+const SERVICE_SUPER_IMAGE_URL = "https://v3care.com/crmapi/storage/app/public/service_super";
 
-const BLOG_IMAGE_URL = "https://agscare.site/crmapi/storage/app/public/blog";
+
+const TESTIMONIAL_IMAGE_URL = "https://v3care.com/crmapi/storage/app/public/testimonial";
+
+const BLOG_IMAGE_URL = "https://v3care.com/crmapi/storage/app/public/blog";
 
 export {
   BASE_URL,

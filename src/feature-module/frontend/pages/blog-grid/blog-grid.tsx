@@ -36,6 +36,7 @@ const BlogGrid = () => {
     useEffect(() => {
     fetchBlogs();
   }, []);
+
  
 
   const indexOfLastItem = currentPage * itemsPerPage;

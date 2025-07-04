@@ -80,8 +80,6 @@ const ServiceDetails1 = () => {
   >([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
- 
-
   const showNotification = (message: string, type: 'success' | 'error') => {
     const id = Date.now().toString();
     setNotifications((prev) => [...prev, { id, message, type }]);
@@ -144,7 +142,9 @@ const ServiceDetails1 = () => {
       setServiceCards(response.data.serviceDetails || []);
       setServiceFAQ(response.data.serviceFAQ || []);
       if (response.data.serviceIncludes?.service_includes) {
-        setServiceIncludes(response.data.serviceIncludes.service_includes.split(','));
+        setServiceIncludes(
+          response.data.serviceIncludes.service_includes.split(','),
+        );
       }
     } catch (error) {
       console.error('Error fetching service card :', error);
@@ -195,35 +195,42 @@ const ServiceDetails1 = () => {
   // };
   const togglePriceSelection = (price: any) => {
     setSelectedPrices((prev) => {
-    
       if (prev.some((p) => p.id === price.id)) {
         return [];
-      } 
-    
+      }
+
       return [price];
     });
   };
   return (
     <>
-       <Helmet>
-              <title>
-                {serviceMeta?.service && serviceMeta.service !== "null"
-                  ? serviceMeta.service
-                  : "Best house cleaning service | V3 Care"}
-              </title>
-              {serviceMeta?.service_meta_title && serviceMeta.service_meta_title !== "null" && (
-                <meta name="title" content={serviceMeta.service_meta_title} />
-              )}
-              {serviceMeta?.service_meta_description && serviceMeta.service_meta_description !== "null" && (
-                <meta name="description" content={serviceMeta.service_meta_description} />
-              )}
-               {serviceMeta?.service_slug && (
-    <meta name="slug" content={serviceMeta.service_slug} />
-  )}
-  {serviceMeta?.service_meta_full_length && (
-    <meta name="full_length" content={serviceMeta.service_meta_full_length} />
-  )}
-            </Helmet>
+      <Helmet>
+        <title>
+          {serviceMeta?.service && serviceMeta.service !== 'null'
+            ? serviceMeta.service
+            : 'Best house cleaning service | V3 Care'}
+        </title>
+        {serviceMeta?.service_meta_title &&
+          serviceMeta.service_meta_title !== 'null' && (
+            <meta name="title" content={serviceMeta.service_meta_title} />
+          )}
+        {serviceMeta?.service_meta_description &&
+          serviceMeta.service_meta_description !== 'null' && (
+            <meta
+              name="description"
+              content={serviceMeta.service_meta_description}
+            />
+          )}
+        {serviceMeta?.service_slug && (
+          <meta name="slug" content={serviceMeta.service_slug} />
+        )}
+        {serviceMeta?.service_meta_full_length && (
+          <meta
+            name="full_length"
+            content={serviceMeta.service_meta_full_length}
+          />
+        )}
+      </Helmet>
       <HomeHeader />
       <style>
         {`
@@ -486,9 +493,11 @@ const ServiceDetails1 = () => {
                                         ? '1px solid #0d6efd '
                                         : '1px solid #dee2e6',
                                       borderRadius: '6px',
-                                      backgroundColor: selectedPrices.some((p) => p.id === price.id)
-      ? '#f0f8ff' 
-      : '',
+                                      backgroundColor: selectedPrices.some(
+                                        (p) => p.id === price.id,
+                                      )
+                                        ? '#f0f8ff'
+                                        : '',
                                     }}
                                     onClick={() => togglePriceSelection(price)}
                                   >
@@ -508,10 +517,21 @@ const ServiceDetails1 = () => {
                                     </div>
                                     <div className="text-end">
                                       <h6 className="fs-14 fw-medium text-primary mb-0">
-                                        ₹{price.service_price_amount}
+                                        {price.service_price_amount == 0 ? (
+                                          'Inspection'
+                                        ) : (
+                                          <>₹ {price.service_price_amount}</>
+                                        )}
                                       </h6>
                                       <p className="fs-12 text-muted mb-0 text-decoration-line-through">
-                                        ₹{price.service_price_rate}
+                                        {
+                                          price.service_price_rate != 0 &&(
+                                            <>
+                                               ₹{price.service_price_rate}
+                                            </>
+                                          )
+                                        }
+                                     
                                       </p>
                                     </div>
                                   </div>
@@ -627,202 +647,210 @@ const ServiceDetails1 = () => {
                         >
                           <div className="accordion-body border-0 p-0 pt-3">
                             <div className="bg-light-200 p-3 pb-2 br-10">
-                            {serviceIncludes.map((include, index) => (
-          <p className="d-inline-flex align-items-center mb-2 me-4" key={index}>
-            <i className="ri-checkbox-circle-line text-success me-2"></i>
-            {include.trim()} 
-          </p>
-        ))}
+                              {serviceIncludes.map((include, index) => (
+                                <p
+                                  className="d-inline-flex align-items-center mb-2 me-4"
+                                  key={index}
+                                >
+                                  <i className="ri-checkbox-circle-line text-success me-2"></i>
+                                  {include.trim()}
+                                </p>
+                              ))}
                             </div>
                           </div>
                         </div>
                       </div>
                       {serviceFAQ?.length > 0 && (
-                      <div className="accordion-item mb-0">
-                        <h2 className="accordion-header">
-                          <button
-                            className="accordion-button p-0"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq"
-                            aria-expanded="false"
-                          >
-                            FAQ’s
-                          </button>
-                        </h2>
-                        <div
-                          id="faq"
-                          className="accordion-collapse collapse show"
-                        >
-                          <div className="accordion-body border-0 p-0 pt-3">
-                            <div
-                              className="accordion accordion-customicon1 faq-accordion"
-                              id="accordionfaq"
+                        <div className="accordion-item mb-0">
+                          <h2 className="accordion-header">
+                            <button
+                              className="accordion-button p-0"
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#faq"
+                              aria-expanded="false"
                             >
-                             
-                                { serviceFAQ.map((faq, index) => (
-                                    <div
-                                      className="accordion-item bg-light-200 mb-3"
-                                      key={index}
-                                    >
-                                      <h2 className="accordion-header">
-                                        <button
-                                          className={`accordion-button bg-light-200 br-10 fs-16 fw-medium ${index === 0 ? '' : 'collapsed'}`}
-                                          type="button"
-                                          data-bs-toggle="collapse"
-                                          data-bs-target={`#faq${index}`}
-                                          aria-expanded={
-                                            index === 0 ? 'true' : 'false'
-                                          }
-                                        >
-                                          {faq.service_faq_heading}
-                                        </button>
-                                      </h2>
-                                      <div
-                                        id={`faq${index}`}
-                                        className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`}
-                                        data-bs-parent="#accordionfaq"
+                              FAQ’s
+                            </button>
+                          </h2>
+                          <div
+                            id="faq"
+                            className="accordion-collapse collapse show"
+                          >
+                            <div className="accordion-body border-0 p-0 pt-3">
+                              <div
+                                className="accordion accordion-customicon1 faq-accordion"
+                                id="accordionfaq"
+                              >
+                                {serviceFAQ.map((faq, index) => (
+                                  <div
+                                    className="accordion-item bg-light-200 mb-3"
+                                    key={index}
+                                  >
+                                    <h2 className="accordion-header">
+                                      <button
+                                        className={`accordion-button bg-light-200 br-10 fs-16 fw-medium ${index === 0 ? '' : 'collapsed'}`}
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target={`#faq${index}`}
+                                        aria-expanded={
+                                          index === 0 ? 'true' : 'false'
+                                        }
                                       >
-                                        <div className="accordion-body border-0 pt-0">
-                                          <p>{faq.service_faq_description}</p>
-                                        </div>
+                                        {faq.service_faq_heading}
+                                      </button>
+                                    </h2>
+                                    <div
+                                      id={`faq${index}`}
+                                      className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`}
+                                      data-bs-parent="#accordionfaq"
+                                    >
+                                      <div className="accordion-body border-0 pt-0">
+                                        <p>{faq.service_faq_description}</p>
                                       </div>
                                     </div>
-                                  ))}
-                           
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-
-)}
-
-
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
               <div className="col-xl-6 theiaStickySidebar">
-                <StickyBox>
-                  <div className="card border-0 d-none d-lg-block ">
-                    <div className="card-body">
-                      <div className="d-flex align-items-center justify-content-between ">
-                        <div className="d-flex align-items-center">
-                          <div className="mb-3">
-                            <p className="fs-14 mb-0">Starts From</p>
+                {/* <StickyBox> */}
+                <div className="card border-0 d-none d-lg-block ">
+                  <div className="card-body">
+                    <div className="d-flex align-items-center justify-content-between ">
+                      <div className="d-flex align-items-center">
+                        <div className="mb-3">
+                          <p className="fs-14 mb-0">Starts From</p>
 
-                            <h4>
-                              <span className="display-6 fw-bold">
-                                &#8377;{totalPrice.toFixed(2) || '0'}
+                          <h4>
+                            {/* <span className="display-6 fw-bold">
+                              &#8377;{totalPrice.toFixed(2) || '0'}
+                            </span> */}
+                            <span className="display-6 fw-bold">
+        {selectedPrices.some(price => parseFloat(price.service_price_amount) === 0) 
+          ? 'Inspection' 
+          : `₹${totalPrice.toFixed(2)}`}
+      </span>
+                           
+      
+  
+                            {totalOriginalPrice > 0 && (
+                              <span className="text-decoration-line-through text-default">
+                                {' '}
+                                &#8377;{totalOriginalPrice.toFixed(2)}
                               </span>
-                              {totalOriginalPrice > 0 && (
-                                <span className="text-decoration-line-through text-default">
-                                  {' '}
-                                  &#8377;{totalOriginalPrice.toFixed(2)}
-                                </span>
-                              )}
-                            </h4>
-                          </div>
+                            )}
+                          </h4>
                         </div>
-                        <span className="badge bg-success mb-3 d-inline-flex align-items-center fw-medium">
-                          <i className="ti ti-circle-percentage me-1" />
-                          {Math.round(
-                            (1 - totalPrice / totalOriginalPrice) * 100,
-                          ) || 0}
-                          % Offer
-                        </span>
                       </div>
+                      {selectedPrices.some(price => parseFloat(price.service_price_amount) === 0) 
+          ? '' 
+          : (
+            <span className="badge bg-success mb-3 d-inline-flex align-items-center fw-medium">
+            <i className="ti ti-circle-percentage me-1" />
+            {Math.round(
+              (1 - totalPrice / totalOriginalPrice) * 100,
+            ) || 0}
+            % Offer
+          </span>
+          )}
+                     
                     </div>
                   </div>
+                </div>
 
-                  {/* recommendation card  */}
-                  {cardLoading ? (
-                    <div className="text-center py-4">
-                      <div
-                        className="spinner-border text-primary"
-                        role="status"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </div>
-                      <p className="mt-2">Loading service cards...</p>
+                {/* recommendation card  */}
+                {cardLoading ? (
+                  <div className="text-center py-4">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="visually-hidden">Loading...</span>
                     </div>
-                  ) : cardError ? (
-                    <div className="alert alert-danger d-flex align-items-center justify-content-between">
-                      <div>{cardError}</div>
-                      <button
-                        className="btn btn-sm btn-outline-danger"
-                        onClick={fetchServiceCard}
-                      >
-                        Try Again
-                      </button>
-                    </div>
-                  ) : (
-                    serviceCards.length > 0 &&
-                    serviceCards.map((card) => (
-                      <>
-                        <div key={card.id} className="card p-0 border-0">
-                          <div className="card-body p-0">
-                            <div className="img-sec w-100">
-                              <img
-                                src={`${SERVICE_DETAILS_IMAGE_URL}/${card.serviceDetails_image}`}
-                                className="img-fluid rounded-top w-100 "
-                                alt="img"
-                              />
-                            </div>
-                            <div className="p-3">
-                              <div>
-                                <h5 className="fs-16 mb-1 text-wrap">
-                                  {card?.serviceDetails_name}
-                                </h5>
+                    <p className="mt-2">Loading service cards...</p>
+                  </div>
+                ) : cardError ? (
+                  <div className="alert alert-danger d-flex align-items-center justify-content-between">
+                    <div>{cardError}</div>
+                    <button
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={fetchServiceCard}
+                    >
+                      Try Again
+                    </button>
+                  </div>
+                ) : (
+                  serviceCards.length > 0 &&
+                  serviceCards.map((card) => (
+                    <>
+                      <div key={card.id} className="card p-0 border-0">
+                        <div className="card-body p-0">
+                          <div className="img-sec w-100">
+                            <img
+                              src={`${SERVICE_DETAILS_IMAGE_URL}/${card.serviceDetails_image}`}
+                              className="img-fluid rounded-top w-100 "
+                              alt="img"
+                            />
+                          </div>
+                          <div className="p-3">
+                            <div>
+                              <h5 className="fs-16 mb-1 text-wrap">
+                                {card?.serviceDetails_name}
+                              </h5>
 
-                                <p
-                                  className="fs-12"
-                                  style={{ textAlign: 'justify' }}
-                                >
-                                  {card?.serviceDetails && (
-                                    <>
-                                      {showFullText?.[card.id] ? (
-                                        card.serviceDetails
-                                      ) : (
-                                        <>
-                                          {card.serviceDetails
-                                            .split(' ')
-                                            .slice(0, 25)
-                                            .join(' ')}
-                                          {card.serviceDetails.split(' ')
-                                            .length > 25 && '...'}
-                                        </>
-                                      )}
-                                      {card.serviceDetails.split(' ').length >
-                                        25 && (
-                                        <span
-                                          className="link-primary text-decoration-underline ms-1"
-                                          style={{ cursor: 'pointer' }}
-                                          onClick={() =>
-                                            setShowFullText((prev) => ({
-                                              ...prev,
-                                              [card.id]: !prev?.[card.id],
-                                            }))
-                                          }
-                                        >
-                                          {showFullText?.[card.id]
-                                            ? 'Read less'
-                                            : 'Read more'}
-                                        </span>
-                                      )}
-                                    </>
-                                  )}
-                                </p>
-                              </div>
+                              <p
+                                className="fs-12"
+                                style={{ textAlign: 'justify' }}
+                              >
+                                {card?.serviceDetails && (
+                                  <>
+                                    {showFullText?.[card.id] ? (
+                                      card.serviceDetails
+                                    ) : (
+                                      <>
+                                        {card.serviceDetails
+                                          .split(' ')
+                                          .slice(0, 25)
+                                          .join(' ')}
+                                        {card.serviceDetails.split(' ').length >
+                                          25 && '...'}
+                                      </>
+                                    )}
+                                    {card.serviceDetails.split(' ').length >
+                                      25 && (
+                                      <span
+                                        className="link-primary text-decoration-underline ms-1"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() =>
+                                          setShowFullText((prev) => ({
+                                            ...prev,
+                                            [card.id]: !prev?.[card.id],
+                                          }))
+                                        }
+                                      >
+                                        {showFullText?.[card.id]
+                                          ? 'Read less'
+                                          : 'Read more'}
+                                      </span>
+                                    )}
+                                  </>
+                                )}
+                              </p>
                             </div>
                           </div>
                         </div>
-                      </>
-                    ))
-                  )}
+                      </div>
+                    </>
+                  ))
+                )}
 
-                  {/* recommendation card end */}
-                </StickyBox>
+                {/* recommendation card end */}
+                {/* </StickyBox> */}
               </div>
             </div>
           </div>

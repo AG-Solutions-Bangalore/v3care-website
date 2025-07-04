@@ -34,7 +34,13 @@
   padding: 15px;
   margin-bottom: 25px;
 }
-
+.time-slot-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  padding: 8px 0;
+}
 .summary-header {
   display: flex;
   justify-content: space-between;

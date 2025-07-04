@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeHeader from '../../home/header/home-header';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -33,7 +33,8 @@ const Cart = () => {
   const [query, setQuery] = React.useState('');
   const branch_id = localStorage.getItem('branch_id');
   const autoCompleteRef = React.useRef<HTMLInputElement>(null);
-
+  const [timeSlot, setTimeSlot] = useState<{time_slot: string}[]>([]);
+    const [timeLoading, setTimeLoading] = useState(false);
   const REACT_APP_GOOGLE_MAPS_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
   const REACT_APP_RAZARPAY_KEY = process.env.REACT_APP_RAZARPAY_KEY;
   let autoComplete: any;
@@ -123,7 +124,21 @@ const Cart = () => {
   const removeNotification = (id: string) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
-
+  const fetchTimeSlot = async () => {
+    try {
+      setTimeLoading(true);
+      const response = await axios.get(`${BASE_URL}/api/panel-fetch-timeslot-out`);
+      setTimeSlot(response.data.timeslot || []);
+    } catch (err) {
+      console.error('Error fetching timeslot:', err);
+    
+    } finally {
+      setTimeLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchTimeSlot();
+}, []);
   const validateForm = () => {
     const requiredFields = [
       'order_customer',
@@ -284,6 +299,7 @@ const Cart = () => {
     return phoneno.test(inputtxt) || inputtxt.length === 0;
   };
 
+ 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -368,6 +384,7 @@ const Cart = () => {
           // }
           state: {
             amount: totalPrice,
+            bookingId:response?.data?.bookig_id,
             originalAmount: totalOriginalPrice,
             payment_mode: 'pay_later',
             payment_status: 'pending',
@@ -822,19 +839,48 @@ const Cart = () => {
                             <label>
                               Service Time <span className="required">*</span>
                             </label>
-                            <input
-                              type="time"
-                              name="order_time"
-                              value={formData.order_time}
-                              onChange={(e) =>
-                                setFormData({
-                                  ...formData,
-                                  order_time: e.target.value,
-                                })
-                              }
-                              required
-                              // onClick={(e) => e.currentTarget.showPicker()}
-                            />
+      
+                            <div style={{ position: 'relative' }}>
+      <select
+        name="order_time"
+        value={formData.order_time}
+        onChange={(e) =>
+          setFormData({
+            ...formData,
+            order_time: e.target.value,
+          })
+        }
+        required
+        disabled={timeLoading}
+      >
+        <option value="">Select a time slot</option>
+        {timeSlot.map((slot, index) => (
+          <option key={index} value={slot.time_slot}>
+            {slot.time_slot}
+          </option>
+        ))}
+      </select>
+      {timeLoading && (
+        <div
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            pointerEvents: 'none',
+          }}
+        >
+          <div
+            className="spinner-border spinner-border-sm"
+            role="status"
+          >
+            <span className="visually-hidden">
+              Loading...
+            </span>
+          </div>
+        </div>
+      )}
+    </div>
                           </div>
                         </div>
 

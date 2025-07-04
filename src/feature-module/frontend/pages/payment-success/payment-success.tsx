@@ -21,7 +21,8 @@ const PaymentSuccess = () => {
     selected_prices,
     groupedItems,
     customer_details,
-    payment_details
+    payment_details,
+    bookingId
   } = state || {};
 
   const booking = Array.isArray(booking_data) ? booking_data[0] : booking_data;
@@ -240,8 +241,11 @@ const PaymentSuccess = () => {
             {/* Transaction Info */}
             <div className="payment-success-receipt-section">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
+                {/* <div>
                   {payment_id && <p>Transaction ID: {payment_id}</p>}
+                </div> */}
+                <div>
+                  {bookingId && <p>Booking ID: {bookingId}</p>}
                 </div>
                 <div>
                 <span className={`payment-success-receipt-badge ${statusBadge.className}`}>
@@ -269,7 +273,7 @@ const PaymentSuccess = () => {
                         {customer?.order_service_date && (
                           <>
                             {formatDate(customer.order_service_date)}
-                            {customer?.order_time && ` at ${formatTime(customer.order_time)}`}
+                            {customer?.order_time && ` at ${(customer.order_time)}`}
                           </>
                         )}
                       </p>

@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet-async';
 import './Categories.css';
 import '../../home/home-seven/PopularService.css'
 import { decryptId, encryptId } from '../../../../core/encyrption/Encyrption';
-
+import './ServiGrid.css'
 interface Service {
   id: number;
   service: string;
@@ -34,7 +34,8 @@ const Categories = () => {
     return id ? decryptId(id) : null; 
   }, [id]);
 
-  const branchId = localStorage.getItem("branch_id");
+  const branchId = localStorage.getItem("branch_id")
+  const city = localStorage.getItem("city")
   /* category start */
    const [categories, setCategories] = useState<Category[]>([]);
       const [isLoading, setIsLoading] = useState(true);
@@ -234,6 +235,8 @@ const Categories = () => {
                   </button>
                 </div>
                 <div className="categories-list">
+
+
                   {categories.map((category) => (
                     <Link 
                       key={category.id}
@@ -314,7 +317,7 @@ const Categories = () => {
     <h2 className="categories-main-title">{serviceSuper?.serviceSuper || "Our Services"}</h2>
     <p className="categories-subtitle">Choose from our wide range of professional services</p>
   </div>
-  <div className="categories-nav-and-list">
+  {/*<div className="categories-nav-and-list">
     <div className="categories-nav">
       <button className="categories-nav-button" onClick={() => {
         const container = document.querySelector('.categories-list');
@@ -353,11 +356,59 @@ const Categories = () => {
           </div>
         </Link>
       ))}
+
+
     </div>
+  </div>*/}
+ <div className="service-grid-nav-and-list">
+  <div className="service-grid-nav">
+    <button className="service-grid-nav-button" onClick={() => {
+      const container = document.querySelector('.service-grid-list');
+      if (container) container.scrollBy({ left: -200, behavior: 'smooth' });
+    }}>
+      <Icon.ChevronLeft size={16} />
+    </button>
+    <button className="service-grid-nav-button" onClick={() => {
+      const container = document.querySelector('.service-grid-list');
+      if (container) container.scrollBy({ left: 200, behavior: 'smooth' });
+    }}>
+      <Icon.ChevronRight size={16} />
+    </button>
+  </div>
+  <div className="service-grid-list">
+    {categories.map((category) => (
+      <div 
+        key={category.id}
+        className={`service-grid-category-item ${decryptedId === category.id.toString() ? 'active' : ''}`}
+      >
+        <Link 
+          to={`/${encodeURIComponent(category.url)}/${encryptId(category.id)}`}
+          className="service-grid-category-card"
+        >
+          <img
+            src={getImageUrlCategory(category.image)}
+            alt={category.name}
+            className="service-grid-category-image"
+            loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = `${NO_IMAGE_URL}`;
+            }}
+          />
+          <span className="service-grid-category-name">{category.name}</span>
+        </Link>
+      </div>
+    ))}
   </div>
 </div>
+
+
+
+
+</div>
           
-          {loading ? (
+        {/*  {loading ? (
             <SkeletonLoader />
           ) : (
             <div className="categories-grid">
@@ -382,10 +433,121 @@ const Categories = () => {
                     </div>
                 </div>
               ))}
+              {services.map((service: Service) => (
+                 <div key={service.id} className="col-xl-3 col-lg-4 col-md-6">
+                                   <div 
+                                     className="card h-100 border-0 overflow-hidden position-relative"
+                                     onClick={() => handleServiceClick(service)}
+                                 
+                                     style={{
+                                       transition: 'all 0.2s',
+                                       cursor: 'pointer'
+                                     }}
+                                     onMouseOver={(e) => {
+                                       e.currentTarget.style.boxShadow = '0 0.5rem 1rem rgba(0, 0, 0, 0.15)';
+                                       e.currentTarget.style.transform = 'translateY(-5px)';
+                                     }}
+                                     onMouseOut={(e) => {
+                                       e.currentTarget.style.boxShadow = '';
+                                       e.currentTarget.style.transform = '';
+                                     }}
+                                   >
+                                     <div className="position-relative" style={{ height: '160px' }}>
+                                       <img
+                                         src={getImageUrl(service.service_image)}
+                                         className="w-100 h-100"
+                                         loading="lazy"
+                 decoding="async"
+                                         alt={service.service}
+                                         style={{ objectFit: 'cover' }}
+                                         onError={(e) => {
+                                           const target = e.target as HTMLImageElement;
+                                           target.src = `${NO_IMAGE_URL}`;
+                                         }}
+                                       />
+                                      
+                                     
+                                     </div>
+                                     <div className="card-body p-3">
+                                       <h5 className="card-title mb-1 fs-15 fw-medium text-truncate">{service.service}</h5>
+                                       <div className="d-flex justify-content-between align-items-center mt-2">
+                                         <span className="small text-muted d-flex align-items-center">
+                                           <Icon.MapPin className="me-1" size={12} />
+                                           <span>{city}</span>
+                                         </span>
+                                       
+                                         <button 
+                className='book-now-btn'
+                 onClick={() => handleServiceClick(service)} 
+               >
+                 Book Now
+               </button>
+               
+                                       </div>
+                                     </div>
+                                   </div>
+                                 </div>
+              ))}
             </div>
-          )}
+          )}*/}
+
+{loading ? (
+  <SkeletonLoader />
+) : (
+  <div className="categories-grid">
+              {services.map((service) => (
+                <div key={service.id} className="categories-card-wrapper">
+                  <div 
+                    className="categories-card"
+                    onClick={() => handleServiceClick(service)}
+                  >
+                    <div className="categories-card-image-container">
+                      <img
+                        src={getImageUrl(service.service_image)}
+                        className="categories-card-image"
+                        loading="lazy"
+                        decoding="async"
+                        alt={service.service}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `${NO_IMAGE_URL}`;
+                        }}
+                      />
+                    </div>
+                    <div className="categories-card-content">
+                      <h5 className="categories-card-title">{service.service}</h5>
+                      <div className="categories-card-footer">
+                        <span className="categories-card-city">
+                          <Icon.MapPin className="categories-card-icon" size={12} />
+                          <span>{city}</span>
+                        </span>
+                        <button 
+                          className="categories-book-now-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleServiceClick(service);
+                          }} 
+                        >
+                          Book Now
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+)}
         </div>
       </div>
+
+
+
+
+
+
+
+
+
 
       {/* Sub-Service Modal */}
       {showSubServiceModal && (

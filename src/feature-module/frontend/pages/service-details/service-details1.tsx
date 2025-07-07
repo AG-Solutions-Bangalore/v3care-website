@@ -14,7 +14,8 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../../core/redux/slices/CartSlice';
 import './ServiceDetails.css';
 import { Helmet } from 'react-helmet-async';
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 const ServiceDetails1 = () => {
   const dispatch = useDispatch();
 
@@ -382,7 +383,7 @@ const ServiceDetails1 = () => {
         <div className="content">
           <div className="container">
             <div className="row">
-              <div className="col-xl-6">
+              <div className="col-xl-7">
                 <div className="card border-0">
                   <div className="card-body">
                     <div className="service-head mb-2">
@@ -720,7 +721,7 @@ const ServiceDetails1 = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-xl-6 theiaStickySidebar">
+              <div className="col-xl-5 theiaStickySidebar">
                 {/* <StickyBox> */}
                 <div className="card border-0 d-none d-lg-block ">
                   <div className="card-body">
@@ -807,37 +808,16 @@ const ServiceDetails1 = () => {
                                 className="fs-12"
                                 style={{ textAlign: 'justify' }}
                               >
+
                                 {card?.serviceDetails && (
                                   <>
-                                    {showFullText?.[card.id] ? (
-                                      card.serviceDetails
-                                    ) : (
-                                      <>
-                                        {card.serviceDetails
-                                          .split(' ')
-                                          .slice(0, 25)
-                                          .join(' ')}
-                                        {card.serviceDetails.split(' ').length >
-                                          25 && '...'}
-                                      </>
-                                    )}
-                                    {card.serviceDetails.split(' ').length >
-                                      25 && (
-                                      <span
-                                        className="link-primary text-decoration-underline ms-1"
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={() =>
-                                          setShowFullText((prev) => ({
-                                            ...prev,
-                                            [card.id]: !prev?.[card.id],
-                                          }))
-                                        }
-                                      >
-                                        {showFullText?.[card.id]
-                                          ? 'Read less'
-                                          : 'Read more'}
-                                      </span>
-                                    )}
+                                  <ReactQuill
+    value={card?.serviceDetails || ''}
+    readOnly={true}
+    theme={null} 
+    modules={{ toolbar: false }} 
+  className="read-only-quill no-spacing"
+  />
                                   </>
                                 )}
                               </p>

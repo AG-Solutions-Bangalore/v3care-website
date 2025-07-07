@@ -5,7 +5,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { all_routes } from '../../../../core/data/routes/all_routes';
 
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import HomeHeader from '../../home/header/home-header';
 import { BASE_URL, BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
@@ -195,13 +196,15 @@ const BlogDetails = () => {
                         alt="Post Image"
                       />
                     </div>
-                    <div className="blog-content">
-                    {blog.blogs_description
-                        .split('\n\n')
-                        .map((paragraph, index) => (
-                          <p key={index}>{paragraph}</p>
-                        ))}
-                    </div>
+                    {/* <div className="blog-content">*/} 
+                    <ReactQuill
+  value={blog.blogs_description}
+  readOnly={true}
+  theme={null} 
+  modules={{ toolbar: false }} 
+  className="read-only-quill" 
+/>
+                  {/*</div>*/} 
                   </div>
                 </div>
               </div>

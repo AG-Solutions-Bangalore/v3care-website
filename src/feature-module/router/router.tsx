@@ -3,7 +3,8 @@ import { publicRoutes } from './router.link';
 import { Route, Routes } from 'react-router-dom';
 import Feature from '../feature';
 import CityModal from '../components/CityModal';
-import ScrollToTop from '../components/ScrollToTop';
+
+import SmoothScroll from '../components/SmoothScroll';
 import JoinUs from '../components/JoinUs';
 import HomeHeader from '../frontend/home/header/home-header';
 import FooterSeven from '../frontend/home/home-seven/footer-seven';
@@ -42,7 +43,8 @@ const AllRoutes = () => {
     {/* <RefreshLoader/> */}
     <JoinUs/>
     {/* <HomeHeader type={8} /> */}
-    <ScrollToTop/>
+    <SmoothScroll/>
+  
       {showCityModal && (
         <CityModal 
           onSelectCity={handleCitySelect} 

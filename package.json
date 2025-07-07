@@ -20,11 +20,13 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/react-redux": "^7.1.34",
     "antd": "^5.24.2",
+     "react-quill": "^2.0.0",
     "aos": "^2.3.4",
     "axios": "^1.8.4",
     "bootstrap": "^5.3.3",
     "ckeditor4-react": "^5.2.1",
     "crypto-js": "^4.2.0",
+   
     "feather-icons": "^4.29.2",
     "feather-icons-react": "^0.6.2",
     "google-map-react": "^2.2.1",

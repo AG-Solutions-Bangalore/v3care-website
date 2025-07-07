@@ -40,7 +40,15 @@
     flex-grow: 1; 
     min-width: 0;
   }
-  
+  /* In your CSS file (e.g., ServiceDetails.css) */
+.read-only-quill .ql-editor {
+  padding: 0 !important; /* Removes padding */
+  margin: 0 !important;  /* Removes margin */
+}
+
+.read-only-quill .ql-container {
+  border: none !important; /* Removes border if present */
+}
  
   .button-group-container {
     display: flex;

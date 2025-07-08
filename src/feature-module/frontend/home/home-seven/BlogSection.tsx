@@ -158,8 +158,8 @@ const BlogSection = () => {
                               src={`${BLOG_IMAGE_URL}/${blog.blogs_image}`}
                               className="home-blog-img"
                               alt="img"
-                              loading="lazy"
-                              decoding="async"
+                              // loading="lazy"
+                              // decoding="async"
                             />
                           </Link>
                         </div>

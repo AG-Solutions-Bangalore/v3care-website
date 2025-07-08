@@ -13,6 +13,10 @@ import axios from 'axios';
 import './cart.css';
 import { BASE_URL } from '../../../baseConfig/BaseUrl';
 import DefaultHelmet from '../../common/helmet/DefaultHelmet';
+
+
+import {auth, RecaptchaVerifier, signInWithPhoneNumber} from "../../firebase/firebase-auth"
+
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,12 +37,48 @@ const Cart = () => {
   const [query, setQuery] = React.useState('');
   const branch_id = localStorage.getItem('branch_id');
   const autoCompleteRef = React.useRef<HTMLInputElement>(null);
-  const [timeSlot, setTimeSlot] = useState<{time_slot: string}[]>([]);
-    const [timeLoading, setTimeLoading] = useState(false);
+  const [timeSlot, setTimeSlot] = useState<{ time_slot: string }[]>([]);
+  const [timeLoading, setTimeLoading] = useState(false);
   const REACT_APP_GOOGLE_MAPS_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
   const REACT_APP_RAZARPAY_KEY = process.env.REACT_APP_RAZARPAY_KEY;
   let autoComplete: any;
 
+// for otp 
+const [otpSent, setOtpSent] = React.useState(false);
+const [otp, setOtp] = React.useState('');
+const [confirmationResult, setConfirmationResult] = React.useState<any>(null);
+const [isVerifying, setIsVerifying] = React.useState(false);
+const [isSendingOtp, setIsSendingOtp] = React.useState(false);
+const [resendTimer, setResendTimer] = React.useState(0);
+
+const setupRecaptcha = () => {
+  
+  if ((window as any).recaptchaVerifier) {
+    (window as any).recaptchaVerifier.clear();
+  }
+  
+  
+  const container = document.getElementById('recaptcha-container');
+  if (!container) {
+    console.error('Recaptcha container not found');
+    return;
+  }
+
+ 
+  (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+    'size': 'invisible',
+    'callback': (response: any) => {
+      console.log('reCAPTCHA solved');
+    },
+    'expired-callback': () => {
+      console.log('reCAPTCHA expired');
+     
+    }
+  });
+};
+
+
+// main file  
   React.useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 600);
     window.addEventListener('resize', handleResize);
@@ -127,18 +167,19 @@ const Cart = () => {
   const fetchTimeSlot = async () => {
     try {
       setTimeLoading(true);
-      const response = await axios.get(`${BASE_URL}/api/panel-fetch-timeslot-out`);
+      const response = await axios.get(
+        `${BASE_URL}/api/panel-fetch-timeslot-out`,
+      );
       setTimeSlot(response.data.timeslot || []);
     } catch (err) {
       console.error('Error fetching timeslot:', err);
-    
     } finally {
       setTimeLoading(false);
     }
   };
   useEffect(() => {
     fetchTimeSlot();
-}, []);
+  }, []);
   const validateForm = () => {
     const requiredFields = [
       'order_customer',
@@ -299,7 +340,6 @@ const Cart = () => {
     return phoneno.test(inputtxt) || inputtxt.length === 0;
   };
 
- 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -333,7 +373,9 @@ const Cart = () => {
   const handleSubmitPayLater = async (
     e: React.MouseEvent<HTMLButtonElement>,
   ) => {
+if (e && typeof e.preventDefault === 'function') {
     e.preventDefault();
+  }
 
     if (!validateForm()) {
       return;
@@ -384,7 +426,7 @@ const Cart = () => {
           // }
           state: {
             amount: totalPrice,
-            bookingId:response?.data?.bookig_id,
+            bookingId: response?.data?.bookig_id,
             originalAmount: totalOriginalPrice,
             payment_mode: 'pay_later',
             payment_status: 'pending',
@@ -673,6 +715,149 @@ const Cart = () => {
     }
   };
 
+
+const sendOtp = async () => {
+   setIsSendingOtp(true);
+
+    setResendTimer(30);
+  const timerInterval = setInterval(() => {
+    setResendTimer((prev) => {
+      if (prev <= 1) {
+        clearInterval(timerInterval);
+        return 0;
+      }
+      return prev - 1;
+    });
+  }, 1000);
+  
+  if (!formData.order_customer_mobile) {
+    showNotification('Mobile number is required', 'error');
+    return;
+  }
+
+  const mobileRegex = /^[6-9]\d{9}$/;
+  if (!mobileRegex.test(formData.order_customer_mobile)) {
+    showNotification('Please enter a valid 10-digit Indian mobile number', 'error');
+    return;
+  }
+
+  try {
+    
+    if ((window as any).recaptchaVerifier) {
+      try {
+        (window as any).recaptchaVerifier.clear();
+      } catch (clearError) {
+        console.log('Clearing old recaptcha failed (probably already cleared)', clearError);
+      }
+      (window as any).recaptchaVerifier = null;
+    }
+
+  
+    const container = document.getElementById('recaptcha-container');
+    if (!container) {
+      showNotification('Security verification failed to initialize', 'error');
+      return;
+    }
+
+    const newVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      'size': 'invisible',
+      'callback': () => console.log('reCAPTCHA solved'),
+      'expired-callback': () => console.log('reCAPTCHA expired')
+    });
+
+    (window as any).recaptchaVerifier = newVerifier;
+
+    const phoneNumber = `+91${formData.order_customer_mobile}`;
+    console.log('Sending OTP to:', phoneNumber);
+    
+    const result = await signInWithPhoneNumber(auth, phoneNumber, newVerifier);
+    setConfirmationResult(result);
+    setOtpSent(true);
+    showNotification('OTP sent to your mobile number', 'success');
+  } catch (error: any) {
+    console.error('Error sending OTP:', error);
+    setIsSendingOtp(false);
+    
+    if ((window as any).recaptchaVerifier) {
+      try {
+        (window as any).recaptchaVerifier.clear();
+      } catch (clearError) {
+        console.log('Error clearing verifier:', clearError);
+      }
+      (window as any).recaptchaVerifier = null;
+    }
+    
+    let errorMessage = 'Failed to send OTP. Please try again.';
+    
+    if (error.code === 'auth/invalid-phone-number') {
+      errorMessage = 'Invalid phone number format';
+    } else if (error.code === 'auth/missing-phone-number') {
+      errorMessage = 'Phone number is required';
+    } else if (error.code === 'auth/quota-exceeded') {
+      errorMessage = 'SMS quota exceeded. Please try again later.';
+    } else if (error.code === 'auth/user-disabled') {
+      errorMessage = 'User account has been disabled';
+    } else if (error.code === 'auth/operation-not-allowed') {
+      errorMessage = 'Phone authentication is not enabled';
+    }
+    
+    showNotification(errorMessage, 'error');
+  }finally {
+    setIsSendingOtp(false); 
+  }
+};
+const verifyOtp = async () => {
+  if (!otp || otp.length !== 6) {
+    showNotification('Please enter a valid 6-digit OTP', 'error');
+    return;
+  }
+
+  if (!confirmationResult) {
+    showNotification('Please request OTP first', 'error');
+    return;
+  }
+
+  setIsVerifying(true);
+  try {
+    await confirmationResult.confirm(otp);
+    showNotification('OTP verified successfully!', 'success');
+
+    if ((window as any).recaptchaVerifier) {
+      try {
+        (window as any).recaptchaVerifier.clear();
+      } catch (error) {
+        console.error('Error clearing recaptcha:', error);
+      }
+      (window as any).recaptchaVerifier = null;
+    }
+
+    
+
+    await handleSubmitPayLater();
+    
+    setOtp('');
+    setOtpSent(false);
+    setConfirmationResult(null);
+  } catch (error: any) {
+    console.error('Error verifying OTP:', error);
+    
+    let errorMessage = 'Invalid OTP. Please try again.';
+    
+    if (error.code === 'auth/invalid-verification-code') {
+      errorMessage = 'Invalid OTP code';
+    } else if (error.code === 'auth/code-expired') {
+      errorMessage = 'OTP has expired. Please request a new one.';
+    } else if (error.code === 'auth/code-used') {
+      errorMessage = 'This OTP has already been used. Please request a new one.';
+    }
+    
+    showNotification(errorMessage, 'error');
+    setOtp('');
+  } finally {
+    setIsVerifying(false);
+  }
+};
+
   const handleRemoveItem = (id: string) => {
     dispatch(removeFromCart(id));
   };
@@ -839,48 +1024,48 @@ const Cart = () => {
                             <label>
                               Service Time <span className="required">*</span>
                             </label>
-      
+
                             <div style={{ position: 'relative' }}>
-      <select
-        name="order_time"
-        value={formData.order_time}
-        onChange={(e) =>
-          setFormData({
-            ...formData,
-            order_time: e.target.value,
-          })
-        }
-        required
-        disabled={timeLoading}
-      >
-        <option value="">Select a time slot</option>
-        {timeSlot.map((slot, index) => (
-          <option key={index} value={slot.time_slot}>
-            {slot.time_slot}
-          </option>
-        ))}
-      </select>
-      {timeLoading && (
-        <div
-          style={{
-            position: 'absolute',
-            right: '10px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            pointerEvents: 'none',
-          }}
-        >
-          <div
-            className="spinner-border spinner-border-sm"
-            role="status"
-          >
-            <span className="visually-hidden">
-              Loading...
-            </span>
-          </div>
-        </div>
-      )}
-    </div>
+                              <select
+                                name="order_time"
+                                value={formData.order_time}
+                                onChange={(e) =>
+                                  setFormData({
+                                    ...formData,
+                                    order_time: e.target.value,
+                                  })
+                                }
+                                required
+                                disabled={timeLoading}
+                              >
+                                <option value="">Select a time slot</option>
+                                {timeSlot.map((slot, index) => (
+                                  <option key={index} value={slot.time_slot}>
+                                    {slot.time_slot}
+                                  </option>
+                                ))}
+                              </select>
+                              {timeLoading && (
+                                <div
+                                  style={{
+                                    position: 'absolute',
+                                    right: '10px',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    pointerEvents: 'none',
+                                  }}
+                                >
+                                  <div
+                                    className="spinner-border spinner-border-sm"
+                                    role="status"
+                                  >
+                                    <span className="visually-hidden">
+                                      Loading...
+                                    </span>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
 
@@ -989,13 +1174,7 @@ const Cart = () => {
                         {Object.entries(groupedItems).map(
                           ([key, group]: [string, any]) => (
                             <div className="cart-service-group" key={key}>
-                              {/* <div className="group-header">
-                              <h4>
-                                {group.service_name}
-                                {group.service_sub_name && ` - ${group.service_sub_name}`}
-                              </h4>
-                              <span className="group-total">₹{group.total.toFixed(2)}</span>
-                            </div> */}
+                             
 
                               <div className="group-items">
                                 {group.items.map((item: any) => (
@@ -1026,7 +1205,7 @@ const Cart = () => {
                                       )}
                                     </div>
                                     <div className="item-actions">
-                                      {/* Original Price moved to right side, above current price */}
+                                  
                                       {isLoadingPrices ? (
                                         <p className="original-price">
                                           <span
@@ -1053,7 +1232,7 @@ const Cart = () => {
                                         </p>
                                       )}
 
-                                      {/* Price and Remove button in a row */}
+                                    
                                       <div className="price-remove-row">
                                         {isLoadingPrices ? (
                                           <span className="item-price">
@@ -1165,59 +1344,145 @@ const Cart = () => {
                               </>
                             )}
                           </div>
-                          <div className="col-12 form-actions">
-                            {totalOriginalPrice > 0 && (
-                            <>
-                              {/*
-                              <button
-                                type="button"
-                                className="btn btn-pay-now"
-                                onClick={handleSubmitPayNow}
-                                disabled={
-                                  cartItems.length === 0 || isLoadingPrices
-                                }
-                              >
-                                Pay Now
-                              </button>
-                             */}
-                                 <button
-                              type="button"
-                              className="btn btn-pay-now"
-                              onClick={handleSubmitPayLater}
-                              disabled={
-                                cartItems.length === 0 || isLoadingPrices
-                              }
-                            >
-                          Book Now
-                            </button>
-                            </>
-                            )}
-                         
-                            {totalOriginalPrice === 0 && ( 
-                            <button
-                              type="button"
-                              className="btn btn-pay-now"
-                              onClick={handleSubmitPayLater}
-                              disabled={
-                                cartItems.length === 0 || isLoadingPrices
-                              }
-                            >
-                            Book Inspection
-                            </button>
-                            )}
-                            {/* <button
-                              type="button"
-                              className="btn btn-pay-later"
-                              onClick={handleSubmitPayLater}
-                              disabled={
-                                cartItems.length === 0 || isLoadingPrices
-                              }
-                            >
-                              {totalOriginalPrice === 0
-                                ? 'Book Inspection'
-                                : 'Pay Later'}
-                            </button> */}
-                          </div>
+
+
+<div className="col-12 form-actions">
+  {totalOriginalPrice > 0 && (
+    <>
+      {!otpSent ? (
+        <button
+          type="button"
+          className="btn btn-pay-now"
+          onClick={sendOtp}
+          disabled={
+            cartItems.length === 0 || 
+            isLoadingPrices ||
+            !formData.order_customer_mobile ||
+             isSendingOtp
+          }
+        >
+         {isSendingOtp ? ( 
+            <>
+              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Sending OTP...
+            </>
+          ) : (
+            'Book Now'
+          )}
+        </button>
+      ) : (
+        <div className="otp-verification-container">
+          <div className="otp-input-container">
+            <input
+              type="text"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+              placeholder="Enter OTP"
+              maxLength={6}
+              className="otp-input"
+            />
+            <button
+              className="btn-verify-otp"
+              onClick={verifyOtp}
+              disabled={isVerifying || otp.length !== 6}
+            >
+              {isVerifying ? (
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              ) : (
+                'Verify OTP'
+              )}
+            </button>
+          </div>
+          <div className="resend-otp-container">
+            {resendTimer > 0 ? (
+    <span className="resend-timer">
+      Resend OTP in {resendTimer}s
+    </span>
+  ) : (
+    <button 
+      className="btn-resend-otp" 
+      onClick={sendOtp}
+      disabled={isVerifying}
+    >
+      Resend OTP
+    </button>
+  )}
+          </div>
+        </div>
+      )}
+    </>
+  )}
+
+  {totalOriginalPrice === 0 && (
+
+    <>
+   
+
+
+ {!otpSent ? (
+        <button
+      type="button"
+      className="btn btn-pay-now"
+      onClick={sendOtp}
+      disabled={
+        cartItems.length === 0 || 
+        isLoadingPrices ||
+     
+        isSendingOtp 
+      }
+    >
+    {isSendingOtp ? ( 
+        <>
+          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Sending OTP...
+        </>
+      ) : (
+        'Book Inspection'
+      )}
+    </button>
+      ) : (
+        <div className="otp-verification-container">
+          <div className="otp-input-container">
+            <input
+              type="text"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+              placeholder="Enter OTP"
+              maxLength={6}
+              className="otp-input"
+            />
+            <button
+              className="btn-verify-otp"
+              onClick={verifyOtp}
+              disabled={isVerifying || otp.length !== 6}
+            >
+              {isVerifying ? (
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              ) : (
+                'Verify OTP'
+              )}
+            </button>
+          </div>
+          <div className="resend-otp-container">
+            <button 
+              className="btn-resend-otp" 
+              onClick={sendOtp}
+              disabled={isVerifying}
+            >
+              Resend OTP
+            </button>
+          </div>
+        </div>
+      )}
+
+
+    </>
+  )}
+<div id="recaptcha-container"></div>
+</div>
+
+
+
                         </div>
                       </div>
                     )}

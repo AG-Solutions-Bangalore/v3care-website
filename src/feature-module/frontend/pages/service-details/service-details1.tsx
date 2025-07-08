@@ -422,14 +422,28 @@ const ServiceDetails1 = () => {
                             )}
                           </h4>
                         </div>
-                        <button
-                          onClick={() => navigate('/service')}
-                          className="btn btn-link text-decoration-none text-primary p-0"
-                          style={{ whiteSpace: 'nowrap' }}
-                        >
-                          <i className="ri-arrow-left-line me-2"></i>
-                          Browse Services
-                        </button>
+         <button
+  onClick={() => {
+    if (location.state?.from === 'subservice-modal') {
+      navigate(-1, {
+        state: {
+          keepModalOpen: true,
+          selectedService: location.state?.selectedService,
+          activeSuperCategory: location.state?.activeSuperCategory,
+          from: location.state?.from
+        }
+      });
+    } else {
+      navigate('/service');
+    }
+  }}
+  className="btn btn-link text-decoration-none text-primary p-0"
+  style={{ whiteSpace: 'nowrap' }}
+>
+  <i className="ri-arrow-left-line me-2"></i>
+  Browse Services
+</button>
+
                       </div>
                     </div>
 

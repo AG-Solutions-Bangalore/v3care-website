@@ -93,8 +93,8 @@ const HeroSection = () => {
                           <img
                             src={getImageUrl(category.image)}
                             alt={category.name}
-                            loading="lazy"
-                            decoding="async"
+                            // loading="lazy"
+                            // decoding="async"
                           />
                         </div>
                         <span className="hero-section-service-title">{category.name}</span>
@@ -128,16 +128,16 @@ const HeroSection = () => {
           <div className="hero-section-right">
             <div className="hero-section-images">
               <div className="hero-section-image hero-section-image-1">
-                <img src="assets/img/services/h1.jpeg" alt="Salon Service" loading="lazy" decoding="async" />
+                <img src="assets/img/services/h1.jpeg" alt="Salon Service"  />
               </div>
               <div className="hero-section-image hero-section-image-2">
-                <img src="assets/img/services/h2.jpeg" alt="Massage Service" loading="lazy" decoding="async" />
+                <img src="assets/img/services/h2.jpeg" alt="Massage Service" />
               </div>
               <div className="hero-section-image hero-section-image-3">
-                <img src="assets/img/services/h3.jpeg" alt="Home Repair" loading="lazy" decoding="async" />
+                <img src="assets/img/services/h3.jpeg" alt="Home Repair"  />
               </div>
               <div className="hero-section-image hero-section-image-4">
-                <img src="assets/img/services/h4.jpeg" alt="AC Repair" loading="lazy" decoding="async" />
+                <img src="assets/img/services/h4.jpeg" alt="AC Repair"  />
               </div>
             </div>
           </div>

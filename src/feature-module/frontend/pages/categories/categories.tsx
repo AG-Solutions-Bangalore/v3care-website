@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {  useParams, useNavigate, Link } from 'react-router-dom';
+import {  useParams, useNavigate, Link,useLocation } from 'react-router-dom';
 import BreadCrumb from '../../common/breadcrumb/breadCrumb';
 import axios from 'axios';
 import * as Icon from 'react-feather';
@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet-async';
 import './Categories.css';
 import '../../home/home-seven/PopularService.css'
 import { decryptId, encryptId } from '../../../../core/encyrption/Encyrption';
-import './ServiGrid.css'
+import './ServiceGrid.css'
 interface Service {
   id: number;
   service: string;
@@ -33,7 +33,7 @@ const Categories = () => {
   const decryptedId = useMemo(() => {
     return id ? decryptId(id) : null; 
   }, [id]);
-
+ const location = useLocation();
   const branchId = localStorage.getItem("branch_id")
   const city = localStorage.getItem("city")
   /* category start */
@@ -50,6 +50,8 @@ const Categories = () => {
   const [subServiceLoading, setSubServiceLoading] = useState(false);
   const [serviceSuper, setServiceSuper] = useState<any>(null);
   const navigate = useNavigate();
+
+  
   const fetchCategories = async () => {
     try {
       setIsLoading(true);
@@ -248,8 +250,8 @@ const Categories = () => {
                           src={getImageUrlCategory(category.image)}
                           alt={category.name}
                           className="category-image"
-                          loading="lazy"
-                          decoding="async"
+                          // loading="lazy"
+                          // decoding="async"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src = `${NO_IMAGE_URL}`;
@@ -267,8 +269,8 @@ const Categories = () => {
                 <img
                   src={`${NO_IMAGE_URL}`}
                   alt="No services found"
-                  loading="lazy"
-                  decoding="async"
+                  // loading="lazy"
+                  // decoding="async"
                   className="categories-empty-image"
                 />
                 <h4 className="categories-empty-title">No services found</h4>
@@ -344,8 +346,8 @@ const Categories = () => {
               src={getImageUrlCategory(category.image)}
               alt={category.name}
               className="category-image"
-              loading="lazy"
-              decoding="async"
+              // loading="lazy"
+              // decoding="async"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src = `${NO_IMAGE_URL}`;
@@ -389,8 +391,8 @@ const Categories = () => {
             src={getImageUrlCategory(category.image)}
             alt={category.name}
             className="service-grid-category-image"
-            loading="lazy"
-            decoding="async"
+            // loading="lazy"
+            // decoding="async"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = `${NO_IMAGE_URL}`;
@@ -423,8 +425,8 @@ const Categories = () => {
                       src={getImageUrl(service.service_image)}
                      
                       alt={service.service}
-                      loading="lazy"
-                      decoding="async"
+                      // loading="lazy"
+                      // decoding="async"
                     />
                   </div>
                   <div className="popular-service-home-card-overlay"></div>
@@ -456,8 +458,8 @@ const Categories = () => {
                                        <img
                                          src={getImageUrl(service.service_image)}
                                          className="w-100 h-100"
-                                         loading="lazy"
-                 decoding="async"
+                 //                         loading="lazy"
+                 // decoding="async"
                                          alt={service.service}
                                          style={{ objectFit: 'cover' }}
                                          onError={(e) => {
@@ -505,8 +507,8 @@ const Categories = () => {
                       <img
                         src={getImageUrl(service.service_image)}
                         className="categories-card-image"
-                        loading="lazy"
-                        decoding="async"
+                        // loading="lazy"
+                        // decoding="async"
                         alt={service.service}
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
@@ -644,8 +646,8 @@ const Categories = () => {
                               src={getImageUrl(subService.service_sub_image, true)}
                               alt={subService.service_sub}
                               className="img-fluid object-fit-cover"
-                              loading="lazy"
-                              decoding="async"
+                              // loading="lazy"
+                              // decoding="async"
                               style={{ 
                                 objectPosition: 'center',
                                 height: '100%',

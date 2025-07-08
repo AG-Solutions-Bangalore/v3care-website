@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import * as Icon from 'react-feather';
 import { BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL, SERVICE_SUPER_IMAGE_URL } from '../../../baseConfig/BaseUrl';
@@ -29,19 +29,46 @@ interface ServiceSub {
 
 const ServiceGrid = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const branchId = localStorage.getItem("branch_id");
   const city = localStorage.getItem("city");
   const [serviceSupers, setServiceSupers] = useState<ServiceSuper[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [filteredServices, setFilteredServices] = useState<Service[]>([]);
-  const [activeSuperCategory, setActiveSuperCategory] = useState<number | null>(null);
+  const [activeSuperCategory, setActiveSuperCategory] = useState<number | null>(
+    location.state?.activeSuperCategory || null
+  );
   const [loading, setLoading] = useState<boolean>(true);
+  const [categoryLoading, setCategoryLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(
+    location.state?.selectedService || null
+  );
   const [subServices, setSubServices] = useState<ServiceSub[]>([]);
-  const [showSubServiceModal, setShowSubServiceModal] = useState(false);
+  const [showSubServiceModal, setShowSubServiceModal] = useState(
+    location.state?.keepModalOpen || false
+  );
   const [subServiceLoading, setSubServiceLoading] = useState(false);
   const [serviceSuper, setServiceSuper] = useState<any>(null);
+
+  const SkeletonLoader = () => {
+    return (
+      <div className="service-grid-grid">
+        {[...Array(8)].map((_, index) => (
+          <div key={index} className="service-grid-card skeleton">
+            <div className="service-grid-card-image shimmer"></div>
+            <div className="service-grid-card-content">
+              <div className="service-grid-card-title shimmer"></div>
+              <div className="service-grid-card-footer shimmer">
+                <div className="shimmer-circle"></div>
+                <div className="shimmer-button"></div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   const fetchServiceSupers = async () => {
     try {
@@ -49,9 +76,13 @@ const ServiceGrid = () => {
       setError(null);
       const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-super-out/${branchId}`);
       setServiceSupers(response.data.serviceSuper || []);
-      if (response.data.serviceSuper?.length > 0) {
-        setActiveSuperCategory(response.data.serviceSuper[0].id);
-        fetchServicesBySuperCategory(response.data.serviceSuper[0].id);
+      
+      if (!activeSuperCategory && response.data.serviceSuper?.length > 0) {
+        const initialCategory = response.data.serviceSuper[0].id;
+        setActiveSuperCategory(initialCategory);
+        fetchServicesBySuperCategory(initialCategory);
+      } else if (activeSuperCategory) {
+        fetchServicesBySuperCategory(activeSuperCategory);
       }
     } catch (error) {
       console.error('Failed to fetch service supers:', error);
@@ -63,7 +94,7 @@ const ServiceGrid = () => {
 
   const fetchServicesBySuperCategory = async (superCategoryId: number) => {
     try {
-      setLoading(true);
+      setCategoryLoading(true);
       setError(null);
       const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-out/${superCategoryId}/${branchId}`);
       setServices(response.data.service || []);
@@ -73,9 +104,20 @@ const ServiceGrid = () => {
       console.error('Error fetching services:', error);
       setError('Failed to load services. Please try again later.');
     } finally {
-      setLoading(false);
+      setCategoryLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (location.state?.keepModalOpen && location.state?.selectedService && activeSuperCategory) {
+      const { selectedService } = location.state;
+      setSelectedService(selectedService);
+      const superCategory = serviceSupers.find(superCat => superCat.id === activeSuperCategory);
+      if (superCategory) {
+        fetchSubServices(selectedService.id, selectedService.service, superCategory.serviceSuper, activeSuperCategory);
+      }
+    }
+  }, [ activeSuperCategory, serviceSupers]);
 
   const fetchSubServices = async (serviceId: number, serviceName: string, superCategory: string, superCategoryId: number) => {
     try {
@@ -85,26 +127,51 @@ const ServiceGrid = () => {
       if (response.data.servicesub && response.data.servicesub.length > 0) {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
-      } else {
-        const superCategoryUrl = serviceSupers.find(cat => cat.id === superCategoryId)?.serviceSuper_url;
-        navigate(`/pricing/${superCategoryUrl}/${superCategoryId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
+        
+        navigate('.', {
           state: {
-            service_id: serviceId,
-            service_name: serviceName
-          }
+            keepModalOpen: true,
+            selectedService: services.find(s => s.id === serviceId),
+            activeSuperCategory: superCategoryId,
+            from: 'service-grid'
+          },
+          replace: true
         });
+      } else {
+        navigateToServiceDetails(serviceId, serviceName, superCategoryId);
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      const superCategoryUrl = serviceSupers.find(cat => cat.id === superCategoryId)?.serviceSuper_url;
-      navigate(`/pricing/${superCategoryUrl}/${superCategoryId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
-        state: {
-          service_id: serviceId,
-          service_name: serviceName
-        }
-      });
+      navigateToServiceDetails(serviceId, serviceName, superCategoryId);
     } finally {
       setSubServiceLoading(false);
+    }
+  };
+
+  const navigateToServiceDetails = (serviceId: number, serviceName: string, superCategoryId: number) => {
+    const superCategoryUrl = serviceSupers.find(cat => cat.id === superCategoryId)?.serviceSuper_url;
+    navigate(`/pricing/${superCategoryUrl}/${superCategoryId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
+      state: {
+        service_id: serviceId,
+        service_name: serviceName,
+        from: 'service-only'
+      }
+    });
+  };
+
+  const navigateToSubServiceDetails = (subService: ServiceSub) => {
+    if (!selectedService || !activeSuperCategory) return;
+    
+    const superCategory = serviceSupers.find(cat => cat.id === activeSuperCategory);
+    if (superCategory) {
+      navigate(`/pricing/${superCategory.serviceSuper_url}/${activeSuperCategory}/${encodeURIComponent(selectedService.service)}/${selectedService.id}/${encodeURIComponent(subService.service_sub)}/${subService.id}`, {
+        state: {
+          keepModalOpen: true,
+          selectedService,
+          activeSuperCategory,
+          from: 'subservice-modal'
+        }
+      });
     }
   };
 
@@ -118,43 +185,41 @@ const ServiceGrid = () => {
 
   const handleSuperCategoryClick = (superCategoryId: number) => {
     setActiveSuperCategory(superCategoryId);
+    setCategoryLoading(true); 
     fetchServicesBySuperCategory(superCategoryId);
+    setShowSubServiceModal(false);
+    setSelectedService(null);
+  };
+
+  const handleCloseModal = () => {
+    setShowSubServiceModal(false);
+    setSelectedService(null);
+    navigate('.', {
+      state: {
+        keepModalOpen: false,
+        selectedService: null,
+        activeSuperCategory,
+        from: 'service-grid'
+      },
+      replace: true
+    });
   };
 
   const getImageUrl = (imageName: string | null, isSubService = false) => {
-    if (!imageName) {
-      return `${NO_IMAGE_URL}`;
-    }
+    if (!imageName) return `${NO_IMAGE_URL}`;
     return isSubService 
       ? `${SERVICE_SUB_IMAGE_URL}/${imageName}`
       : `${SERVICE_IMAGE_URL}/${imageName}`;
   };
 
   const getImageUrlCategory = (image: string | null) => {
-    if (!image) {
-      return `${NO_IMAGE_URL}`;
-    }
+    if (!image) return `${NO_IMAGE_URL}`;
     return `${SERVICE_SUPER_IMAGE_URL}/${image}`;
   };
 
   useEffect(() => {
     fetchServiceSupers();
   }, []);
-
-  const SkeletonLoader = () => {
-    return (
-      <div className="service-grid-grid">
-        {[...Array(8)].map((_, index) => (
-          <div key={index} className="service-grid-card skeleton">
-            <div className="service-grid-card-image shimmer"></div>
-            <div className="service-grid-card-content">
-              <div className="service-grid-card-title shimmer"></div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  };
 
   if (loading && serviceSupers.length === 0) {
     return (
@@ -201,132 +266,126 @@ const ServiceGrid = () => {
       <HomeHeader />
       
       <div className="service-grid-container">
-  <div className="service-grid-content">
-    <div className="service-grid-header">
-      <div className="service-grid-title-wrapper">
-        <h2 className="service-grid-main-title">{serviceSuper?.serviceSuper || "Our Services"}</h2>
-        <p className="service-grid-subtitle">Choose from our wide range of professional services</p>
-      </div>
-      <div className="service-grid-nav-and-list">
-        <div className="service-grid-nav">
-          <button className="service-grid-nav-button" onClick={() => {
-            const container = document.querySelector('.service-grid-list');
-            if (container) container.scrollBy({ left: -200, behavior: 'smooth' });
-          }}>
-            <Icon.ChevronLeft size={16} />
-          </button>
-          <button className="service-grid-nav-button" onClick={() => {
-            const container = document.querySelector('.service-grid-list');
-            if (container) container.scrollBy({ left: 200, behavior: 'smooth' });
-          }}>
-            <Icon.ChevronRight size={16} />
-          </button>
-        </div>
-        <div className="service-grid-list">
-          {serviceSupers.map((superCat) => (
-            <div 
-              key={superCat.id}
-              className={`service-grid-category-item ${activeSuperCategory === superCat.id ? 'active' : ''}`}
-              onClick={() => handleSuperCategoryClick(superCat.id)}
-            >
-              <div className="service-grid-category-card">
-                <img
-                  src={getImageUrlCategory(superCat.serviceSuper_image)}
-                  alt={superCat.serviceSuper}
-                  className="service-grid-category-image"
-                  loading="lazy"
-                  decoding="async"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = `${NO_IMAGE_URL}`;
-                  }}
-                />
-                <span className="service-grid-category-name">{superCat.serviceSuper}</span>
+        <div className="service-grid-content">
+          <div className="service-grid-header">
+            <div className="service-grid-title-wrapper">
+              <h2 className="service-grid-main-title">{serviceSuper?.serviceSuper || "Our Services"}</h2>
+              <p className="service-grid-subtitle">Choose from our wide range of professional services</p>
+            </div>
+            <div className="service-grid-nav-and-list">
+              <div className="service-grid-nav">
+                <button className="service-grid-nav-button" onClick={() => {
+                  const container = document.querySelector('.service-grid-list');
+                  if (container) container.scrollBy({ left: -200, behavior: 'smooth' });
+                }}>
+                  <Icon.ChevronLeft size={16} />
+                </button>
+                <button className="service-grid-nav-button" onClick={() => {
+                  const container = document.querySelector('.service-grid-list');
+                  if (container) container.scrollBy({ left: 200, behavior: 'smooth' });
+                }}>
+                  <Icon.ChevronRight size={16} />
+                </button>
+              </div>
+              <div className="service-grid-list">
+                {serviceSupers.map((superCat) => (
+                  <div 
+                    key={superCat.id}
+                    className={`service-grid-category-item ${activeSuperCategory === superCat.id ? 'active' : ''}`}
+                    onClick={() => handleSuperCategoryClick(superCat.id)}
+                  >
+                    <div className="service-grid-category-card">
+                      <img
+                        src={getImageUrlCategory(superCat.serviceSuper_image)}
+                        alt={superCat.serviceSuper}
+                        className="service-grid-category-image"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `${NO_IMAGE_URL}`;
+                        }}
+                      />
+                      <span className="service-grid-category-name">{superCat.serviceSuper}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
-
-    {loading && filteredServices.length === 0 ? (
-      <SkeletonLoader />
-    ) : error && filteredServices.length === 0 ? (
-      <div className="service-grid-error-container">
-        <div className="service-grid-error-content">
-          <Icon.AlertCircle className="service-grid-error-icon" size={18} />
-          <span>{error}</span>
-          <button
-            className="service-grid-error-button"
-            onClick={() => activeSuperCategory && fetchServicesBySuperCategory(activeSuperCategory)}
-          >
-            <Icon.RefreshCw className="me-1" size={14} />
-            Try Again
-          </button>
-        </div>
-      </div>
-    ) : filteredServices.length === 0 ? (
-      <div className="service-grid-empty-container">
-        <div className="service-grid-empty-content">
-          <img
-            src={`${NO_IMAGE_URL}`}
-            alt="No services found"
-            loading="lazy"
-            decoding="async"
-            className="service-grid-empty-image"
-          />
-          <h4 className="service-grid-empty-title">No services found</h4>
-          <p className="service-grid-empty-text">We could not find any services in this category.</p>
-        </div>
-      </div>
-    ) : (
-<div className="service-grid-grid">
-  {filteredServices.map((service) => (
-    <div key={service.id} className="service-grid-card-wrapper">
-      <div 
-        className="service-grid-card"
-        onClick={() => handleServiceClick(service)}
-      >
-        <div className="service-grid-card-image-container">
-          <img
-            src={getImageUrl(service.service_image)}
-            className="service-grid-card-image"
-            loading="lazy"
-            decoding="async"
-            alt={service.service}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = `${NO_IMAGE_URL}`;
-            }}
-          />
-        </div>
-        <div className="service-grid-card-content">
-          <h5 className="service-grid-card-title">{service.service}</h5>
-          <div className="service-grid-card-footer">
-            <span className="service-grid-card-city">
-              <Icon.MapPin className="service-grid-card-icon" size={12} />
-              <span>{city}</span>
-            </span>
-            <button 
-              className="service-grid-book-now-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleServiceClick(service);
-              }} 
-            >
-              Book Now
-            </button>
           </div>
+
+          {categoryLoading ? (
+            <SkeletonLoader />
+          ) : error && filteredServices.length === 0 ? (
+            <div className="service-grid-error-container">
+              <div className="service-grid-error-content">
+                <Icon.AlertCircle className="service-grid-error-icon" size={18} />
+                <span>{error}</span>
+                <button
+                  className="service-grid-error-button"
+                  onClick={() => activeSuperCategory && fetchServicesBySuperCategory(activeSuperCategory)}
+                >
+                  <Icon.RefreshCw className="me-1" size={14} />
+                  Try Again
+                </button>
+              </div>
+            </div>
+          ) : filteredServices.length === 0 ? (
+            <div className="service-grid-empty-container">
+              <div className="service-grid-empty-content">
+                <img
+                  src={`${NO_IMAGE_URL}`}
+                  alt="No services found"
+                  className="service-grid-empty-image"
+                />
+                <h4 className="service-grid-empty-title">No services found</h4>
+                <p className="service-grid-empty-text">We could not find any services in this category.</p>
+              </div>
+            </div>
+          ) : (
+            <div className="service-grid-grid">
+              {filteredServices.map((service) => (
+                <div key={service.id} className="service-grid-card-wrapper">
+                  <div 
+                    className="service-grid-card"
+                    onClick={() => handleServiceClick(service)}
+                  >
+                    <div className="service-grid-card-image-container">
+                      <img
+                        src={getImageUrl(service.service_image)}
+                        className="service-grid-card-image"
+                        alt={service.service}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `${NO_IMAGE_URL}`;
+                        }}
+                      />
+                    </div>
+                    <div className="service-grid-card-content">
+                      <h5 className="service-grid-card-title">{service.service}</h5>
+                      <div className="service-grid-card-footer">
+                        <span className="service-grid-card-city">
+                          <Icon.MapPin className="service-grid-card-icon" size={12} />
+                          <span>{city}</span>
+                        </span>
+                        <button 
+                          className="service-grid-book-now-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleServiceClick(service);
+                          }} 
+                        >
+                          Book Now
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-    </div>
-  ))}
-</div>
-    )}
-  </div>
-</div>
 
-      {/* Sub-Service Modal - Unchanged */}
+      {/* Sub-Service Modal */}
       {showSubServiceModal && (
         <div className="modal fade show d-block" style={{ 
           backgroundColor: 'rgba(0,0,0,0.3)',
@@ -353,7 +412,7 @@ const ServiceGrid = () => {
                 <button 
                   type="button" 
                   className="btn-close btn-close-white" 
-                  onClick={() => setShowSubServiceModal(false)}
+                  onClick={handleCloseModal}
                   aria-label="Close"
                 />
               </div>
@@ -379,19 +438,7 @@ const ServiceGrid = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3">
                         <div 
                           className="card h-100 border-0 overflow-hidden position-relative"
-                          onClick={() => {
-                            const superCategory = serviceSupers.find(superCat => superCat.id === activeSuperCategory);
-                            if (superCategory) {
-                                navigate(`/pricing/${superCategory.serviceSuper_url}/${superCategory.id}/${selectedService?.service}/${selectedService?.id}/${encodeURIComponent(subService.service_sub)}/${subService?.id}`, {
-                                    state: {
-                                        service_id: selectedService?.id,
-                                        service_name: selectedService?.service,
-                                        service_sub_id: subService.id,
-                                        service_sub_name: subService.service_sub
-                                    }
-                                });
-                            }
-                          }}
+                          onClick={() => navigateToSubServiceDetails(subService)}
                           style={{
                             cursor: 'pointer',
                             transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -414,8 +461,6 @@ const ServiceGrid = () => {
                               src={getImageUrl(subService.service_sub_image, true)}
                               alt={subService.service_sub}
                               className="img-fluid"
-                              loading="lazy"
-                              decoding="async"
                               style={{ 
                                 objectFit: 'cover',
                                 objectPosition: 'center',
@@ -456,7 +501,7 @@ const ServiceGrid = () => {
                 <button 
                   type="button" 
                   className="btn btn-sm px-3 fw-medium"
-                  onClick={() => setShowSubServiceModal(false)}
+                  onClick={handleCloseModal}
                   style={{
                     fontSize: '0.8rem',
                     backgroundColor: '#000000',

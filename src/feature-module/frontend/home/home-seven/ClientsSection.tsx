@@ -120,8 +120,8 @@ const ClientsSection = () => {
                     src={getClientImageUrl(client.client_image)}
                     alt={client.client_name}
                     className="home-client-img"
-                    loading="lazy"
-                    decoding="async"
+                    // loading="lazy"
+                    // decoding="async"
                   />
                 </div>
               ))}

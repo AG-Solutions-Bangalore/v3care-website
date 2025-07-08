@@ -204,8 +204,8 @@ const PopularService = () => {
                           <img
                             src={getImageUrlService(service.service_image)}
                             alt={service.service}
-                            loading="lazy"
-                            decoding="async"
+                            // loading="lazy"
+                            // decoding="async"
                           />
                           <div className="popular-service-home-card-overlay"></div>
                           <div className="popular-service-home-card-badge">
@@ -256,8 +256,8 @@ const PopularService = () => {
                             <img
                               src={getImageUrlService(service.service_image)}
                               alt={service.service}
-                              loading="lazy"
-                              decoding="async"
+                              // loading="lazy"
+                              // decoding="async"
                             />
                             <div className="popular-service-home-card-overlay"></div>
                             <div className="popular-service-home-card-badge">
@@ -367,8 +367,8 @@ const PopularService = () => {
                               src={getImageUrlService(subService.service_sub_image, true)}
                               alt={subService.service_sub}
                               className="img-fluid object-fit-cover"
-                              loading="lazy"
-                              decoding="async"
+                              // loading="lazy"
+                              // decoding="async"
                               style={{ 
                                 objectPosition: 'center',
                                 height: '100%',

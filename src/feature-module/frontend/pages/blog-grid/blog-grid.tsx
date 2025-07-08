@@ -164,8 +164,8 @@ const BlogGrid = () => {
                           
                             src={`${BLOG_IMAGE_URL}/${blog.blogs_image}`}
                             className="img-fluid rounded-top w-100"
-                            loading="lazy"
-  decoding="async"
+  //                           loading="lazy"
+  // decoding="async"
                             alt="img"
                           />
                         </Link>

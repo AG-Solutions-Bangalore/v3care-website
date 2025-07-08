@@ -113,7 +113,81 @@
 .required {
   color: #dc3545;
 }
+/*........................................*/
 
+
+
+
+
+
+
+/* OTP Verification Styles */
+.otp-verification-container {
+    width: 100%;
+  }
+  
+  .otp-input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .otp-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+  
+  .btn-verify-otp {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-verify-otp:hover {
+    background-color: #218838;
+  }
+  
+  .btn-verify-otp:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .resend-otp-container {
+    text-align: center;
+  }
+  
+  .btn-resend-otp {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: underline;
+  }
+  
+  .btn-resend-otp:hover {
+    color: #0056b3;
+  }
+  
+  .btn-resend-otp:disabled {
+    color: #6c757d;
+    cursor: not-allowed;
+  }
+
+
+
+
+/*.......................................*/
 .form-group input,
 .form-group textarea,
 .form-group select {
@@ -196,6 +270,10 @@
   border-radius: 4px;
 }
 
+.resend-timer {
+  color: #666;
+  font-size: 0.9rem;
+}
 .btn-clear-cart:hover {
   background: rgba(220, 53, 69, 0.1);
 }

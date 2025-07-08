@@ -104,8 +104,8 @@ const Client = () => {
                           <img
                             src={getImageUrl(client.client_image)}
                             alt={client.client_name}
-                            loading="lazy"
-  decoding="async"
+  //                           loading="lazy"
+  // decoding="async"
                             className="img-fluid h-100 w-auto  transition-all"
                             style={{ objectFit: 'contain', transition: 'all 0.3s ease' }}
                           />

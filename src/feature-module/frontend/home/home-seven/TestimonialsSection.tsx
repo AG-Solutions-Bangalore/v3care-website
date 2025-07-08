@@ -133,8 +133,8 @@ const TestimonialsSection = () => {
                           src={getTestimonialImageUrl(testimonial.testimonial_image)}
                           alt={testimonial.testimonial_user}
                           className="img-fluid"
-                          loading="lazy"
-  decoding="async"
+  //                         loading="lazy"
+  // decoding="async"
                         />
                         <div className="testimonials-img-content">
                           <h6>{testimonial.testimonial_user}</h6>

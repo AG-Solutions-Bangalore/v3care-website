@@ -89,16 +89,7 @@ const BlogGrid = () => {
     }
   }
 
-  const slugify = (text: string): string => {
-    return text
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-')           
-      .replace(/[^\w-]+/g, '')       
-      .replace(/--+/g, '-')           
-      .replace(/^-+|-+$/g, '');      
-  };
-  
+ 
   
   if (loading && blogs.length === 0) {
     return (
@@ -159,7 +150,7 @@ const BlogGrid = () => {
                   <div className="card p-0">
                     <div className="card-body p-0">
                       <div className="img-sec w-100">
-                      <Link to={`${routes.blogDetails}/${slugify(blog.blogs_heading)}/${blog.id}`}>
+                      <Link to={`${routes.blogDetails}/${blog.blogs_slug}`}>
                           <img
                           
                             src={`${BLOG_IMAGE_URL}/${blog.blogs_image}`}
@@ -204,7 +195,7 @@ const BlogGrid = () => {
                               minHeight: '3em',
                             }}
                           >
-<Link to={`${routes.blogDetails}/${slugify(blog.blogs_heading)}/${blog.id}`}>
+<Link to={`${routes.blogDetails}/${blog.blogs_slug}`}>
 
                             {blog.blogs_heading}
                             </Link>

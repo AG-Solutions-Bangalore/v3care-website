@@ -15,12 +15,14 @@ interface Service {
   service: string;
   service_image: string | null;
   serviceSuper: string;
+  service_slug:string;
 }
 
 interface ServiceSub {
   id: number;
   service_sub: string;
   service_sub_image: string | null;
+  service_sub_slug:string
 }
 interface Category {
   id: number;
@@ -76,8 +78,8 @@ const Categories = () => {
       setLoading(true);
       setError(null);
       const url = id 
-        ? `${BASE_URL}/api/panel-fetch-web-service-out/${decryptedId}/${branchId}`
-        : `${BASE_URL}/api/panel-fetch-web-service-out/2/2`;
+        ? `${BASE_URL}/api/panel-fetch-web-service-out/${category_name}/${branchId}`
+        : `${BASE_URL}/api/panel-fetch-web-service-out/${category_name}/2`;
       
       const response = await axios.get<{
         serviceSuper: null; service: Service[] 
@@ -92,18 +94,18 @@ const Categories = () => {
     }
   };
 
-  const fetchSubServices = async (serviceId: number, serviceName: string) => {
+  const fetchSubServices = async (serviceId: number, serviceUrl:string, serviceName: string) => {
     try {
       setSubServiceLoading(true);
       const response = await axios.get<{ servicesub: ServiceSub[] }>(
-        `${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceId}/${branchId}`
+        `${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceUrl}/${branchId}`
       );
       
       if (response.data.servicesub && response.data.servicesub.length > 0) {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate(`/pricing/${category_name}/${decryptedId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
+        navigate(`/pricing/${category_name}/${encodeURIComponent(serviceUrl)}`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -112,7 +114,7 @@ const Categories = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate(`/pricing/${category_name}/${decryptedId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
+      navigate(`/pricing/${category_name}/${encodeURIComponent(serviceUrl)}`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -125,7 +127,7 @@ const Categories = () => {
 
   const handleServiceClick = (service: Service) => {
     setSelectedService(service);
-    fetchSubServices(service.id, service.service);
+    fetchSubServices(service.id ,service.service_slug, service.service);
   };
 
   const getImageUrl = (imageName: string | null, isSubService = false) => {
@@ -148,7 +150,7 @@ const Categories = () => {
     }, []);
   useEffect(() => {
     fetchServices();
-  }, [id]);
+  }, [category_name]);
 
   const SkeletonLoader = () => {
     return (
@@ -250,8 +252,7 @@ const Categories = () => {
                           src={getImageUrlCategory(category.image)}
                           alt={category.name}
                           className="category-image"
-                          // loading="lazy"
-                          // decoding="async"
+                       
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src = `${NO_IMAGE_URL}`;
@@ -269,8 +270,7 @@ const Categories = () => {
                 <img
                   src={`${NO_IMAGE_URL}`}
                   alt="No services found"
-                  // loading="lazy"
-                  // decoding="async"
+               
                   className="categories-empty-image"
                 />
                 <h4 className="categories-empty-title">No services found</h4>
@@ -319,49 +319,8 @@ const Categories = () => {
     <h2 className="categories-main-title">{serviceSuper?.serviceSuper || "Our Services"}</h2>
     <p className="categories-subtitle">Choose from our wide range of professional services</p>
   </div>
-  {/*<div className="categories-nav-and-list">
-    <div className="categories-nav">
-      <button className="categories-nav-button" onClick={() => {
-        const container = document.querySelector('.categories-list');
-        if (container) container.scrollBy({ left: -200, behavior: 'smooth' });
-      }}>
-        <Icon.ChevronLeft size={16} />
-      </button>
-      <button className="categories-nav-button" onClick={() => {
-        const container = document.querySelector('.categories-list');
-        if (container) container.scrollBy({ left: 200, behavior: 'smooth' });
-      }}>
-        <Icon.ChevronRight size={16} />
-      </button>
-    </div>
-    <div className="categories-list">
-      {categories.map((category) => (
-        <Link 
-          key={category.id}
-          to={`/${encodeURIComponent(category.url)}/${encryptId(category.id)}`}
-          className="category-item"
-        >
-          <div className="category-card">
-            <img
-              src={getImageUrlCategory(category.image)}
-              alt={category.name}
-              className="category-image"
-              // loading="lazy"
-              // decoding="async"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = `${NO_IMAGE_URL}`;
-              }}
-            />
-            <span className="category-name">{category.name}</span>
-            
-          </div>
-        </Link>
-      ))}
 
 
-    </div>
-  </div>*/}
  <div className="service-grid-nav-and-list">
   <div className="service-grid-nav">
     <button className="service-grid-nav-button" onClick={() => {
@@ -381,18 +340,17 @@ const Categories = () => {
     {categories.map((category) => (
       <div 
         key={category.id}
-        className={`service-grid-category-item ${decryptedId === category.id.toString() ? 'active' : ''}`}
+        className={`service-grid-category-item ${category_name === category.url ? 'active' : ''}`}
       >
         <Link 
-          to={`/${encodeURIComponent(category.url)}/${encryptId(category.id)}`}
+          to={`/${encodeURIComponent(category.url)}`}
           className="service-grid-category-card"
         >
           <img
             src={getImageUrlCategory(category.image)}
             alt={category.name}
             className="service-grid-category-image"
-            // loading="lazy"
-            // decoding="async"
+          
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = `${NO_IMAGE_URL}`;
@@ -410,88 +368,7 @@ const Categories = () => {
 
 </div>
           
-        {/*  {loading ? (
-            <SkeletonLoader />
-          ) : (
-            <div className="categories-grid">
-              {services.map((service: Service) => (
-                <div 
-                  key={service.id} 
-               className="popular-service-home-card featured-card"
-                  onClick={() => handleServiceClick(service)}
-                >
-                  <div className="popular-service-home-card-image">
-                    <img
-                      src={getImageUrl(service.service_image)}
-                     
-                      alt={service.service}
-                      // loading="lazy"
-                      // decoding="async"
-                    />
-                  </div>
-                  <div className="popular-service-home-card-overlay"></div>
-                    <div className="popular-service-home-card-badge">
-                      {service.service}
-                    </div>
-                </div>
-              ))}
-              {services.map((service: Service) => (
-                 <div key={service.id} className="col-xl-3 col-lg-4 col-md-6">
-                                   <div 
-                                     className="card h-100 border-0 overflow-hidden position-relative"
-                                     onClick={() => handleServiceClick(service)}
-                                 
-                                     style={{
-                                       transition: 'all 0.2s',
-                                       cursor: 'pointer'
-                                     }}
-                                     onMouseOver={(e) => {
-                                       e.currentTarget.style.boxShadow = '0 0.5rem 1rem rgba(0, 0, 0, 0.15)';
-                                       e.currentTarget.style.transform = 'translateY(-5px)';
-                                     }}
-                                     onMouseOut={(e) => {
-                                       e.currentTarget.style.boxShadow = '';
-                                       e.currentTarget.style.transform = '';
-                                     }}
-                                   >
-                                     <div className="position-relative" style={{ height: '160px' }}>
-                                       <img
-                                         src={getImageUrl(service.service_image)}
-                                         className="w-100 h-100"
-                 //                         loading="lazy"
-                 // decoding="async"
-                                         alt={service.service}
-                                         style={{ objectFit: 'cover' }}
-                                         onError={(e) => {
-                                           const target = e.target as HTMLImageElement;
-                                           target.src = `${NO_IMAGE_URL}`;
-                                         }}
-                                       />
-                                      
-                                     
-                                     </div>
-                                     <div className="card-body p-3">
-                                       <h5 className="card-title mb-1 fs-15 fw-medium text-truncate">{service.service}</h5>
-                                       <div className="d-flex justify-content-between align-items-center mt-2">
-                                         <span className="small text-muted d-flex align-items-center">
-                                           <Icon.MapPin className="me-1" size={12} />
-                                           <span>{city}</span>
-                                         </span>
-                                       
-                                         <button 
-                className='book-now-btn'
-                 onClick={() => handleServiceClick(service)} 
-               >
-                 Book Now
-               </button>
-               
-                                       </div>
-                                     </div>
-                                   </div>
-                                 </div>
-              ))}
-            </div>
-          )}*/}
+      
 
 {loading ? (
   <SkeletonLoader />
@@ -604,7 +481,7 @@ const Categories = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3" >
                         <div 
                           className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                          onClick={() => navigate(`/pricing/${category_name}/${decryptedId}/${selectedService?.service}/${selectedService?.id}/${subService.service_sub}/${subService?.id}`, {
+                          onClick={() => navigate(`/pricing/${category_name}/${selectedService?.service_slug}/${subService.service_sub_slug}`, {
                             state: {
                               service_id: selectedService?.id,
                               service_name: selectedService?.service,
@@ -612,18 +489,7 @@ const Categories = () => {
                               service_sub_name: subService.service_sub
                             }
                           })}
-                          // onClick={() => {
-                          //   if (selectedService) {
-                          //     navigate(`/pricing/${category_name}/${id}/${selectedService.service}/${encryptId(selectedService.id)}/${subService.service_sub}/${encryptId(subService.id)}`, {
-                          //       state: {
-                          //         service_id: selectedService.id,
-                          //         service_name: selectedService.service,
-                          //         service_sub_id: subService.id,
-                          //         service_sub_name: subService.service_sub
-                          //       }
-                          //     });
-                          //   }
-                          // }}
+                         
                           style={{
                             cursor: 'pointer',
                             transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -646,8 +512,7 @@ const Categories = () => {
                               src={getImageUrl(subService.service_sub_image, true)}
                               alt={subService.service_sub}
                               className="img-fluid object-fit-cover"
-                              // loading="lazy"
-                              // decoding="async"
+                       
                               style={{ 
                                 objectPosition: 'center',
                                 height: '100%',

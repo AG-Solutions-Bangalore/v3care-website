@@ -153,7 +153,7 @@ const BlogSection = () => {
                     <div className="home-blog-card">
                       <div className="home-blog-card-body">
                         <div className="home-blog-img-container">
-                          <Link to={`${routes.blogDetails}/${slugify(blog.blogs_heading)}/${blog.id}`}>
+                          <Link to={`${routes.blogDetails}/${blog.blogs_slug}`}>
                             <img
                               src={`${BLOG_IMAGE_URL}/${blog.blogs_image}`}
                               className="home-blog-img"
@@ -184,7 +184,7 @@ const BlogSection = () => {
                           </div>
                           <div>
                             <h5 className="home-blog-post-title">
-                              <Link to={`${routes.blogDetails}/${slugify(blog.blogs_heading)}/${blog.id}`}>
+                              <Link to={`${routes.blogDetails}/${blog.blogs_slug}`}>
                                 {blog.blogs_heading}
                               </Link>
                             </h5>

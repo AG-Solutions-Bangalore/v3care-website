@@ -86,7 +86,7 @@ const HeroSection = () => {
                   {categories.map((category, index) => (
                     <React.Fragment key={index}>
                       <Link 
-                        to={`/${encodeURIComponent(category.url)}/${encryptId(category.id)}`}
+                        to={`/${encodeURIComponent(category.url)}`}
                         className="hero-section-service-item"
                       >
                         <div className="hero-section-service-icon">

@@ -21,9 +21,13 @@ const ServiceDetails1 = () => {
 
   const params = useParams<{
     id?: string;
+
+
     category_name?: string;
     service_name?: string;
     service_sub_name?: string;
+
+
     service_id?: string;
     service_sub_id?: string;
   }>();
@@ -33,6 +37,8 @@ const ServiceDetails1 = () => {
     category_name = '',
     service_name = '',
     service_sub_name = '',
+
+    
     service_id = '',
     service_sub_id = '',
   } = params;
@@ -66,6 +72,8 @@ const ServiceDetails1 = () => {
   const [selectedPrices, setSelectedPrices] = useState<any[]>([]);
   const [serviceFAQ, setServiceFAQ] = useState<any[]>([]);
   const [serviceMeta, setServiceMeta] = useState<any>(null);
+ 
+  
   const [serviceIncludes, setServiceIncludes] = useState<string[]>([]);
 
   const [showFullText, setShowFullText] = useState<
@@ -109,8 +117,8 @@ const ServiceDetails1 = () => {
         `${BASE_URL}/api/panel-fetch-web-service-price-out`,
         {
           branch_id: branch_id,
-          order_service: service_id,
-          order_service_sub: service_sub_id,
+          order_service: service_name,
+          order_service_sub: service_sub_name,
         },
       );
 
@@ -118,6 +126,7 @@ const ServiceDetails1 = () => {
       // Set the service meta data
       if (response.data.service) {
         setServiceMeta(response.data.service);
+             
       }
     } catch (error) {
       console.error('Error fetching service prices:', error);
@@ -135,8 +144,8 @@ const ServiceDetails1 = () => {
       const response = await axios.post(
         `${BASE_URL}/api/panel-fetch-web-service-details-out`,
         {
-          service_id: service_id,
-          service_sub_id: service_sub_id,
+          service_id: service_name,
+          service_sub_id: service_sub_name,
         },
       );
 
@@ -156,16 +165,16 @@ const ServiceDetails1 = () => {
   };
 
   useEffect(() => {
-    if (service_id && branch_id) {
+    if (service_name && branch_id) {
       fetchServicePrices();
     }
-  }, [service_id, service_sub_id, branch_id]);
+  }, [service_name, service_sub_name, branch_id]);
 
   useEffect(() => {
-    if (service_id) {
+    if (service_name) {
       fetchServiceCard();
     }
-  }, [service_id, service_sub_id]);
+  }, [service_name, service_sub_name]);
 
   useEffect(() => {
     if (servicePrices.length > 0) {
@@ -585,10 +594,13 @@ const ServiceDetails1 = () => {
                                               price.service_price_rate,
                                             service_price_amount:
                                               price.service_price_amount,
+
                                             service_id: service_id,
                                             service_name: service_name,
                                             service_sub_id: service_sub_id,
                                             service_sub_name: service_sub_name,
+
+
                                             service_label: price?.status_label,
                                           }),
                                         );

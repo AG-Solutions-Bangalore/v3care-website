@@ -4,7 +4,7 @@ import StickyBox from 'react-sticky-box';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { all_routes } from '../../../../core/data/routes/all_routes';
-
+import { Helmet } from 'react-helmet-async';
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
@@ -28,8 +28,8 @@ interface BlogApiResponse {
 
 const BlogDetails = () => {
  const routes = all_routes;
-  const { id } = useParams<{ id: string }>();
 
+ const { id, blog_heading } = useParams<{ id?: string, blog_heading?: string }>();
   const [blog, setBlog] = useState<Blog | null>(null);
   const [otherBlogs, setOtherBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +41,7 @@ const BlogDetails = () => {
     const fetchBlogDetails = async () => {
       try {
         const response = await axios.get<BlogApiResponse>(
-          `${BASE_URL}/api/panel-fetch-web-blogs-out-by-id/${id}`
+          `${BASE_URL}/api/panel-fetch-web-blogs-out-by-id/${blog_heading}`
         );
         setBlog(response.data.blogs || null);
         setOtherBlogs(response.data.otherblogs || []);
@@ -51,8 +51,8 @@ const BlogDetails = () => {
       }
     };
 
-    if (id) fetchBlogDetails();
-  }, [id]);
+    if (blog_heading) fetchBlogDetails();
+  }, [blog_heading]);
 
 
   const slugify = (text: string): string => {
@@ -115,7 +115,7 @@ const BlogDetails = () => {
                         {otherBlogs.map((item) => (
                           <li key={item.id}>
                             <div className="post-thumb">
-                             <Link to={`${routes.blogDetails}/${slugify(item.blogs_heading)}/${item.id}`}>
+                             <Link to={`${routes.blogDetails}/${item.blogs_slug}`}>
                                 <img
                                   className="img-fluid"
                                   src={`${BLOG_IMAGE_URL}/${item.blogs_image}`}
@@ -126,7 +126,7 @@ const BlogDetails = () => {
                             <div className="post-info">
                             <p>{item.blogs_created_date}</p>
                               <h4>
-                              <Link to={`${routes.blogDetails}/${slugify(item.blogs_heading)}/${item.id}`}>
+                              <Link to={`${routes.blogDetails}/${item.blogs_slug}`}>
                                                                     {item.blogs_heading}
                                                                   </Link>
                               </h4>
@@ -148,7 +148,22 @@ const BlogDetails = () => {
 
   return (
     <>
-      <DefaultHelmet/>
+      <Helmet>
+          <title>
+            {blog?.blogs_meta_title && blog?.blogs_meta_title !== "null"
+              ? blog.blogs_meta_title
+              : "Best house cleaning service | V3 Care"}
+          </title>
+          {(blog?.blogs_meta_title &&
+            blog?.blogs_meta_title !== "null") && (
+            <meta name="title" content={blog.blogs_meta_title} />
+          )}
+          {(blog?.blogs_meta_description &&
+            blog?.blogs_meta_description !== "null") && (
+            <meta name="description" content={blog.blogs_meta_description} />
+          )}
+          
+        </Helmet>
      <HomeHeader  />
       {/* <BreadCrumb title='Blog Details' item1='Home' item2='Blog Details'/> */}
       <div className="page-wrapper">
@@ -217,7 +232,7 @@ const BlogDetails = () => {
                         {otherBlogs.map((item) => (
                           <li key={item.id}>
                             <div className="post-thumb">
-                            <Link to={`${routes.blogDetails}/${slugify(item.blogs_heading)}/${item.id}`}>
+                            <Link to={`${routes.blogDetails}/${item.blogs_slug}`}>
                                 <img
                                   className="img-fluid"
                                   src={`${BLOG_IMAGE_URL}/${item.blogs_image}`}
@@ -230,7 +245,7 @@ const BlogDetails = () => {
                             <div className="post-info">
                             <p>{item.blogs_created_date}</p>
                               <h4>
-                              <Link to={`${routes.blogDetails}/${slugify(item.blogs_heading)}/${item.id}`}>
+                              <Link to={`${routes.blogDetails}/${item.blogs_slug}`}>
                                                                 {item.blogs_heading}
                                                               </Link>
                               </h4>

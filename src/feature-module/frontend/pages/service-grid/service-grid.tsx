@@ -19,12 +19,14 @@ interface Service {
   id: number;
   service: string;
   service_image: string | null;
+   service_slug:string;
 }
 
 interface ServiceSub {
   id: number;
   service_sub: string;
   service_sub_image: string | null;
+  service_sub_slug:string
 }
 
 const ServiceGrid = () => {
@@ -78,7 +80,7 @@ const ServiceGrid = () => {
       setServiceSupers(response.data.serviceSuper || []);
       
       if (!activeSuperCategory && response.data.serviceSuper?.length > 0) {
-        const initialCategory = response.data.serviceSuper[0].id;
+        const initialCategory = response.data.serviceSuper[0].serviceSuper_url;
         setActiveSuperCategory(initialCategory);
         fetchServicesBySuperCategory(initialCategory);
       } else if (activeSuperCategory) {
@@ -92,7 +94,7 @@ const ServiceGrid = () => {
     }
   };
 
-  const fetchServicesBySuperCategory = async (superCategoryId: number) => {
+  const fetchServicesBySuperCategory = async (superCategoryId: string) => {
     try {
       setCategoryLoading(true);
       setError(null);
@@ -112,17 +114,20 @@ const ServiceGrid = () => {
     if (location.state?.keepModalOpen && location.state?.selectedService && activeSuperCategory) {
       const { selectedService } = location.state;
       setSelectedService(selectedService);
-      const superCategory = serviceSupers.find(superCat => superCat.id === activeSuperCategory);
+      const superCategory = serviceSupers.find(superCat => superCat.serviceSuper_url === activeSuperCategory);
       if (superCategory) {
-        fetchSubServices(selectedService.id, selectedService.service, superCategory.serviceSuper, activeSuperCategory);
+        fetchSubServices(selectedService.id, selectedService.service,selectedService.service_slug ,superCategory.serviceSuper, activeSuperCategory);
       }
     }
   }, [ activeSuperCategory, serviceSupers]);
 
-  const fetchSubServices = async (serviceId: number, serviceName: string, superCategory: string, superCategoryId: number) => {
+
+
+
+  const fetchSubServices = async (serviceId: number,  serviceName: string,serviceUrl:string, superCategory: string, superCategoryId: number) => {
     try {
       setSubServiceLoading(true);
-      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceId}/${branchId}`);
+      const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-sub-out/${serviceUrl}/${branchId}`);
       
       if (response.data.servicesub && response.data.servicesub.length > 0) {
         setSubServices(response.data.servicesub);
@@ -131,40 +136,41 @@ const ServiceGrid = () => {
         navigate('.', {
           state: {
             keepModalOpen: true,
-            selectedService: services.find(s => s.id === serviceId),
+            selectedService: services.find(s => s.service_slug === serviceUrl),
             activeSuperCategory: superCategoryId,
             from: 'service-grid'
           },
           replace: true
         });
       } else {
-        navigateToServiceDetails(serviceId, serviceName, superCategoryId);
+        navigateToServiceDetails(serviceId, serviceName ,serviceUrl,superCategoryId);
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigateToServiceDetails(serviceId, serviceName, superCategoryId);
+      navigateToServiceDetails(serviceId, serviceName,serviceUrl, superCategoryId);
     } finally {
       setSubServiceLoading(false);
     }
   };
 
-  const navigateToServiceDetails = (serviceId: number, serviceName: string, superCategoryId: number) => {
+  const navigateToServiceDetails = (serviceId: number, serviceName: string,serviceUrl:string, superCategoryId: number) => {
     const superCategoryUrl = serviceSupers.find(cat => cat.id === superCategoryId)?.serviceSuper_url;
-    navigate(`/pricing/${superCategoryUrl}/${superCategoryId}/${encodeURIComponent(serviceName)}/${serviceId}`, {
+    navigate(`/pricing/${superCategoryUrl}/${encodeURIComponent(serviceUrl)}`, {
       state: {
         service_id: serviceId,
-        service_name: serviceName,
+        service_name: serviceUrl,
         from: 'service-only'
       }
     });
   };
 
   const navigateToSubServiceDetails = (subService: ServiceSub) => {
+    
     if (!selectedService || !activeSuperCategory) return;
     
-    const superCategory = serviceSupers.find(cat => cat.id === activeSuperCategory);
+    const superCategory = serviceSupers.find(cat => cat.serviceSuper_url === activeSuperCategory);
     if (superCategory) {
-      navigate(`/pricing/${superCategory.serviceSuper_url}/${activeSuperCategory}/${encodeURIComponent(selectedService.service)}/${selectedService.id}/${encodeURIComponent(subService.service_sub)}/${subService.id}`, {
+      navigate(`/pricing/${superCategory.serviceSuper_url}/${encodeURIComponent(selectedService.service_slug)}/${encodeURIComponent(subService.service_sub_slug)}`, {
         state: {
           keepModalOpen: true,
           selectedService,
@@ -177,13 +183,13 @@ const ServiceGrid = () => {
 
   const handleServiceClick = (service: Service) => {
     setSelectedService(service);
-    const superCategory = serviceSupers.find(superCat => superCat.id === activeSuperCategory);
+    const superCategory = serviceSupers.find(superCat => superCat.serviceSuper_url === activeSuperCategory);
     if (superCategory) {
-      fetchSubServices(service.id, service.service, superCategory.serviceSuper, superCategory.id);
+      fetchSubServices(service.id, service.service,service.service_slug, superCategory.serviceSuper, superCategory.id);
     }
   };
 
-  const handleSuperCategoryClick = (superCategoryId: number) => {
+  const handleSuperCategoryClick = (superCategoryId: string) => {
     setActiveSuperCategory(superCategoryId);
     setCategoryLoading(true); 
     fetchServicesBySuperCategory(superCategoryId);
@@ -291,8 +297,8 @@ const ServiceGrid = () => {
                 {serviceSupers.map((superCat) => (
                   <div 
                     key={superCat.id}
-                    className={`service-grid-category-item ${activeSuperCategory === superCat.id ? 'active' : ''}`}
-                    onClick={() => handleSuperCategoryClick(superCat.id)}
+                    className={`service-grid-category-item ${activeSuperCategory === superCat.serviceSuper_url ? 'active' : ''}`}
+                    onClick={() => handleSuperCategoryClick(superCat.serviceSuper_url)}
                   >
                     <div className="service-grid-category-card">
                       <img

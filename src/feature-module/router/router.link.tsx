@@ -140,14 +140,14 @@ const publicRoutes = [
     // service_id : state?.service_id 
     // service_sub_id : state?.service_sub_id
   {
-    path: '/pricing/:category_name/:id/:service_name/:service_id',
+    path: '/pricing/:category_name/:service_name',
     name: 'service-details',
     element: <ServiceDetails1 />,
     route: Route,
   },
   
   {
-    path: '/pricing/:category_name/:id/:service_name/:service_id/:service_sub_name/:service_sub_id',
+    path: '/pricing/:category_name/:service_name/:service_sub_name',
     name: 'service-details-sub',
     element: <ServiceDetails1 />,
     route: Route,
@@ -157,28 +157,29 @@ const publicRoutes = [
   // homepage go to service details 
 
   {
-    path: '/pricing/:category_name/:id/:service_name/:service_id',
+    path: '/pricing/:category_name/:service_name',
     name: 'service-details',
     element: <ServiceDetails1 />,
     route: Route,
   },
   {
-    path: '/pricing/:category_name/:id/:service_name/:service_id/:service_sub_name/:service_sub_id',
+    path: '/pricing/:category_name/:service_name/:service_sub_name',
     name: 'service-details-sub',
     element: <ServiceDetails1 />,
     route: Route,
   },
 
 
+
   {
-    path: '/blog-details/:blog-heading/:id',
+    path: '/blog-details/:blog-heading',
     name: 'blogDetails',
     element: <Suspense fallback={<SuspenseLoader />}><BlogDetails /></Suspense>,
     route: Route,
   },
 
   {
-    path: '/:category_name/:id',
+    path: '/:category_name',
     name: 'categories',
     element: <Suspense fallback={<SuspenseLoader />}><Categories /></Suspense>,
     route: Route,

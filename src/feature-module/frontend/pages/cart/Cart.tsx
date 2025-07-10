@@ -11,6 +11,7 @@ import {
 } from '../../../../core/redux/slices/CartSlice';
 import axios from 'axios';
 import './cart.css';
+import { Helmet } from 'react-helmet-async';
 import { BASE_URL } from '../../../baseConfig/BaseUrl';
 import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 
@@ -51,32 +52,28 @@ const [isVerifying, setIsVerifying] = React.useState(false);
 const [isSendingOtp, setIsSendingOtp] = React.useState(false);
 const [resendTimer, setResendTimer] = React.useState(0);
 
-const setupRecaptcha = () => {
-  
-  if ((window as any).recaptchaVerifier) {
-    (window as any).recaptchaVerifier.clear();
-  }
-  
-  
-  const container = document.getElementById('recaptcha-container');
-  if (!container) {
-    console.error('Recaptcha container not found');
-    return;
-  }
-
- 
-  (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-    'size': 'invisible',
-    'callback': (response: any) => {
-      console.log('reCAPTCHA solved');
-    },
-    'expired-callback': () => {
-      console.log('reCAPTCHA expired');
-     
+// Replace your existing setupRecaptcha function with this:
+const setupRecaptcha = async () => {
+  return new Promise<string>((resolve, reject) => {
+    if (!(window as any).grecaptcha || !(window as any).grecaptcha.enterprise) {
+      reject(new Error('reCAPTCHA Enterprise not loaded'));
+      return;
     }
+
+    (window as any).grecaptcha.enterprise.ready(async () => {
+      try {
+        const token = await (window as any).grecaptcha.enterprise.execute(
+          '6LcLD34rAAAAAP07vzkLyLGVQumchy6xvhRuQKUC',
+          { action: 'BOOKING' }
+        );
+        resolve(token);
+      } catch (error) {
+        console.error('reCAPTCHA execution error:', error);
+        reject(error);
+      }
+    });
   });
 };
-
 
 // main file  
   React.useEffect(() => {
@@ -283,8 +280,8 @@ const setupRecaptcha = () => {
         const group = groupedItems[key];
         const payload = {
           branch_id: branch_id,
-          order_service: group.items[0].service_id,
-          order_service_sub: group.items[0].service_sub_id || '',
+          order_service: group.items[0].service_slug,
+          order_service_sub: group.items[0].service_sub_slug || '',
           order_service_date: date,
         };
 
@@ -715,11 +712,10 @@ if (e && typeof e.preventDefault === 'function') {
     }
   };
 
-
 const sendOtp = async () => {
-   setIsSendingOtp(true);
-
-    setResendTimer(30);
+  setIsSendingOtp(true);
+  setResendTimer(30);
+  
   const timerInterval = setInterval(() => {
     setResendTimer((prev) => {
       if (prev <= 1) {
@@ -729,62 +725,66 @@ const sendOtp = async () => {
       return prev - 1;
     });
   }, 1000);
-  
+
   if (!formData.order_customer_mobile) {
     showNotification('Mobile number is required', 'error');
+    setIsSendingOtp(false);
     return;
   }
 
   const mobileRegex = /^[6-9]\d{9}$/;
   if (!mobileRegex.test(formData.order_customer_mobile)) {
     showNotification('Please enter a valid 10-digit Indian mobile number', 'error');
+    setIsSendingOtp(false);
     return;
   }
 
   try {
-    
-    if ((window as any).recaptchaVerifier) {
-      try {
-        (window as any).recaptchaVerifier.clear();
-      } catch (clearError) {
-        console.log('Clearing old recaptcha failed (probably already cleared)', clearError);
-      }
-      (window as any).recaptchaVerifier = null;
-    }
-
-  
-    const container = document.getElementById('recaptcha-container');
-    if (!container) {
-      showNotification('Security verification failed to initialize', 'error');
+    // Get reCAPTCHA Enterprise token
+    const token = await setupRecaptcha();
+    if (!token) {
+      showNotification('Security verification failed', 'error');
+      setIsSendingOtp(false);
       return;
     }
 
-    const newVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      'size': 'invisible',
-      'callback': () => console.log('reCAPTCHA solved'),
-      'expired-callback': () => console.log('reCAPTCHA expired')
+    // Initialize Firebase Auth with the reCAPTCHA token
+    const phoneNumber = `+91${formData.order_customer_mobile}`;
+    
+    // Create a temporary recaptcha container for Firebase
+    const tempContainer = document.createElement('div');
+    tempContainer.id = 'temp-recaptcha-container';
+    tempContainer.style.display = 'none';
+    document.body.appendChild(tempContainer);
+
+    const appVerifier = new RecaptchaVerifier(auth, 'temp-recaptcha-container', {
+      size: 'invisible',
+      'expired-callback': () => {
+        showNotification('Security verification expired. Please try again.', 'error');
+      }
     });
 
-    (window as any).recaptchaVerifier = newVerifier;
+    // Set the reCAPTCHA token manually
+    (appVerifier as any).verify().then(() => {
+      // This bypasses the normal recaptcha flow since we already have a token
+      (appVerifier as any).recaptchaWidgetId = token;
+    });
 
-    const phoneNumber = `+91${formData.order_customer_mobile}`;
-    console.log('Sending OTP to:', phoneNumber);
+    const result = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
     
-    const result = await signInWithPhoneNumber(auth, phoneNumber, newVerifier);
+    // Clean up
+    document.body.removeChild(tempContainer);
+    
     setConfirmationResult(result);
     setOtpSent(true);
     showNotification('OTP sent to your mobile number', 'success');
   } catch (error: any) {
-    console.error('Error sending OTP:', error);
-    setIsSendingOtp(false);
+    console.error('Error in OTP process:', error);
     
-    if ((window as any).recaptchaVerifier) {
-      try {
-        (window as any).recaptchaVerifier.clear();
-      } catch (clearError) {
-        console.log('Error clearing verifier:', clearError);
-      }
-      (window as any).recaptchaVerifier = null;
+    // Clean up in case of error
+    const tempContainer = document.getElementById('temp-recaptcha-container');
+    if (tempContainer) {
+      document.body.removeChild(tempContainer);
     }
     
     let errorMessage = 'Failed to send OTP. Please try again.';
@@ -795,15 +795,15 @@ const sendOtp = async () => {
       errorMessage = 'Phone number is required';
     } else if (error.code === 'auth/quota-exceeded') {
       errorMessage = 'SMS quota exceeded. Please try again later.';
-    } else if (error.code === 'auth/user-disabled') {
-      errorMessage = 'User account has been disabled';
-    } else if (error.code === 'auth/operation-not-allowed') {
-      errorMessage = 'Phone authentication is not enabled';
+    } else if (error.message.includes('reCAPTCHA')) {
+      errorMessage = 'Security verification failed. Please try again.';
+    } else if (error.code === 'auth/argument-error') {
+      errorMessage = 'Security verification failed. Please refresh the page and try again.';
     }
     
     showNotification(errorMessage, 'error');
-  }finally {
-    setIsSendingOtp(false); 
+  } finally {
+    setIsSendingOtp(false);
   }
 };
 const verifyOtp = async () => {
@@ -869,6 +869,16 @@ const verifyOtp = async () => {
   return (
     <>
       <DefaultHelmet />
+      <Helmet>
+ 
+  
+ 
+  <script 
+    src="https://www.google.com/recaptcha/enterprise.js?render=6LcLD34rAAAAAP07vzkLyLGVQumchy6xvhRuQKUC" 
+    async 
+    defer
+  ></script>
+</Helmet>
       <HomeHeader />
       <style>
         {`
@@ -1478,7 +1488,7 @@ const verifyOtp = async () => {
 
     </>
   )}
-<div id="recaptcha-container"></div>
+
 </div>
 
 
@@ -1498,3 +1508,6 @@ const verifyOtp = async () => {
 };
 
 export default Cart;
+
+
+//changed

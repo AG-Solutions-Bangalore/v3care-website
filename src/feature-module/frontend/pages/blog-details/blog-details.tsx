@@ -19,6 +19,7 @@ interface Blog {
   blogs_description: string;
   blogs_image: string;
   blogs_created_date: string;
+ 
 }
 
 interface BlogApiResponse {
@@ -29,7 +30,10 @@ interface BlogApiResponse {
 const BlogDetails = () => {
  const routes = all_routes;
 
- const { id, blog_heading } = useParams<{ id?: string, blog_heading?: string }>();
+ const {  blogs_slug } = useParams<{  blogs_slug?: string }>();
+
+
+  console.log("blogs_slug,",blogs_slug)
   const [blog, setBlog] = useState<Blog | null>(null);
   const [otherBlogs, setOtherBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +45,7 @@ const BlogDetails = () => {
     const fetchBlogDetails = async () => {
       try {
         const response = await axios.get<BlogApiResponse>(
-          `${BASE_URL}/api/panel-fetch-web-blogs-out-by-id/${blog_heading}`
+          `${BASE_URL}/api/panel-fetch-web-blogs-out-by-id/${blogs_slug}`
         );
         setBlog(response.data.blogs || null);
         setOtherBlogs(response.data.otherblogs || []);
@@ -51,19 +55,8 @@ const BlogDetails = () => {
       }
     };
 
-    if (blog_heading) fetchBlogDetails();
-  }, [blog_heading]);
-
-
-  const slugify = (text: string): string => {
-    return text
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-')           
-      .replace(/[^\w-]+/g, '')       
-      .replace(/--+/g, '-')           
-      .replace(/^-+|-+$/g, '');      
-  };
+    if (blogs_slug) fetchBlogDetails();
+  }, [blogs_slug]);
 
 
   if (error || !blog) {

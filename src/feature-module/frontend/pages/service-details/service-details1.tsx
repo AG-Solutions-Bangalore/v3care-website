@@ -72,7 +72,7 @@ const ServiceDetails1 = () => {
   const [selectedPrices, setSelectedPrices] = useState<any[]>([]);
   const [serviceFAQ, setServiceFAQ] = useState<any[]>([]);
   const [serviceMeta, setServiceMeta] = useState<any>(null);
- 
+ const [serviceSub, setServiceSub] = useState<any>(null);
   
   const [serviceIncludes, setServiceIncludes] = useState<string[]>([]);
 
@@ -128,6 +128,9 @@ const ServiceDetails1 = () => {
         setServiceMeta(response.data.service);
              
       }
+      if (response.data.serviceSub) { 
+      setServiceSub(response.data.serviceSub);
+    }
     } catch (error) {
       console.error('Error fetching service prices:', error);
       setPriceError('Failed to load service prices. Please try again.');
@@ -423,35 +426,15 @@ const ServiceDetails1 = () => {
                       <div className="d-flex align-items-center justify-content-between flex-wrap mb-3">
                         <div className="d-flex align-items-center flex-wrap">
                           <h4 className="mb-0 text-primary fw-bold">
-                            {service_name || 'Service Name'}
-                            {service_sub_name && (
-                              <span style={{ color: 'gray', fontSize: '14px' }}>
-                                &nbsp;( {service_sub_name})
-                              </span>
-                            )}
+                           {serviceMeta?.service || 'Service Name'}
+                           {serviceSub?.service_sub && (
+    <span style={{ color: 'gray', fontSize: '14px' }}>
+      &nbsp;( {serviceSub.service_sub})
+    </span>
+  )}
                           </h4>
                         </div>
-         <button
-  onClick={() => {
-    if (location.state?.from === 'subservice-modal') {
-      navigate(-1, {
-        state: {
-          keepModalOpen: true,
-          selectedService: location.state?.selectedService,
-          activeSuperCategory: location.state?.activeSuperCategory,
-          from: location.state?.from
-        }
-      });
-    } else {
-      navigate('/service');
-    }
-  }}
-  className="btn btn-link text-decoration-none text-primary p-0"
-  style={{ whiteSpace: 'nowrap' }}
->
-  <i className="ri-arrow-left-line me-2"></i>
-  Browse Services
-</button>
+     
 
                       </div>
                     </div>
@@ -595,12 +578,13 @@ const ServiceDetails1 = () => {
                                             service_price_amount:
                                               price.service_price_amount,
 
-                                            service_id: service_id,
-                                            service_name: service_name,
-                                            service_sub_id: service_sub_id,
-                                            service_sub_name: service_sub_name,
+                                             service_id: serviceMeta?.id || '', 
+      service_name: serviceMeta?.service || '', 
+      service_sub_id: serviceSub?.id || '', 
+      service_sub_name: serviceSub?.service_sub || '', 
 
-
+service_slug:service_name,
+service_sub_slug:service_sub_name,
                                             service_label: price?.status_label,
                                           }),
                                         );
@@ -636,10 +620,15 @@ const ServiceDetails1 = () => {
                                               price.service_price_rate,
                                             service_price_amount:
                                               price.service_price_amount,
-                                            service_id: service_id,
-                                            service_name: service_name,
-                                            service_sub_id: service_sub_id,
-                                            service_sub_name: service_sub_name,
+
+                                            service_id: serviceMeta?.id || '', 
+      service_name: serviceMeta?.service || '', 
+      service_sub_id: serviceSub?.id || '', 
+      service_sub_name: serviceSub?.service_sub || '', 
+service_slug:service_name,
+service_sub_slug:service_sub_name,
+
+
                                             service_label: price?.status_label,
                                           }),
                                         );

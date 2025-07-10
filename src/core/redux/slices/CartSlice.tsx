@@ -11,6 +11,8 @@ interface CartItem {
   service_sub_id?: string;
   service_sub_name?: string;
   service_label?: string;
+  service_slug?: string;
+  service_sub_slug?: string;
 }
 
 interface CartState {

@@ -15,7 +15,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-//  for development 
 
+//  for development 
+if (process.env.NODE_ENV === 'development') {
+  auth.settings.appVerificationDisabledForTesting = true;
+}
 
 export { auth, RecaptchaVerifier, signInWithPhoneNumber };

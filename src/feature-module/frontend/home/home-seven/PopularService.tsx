@@ -80,7 +80,7 @@ const PopularService = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate(`/pricing/${serviceSuperUrl}/${encodeURIComponent(serviceUrl)}`, {
+        navigate(`/${serviceSuperUrl}/${encodeURIComponent(serviceUrl)}/pricing`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -89,7 +89,7 @@ const PopularService = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate(`/pricing/${serviceSuperUrl}/${encodeURIComponent(serviceUrl)}`, {
+      navigate(`/${serviceSuperUrl}/${encodeURIComponent(serviceUrl)}/pricing`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -190,46 +190,58 @@ const PopularService = () => {
             </div>
           )}
 
-          {!isServicesLoading && !servicesError && services.length > 0 && (
-            <div className="popular-service-home-slider-wrapper">
-              <div className="popular-service-home-slider-container">
-                <Swiper {...sliderSettings} className="popular-service-home-slider">
-                  {services.map((service) => (
-                    <SwiperSlide key={service.id} className="popular-service-slide">
-                      <div
-                        className="popular-service-home-card"
-                        onClick={() => handleServiceClick(service)}
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        <div className="popular-service-home-card-image">
-                          <img
-                            src={getImageUrlService(service.service_image)}
-                            alt={service.service}
-                            // loading="lazy"
-                            // decoding="async"
-                          />
-                          <div className="popular-service-home-card-overlay"></div>
-                          <div className="popular-service-home-card-badge">
-                            {service.service}
-                          </div>
-                        </div>
-                        {/* <div className="popular-service-home-card-content">
-                          <h3 className="service-title">{service.service}</h3>
-                          <div className="popular-service-home-card-cta">
-                            <span>View Details</span>
-                            <Icon.ArrowRight size={16} />
-                          </div>
-                        </div> */}
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-                <div className={`swiper-button-prev ${isBeginning ? 'swiper-button-disabled' : ''}`}></div>
-                <div className={`swiper-button-next ${isEnd ? 'swiper-button-disabled' : ''}`}></div>
+          
+
+                  {!isServicesLoading && !servicesError && services.length > 0 && (
+  <div className="popular-service-home-slider-wrapper">
+    <div className="popular-service-home-slider-container">
+      <Swiper {...sliderSettings} className="popular-service-home-slider">
+        {services.map((service) => (
+          <SwiperSlide key={service.id} className="popular-service-slide">
+            <div
+              className="service-grid-card"
+              onClick={() => handleServiceClick(service)}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="service-grid-card-image-container">
+                <img
+                  src={getImageUrlService(service.service_image)}
+                  className="service-grid-card-image"
+                  alt={service.service}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = `${NO_IMAGE_URL}`;
+                  }}
+                />
+              </div>
+              <div className="service-grid-card-content">
+                <h5 className="service-grid-card-title">{service.service}</h5>
+                <div className="service-grid-card-footer">
+                  <span className="service-grid-card-city">
+                    <Icon.MapPin className="service-grid-card-icon" size={12} />
+                    <span>{localStorage.getItem('city') || 'Your City'}</span>
+                  </span>
+                  <button 
+                    className="service-grid-book-now-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleServiceClick(service);
+                    }} 
+                  >
+                    Book Now
+                  </button>
+                </div>
               </div>
             </div>
-          )}
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <div className={`swiper-button-prev ${isBeginning ? 'swiper-button-disabled' : ''}`}></div>
+      <div className={`swiper-button-next ${isEnd ? 'swiper-button-disabled' : ''}`}></div>
+    </div>
+  </div>
+)}
         </div>
       </section>
 
@@ -242,46 +254,61 @@ const PopularService = () => {
               <p className="popular-service-home-subtitle">Discover our premium offerings</p>
             </div>
 
-            {!isServicesLoading && !servicesError && (
-              <div className="popular-service-home-slider-wrapper">
-                <div className="popular-service-home-slider-container">
-                  <Swiper {...sliderSettings} className="popular-service-home-slider">
-                    {servicesTwo.map((service) => (
-                      <SwiperSlide key={service.id} className="popular-service-slide">
-                        <div
-                          className="popular-service-home-card featured-card"
-                          onClick={() => handleServiceClick(service)}
-                          onMouseEnter={handleMouseEnter}
-                          onMouseLeave={handleMouseLeave}
-                        >
-                          <div className="popular-service-home-card-image">
-                            <img
-                              src={getImageUrlService(service.service_image)}
-                              alt={service.service}
-                              // loading="lazy"
-                              // decoding="async"
-                            />
-                            <div className="popular-service-home-card-overlay"></div>
-                            <div className="popular-service-home-card-badge">
-                              {service.service}
-                            </div>
-                          </div>
-                          {/* <div className="popular-service-home-card-content">
-                            <h3 className="service-title">{service.service}</h3>
-                            <div className="popular-service-home-card-cta">
-                              <span>Explore Now</span>
-                              <Icon.ArrowRight size={16} />
-                            </div>
-                          </div> */}
-                        </div>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                  <div className={`swiper-button-prev ${isBeginning ? 'swiper-button-disabled' : ''}`}></div>
-                  <div className={`swiper-button-next ${isEnd ? 'swiper-button-disabled' : ''}`}></div>
+
+ {!isServicesLoading && !servicesError && services.length > 0 && (
+  <div className="popular-service-home-slider-wrapper">
+    <div className="popular-service-home-slider-container">
+      <Swiper {...sliderSettings} className="popular-service-home-slider">
+        {servicesTwo.map((service) => (
+          <SwiperSlide key={service.id} className="popular-service-slide">
+            <div
+              className="service-grid-card"
+              onClick={() => handleServiceClick(service)}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="service-grid-card-image-container">
+                <img
+                  src={getImageUrlService(service.service_image)}
+                  className="service-grid-card-image"
+                  alt={service.service}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = `${NO_IMAGE_URL}`;
+                  }}
+                />
+              </div>
+              <div className="service-grid-card-content">
+                <h5 className="service-grid-card-title">{service.service}</h5>
+                <div className="service-grid-card-footer">
+                  <span className="service-grid-card-city">
+                    <Icon.MapPin className="service-grid-card-icon" size={12} />
+                    <span>{localStorage.getItem('city') || 'Your City'}</span>
+                  </span>
+                  <button 
+                    className="service-grid-book-now-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleServiceClick(service);
+                    }} 
+                  >
+                    Book Now
+                  </button>
                 </div>
               </div>
-            )}
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <div className={`swiper-button-prev ${isBeginning ? 'swiper-button-disabled' : ''}`}></div>
+      <div className={`swiper-button-next ${isEnd ? 'swiper-button-disabled' : ''}`}></div>
+    </div>
+  </div>
+)}
+
+
+
+         
           </div>
         </section>
       )}
@@ -339,7 +366,7 @@ const PopularService = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3">
                         <div 
                           className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                          onClick={() => navigate(`/pricing/${selectedService?.serviceSuper_url}/${selectedService?.service_slug}/${subService.service_sub_slug}`, {
+                          onClick={() => navigate(`/${selectedService?.serviceSuper_url}/${selectedService?.service_slug}/${subService.service_sub_slug}/pricing`, {
                             state: {
                               service_id: selectedService?.id,
                               service_name: selectedService?.service,

@@ -140,14 +140,14 @@ const publicRoutes = [
     // service_id : state?.service_id 
     // service_sub_id : state?.service_sub_id
   {
-    path: '/pricing/:category_name/:service_name',
+    path: '/:category_name/:service_name/pricing',
     name: 'service-details',
     element: <ServiceDetails1 />,
     route: Route,
   },
   
   {
-    path: '/pricing/:category_name/:service_name/:service_sub_name',
+    path: '/:category_name/:service_name/:service_sub_name/pricing',
     name: 'service-details-sub',
     element: <ServiceDetails1 />,
     route: Route,
@@ -157,13 +157,13 @@ const publicRoutes = [
   // homepage go to service details 
 
   {
-    path: '/pricing/:category_name/:service_name',
+    path: '/:category_name/:service_name/pricing',
     name: 'service-details',
     element: <ServiceDetails1 />,
     route: Route,
   },
   {
-    path: '/pricing/:category_name/:service_name/:service_sub_name',
+    path: '/:category_name/:service_name/:service_sub_name/pricing',
     name: 'service-details-sub',
     element: <ServiceDetails1 />,
     route: Route,

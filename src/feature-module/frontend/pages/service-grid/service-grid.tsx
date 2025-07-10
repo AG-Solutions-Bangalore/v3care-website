@@ -110,16 +110,7 @@ const ServiceGrid = () => {
     }
   };
 
-  useEffect(() => {
-    if (location.state?.keepModalOpen && location.state?.selectedService && activeSuperCategory) {
-      const { selectedService } = location.state;
-      setSelectedService(selectedService);
-      const superCategory = serviceSupers.find(superCat => superCat.serviceSuper_url === activeSuperCategory);
-      if (superCategory) {
-        fetchSubServices(selectedService.id, selectedService.service,selectedService.service_slug ,superCategory.serviceSuper, activeSuperCategory);
-      }
-    }
-  }, [ activeSuperCategory, serviceSupers]);
+ 
 
 
 
@@ -133,15 +124,7 @@ const ServiceGrid = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
         
-        navigate('.', {
-          state: {
-            keepModalOpen: true,
-            selectedService: services.find(s => s.service_slug === serviceUrl),
-            activeSuperCategory: superCategoryId,
-            from: 'service-grid'
-          },
-          replace: true
-        });
+        
       } else {
         navigateToServiceDetails(serviceId, serviceName ,serviceUrl,superCategoryId);
       }
@@ -155,13 +138,7 @@ const ServiceGrid = () => {
 
   const navigateToServiceDetails = (serviceId: number, serviceName: string,serviceUrl:string, superCategoryId: number) => {
     const superCategoryUrl = serviceSupers.find(cat => cat.id === superCategoryId)?.serviceSuper_url;
-    navigate(`/pricing/${superCategoryUrl}/${encodeURIComponent(serviceUrl)}`, {
-      state: {
-        service_id: serviceId,
-        service_name: serviceUrl,
-        from: 'service-only'
-      }
-    });
+    navigate(`/${superCategoryUrl}/${encodeURIComponent(serviceUrl)}/pricing`);
   };
 
   const navigateToSubServiceDetails = (subService: ServiceSub) => {
@@ -170,14 +147,7 @@ const ServiceGrid = () => {
     
     const superCategory = serviceSupers.find(cat => cat.serviceSuper_url === activeSuperCategory);
     if (superCategory) {
-      navigate(`/pricing/${superCategory.serviceSuper_url}/${encodeURIComponent(selectedService.service_slug)}/${encodeURIComponent(subService.service_sub_slug)}`, {
-        state: {
-          keepModalOpen: true,
-          selectedService,
-          activeSuperCategory,
-          from: 'subservice-modal'
-        }
-      });
+      navigate(`/${superCategory.serviceSuper_url}/${encodeURIComponent(selectedService.service_slug)}/${encodeURIComponent(subService.service_sub_slug)}/pricing`);
     }
   };
 
@@ -200,15 +170,7 @@ const ServiceGrid = () => {
   const handleCloseModal = () => {
     setShowSubServiceModal(false);
     setSelectedService(null);
-    navigate('.', {
-      state: {
-        keepModalOpen: false,
-        selectedService: null,
-        activeSuperCategory,
-        from: 'service-grid'
-      },
-      replace: true
-    });
+   
   };
 
   const getImageUrl = (imageName: string | null, isSubService = false) => {

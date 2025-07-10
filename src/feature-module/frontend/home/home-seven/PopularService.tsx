@@ -80,7 +80,7 @@ const PopularService = () => {
         setSubServices(response.data.servicesub);
         setShowSubServiceModal(true);
       } else {
-        navigate(`/pricing/${serviceSuperUrl}/${encodeURIComponent(serviceUrl)}`, {
+        navigate(`/${serviceSuperUrl}/${encodeURIComponent(serviceUrl)}/pricing`, {
           state: {
             service_id: serviceId,
             service_name: serviceName
@@ -89,7 +89,7 @@ const PopularService = () => {
       }
     } catch (error) {
       console.error('Error fetching sub-services:', error);
-      navigate(`/pricing/${serviceSuperUrl}/${encodeURIComponent(serviceUrl)}`, {
+      navigate(`/${serviceSuperUrl}/${encodeURIComponent(serviceUrl)}/pricing`, {
         state: {
           service_id: serviceId,
           service_name: serviceName
@@ -366,7 +366,7 @@ const PopularService = () => {
                       <div key={subService.id} className="col-6 col-sm-4 col-md-3">
                         <div 
                           className="card h-100 border-0 overflow-hidden transition-all position-relative"
-                          onClick={() => navigate(`/pricing/${selectedService?.serviceSuper_url}/${selectedService?.service_slug}/${subService.service_sub_slug}`, {
+                          onClick={() => navigate(`/${selectedService?.serviceSuper_url}/${selectedService?.service_slug}/${subService.service_sub_slug}/pricing`, {
                             state: {
                               service_id: selectedService?.id,
                               service_name: selectedService?.service,

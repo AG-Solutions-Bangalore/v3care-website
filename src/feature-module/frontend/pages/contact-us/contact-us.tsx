@@ -348,7 +348,7 @@ const ContactUs = () => {
           
           <div className="col-md-6 d-flex align-items-center justify-content-center">
             <div className="contact-queries flex-fill">
-              <h2>Get In Touch</h2>
+              <h1 className="h2">Get In Touch</h1>
               {submitStatus && (
                       <div className={`alert alert-${submitStatus.success ? 'success' : 'danger'}`}>
                         {submitStatus.message}

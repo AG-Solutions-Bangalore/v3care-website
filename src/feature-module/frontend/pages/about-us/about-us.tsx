@@ -97,7 +97,7 @@ const AboutUs = () => {
                   <ImageWithBasePath
                     src="assets/img/providers/about1.jpg"
                     className="img-fluid"
-                    alt="img"
+                    alt="Best Solution For Cleaning Services"
                   />
                 </div>
               </div>
@@ -105,7 +105,7 @@ const AboutUs = () => {
             <div className="col-lg-6">
               <div className="about-content">
                 <h6>ABOUT V3 CARE</h6>
-                <h2>Best Solution For Cleaning Services</h2>
+                <h1 className="h2">Best Solution For Cleaning Services</h1>
                 <p style={{
                   textAlign:"justify"
                 }}>
@@ -162,7 +162,7 @@ const AboutUs = () => {
           <div className="row">
             <div className="col-md-12 text-center">
               <div className="section-heading">
-                <h2>How It Works</h2>
+                <h1 className="h2">How It Works</h1>
                 <p>
                   Straightforward process designed to make your experience
                   seamless and hassle-free.
@@ -176,7 +176,7 @@ const AboutUs = () => {
                 <div className="card-body">
                   <div className="work-icon">
                     <span>
-                      <ImageWithBasePath src="assets/img/icons/about-hands.svg" alt="img" />
+                      <ImageWithBasePath src="assets/img/icons/about-hands.svg"  alt="How It Works" />
                     </span>
                   </div>
                   <h5>Employess</h5>
@@ -195,7 +195,7 @@ const AboutUs = () => {
                     <span>
                       <ImageWithBasePath
                         src="assets/img/icons/about-documents.svg"
-                        alt="img"
+                        alt="How It Works"
                       />
                     </span>
                   </div>
@@ -213,7 +213,7 @@ const AboutUs = () => {
                 <div className="card-body">
                   <div className="work-icon">
                     <span>
-                      <ImageWithBasePath src="assets/img/icons/about-book.svg" alt="img" />
+                      <ImageWithBasePath src="assets/img/icons/about-book.svg"  alt="How It Works" />
                     </span>
                   </div>
                   <h5>Clients</h5>
@@ -232,7 +232,7 @@ const AboutUs = () => {
                 <div className="card-body">
                   <div className="work-icon">
                     <span>
-                      <ImageWithBasePath src="assets/img/icons/about-book.svg" alt="img" />
+                      <ImageWithBasePath src="assets/img/icons/about-book.svg"  alt="How It Works" />
                     </span>
                   </div>
                   <h5>Completed</h5>
@@ -254,7 +254,7 @@ const AboutUs = () => {
           <div className="row align-items-center">
             <div className="col-md-6">
               <div className="choose-content">
-                <h2>V3 care Promises</h2>
+                <h1 className="h1">V3 care Promises</h1>
                 <p>
                   Choose us for reliable, personalized service and exceptional
                   results.
@@ -387,7 +387,7 @@ const AboutUs = () => {
                 <ImageWithBasePath
                   src="assets/img/providers/promisesabout.jpg"
                   className="img-fluid"
-                  alt="img"
+                  alt="V3 care Promises"
                 />
               </div>
             </div>
@@ -459,7 +459,7 @@ const AboutUs = () => {
           <div className="col-lg-6">
               <div className="about-content">
                 <h6>OUR TEAM</h6>
-                <h2>Best Solution For Cleaning Services</h2>
+                <h1 className="h2">Best Solution For Cleaning Services</h1>
                 <p style={{
                   textAlign:"justify"
                 }}>
@@ -508,7 +508,8 @@ const AboutUs = () => {
                   <ImageWithBasePath
                     src="assets/img/providers/teamabout.jpg"
                     className="img-fluid"
-                    alt="img"
+                    alt="Best Solution For Cleaning Services
+"
                   />
                 </div>
               </div>
@@ -545,7 +546,7 @@ const AboutUs = () => {
           <div className="row">
             <div className="col-md-12 text-center">
               <div className="section-heading">
-                <h2>Testimonials</h2>
+                <h1 className="h2">Testimonials</h1>
                 <p>
                   Our clients rave about our seamless service, exceptional
                   quality, and unmatched customer support.

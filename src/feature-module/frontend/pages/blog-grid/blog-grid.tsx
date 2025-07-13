@@ -9,7 +9,7 @@ import HomeHeader from '../../home/header/home-header';
 import { BASE_URL, BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 import axios from 'axios';
-
+import moment from 'moment'
 
 const BlogGrid = () => {
   const routes = all_routes;
@@ -157,7 +157,7 @@ const BlogGrid = () => {
                             className="img-fluid rounded-top w-100"
   //                           loading="lazy"
   // decoding="async"
-                            alt="img"
+                            alt=  {blog.blogs_heading}
                           />
                         </Link>
                       </div>
@@ -181,12 +181,12 @@ const BlogGrid = () => {
                             <span>
                             <i className="ri-calendar-line me-2"></i>
                             </span>
-                            <span className="fs-14">{blog.blogs_created_date}</span>
+                            <span className="fs-14">       {moment(blog.blogs_created_date).format("DD-MMM-YYYY")}</span>
                           </div>
                         </div>
                         <div>
-                          <h5
-                            className="fs-16 mb-1 text-wrap"
+                          <h1
+                            className="fs-16 h5 mb-1 text-wrap"
                             style={{
                               display: '-webkit-box',
                               WebkitLineClamp: 2,
@@ -199,7 +199,7 @@ const BlogGrid = () => {
 
                             {blog.blogs_heading}
                             </Link>
-                          </h5>
+                          </h1>
                         
                         </div>
                       </div>

@@ -508,11 +508,11 @@ style={{
                           <ImageWithBasePath
                             src="assets/img/partner-request.png"
                             className="border-0"
-                            alt="img"
+                            alt="Partner Request"
                           />
                         </span>
                         <div>
-                          <h5 className="mb-1">Partner Request</h5>
+                          <h1 className="h5 mb-1">Partner Request</h1>
                           {/* <p className="fs-14">35 Providers Available</p> */}
                         </div>
                       </div>
@@ -545,7 +545,7 @@ style={{
                       <fieldset id="first-field">
                         <div className="card flex-fill mb-0">
                           <div className="card-body">
-                            <h5 className="mb-3">Personal Details</h5>
+                            <h1 className="h5 mb-3">Personal Details</h1>
                             <div>
                               <h6 className="mb-3 fs-16 fw-medium">
                                 Basic Information
@@ -723,7 +723,7 @@ style={{
                       <fieldset style={{ display: 'flex' }}>
                         <div className="card flex-fill mb-0">
                           <div className="card-body">
-                            <h5 className="mb-3">Documentation</h5>
+                            <h1 className="h5 mb-3">Documentation</h1>
                             <div className="row">
                               <div className='col-md-6'>
                                 <div className="mb-3">
@@ -889,7 +889,7 @@ style={{
                       <fieldset style={{ display: 'flex' }}>
                         <div className="card flex-fill mb-0">
                           <div className="card-body">
-                            <h5 className="mb-3">Collection Reference Details</h5>
+                            <h1 className="h5 mb-3">Collection Reference Details</h1>
                             <div className="row">
                               <div className="col-md-6">
                                 <div className="mb-4">
@@ -973,7 +973,7 @@ style={{
                       <fieldset style={{ display: 'flex' }}>
                         <div className="card flex-fill mb-0">
                           <div className="card-body">
-                            <h5 className="mb-3">Service</h5>
+                            <h1 className="h5 mb-3">Service</h1>
                             <div className='row'>
                               <div className="col-md-12">
                                 <div className="mb-4 ">
@@ -1004,7 +1004,7 @@ style={{
                       <fieldset style={{ display: 'flex' }}>
                         <div className="card flex-fill mb-0">
                           <div className="card-body">
-                            <h5 className="mb-3">Address Details</h5>
+                            <h1 className="h5 mb-3">Address Details</h1>
                             <div className="row">
                               {users1.map((user, index) => (
                                 <React.Fragment key={index}>

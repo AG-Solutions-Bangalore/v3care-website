@@ -90,7 +90,7 @@ const TestimonialsSection = () => {
       <div className="top-testimonial-container">
       <div className="top-testimonial-header">
           <div className="top-testimonial-header-content">
-            <h2 className="top-testimonial-title">Top Testimonials</h2>
+            <h1 className="top-testimonial-title">Top Testimonials</h1>
             <p className="top-testimonial-subtitle">
               Description highlights the value of client feedback,
               showcases real testimonials

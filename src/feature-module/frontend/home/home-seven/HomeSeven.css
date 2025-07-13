@@ -5,40 +5,42 @@
     top: -150px;
   }
   
-  .skeleton-loader {
-    width: 100%;
-    height: 400px;
-    background: #f5f5f5;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .skeleton-loader::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, 
-      rgba(255,255,255,0) 0%, 
-      rgba(255,255,255,0.6) 50%, 
-      rgba(255,255,255,0) 100%);
-    animation: shimmer 1.5s infinite;
-  }
-  
-  @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-  
-  /* Specific skeleton heights */
-  .skeleton-categories { height: 300px; }
-  .skeleton-services { height: 350px; }
-  .skeleton-testimonials { height: 250px; }
-  .skeleton-blog { height: 400px; }
-  .skeleton-clients { height: 200px; }
-  
+/* ===== Skeleton Loaders ===== */
+.skeleton-loader {
+  width: 100%;
+  background: var(--skeleton-bg);
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  isolation: isolate; 
+}
+
+/* Specific skeleton heights */
+.skeleton-loader[data-variant="services"] { height: 350px; }
+.skeleton-loader[data-variant="testimonials"] { height: 250px; }
+.skeleton-loader[data-variant="blog"] { height: 400px; }
+.skeleton-loader[data-variant="clients"] { height: 200px; }
+
+/* Shimmer effect */
+.skeleton-loader::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    var(--skeleton-shimmer) 50%, 
+    transparent 100%
+  );
+  animation: shimmer 1.5s infinite;
+  z-index: 1;
+}
+
+/* Animation */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
   .banner-section {
     margin: 2rem 0;
   }

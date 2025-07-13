@@ -1,129 +1,72 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import HomeHeader from '../header/home-header';
-import './HomeSeven.css'
-
-
-import HeroSection from './HeroSection';
 import DefaultHelmet from '../../common/helmet/DefaultHelmet';
-import HomeBanner from './HomeBanner';
-
-
-const FeaturedCategories = lazy(() => import('./FeaturedCategories'));
+import './HomeSeven.css';
+import HeroSection from './HeroSection';
+// Lazy-loaded components
 const PopularService = lazy(() => import('./PopularService'));
 const TestimonialsSection = lazy(() => import('./TestimonialsSection'));
 const BlogSection = lazy(() => import('./BlogSection'));
 const ClientsSection = lazy(() => import('./ClientsSection'));
 
-type ComponentLoadState = {
-  featuredCategories: boolean;
-  popularService: boolean;
-  testimonials: boolean;
-  blog: boolean;
-  clients: boolean;
+// Skeleton loader component
+const SkeletonLoader: React.FC<{ variant: 'services' | 'testimonials' | 'blog' | 'clients' }> = ({ variant }) => {
+  const heights = {
+    services: '350px',
+    testimonials: '250px',
+    blog: '400px',
+    clients: '200px'
+  };
+
+  return (
+    <div 
+      className="skeleton-loader" 
+      style={{ height: heights[variant] }}
+      aria-label={`Loading ${variant} section`}
+    >
+      <div className="shimmer-effect" />
+    </div>
+  );
 };
 
 const HomeSeven: React.FC = () => {
-  const [loadedComponents, setLoadedComponents] = useState<ComponentLoadState>({
-    featuredCategories: false,
-    popularService: false,
-    testimonials: false,
-    blog: false,
-    clients: false,
-  });
-
-  useEffect(() => {
-    const observerOptions: IntersectionObserverInit = {
-      root: null,
-      rootMargin: '200px 0px',
-      threshold: 0.01
-    };
-
-    const loadComponent = (componentName: keyof ComponentLoadState) => {
-      if (!loadedComponents[componentName]) {
-        setLoadedComponents(prev => ({ ...prev, [componentName]: true }));
-      }
-    };
-
-    const observers: Record<string, IntersectionObserver> = {};
-
-    (Object.keys(loadedComponents) as Array<keyof ComponentLoadState>).forEach(component => {
-      const target = document.getElementById(`trigger-${component}`);
-      if (target) {
-        observers[component] = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              loadComponent(component);
-              observers[component].unobserve(entry.target);
-            }
-          });
-        }, observerOptions);
-
-        observers[component].observe(target);
-      }
-    });
-
-    return () => {
-      Object.values(observers).forEach(observer => {
-        if (observer && observer.disconnect) {
-          observer.disconnect();
-        }
-      });
-    };
-  }, [loadedComponents]);
-
   return (
     <>
-    <DefaultHelmet/>
+      <DefaultHelmet />
       <HomeHeader />
-      <div className="home-seven-wrapper">
+      
+      <main className="home-seven-wrapper">
+        {/* Hero Section - Not lazy loaded as it's above the fold */}
         <HeroSection />
 
-        {/* Featured Categories */}
-        {/* <section>
-          <div id="trigger-featuredCategories" className="trigger-point" />
-          <Suspense fallback={<div className="skeleton-loader skeleton-categories" />}>
-            {loadedComponents.featuredCategories && <FeaturedCategories />}
-          </Suspense>
-        </section> */}
-
         {/* Popular Service */}
-        <section>
-          <div id="trigger-popularService" className="trigger-point" />
-          <Suspense fallback={<div className="skeleton-loader skeleton-services" />}>
-            {loadedComponents.popularService && <PopularService />}
+        <section aria-labelledby="popular-service-heading">
+          <Suspense fallback={<SkeletonLoader variant="services" />}>
+            <PopularService />
           </Suspense>
         </section>
 
-        {/* Banner Section */}
-
-       {/* <HomeBanner/> */}
-       
         {/* Testimonials */}
-        <section>
-          <div id="trigger-testimonials" className="trigger-point" />
-          <Suspense fallback={<div className="skeleton-loader skeleton-testimonials" />}>
-            {loadedComponents.testimonials && <TestimonialsSection />}
+        <section aria-labelledby="testimonials-heading">
+          <Suspense fallback={<SkeletonLoader variant="testimonials" />}>
+            <TestimonialsSection />
           </Suspense>
         </section>
 
         {/* Blog Section */}
-        <section>
-          <div id="trigger-blog" className="trigger-point" />
-          <Suspense fallback={<div className="skeleton-loader skeleton-blog" />}>
-            {loadedComponents.blog && <BlogSection />}
+        <section aria-labelledby="blog-heading">
+          <Suspense fallback={<SkeletonLoader variant="blog" />}>
+            <BlogSection />
           </Suspense>
         </section>
 
         {/* Clients Section */}
-        <section>
-          <div id="trigger-clients" className="trigger-point" />
-          <Suspense fallback={<div className="skeleton-loader skeleton-clients" />}>
-            {loadedComponents.clients && <ClientsSection />}
+        <section aria-labelledby="clients-heading">
+          <Suspense fallback={<SkeletonLoader variant="clients" />}>
+            <ClientsSection />
           </Suspense>
         </section>
-      </div>
-
-     
+      </main>
     </>
   );
 };

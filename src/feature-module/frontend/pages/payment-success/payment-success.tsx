@@ -304,7 +304,7 @@ const PaymentSuccess = () => {
                     <React.Fragment key={key}>
                       <tr className="payment-success-group-header">
                         <td colSpan={1}>
-                          <i className="fas fa-tools" style={{ marginRight: '5px', color: '#2C3E50' }}></i>
+                          <i className="fas fa-tools" style={{ marginRight: '5px', color: 'red' }}></i>
                           {group.service_name}
                           {group.service_sub_name && ` - ${group.service_sub_name}`}
                         </td>
@@ -335,7 +335,7 @@ const PaymentSuccess = () => {
                 <tbody>
                   <tr>
                     <td style={{ width: '50%', borderRight: '1px solid #eee' }}>
-                      <div className="payment-success-receipt-section-title">PAYMENT STATUS</div>
+                   {/*   <div className="payment-success-receipt-section-title">PAYMENT STATUS</div>
                       <span className={`payment-success-receipt-badge ${
                         payment_status === 'success' ? 'payment-success-badge-success' : 
                         payment_status === 'pending' ? 'payment-success-badge-warning' : 'payment-success-badge-danger'
@@ -345,7 +345,7 @@ const PaymentSuccess = () => {
                       </span>
                       {payment_mode && (
                         <p style={{ color: '#666', marginTop: '5px' }}>Via {payment_mode}</p>
-                      )}
+                      )}*/}
                     </td>
                     <td style={{ paddingLeft: '15px' }}>
                       <div className="payment-success-receipt-section-title">PAYMENT SUMMARY</div>
@@ -363,7 +363,7 @@ const PaymentSuccess = () => {
                       )}
                       <div className="payment-success-amount-total">
                         <div className="payment-success-amount-row">
-                          <span style={{ fontWeight: 'bold' }}>Amount Paid:</span>
+                          <span style={{ fontWeight: 'bold' }}>Amount to be Paid:</span>
                           <span style={{ fontWeight: 'bold', color: '#2C3E50' }}>₹{amount?.toFixed(2)}</span>
                         </div>
                       </div>
@@ -396,7 +396,7 @@ const PaymentSuccess = () => {
               className="payment-success-btn payment-success-btn-outline"
               onClick={downloadReceipt}
             >
-              <i className="fas fa-print payment-success-btn-icon"></i>Download Receipt
+              <i className="fas fa-print payment-success-btn-icon"></i>Download
             </button>
             </>
           )}

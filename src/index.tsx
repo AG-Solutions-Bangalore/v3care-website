@@ -5,42 +5,46 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
-import { PersistGate } from 'redux-persist/integration/react'; 
+import { PersistGate } from 'redux-persist/integration/react';
 import 'aos/dist/aos.css';
 import { base_path } from './environment';
 import AllRoutes from './feature-module/router/router';
 import { Provider } from "react-redux";
 import Store, { persistor } from './core/redux/store';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { HelmetProvider } from 'react-helmet-async';
+
 const rootElement = document.getElementById('root');
-import {  HelmetProvider } from 'react-helmet-async';
-// const location = window.location.pathname;
-
-// useEffect(() => {
-//   window.location.pathname.includes("/admin")
-//   ? import("./style/admin/css/admin.css")
-//   : import("./style/scss/main.scss");
-// }, [location])
 
 
-  
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000, // 1 minute
+      cacheTime: 5 * 60 * 1000, // 5 minutes
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-       
-        <Provider store={Store}>
+      <Provider store={Store}>
         <PersistGate loading={null} persistor={persistor}>
-       
-        <BrowserRouter basename={base_path}>
-        <HelmetProvider>
-          <AllRoutes />
-          </HelmetProvider>
-        </BrowserRouter>
-     
+          <QueryClientProvider client={queryClient}>
+            <BrowserRouter basename={base_path}>
+              <HelmetProvider>
+                <AllRoutes />
+              </HelmetProvider>
+            </BrowserRouter>
+         
+          </QueryClientProvider>
         </PersistGate>
-        </Provider>
-      
+      </Provider>
     </React.StrictMode>,
   );
 } else {

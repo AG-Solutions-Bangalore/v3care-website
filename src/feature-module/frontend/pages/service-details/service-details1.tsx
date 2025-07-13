@@ -425,14 +425,14 @@ const ServiceDetails1 = () => {
                       </div>  */}
                       <div className="d-flex align-items-center justify-content-between flex-wrap mb-3">
                         <div className="d-flex align-items-center flex-wrap">
-                          <h4 className="mb-0 text-primary fw-bold">
+                          <h1 className="h4 mb-0 text-primary fw-bold">
                            {serviceMeta?.service || 'Service Name'}
                            {serviceSub?.service_sub && (
     <span style={{ color: 'gray', fontSize: '14px' }}>
       &nbsp;( {serviceSub.service_sub})
     </span>
   )}
-                          </h4>
+                          </h1>
                         </div>
      
 
@@ -810,22 +810,22 @@ service_sub_slug:service_sub_name,
                             <img
                               src={`${SERVICE_DETAILS_IMAGE_URL}/${card.serviceDetails_image}`}
                               className="img-fluid rounded-top w-100 "
-                              alt="img"
+                              alt= {card?.serviceDetails_name}
                             />
                           </div>
                           <div className="p-3">
                             <div>
-                              <h5 className="fs-16 mb-1 text-wrap">
+                              <h1 className="fs-16 mb-1 text-wrap">
                                 {card?.serviceDetails_name}
-                              </h5>
+                              </h1>
 
                               <p
-                                className="fs-12"
-                                style={{ textAlign: 'justify' }}
+                            
+                              
                               >
 
                                 {card?.serviceDetails && (
-                                  <>
+                                
                                   <ReactQuill
     value={card?.serviceDetails || ''}
     readOnly={true}
@@ -833,7 +833,7 @@ service_sub_slug:service_sub_name,
     modules={{ toolbar: false }} 
   className="read-only-quill no-spacing"
   />
-                                  </>
+                                 
                                 )}
                               </p>
                             </div>

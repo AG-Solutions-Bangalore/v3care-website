@@ -10,6 +10,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import './PopularService.css';
 import type { Swiper as SwiperType } from 'swiper';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 interface Service {
   id: number;
@@ -205,15 +207,18 @@ const PopularService = () => {
               onMouseLeave={handleMouseLeave}
             >
               <div className="service-grid-card-image-container">
-                <img
-                  src={getImageUrlService(service.service_image)}
-                  className="service-grid-card-image"
-                  alt={service.service}
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = `${NO_IMAGE_URL}`;
-                  }}
-                />
+                 <LazyLoadImage
+                            src={getImageUrlService(service.service_image)}
+                            className="service-grid-card-image"
+                            alt={service.service}
+                            effect="blur"
+                            width="100%"
+                            height="100%"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = `${NO_IMAGE_URL}`;
+                            }}
+                          />
               </div>
               <div className="service-grid-card-content">
                 <h5 className="service-grid-card-title">{service.service}</h5>
@@ -268,15 +273,18 @@ const PopularService = () => {
               onMouseLeave={handleMouseLeave}
             >
               <div className="service-grid-card-image-container">
-                <img
-                  src={getImageUrlService(service.service_image)}
-                  className="service-grid-card-image"
-                  alt={service.service}
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = `${NO_IMAGE_URL}`;
-                  }}
-                />
+                <LazyLoadImage
+                            src={getImageUrlService(service.service_image)}
+                            className="service-grid-card-image"
+                            alt={service.service}
+                            effect="blur"
+                            width="100%"
+                            height="100%"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = `${NO_IMAGE_URL}`;
+                            }}
+                          />
               </div>
               <div className="service-grid-card-content">
                 <h5 className="service-grid-card-title">{service.service}</h5>
@@ -392,12 +400,13 @@ const PopularService = () => {
                           }}
                         >
                           <div className="ratio ratio-1x1" style={{ backgroundColor: '#f0f9ff' }}>
-                            <img
+                            <LazyLoadImage
                               src={getImageUrlService(subService.service_sub_image, true)}
                               alt={subService.service_sub}
                               className="img-fluid object-fit-cover"
-                              // loading="lazy"
-                              // decoding="async"
+                              effect="blur"
+                              width="100%"
+                              height="100%"
                               style={{ 
                                 objectPosition: 'center',
                                 height: '100%',

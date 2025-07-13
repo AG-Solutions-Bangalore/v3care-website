@@ -6,6 +6,7 @@ import CityModal from '../components/CityModal';
 
 import SmoothScroll from '../components/SmoothScroll';
 import JoinUs from '../components/JoinUs';
+import CanonicalTag from '../components/CanonicalTag';
 import HomeHeader from '../frontend/home/header/home-header';
 import FooterSeven from '../frontend/home/home-seven/footer-seven';
 import RefreshLoader from '../components/RefreshLoader';
@@ -40,6 +41,7 @@ const AllRoutes = () => {
 
   return (
     <>
+    <CanonicalTag/>
     {/* <RefreshLoader/> */}
     <JoinUs/>
     {/* <HomeHeader type={8} /> */}

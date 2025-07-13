@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import * as Icon from 'react-feather';
+import { useQuery } from '@tanstack/react-query';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import axios from 'axios';
 import { BASE_URL, SERVICE_SUPER_IMAGE_URL, NO_IMAGE_URL } from '../../../baseConfig/BaseUrl';
-
 import './HeroSection.css';
-import { encryptId } from '../../../../core/encyrption/Encyrption';
 
 interface Category {
   id: number;
@@ -15,29 +15,23 @@ interface Category {
 }
 
 const HeroSection = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const branchId = localStorage.getItem("branch_id");
 
-  const fetchCategories = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
+  // Fetch categories with react-query
+  const { data: categories, isLoading, error } = useQuery<Category[]>({
+    queryKey: ['serviceSuperCategories', branchId],
+    queryFn: async () => {
       const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-super-out/${branchId}`);
-      setCategories(response.data.serviceSuper?.map((item: any) => ({
+      return response.data.serviceSuper?.map((item: any) => ({
         id: item.id,
         name: item.serviceSuper,
         image: item.serviceSuper_image,
         url: item.serviceSuper_url
-      })) || []);
-    } catch (error) {
-      console.error('Failed to fetch super categories:', error);
-      setError('Failed to load super categories. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      })) || [];
+    },
+    staleTime: 60 * 60 * 1000, // Cache for 1 hour
+    retry: 2,
+  });
 
   const getImageUrl = (image: string | null) => {
     if (!image) {
@@ -45,10 +39,6 @@ const HeroSection = () => {
     }
     return `${SERVICE_SUPER_IMAGE_URL}/${image}`;
   };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
   const SkeletonLoader = () => {
     return (
@@ -83,18 +73,19 @@ const HeroSection = () => {
                 <SkeletonLoader />
               ) : (
                 <div className="hero-section-services">
-                  {categories.map((category, index) => (
+                  {categories?.map((category, index) => (
                     <React.Fragment key={index}>
                       <Link 
                         to={`/${encodeURIComponent(category.url)}`}
                         className="hero-section-service-item"
                       >
                         <div className="hero-section-service-icon">
-                          <img
+                          <LazyLoadImage
                             src={getImageUrl(category.image)}
                             alt={category.name}
-                            // loading="lazy"
-                            // decoding="async"
+                            effect="blur"
+                            width="100%"
+                            height="100%"
                           />
                         </div>
                         <span className="hero-section-service-title">{category.name}</span>
@@ -128,16 +119,40 @@ const HeroSection = () => {
           <div className="hero-section-right">
             <div className="hero-section-images">
               <div className="hero-section-image hero-section-image-1">
-                <img src="assets/img/services/h1.jpeg" alt="Salon Service"  />
+                <LazyLoadImage
+                  src="assets/img/services/h1.jpeg"
+                  alt="Home1"
+                  effect="blur"
+                  width="100%"
+                  height="100%"
+                />
               </div>
               <div className="hero-section-image hero-section-image-2">
-                <img src="assets/img/services/h2.jpeg" alt="Massage Service" />
+                <LazyLoadImage
+                  src="assets/img/services/h2.jpeg"
+                  alt="Home2"
+                  effect="blur"
+                  width="100%"
+                  height="100%"
+                />
               </div>
               <div className="hero-section-image hero-section-image-3">
-                <img src="assets/img/services/h3.jpeg" alt="Home Repair"  />
+                <LazyLoadImage
+                  src="assets/img/services/h3.jpeg"
+                  alt="Home3"
+                  effect="blur"
+                  width="100%"
+                  height="100%"
+                />
               </div>
               <div className="hero-section-image hero-section-image-4">
-                <img src="assets/img/services/h4.jpeg" alt="AC Repair"  />
+                <LazyLoadImage
+                  src="assets/img/services/h4.jpeg"
+                  alt="Home4"
+                  effect="blur"
+                  width="100%"
+                  height="100%"
+                />
               </div>
             </div>
           </div>

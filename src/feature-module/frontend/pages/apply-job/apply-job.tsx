@@ -242,7 +242,7 @@ style={{
                   />
                 </span>
                 <div>
-                  <h5 className="apply-job-title">Job Application</h5>
+                  <h1 className="apply-job-title">Job Application</h1>
                 </div>
               </div>
               

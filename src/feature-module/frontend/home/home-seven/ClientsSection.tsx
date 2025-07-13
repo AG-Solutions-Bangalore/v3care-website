@@ -81,7 +81,7 @@ const ClientsSection = () => {
         <div className="home-client-row">
           <div className="home-client-header-col">
             <div className="home-client-header">
-              <h2 className="home-client-title">Our Clients</h2>
+              <h1 className="home-client-title">Our Clients</h1>
               <p className="home-client-subtitle">
                 We are proud to partner with industry leaders and trusted brands
               </p>

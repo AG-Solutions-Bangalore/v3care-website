@@ -12,7 +12,8 @@ import HomeHeader from '../../home/header/home-header';
 import { BASE_URL, BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import DefaultHelmet from '../../common/helmet/DefaultHelmet';
 import axios from 'axios';
-
+import './blog-details.css';
+import moment from "moment"
 interface Blog {
   id: number;
   blogs_heading: string;
@@ -33,7 +34,7 @@ const BlogDetails = () => {
  const {  blogs_slug } = useParams<{  blogs_slug?: string }>();
 
 
-  console.log("blogs_slug,",blogs_slug)
+  
   const [blog, setBlog] = useState<Blog | null>(null);
   const [otherBlogs, setOtherBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -155,7 +156,39 @@ const BlogDetails = () => {
             blog?.blogs_meta_description !== "null") && (
             <meta name="description" content={blog.blogs_meta_description} />
           )}
-          
+
+
+            <script type="application/ld+json">
+    {`
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://v3care.com/blog-details/${blog.blogs_slug}"
+      },
+      "headline": "${blog.blogs_meta_title}",
+      "description": "${blog.blogs_meta_description}",
+      "image": "https://v3care.com/crmapi/storage/app/public/blog/${blog.blogs_image}",
+      "author": {
+        "@type": "Organization",
+        "name": "V3Care"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "V3Care",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://v3care.com/assets/img/services/v3logo.png"
+        }
+      },
+      "datePublished": "${moment(blog.blogs_created_date).format('DD-MM-YYYY')}",
+      "dateModified": "${moment(blog.blogs_created_date).format('DD-MM-YYYY')}"
+    }
+    `}
+  </script>
+
+
         </Helmet>
      <HomeHeader  />
       {/* <BreadCrumb title='Blog Details' item1='Home' item2='Blog Details'/> */}
@@ -176,7 +209,7 @@ const BlogDetails = () => {
                         {/* <i className="feather icon-calendar me-1" /> */}
                         {/* changed  */}
                         <i className="ri-calendar-line me-2"></i>
-                        {blog.blogs_created_date}
+                        {moment(blog.blogs_created_date).format("DD-MMM-YYYY")}
                       </li>
                       <li>
                         <div className="post-author">
@@ -191,7 +224,7 @@ const BlogDetails = () => {
                       </li>
                     </ul>
                   </div>
-                  <h4 className="mb-3">{blog.blogs_heading}</h4>
+                  <h1 className="h4 mb-3">{blog.blogs_heading}</h1>
                 </div>
                 <div className="card blog-list shadow-none">
                   <div className="card-body">
@@ -201,17 +234,24 @@ const BlogDetails = () => {
                         src={`${BLOG_IMAGE_URL}/${blog.blogs_image}`}
   //                       loading="lazy"
   // decoding="async"
-                        alt="Post Image"
+                        alt={blog.blogs_heading}
                       />
                     </div>
                     {/* <div className="blog-content">*/} 
-                    <ReactQuill
+
+
+        
+<ReactQuill
   value={blog.blogs_description}
   readOnly={true}
   theme={null} 
   modules={{ toolbar: false }} 
   className="read-only-quill" 
 />
+
+
+
+
                   {/*</div>*/} 
                   </div>
                 </div>
@@ -220,7 +260,7 @@ const BlogDetails = () => {
                 <StickyBox>
                   <div className="card post-widget">
                     <div className="card-body">
-                      <h4 className="side-title">Latest News</h4>
+                      <h1 className=" h4 side-title">Latest News</h1>
                       <ul className="latest-posts">
                         {otherBlogs.map((item) => (
                           <li key={item.id}>
@@ -229,14 +269,14 @@ const BlogDetails = () => {
                                 <img
                                   className="img-fluid"
                                   src={`${BLOG_IMAGE_URL}/${item.blogs_image}`}
-                                  alt="Blog Image"
+                                  alt= {item.blogs_heading}
   //                                 loading="lazy"
   // decoding="async"
                                 />
                               </Link>
                             </div>
                             <div className="post-info">
-                            <p>{item.blogs_created_date}</p>
+                            <p>       {moment(blog.blogs_created_date).format("DD-MMM-YYYY")}</p>
                               <h4>
                               <Link to={`${routes.blogDetails}/${item.blogs_slug}`}>
                                                                 {item.blogs_heading}

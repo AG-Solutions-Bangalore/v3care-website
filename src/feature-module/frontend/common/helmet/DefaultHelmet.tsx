@@ -14,7 +14,7 @@ const DefaultHelmet = () => {
         name="description"
         content="Get professional high quality cleaning services at affordable prices, Book house cleaning, office cleaning, deep cleaning & bathroom cleaning services."
       />
-      <link rel="canonical" href={window.location.href} />
+     
     </Helmet>
   );
 };

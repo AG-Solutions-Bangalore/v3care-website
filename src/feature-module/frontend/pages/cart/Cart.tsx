@@ -713,18 +713,22 @@ if (e && typeof e.preventDefault === 'function') {
   };
 
 const sendOtp = async () => {
+  if (!validateForm()) {
+    return;
+  }
   setIsSendingOtp(true);
-  setResendTimer(30);
+ 
+  // setResendTimer(30);
   
-  const timerInterval = setInterval(() => {
-    setResendTimer((prev) => {
-      if (prev <= 1) {
-        clearInterval(timerInterval);
-        return 0;
-      }
-      return prev - 1;
-    });
-  }, 1000);
+  // const timerInterval = setInterval(() => {
+  //   setResendTimer((prev) => {
+  //     if (prev <= 1) {
+  //       clearInterval(timerInterval);
+  //       return 0;
+  //     }
+  //     return prev - 1;
+  //   });
+  // }, 1000);
 
   if (!formData.order_customer_mobile) {
     showNotification('Mobile number is required', 'error');
@@ -778,6 +782,17 @@ const sendOtp = async () => {
     setConfirmationResult(result);
     setOtpSent(true);
     showNotification('OTP sent to your mobile number', 'success');
+    setResendTimer(30);
+  
+  const timerInterval = setInterval(() => {
+    setResendTimer((prev) => {
+      if (prev <= 1) {
+        clearInterval(timerInterval);
+        return 0;
+      }
+      return prev - 1;
+    });
+  }, 1000);
   } catch (error: any) {
     console.error('Error in OTP process:', error);
     
@@ -789,15 +804,18 @@ const sendOtp = async () => {
     
     let errorMessage = 'Failed to send OTP. Please try again.';
     
-    if (error.code === 'auth/invalid-phone-number') {
+    if (error.code == 'auth/invalid-phone-number') {
       errorMessage = 'Invalid phone number format';
-    } else if (error.code === 'auth/missing-phone-number') {
+    } else if (error.code == 'auth/missing-phone-number') {
       errorMessage = 'Phone number is required';
-    } else if (error.code === 'auth/quota-exceeded') {
+    } else if (error.code == 'auth/quota-exceeded') {
       errorMessage = 'SMS quota exceeded. Please try again later.';
-    } else if (error.message.includes('reCAPTCHA')) {
+    }else if (error.code == 'auth/captcha-check-failed') {
+      errorMessage = 'Recaptcha verification failed.';
+    }
+     else if (error.message.includes('reCAPTCHA')) {
       errorMessage = 'Security verification failed. Please try again.';
-    } else if (error.code === 'auth/argument-error') {
+    } else if (error.code == 'auth/argument-error') {
       errorMessage = 'Security verification failed. Please refresh the page and try again.';
     }
     
@@ -843,11 +861,11 @@ const verifyOtp = async () => {
     
     let errorMessage = 'Invalid OTP. Please try again.';
     
-    if (error.code === 'auth/invalid-verification-code') {
+    if (error.code == 'auth/invalid-verification-code') {
       errorMessage = 'Invalid OTP code';
-    } else if (error.code === 'auth/code-expired') {
+    } else if (error.code == 'auth/code-expired') {
       errorMessage = 'OTP has expired. Please request a new one.';
-    } else if (error.code === 'auth/code-used') {
+    } else if (error.code == 'auth/code-used') {
       errorMessage = 'This OTP has already been used. Please request a new one.';
     }
     
@@ -934,7 +952,7 @@ const verifyOtp = async () => {
             <div className="col-lg-8 col-xl-8">
               <div className="booking-form-card">
                 <div className="card-header">
-                  <h2 className="mb-0">Booking Details</h2>
+                  <h1 className=" h4 mb-0">Booking Details</h1>
                 </div>
 
                 <div className="card-body">
@@ -1146,7 +1164,7 @@ const verifyOtp = async () => {
                 <div className="cart-sidebar">
                   <div className="card-header">
                     <div className="d-flex justify-content-between align-items-center">
-                      <h2 className="mb-0">Your Cart</h2>
+                      <h1 className="h4 mb-0">Your Cart</h1>
                       {cartItems.length > 0 && (
                         <button
                           className="btn-clear-cart"
@@ -1414,7 +1432,15 @@ const verifyOtp = async () => {
       onClick={sendOtp}
       disabled={isVerifying}
     >
-      Resend OTP
+        {isSendingOtp ? ( 
+              <>
+                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Sending OTP...
+              </>
+            ) : (
+              'Resend OTP'
+            )}
+  
     </button>
   )}
           </div>
@@ -1479,7 +1505,14 @@ const verifyOtp = async () => {
               onClick={sendOtp}
               disabled={isVerifying}
             >
-              Resend OTP
+             {isSendingOtp ? ( 
+              <>
+                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Sending OTP...
+              </>
+            ) : (
+              'Resend OTP'
+            )}
             </button>
           </div>
         </div>

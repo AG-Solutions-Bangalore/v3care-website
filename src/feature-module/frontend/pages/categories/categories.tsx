@@ -10,6 +10,10 @@ import './Categories.css';
 import '../../home/home-seven/PopularService.css'
 import { decryptId, encryptId } from '../../../../core/encyrption/Encyrption';
 import './ServiceGrid.css'
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
+
 interface Service {
   id: number;
   service: string;
@@ -248,11 +252,13 @@ const Categories = () => {
                       className="category-item"
                     >
                       <div className="category-card">
-                        <img
+                          <LazyLoadImage
                           src={getImageUrlCategory(category.image)}
                           alt={category.name}
                           className="category-image"
-                       
+                          effect="blur"
+                          width="100%"
+                          height="100%"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src = `${NO_IMAGE_URL}`;
@@ -267,10 +273,10 @@ const Categories = () => {
             </div>
             <div className="categories-empty-container">
               <div className="categories-empty-content">
-                <img
+                <LazyLoadImage
                   src={`${NO_IMAGE_URL}`}
                   alt="No services found"
-               
+                  effect="blur"
                   className="categories-empty-image"
                 />
                 <h4 className="categories-empty-title">No services found</h4>
@@ -346,16 +352,18 @@ const Categories = () => {
           to={`/${encodeURIComponent(category.url)}`}
           className="service-grid-category-card"
         >
-          <img
-            src={getImageUrlCategory(category.image)}
-            alt={category.name}
-            className="service-grid-category-image"
-          
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = `${NO_IMAGE_URL}`;
-            }}
-          />
+         <LazyLoadImage
+                        src={getImageUrlCategory(category.image)}
+                        alt={category.name}
+                        className="service-grid-category-image"
+                        effect="blur"
+                        width="100%"
+                        height="100%"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `${NO_IMAGE_URL}`;
+                        }}
+                      />
           <span className="service-grid-category-name">{category.name}</span>
         </Link>
       </div>
@@ -381,12 +389,13 @@ const Categories = () => {
                     onClick={() => handleServiceClick(service)}
                   >
                     <div className="categories-card-image-container">
-                      <img
+                      <LazyLoadImage
                         src={getImageUrl(service.service_image)}
                         className="categories-card-image"
-                        // loading="lazy"
-                        // decoding="async"
                         alt={service.service}
+                        effect="blur"
+                        width="100%"
+                        height="100%"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.src = `${NO_IMAGE_URL}`;
@@ -508,11 +517,13 @@ const Categories = () => {
                           }}
                         >
                           <div className="ratio ratio-1x1" style={{ backgroundColor: '#fdf2f8', }}>
-                          <img
+                          <LazyLoadImage
                               src={getImageUrl(subService.service_sub_image, true)}
                               alt={subService.service_sub}
                               className="img-fluid object-fit-cover"
-                       
+                              effect="blur"
+                              width="100%"
+                              height="100%"
                               style={{ 
                                 objectPosition: 'center',
                                 height: '100%',
@@ -522,7 +533,7 @@ const Categories = () => {
                                 const target = e.target as HTMLImageElement;
                                 target.src = `${NO_IMAGE_URL}`;
                               }}
-                            /> 
+                            />
                           </div>
                           <div className="card-body p-2 text-center">
                             <h6 className="card-title mb-0" style={{

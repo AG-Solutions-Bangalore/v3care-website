@@ -16,7 +16,7 @@ const BreadCrumb: React.FC<breadCrumbProps> = ({ title, item1, item2 }) => {
         <div className="container">
           <div className="row">
             <div className="col-md-12 col-12">
-              <h2 className="breadcrumb-title mb-2">{title}</h2>
+              <h1 className="breadcrumb-title mb-2">{title}</h1>
               <nav aria-label="breadcrumb">
                 <ol className="breadcrumb justify-content-center mb-0">
                   <li className="breadcrumb-item">

@@ -9,6 +9,7 @@ import ImageWithBasePath from '../../../../core/img/ImageWithBasePath';
 import { BASE_URL, BLOG_IMAGE_URL } from '../../../baseConfig/BaseUrl';
 import './BlogSection.css';
 import axios from 'axios';
+import moment from 'moment'
 
 const BlogSection = () => {
   const routes = all_routes;
@@ -129,7 +130,7 @@ const BlogSection = () => {
         <div className="home-blog-row">
           <div className="home-blog-header-col">
             <div className="home-blog-header">
-              <h2 className="home-blog-title">Cleaning Tips, Trends & Service Guides from Our Experts</h2>
+              <h1 className="home-blog-title">Cleaning Tips, Trends & Service Guides from Our Experts</h1>
               <p className="home-blog-subtitle">
                 Stay informed with expert insights, practical cleaning tips, and the latest updates from the home and office cleaning industry in India.
               </p>
@@ -157,8 +158,8 @@ const BlogSection = () => {
                             <img
                               src={`${BLOG_IMAGE_URL}/${blog.blogs_image}`}
                               className="home-blog-img"
-                              alt="img"
-                              // loading="lazy"
+                              alt={blog.blogs_heading}
+                                                            // loading="lazy"
                               // decoding="async"
                             />
                           </Link>
@@ -179,7 +180,7 @@ const BlogSection = () => {
                               <span>
                                 <i className="ri-calendar-line home-blog-date-icon"></i>
                               </span>
-                              <span className="home-blog-date-text">{blog.blogs_created_date}</span>
+                              <span className="home-blog-date-text">       {moment(blog.blogs_created_date).format("DD-MMM-YYYY")}</span>
                             </div>
                           </div>
                           <div>

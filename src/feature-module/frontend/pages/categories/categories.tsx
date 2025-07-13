@@ -224,7 +224,7 @@ const Categories = () => {
           <div className="categories-content">
             <div className="categories-header">
               <div className="categories-title-wrapper">
-                <h2 className="categories-main-title">{serviceSuper?.serviceSuper || "Our Services"}</h2>
+                <h1 className="categories-main-title">{serviceSuper?.serviceSuper || "Our Services"}</h1>
                 <p className="categories-subtitle">Choose from our wide range of professional services</p>
               </div>
               <div className="categories-nav-and-list">
@@ -264,7 +264,7 @@ const Categories = () => {
                             target.src = `${NO_IMAGE_URL}`;
                           }}
                         />
-                        <span className="category-name">{category.name}</span>
+                        <h1 className="category-name">{category.name}</h1>
                       </div>
                     </Link>
                   ))}
@@ -322,7 +322,7 @@ const Categories = () => {
         <div className="categories-content">
         <div className="categories-header">
   <div className="categories-title-wrapper">
-    <h2 className="categories-main-title">{serviceSuper?.serviceSuper || "Our Services"}</h2>
+    <h1 className="categories-main-title">{serviceSuper?.serviceSuper || "Our Services"}</h1>
     <p className="categories-subtitle">Choose from our wide range of professional services</p>
   </div>
 
@@ -364,7 +364,7 @@ const Categories = () => {
                           target.src = `${NO_IMAGE_URL}`;
                         }}
                       />
-          <span className="service-grid-category-name">{category.name}</span>
+          <h1 className="service-grid-category-name">{category.name}</h1>
         </Link>
       </div>
     ))}
@@ -403,7 +403,7 @@ const Categories = () => {
                       />
                     </div>
                     <div className="categories-card-content">
-                      <h5 className="categories-card-title">{service.service}</h5>
+                      <h1 className="h5 categories-card-title">{service.service}</h1>
                       <div className="categories-card-footer">
                         <span className="categories-card-city">
                           <Icon.MapPin className="categories-card-icon" size={12} />

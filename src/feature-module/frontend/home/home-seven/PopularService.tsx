@@ -172,7 +172,7 @@ const PopularService = () => {
       <section className="popular-service-home-section">
         <div className="popular-service-home-container">
           <div className="popular-service-home-header text-center">
-            <h2 className="popular-service-home-title">Most Popular Services</h2>
+            <h1 className="popular-service-home-title">Most Popular Services</h1>
             <p className="popular-service-home-subtitle">What do you need to find?</p>
           </div>
 
@@ -221,7 +221,7 @@ const PopularService = () => {
                           />
               </div>
               <div className="service-grid-card-content">
-                <h5 className="service-grid-card-title">{service.service}</h5>
+                <h1 className="service-grid-card-title">{service.service}</h1>
                 <div className="service-grid-card-footer">
                   <span className="service-grid-card-city">
                     <Icon.MapPin className="service-grid-card-icon" size={12} />
@@ -255,7 +255,7 @@ const PopularService = () => {
         <section className="popular-service-home-featured-section">
           <div className="popular-service-home-container">
             <div className="popular-service-home-header text-left">
-              <h2 className="popular-service-home-title">Featured Services</h2>
+              <h1 className="popular-service-home-title">Featured Services</h1>
               <p className="popular-service-home-subtitle">Discover our premium offerings</p>
             </div>
 
@@ -287,7 +287,7 @@ const PopularService = () => {
                           />
               </div>
               <div className="service-grid-card-content">
-                <h5 className="service-grid-card-title">{service.service}</h5>
+                <h1 className="service-grid-card-title">{service.service}</h1>
                 <div className="service-grid-card-footer">
                   <span className="service-grid-card-city">
                     <Icon.MapPin className="service-grid-card-icon" size={12} />

@@ -51,7 +51,7 @@ const [confirmationResult, setConfirmationResult] = React.useState<any>(null);
 const [isVerifying, setIsVerifying] = React.useState(false);
 const [isSendingOtp, setIsSendingOtp] = React.useState(false);
 const [resendTimer, setResendTimer] = React.useState(0);
-
+const resendIntervalRef = React.useRef<NodeJS.Timeout | null>(null);
 // Replace your existing setupRecaptcha function with this:
 const setupRecaptcha = async () => {
   return new Promise<string>((resolve, reject) => {
@@ -63,7 +63,7 @@ const setupRecaptcha = async () => {
     (window as any).grecaptcha.enterprise.ready(async () => {
       try {
         const token = await (window as any).grecaptcha.enterprise.execute(
-          '6LcLD34rAAAAAP07vzkLyLGVQumchy6xvhRuQKUC',
+          '6LdUEIIrAAAAANQq5g8VJvX-aMpVjLblcUvx7U5r',
           { action: 'BOOKING' }
         );
         resolve(token);
@@ -142,7 +142,16 @@ const setupRecaptcha = async () => {
     order_payment_type: '',
     order_transaction_details: '',
   });
-
+const sendWhatsAppNotification = async (mobile: string) => {
+  try {
+    await axios.post(`${BASE_URL}/api/panel-send-web-booking-whatsapp`, {
+      order_customer_mobile: mobile
+  
+    });
+  } catch (error) {
+    console.error('Failed to send WhatsApp notification:', error);
+  }
+};
   const showNotification = (
     message: string,
     type: 'success' | 'error',
@@ -712,23 +721,21 @@ if (e && typeof e.preventDefault === 'function') {
     }
   };
 
+useEffect(() => {
+  return () => {
+    // Clear the interval when component unmounts
+    if (resendIntervalRef.current) {
+      clearInterval(resendIntervalRef.current);
+    }
+  };
+}, []);
+
+
 const sendOtp = async () => {
   if (!validateForm()) {
     return;
   }
   setIsSendingOtp(true);
- 
-  // setResendTimer(30);
-  
-  // const timerInterval = setInterval(() => {
-  //   setResendTimer((prev) => {
-  //     if (prev <= 1) {
-  //       clearInterval(timerInterval);
-  //       return 0;
-  //     }
-  //     return prev - 1;
-  //   });
-  // }, 1000);
 
   if (!formData.order_customer_mobile) {
     showNotification('Mobile number is required', 'error');
@@ -744,18 +751,7 @@ const sendOtp = async () => {
   }
 
   try {
-    // Get reCAPTCHA Enterprise token
-    const token = await setupRecaptcha();
-    if (!token) {
-      showNotification('Security verification failed', 'error');
-      setIsSendingOtp(false);
-      return;
-    }
-
-    // Initialize Firebase Auth with the reCAPTCHA token
     const phoneNumber = `+91${formData.order_customer_mobile}`;
-    
-    // Create a temporary recaptcha container for Firebase
     const tempContainer = document.createElement('div');
     tempContainer.id = 'temp-recaptcha-container';
     tempContainer.style.display = 'none';
@@ -768,35 +764,36 @@ const sendOtp = async () => {
       }
     });
 
-    // Set the reCAPTCHA token manually
-    (appVerifier as any).verify().then(() => {
-      // This bypasses the normal recaptcha flow since we already have a token
-      (appVerifier as any).recaptchaWidgetId = token;
-    });
-
     const result = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
     
-    // Clean up
     document.body.removeChild(tempContainer);
     
     setConfirmationResult(result);
     setOtpSent(true);
     showNotification('OTP sent to your mobile number', 'success');
+    
+    // Start the resend timer
     setResendTimer(30);
-  
-  const timerInterval = setInterval(() => {
-    setResendTimer((prev) => {
-      if (prev <= 1) {
-        clearInterval(timerInterval);
-        return 0;
+resendIntervalRef.current = setInterval(() => {
+  setResendTimer((prev) => {
+    if (prev <= 1) {
+      if (resendIntervalRef.current) {
+        clearInterval(resendIntervalRef.current);
       }
-      return prev - 1;
-    });
-  }, 1000);
+      return 0;
+    }
+    return prev - 1;
+  });
+}, 1000);
+
+    // Cleanup function to clear interval when component unmounts or OTP is verified
+    return () => {
+      clearInterval(timerInterval);
+    };
+
   } catch (error: any) {
     console.error('Error in OTP process:', error);
     
-    // Clean up in case of error
     const tempContainer = document.getElementById('temp-recaptcha-container');
     if (tempContainer) {
       document.body.removeChild(tempContainer);
@@ -810,16 +807,16 @@ const sendOtp = async () => {
       errorMessage = 'Phone number is required';
     } else if (error.code == 'auth/quota-exceeded') {
       errorMessage = 'SMS quota exceeded. Please try again later.';
-    }else if (error.code == 'auth/captcha-check-failed') {
+    } else if (error.code == 'auth/captcha-check-failed') {
       errorMessage = 'Recaptcha verification failed.';
-    }
-     else if (error.message.includes('reCAPTCHA')) {
+    } else if (error.message.includes('reCAPTCHA')) {
       errorMessage = 'Security verification failed. Please try again.';
     } else if (error.code == 'auth/argument-error') {
       errorMessage = 'Security verification failed. Please refresh the page and try again.';
     }
     
     showNotification(errorMessage, 'error');
+    await sendWhatsAppNotification(formData.order_customer_mobile);
   } finally {
     setIsSendingOtp(false);
   }
@@ -851,8 +848,13 @@ const verifyOtp = async () => {
 
     
 
-    await handleSubmitPayLater();
-    
+    try {
+      await handleSubmitPayLater();
+    } catch (error) {
+     
+      await sendWhatsAppNotification(formData.order_customer_mobile);
+      throw error; 
+    }
     setOtp('');
     setOtpSent(false);
     setConfirmationResult(null);
@@ -870,6 +872,7 @@ const verifyOtp = async () => {
     }
     
     showNotification(errorMessage, 'error');
+        await sendWhatsAppNotification(formData.order_customer_mobile);
     setOtp('');
   } finally {
     setIsVerifying(false);
@@ -891,11 +894,11 @@ const verifyOtp = async () => {
  
   
  
-  <script 
-    src="https://www.google.com/recaptcha/enterprise.js?render=6LcLD34rAAAAAP07vzkLyLGVQumchy6xvhRuQKUC" 
+ {/* <script 
+    src="https://www.google.com/recaptcha/enterprise.js?render=6LdUEIIrAAAAANQq5g8VJvX-aMpVjLblcUvx7U5r" 
     async 
     defer
-  ></script>
+  ></script>*/}
 </Helmet>
       <HomeHeader />
       <style>

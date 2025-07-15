@@ -47,12 +47,12 @@ const BreadCrumb: React.FC<breadCrumbProps> = ({ title, item1, item2 }) => {
             </div>
           </div>
           <div className="breadcrumb-bg">
-            <ImageWithBasePath
+            <img
               src="assets/img/bg/breadcrumb-bg-01.png"
               className="breadcrumb-bg-1"
               alt="Img"
             />
-            <ImageWithBasePath
+            <img
               src="assets/img/bg/breadcrumb-bg-02.png"
               className="breadcrumb-bg-2"
               alt="Img"
